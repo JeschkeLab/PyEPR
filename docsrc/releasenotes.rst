@@ -2,7 +2,7 @@ Release Notes
 =============
 
 Version 0.10.0 (2024-12-01):
-+++++++++++++++++++++++++++
+++++++++++++++++++++++++++++
 
 - Split of PyEPR into a separate package
   - autoDEER now uses PyEPR as a dependency
@@ -13,7 +13,7 @@ Version 0.10.0 (2024-12-01):
 
 
 Version 0.9.0 (2024-11-11) (with autoDEER):
-+++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++
 
 - Faster implmenetation of excite profile
 - Implementation of DeerLab based fitting into relaxation traces
@@ -28,7 +28,7 @@ Version 0.9.0 (2024-11-11) (with autoDEER):
 
 
 Version 0.8.0 (TBA) (with autoDEER):
-+++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Major Support Update for 2D Decoherence
   - `RefocusedEcho2DSequence` reforumlated to support match normal style
@@ -41,7 +41,7 @@ Version 0.8.0 (TBA) (with autoDEER):
 
 
 Version 0.7.0 (2024-04-01) (with autoDEER):
-+++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++
 
 - Added Graphical User Interface (GUI)
 - Major improvements to the automated algorithm and reliability
