@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "pyepr"
+version = "0.9"
+description = ""
+authors = ["Hugo Karas <hkaras@ethz.ch>", "Gunnar Jeschke <gjeschke@eth.ch>", "Stefan Stoll <stst@uw.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+numpy = "^2.0"
+scipy = "^1.14.1"
+matplotlib = "^3.9.2"
+pyyaml = "^6.0.2"
+xarray = "^2024.10.0"
+h5netcdf = "^1.4.0"
+toml = "^0.10.2"
+deerlab = "^1.1.4"
+
+
+[tool.poetry.group.dev.dependencies]
+gitpython = "^3.1.43"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
