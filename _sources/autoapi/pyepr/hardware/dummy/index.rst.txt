@@ -1,0 +1,54 @@
+pyepr.hardware.dummy
+====================
+
+.. py:module:: pyepr.hardware.dummy
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy.rng
+   pyepr.hardware.dummy.hw_log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/dummy/dummyInterface
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy.dummyInterface
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy.val_in_us
+   pyepr.hardware.dummy.val_in_ns
+   pyepr.hardware.dummy.add_noise
+   pyepr.hardware.dummy.add_phaseshift
+
+
+Module Contents
+---------------
+
+.. py:data:: rng
+
+.. py:data:: hw_log
+
+.. py:function:: val_in_us(Param)
+
+.. py:function:: val_in_ns(Param)
+
+.. py:function:: add_noise(data, noise_level)
+
+.. py:function:: add_phaseshift(data, phase)
+

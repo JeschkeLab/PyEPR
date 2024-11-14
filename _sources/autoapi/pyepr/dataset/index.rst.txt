@@ -1,0 +1,44 @@
+pyepr.dataset
+=============
+
+.. py:module:: pyepr.dataset
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/dataset/EPRAccessor
+
+.. autoapisummary::
+
+   pyepr.dataset.EPRAccessor
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.dataset.get_all_axes
+   pyepr.dataset.get_all_fixed_param
+   pyepr.dataset.create_dataset_from_sequence
+   pyepr.dataset.create_dataset_from_axes
+   pyepr.dataset.create_dataset_from_bruker
+
+
+Module Contents
+---------------
+
+.. py:function:: get_all_axes(sequence)
+
+.. py:function:: get_all_fixed_param(sequence)
+
+.. py:function:: create_dataset_from_sequence(data, sequence, extra_params={})
+
+.. py:function:: create_dataset_from_axes(data, axes, params = None, axes_labels=None)
+
+.. py:function:: create_dataset_from_bruker(filepath)
+

@@ -1,0 +1,30 @@
+pyepr._version
+==============
+
+.. py:module:: pyepr._version
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr._version.MODULE_DIR
+   pyepr._version.config
+   pyepr._version.__copyright__
+   pyepr._version.branch
+
+
+Module Contents
+---------------
+
+.. py:data:: MODULE_DIR
+
+.. py:data:: config
+
+.. py:data:: __copyright__
+   :value: '2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll'
+
+
+.. py:data:: branch
+

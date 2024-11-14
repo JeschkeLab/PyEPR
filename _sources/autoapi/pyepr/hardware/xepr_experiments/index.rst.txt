@@ -1,0 +1,89 @@
+pyepr.hardware.xepr_experiments
+===============================
+
+.. py:module:: pyepr.hardware.xepr_experiments
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.xepr_experiments.MODULE_DIR
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/xepr_experiments/DEER
+   /autoapi/pyepr/hardware/xepr_experiments/MPFUtune
+   /autoapi/pyepr/hardware/xepr_experiments/ELDORtune
+   /autoapi/pyepr/hardware/xepr_experiments/PulseProfile
+
+.. autoapisummary::
+
+   pyepr.hardware.xepr_experiments.DEER
+   pyepr.hardware.xepr_experiments.MPFUtune
+   pyepr.hardware.xepr_experiments.ELDORtune
+   pyepr.hardware.xepr_experiments.PulseProfile
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.hardware.xepr_experiments.get_nutations
+   pyepr.hardware.xepr_experiments.CP_run
+   pyepr.hardware.xepr_experiments.DEER5p_run
+   pyepr.hardware.xepr_experiments.CalibrateFreq
+
+
+Module Contents
+---------------
+
+.. py:data:: MODULE_DIR
+
+.. py:function:: get_nutations(api, nu, field, step, ELDOR = True, nx = 128)
+
+.. py:function:: CP_run(api, d0, num_pulses=3, ps_length=16, sweeps=4, dt=100, num_points=256, srt=6000000.0)
+
+.. py:function:: DEER5p_run(api, ps_length, d0, tau2, sweeps=4, deadtime=80, dt=16, num_points=0, srt=6000000.0)
+
+.. py:function:: CalibrateFreq(api, num_points = 50, deg = 5)
+
+   
+   Generate the polynomial parameters for converting from frequency 
+   (in GHz) to Xepr gunn diode stepper value. 0-4095.
+
+
+   :Parameters:
+
+       **api** : XeprAPILink
+           The API for the spectrometer
+
+       **num_points** : int, optional
+           The number of points to be measured, by default 50
+
+       **deg** : int, optional
+           The degree of polynomial fit, by default 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

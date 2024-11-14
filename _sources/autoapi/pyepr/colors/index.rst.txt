@@ -1,0 +1,31 @@
+pyepr.colors
+============
+
+.. py:module:: pyepr.colors
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.colors.primary_colors
+   pyepr.colors.ReIm_colors
+   pyepr.colors.shade_colors
+
+
+Module Contents
+---------------
+
+.. py:data:: primary_colors
+   :value: ['#D95B6F', '#42A399', '#E1AE38']
+
+
+.. py:data:: ReIm_colors
+   :value: ['#D61B00', '#00BBD6']
+
+
+.. py:data:: shade_colors
+   :value: []
+
+

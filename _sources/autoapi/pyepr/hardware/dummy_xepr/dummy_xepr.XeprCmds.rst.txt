@@ -1,0 +1,28 @@
+pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
+=============================================
+
+.. py:class:: pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
+
+   .. py:method:: aqPgShowPrg()
+
+
+   .. py:method:: aqPgCompile()
+
+
+   .. py:method:: aqExpSelect()
+
+
+   .. py:method:: aqPgLoad()
+
+
+   .. py:method:: aqPgDefLoad()
+
+
+   .. py:method:: aqPgDefSaveAs()
+
+
+   .. py:method:: aqPgSaveAs()
+
+
+   .. py:method:: vpSave(title, path)
+

@@ -1,0 +1,35 @@
+pyepr.hardware.Bruker_AWG
+=========================
+
+.. py:module:: pyepr.hardware.Bruker_AWG
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_AWG.BrukerAWG
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_AWG.get_specjet_data
+   pyepr.hardware.Bruker_AWG.test_if_MPFU_compatability
+
+
+Module Contents
+---------------
+
+.. py:function:: get_specjet_data(interface)
+
+.. py:function:: test_if_MPFU_compatability(seq)
+

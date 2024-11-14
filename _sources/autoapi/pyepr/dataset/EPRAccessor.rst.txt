@@ -1,0 +1,78 @@
+pyepr.dataset.EPRAccessor
+=========================
+
+.. py:class:: pyepr.dataset.EPRAccessor(xarray_obj)
+
+   .. py:attribute:: _obj
+
+
+   .. py:method:: save(filename, type='netCDF')
+
+
+   .. py:property:: correctphase
+
+
+   .. py:property:: normalise
+
+
+   .. py:property:: correctphasefull
+
+
+   .. py:property:: SNR
+
+
+   .. py:property:: fft
+
+
+   .. py:property:: MeasurementTime
+
+      
+      Calculate the total measurement time in seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: sequence
+
+
+   .. py:method:: merge(other)
+
+      
+      Merge two datasets into one dataset.
+
+      Handles the following cases:
+      1. Both datasets have the same parameters but different axes and are 1D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

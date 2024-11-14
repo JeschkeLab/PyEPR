@@ -1,0 +1,42 @@
+pyepr.hardware.ETH_awg
+======================
+
+.. py:module:: pyepr.hardware.ETH_awg
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.ETH_awg.log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface
+
+.. autoapisummary::
+
+   pyepr.hardware.ETH_awg.ETH_awg_interface
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.hardware.ETH_awg.bg_thread
+
+
+Module Contents
+---------------
+
+.. py:data:: log
+
+.. py:function:: bg_thread(interface, seq, savename, IFgain, axID, stop_flag)
+

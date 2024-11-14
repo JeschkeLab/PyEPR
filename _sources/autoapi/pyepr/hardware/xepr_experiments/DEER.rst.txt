@@ -1,0 +1,43 @@
+pyepr.hardware.xepr_experiments.DEER
+====================================
+
+.. py:class:: pyepr.hardware.xepr_experiments.DEER(api, d0, det_frq, pump_frq, srt=6000000.0)
+
+   .. py:attribute:: api
+
+
+   .. py:attribute:: d0
+
+
+   .. py:attribute:: det_frq
+
+
+   .. py:attribute:: pump_frq
+
+
+   .. py:attribute:: mpfu
+      :value: True
+
+
+
+   .. py:attribute:: hybrid
+      :value: False
+
+
+
+   .. py:attribute:: awg
+      :value: False
+
+
+
+   .. py:attribute:: srt
+
+
+   .. py:method:: run_5p(tau1, tau2, dt = 16, deadtime = 80, num_points = 0, scans = 200)
+
+
+   .. py:method:: run_4p(tau1, tau2, dt = 16, deadtime = 80, num_points = 0, scans = 200)
+
+
+   .. py:method:: run_CP(tau, dt = 50, num_points = 200, scans = 1)
+

@@ -1,0 +1,341 @@
+pyepr.sequences.Sequence
+========================
+
+.. py:class:: pyepr.sequences.Sequence(*, name, B, LO, reptime, averages, shots, **kwargs)
+
+   Represents an experimental pulse sequence.
+
+
+   Represents an experimental pulse sequence.
+
+
+   :Parameters:
+
+       **name** : str
+           The name of this pulse sequence
+
+       **B** : float
+           The magnetic field for this sequence in Gauss.
+
+       **LO** : float
+           The central frequency of this sequence. I.e. The frequnecy at which
+           a zero offset pulse is at. 
+
+       **reptime** : float
+           The shot repetition time in us.
+
+       **averages** : int
+           The number of scans to be accumulated.
+
+       **shots** : itn
+           The number of shots per point.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: pulses
+      :value: []
+
+
+
+   .. py:attribute:: num_pulses
+
+
+   .. py:attribute:: axes_uuid
+      :value: []
+
+
+
+   .. py:attribute:: reduce_uuid
+      :value: []
+
+
+
+   .. py:attribute:: LO
+
+
+   .. py:attribute:: averages
+
+
+   .. py:attribute:: shots
+
+
+   .. py:attribute:: name
+
+
+   .. py:attribute:: progTable
+
+
+   .. py:method:: plot()
+
+
+   .. py:method:: plot_pulse_exc(FieldSweep=None, ResonatorProfile=None)
+
+
+   .. py:method:: addPulse(pulse)
+
+      
+      Adds a pulse to the next position in the sequence.
+
+
+      :Parameters:
+
+          **pulse** : Pulse
+              The object describing the pulse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: _estimate_time()
+
+      
+      Calculates the estimated experiment time in seconds.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: _buildPhaseCycle()
+
+
+   .. py:method:: evolution(params, reduce=[])
+
+      
+      Sets what parameters are being evolved in the sequence, and which are
+      being automatically.
+
+      `self.evo_params = params`
+
+      :Parameters:
+
+          **params** : list
+              A list of Parameter objects which are being evolved. Each every 
+              entry in the list will be a new axis in the sequence. Only one parameter
+              per axis should be specified.
+
+          **reduce** : list
+              A list of Parameter objects which are being reduced. These are the
+              parameters which are being averaged over. These parameters should
+              also be in the params list.
+
+
+
+      :Returns:
+
+          **progTable** : dict
+              A dictionary containing the progression of the sequence.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: _buildProgTable()
+
+
+   .. py:property:: seqtable_steps
+
+
+   .. py:method:: adjust_step(waveform_precision)
+
+      
+      Adjust the step size of all axes and pulses to be an integer multiple of the waveform precision
+      This is to ensure that the waveform is generated correctly by the specific AWG
+
+
+      :Parameters:
+
+          **waveform_precision** : float
+              The precision of the waveform in ns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: shift_detfreq_to_zero()
+
+
+   .. py:method:: _checkRect()
+
+      
+      Checks if all the pulses in the sequence are rectangular.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: __str__()
+
+
+   .. py:method:: copy()
+
+
+   .. py:method:: _to_dict()
+
+
+   .. py:method:: _to_json()
+
+
+   .. py:method:: save(filename)
+
+      
+      Save the sequence to a JSON file.
+
+
+      :Parameters:
+
+          **filename** : str
+              Path to the JSON file.
+
+
+
+      :Returns:
+
+          None
+              ..
+
+
+
+
+      :Raises:
+
+          TypeError
+              If the object cannot be serialized to JSON.
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: _from_dict(dct)
+      :classmethod:
+
+
+
+   .. py:method:: _from_json(JSONstring)
+      :classmethod:
+
+
+
+   .. py:method:: load(filename)
+      :classmethod:
+
+
+      
+      Load an object from a JSON file.
+
+
+      :Parameters:
+
+          **filename** : str
+              Path to the JSON file.
+
+
+
+      :Returns:
+
+          **obj** : Sequence
+              The Sequence loaded from the JSON file.
+
+
+
+
+      :Raises:
+
+          FileNotFoundError
+              If the file does not exist.
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

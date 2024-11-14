@@ -1,0 +1,16 @@
+pyepr.hardware.dummy_xepr.dummy_param
+=====================================
+
+.. py:class:: pyepr.hardware.dummy_xepr.dummy_param(min, max, type=int, par=None)
+
+   .. py:attribute:: aqGetParMaxValue
+
+
+   .. py:attribute:: aqGetParMinValue
+
+
+   .. py:attribute:: val
+
+
+   .. py:property:: value
+

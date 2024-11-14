@@ -1,0 +1,23 @@
+pyepr.hardware
+==============
+
+.. py:module:: pyepr.hardware
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/pyepr/hardware/Bruker_AWG/index
+   /autoapi/pyepr/hardware/Bruker_MPFU/index
+   /autoapi/pyepr/hardware/Bruker_tools/index
+   /autoapi/pyepr/hardware/ETH_awg/index
+   /autoapi/pyepr/hardware/ETH_awg_load/index
+   /autoapi/pyepr/hardware/XeprAPI_link/index
+   /autoapi/pyepr/hardware/dummy/index
+   /autoapi/pyepr/hardware/dummy_xepr/index
+   /autoapi/pyepr/hardware/xepr_experiments/index
+
+

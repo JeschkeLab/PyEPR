@@ -1,0 +1,200 @@
+pyepr.fieldsweep_analysis
+=========================
+
+.. py:module:: pyepr.fieldsweep_analysis
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis
+   /autoapi/pyepr/fieldsweep_analysis/SpinSystem
+
+.. autoapisummary::
+
+   pyepr.fieldsweep_analysis.FieldSweepAnalysis
+   pyepr.fieldsweep_analysis.SpinSystem
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.fieldsweep_analysis.create_Nmodel
+   pyepr.fieldsweep_analysis.erot
+   pyepr.fieldsweep_analysis.eyekron
+   pyepr.fieldsweep_analysis.kroneye
+   pyepr.fieldsweep_analysis.ham
+   pyepr.fieldsweep_analysis.ham_ez
+   pyepr.fieldsweep_analysis.ham_nz
+   pyepr.fieldsweep_analysis.resfields
+   pyepr.fieldsweep_analysis.build_spectrum
+
+
+Module Contents
+---------------
+
+.. py:function:: create_Nmodel(mwFreq)
+
+   
+   Create the field sweep model for a Nitroxide spin system. 
+
+
+   :Parameters:
+
+       **mwFreq** : float
+           The microwave frequency in MHz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: erot(*args)
+
+   
+   Passive rotation matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: eyekron(M)
+
+   
+   Calculates the Kronecker product of the identity matrix with a matrix M.
+
+   Parameters:
+   M (np.ndarray): The matrix to be multiplied with the identity matrix.
+
+   Returns:
+   np.ndarray: The Kronecker product of the identity matrix with M.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: kroneye(M)
+
+   
+   Computes the Kronecker product of a matrix with the identity matrix of the same size.
+
+   Args:
+       M (numpy.ndarray): The matrix to compute the Kronecker product with.
+
+   Returns:
+       numpy.ndarray: The Kronecker product of M with the identity matrix of the same size.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: ham(SpinSystem, elspins=None, nucspins=None)
+
+.. py:function:: ham_ez(SpinSystem, B=None, espins=None)
+
+.. py:function:: ham_nz(SpinSystem, B=None, nspins=None)
+
+.. py:function:: resfields(system, Orientations, mwFreq, computeIntensities=True, RejectionRatio=1e-08, Range=(0, 100000000.0), Threshold=0, computeFreq2Field=True)
+
+.. py:function:: build_spectrum(system, mwFreq, Range, knots=19, npoints=1000, Guass_broadening=0.25)
+
+   
+   Build a field sweep spectrum
+
+
+   :Parameters:
+
+       **system** : SpinSystem
+           The spin system it must include: I & S spins, g, A, gn
+
+       **mwFreq** : float
+           The microwave frequency in MHz
+
+       **Range** : float
+           The field range in mT
+
+       **knots** : int, optional
+           The number of knots of orientation averaging, by default 19
+
+       **npoints** : int, optional
+           The number of points in the spectrum, by default 1000
+
+
+
+   :Returns:
+
+       xAxis: np.ndarray
+           The xAxis in mT
+
+       y: np.ndarray
+           The spectrum intensities normalised to 1  
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

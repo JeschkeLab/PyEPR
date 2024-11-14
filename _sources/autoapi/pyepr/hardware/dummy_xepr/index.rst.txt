@@ -1,0 +1,57 @@
+pyepr.hardware.dummy_xepr
+=========================
+
+.. py:module:: pyepr.hardware.dummy_xepr
+
+.. autoapi-nested-parse::
+
+   This is a set of scripts that pretend to be an xepr spectromter, this allows for the further development of 
+   this code without having to be sat in front of an actual spectrometer:
+
+   Manufactuer: Hugo Karas (me)
+   Model: DUMMY
+   Features: The most relibable Bruker EPR spectromter in the world (possibly?)
+
+   ..
+       !! processed by numpydoc !!
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy_xepr.hw_log
+   pyepr.hardware.dummy_xepr.hardware_meta
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_api
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_param
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_xepr
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_hidden
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_dataset
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy_xepr.dummy_api
+   pyepr.hardware.dummy_xepr.dummy_cur_exp
+   pyepr.hardware.dummy_xepr.dummy_param
+   pyepr.hardware.dummy_xepr.dummy_xepr
+   pyepr.hardware.dummy_xepr.dummy_hidden
+   pyepr.hardware.dummy_xepr.dummy_dataset
+
+
+Module Contents
+---------------
+
+.. py:data:: hw_log
+
+.. py:data:: hardware_meta
+

@@ -1,0 +1,224 @@
+pyepr.CarrPurcellAnalysis
+=========================
+
+.. py:class:: pyepr.CarrPurcellAnalysis(dataset, sequence = None)
+
+   
+
+   Analysis and calculation of Carr Purcell decay. 
+
+
+   :Parameters:
+
+       **dataset**
+           _description_
+
+   :Attributes:
+
+       **axis** : xr.DataArray
+           The time axis representing the interpulse delay.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: data
+
+
+   .. py:attribute:: dataset
+
+
+   .. py:attribute:: noise
+
+
+   .. py:method:: fit(type = 'mono', **kwargs)
+
+      
+      Fit the experimental CP decay
+
+
+      :Parameters:
+
+          **type** : str, optional
+              Either a mono or double exponential decay model, by default "mono"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: plot(norm = True, ci=50, axs=None, fig=None)
+
+      
+      Plot the carr purcell decay with fit, if avaliable.
+
+
+      :Parameters:
+
+          **norm** : bool, optional
+              Normalise the fit to a maximum of 1, by default True
+
+          **ci** : int, optional
+              The percentage confidence interval to plot, by default 50
+
+
+
+      :Returns:
+
+          Figure
+              The figure.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: check_decay(level=0.1)
+
+      
+      Checks that the data has decayed by over 90% in the first half, and less than 90% in the first quarter.
+
+
+      :Parameters:
+
+          **level** : float, optional
+              The level to check the decay, by default 0.05
+
+
+
+      :Returns:
+
+          int
+              0 if both conditions are met, 1 if a longer decay is needed, and -1 if the decay is too long.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: find_optimal(SNR_target, target_time, target_step, averages=None)
+
+      
+      Calculate the optimal inter pulse delay for a given total measurment
+      time. 
+
+
+      :Parameters:
+
+          **SNR_target: float,**
+              The Signal to Noise ratio target.
+
+          **target_time** : float
+              The target time in hours
+
+          **target_shrt** : float
+              The shot repettition time of target in seconds
+
+          **target_step: float**
+              The target step size in ns.
+
+          **averages** : int, optional
+              The total number of shots taken, by default None. If None, the
+              number of shots will be calculated from the dataset.
+
+
+
+      :Returns:
+
+          float
+              The calculated optimal time in us
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: __call__(x, norm=True, SNR=False, source=None)
+
+      
+      Evaluate the fit or data at a given x value.
+
+
+      :Parameters:
+
+          **x** : float
+              The x value to evaluate the data at.
+
+          **norm** : bool, optional
+              Normalise the data to the maximum, by default True
+
+          **SNR** : bool, optional
+              Return the SNR_per_sqrt(shot) for this data point, by default False
+              If True, the data is normalised to the maximum of the data.
+
+          **source** : str, optional
+              The source of the data, either 'fit' or 'data', by default None
+              If None, the source is determined by the presence of a fit result.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

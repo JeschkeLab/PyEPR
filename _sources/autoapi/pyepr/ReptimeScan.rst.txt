@@ -1,0 +1,88 @@
+pyepr.ReptimeScan
+=================
+
+.. py:class:: pyepr.ReptimeScan(*, B, LO, reptime, reptime_max, averages, shots, **kwargs)
+
+   Bases: :py:obj:`HahnEchoSequence`
+
+
+   Represents a reptime scan of a Hahn Echo Sequence. 
+
+
+   A Hahn echo sequence is perfomed with the shot repetition time increasing.1
+
+
+   :Parameters:
+
+       **B** : int or float
+           The B0 field, in Guass
+
+       **LO** : int or float
+           The LO frequency in GHz
+
+       **reptime: float**
+           The default reptime, this is used for tuning pulses etc...
+
+       **reptime_max** : np.ndarray
+           The maximum shot repetition time in us    
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: name
+      :value: 'ReptimeScan'
+
+
+
+   .. py:method:: simulate()
+
+      
+      Simulates the reptime scan as an exponential recovery.
+
+      .. math::
+          V(t) = 1 - e^(-t/T1)
+
+
+
+
+      :Returns:
+
+          **t** : np.ndarray
+              The x-axis of the simulation
+
+          **data** : np.ndarray
+              The y-axis of the simulation
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

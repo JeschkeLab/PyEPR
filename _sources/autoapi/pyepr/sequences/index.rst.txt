@@ -1,0 +1,33 @@
+pyepr.sequences
+===============
+
+.. py:module:: pyepr.sequences
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/sequences/Sequence
+   /autoapi/pyepr/sequences/HahnEchoSequence
+   /autoapi/pyepr/sequences/T2RelaxationSequence
+   /autoapi/pyepr/sequences/FieldSweepSequence
+   /autoapi/pyepr/sequences/ReptimeScan
+   /autoapi/pyepr/sequences/CarrPurcellSequence
+   /autoapi/pyepr/sequences/ResonatorProfileSequence
+   /autoapi/pyepr/sequences/TWTProfileSequence
+
+.. autoapisummary::
+
+   pyepr.sequences.Sequence
+   pyepr.sequences.HahnEchoSequence
+   pyepr.sequences.T2RelaxationSequence
+   pyepr.sequences.FieldSweepSequence
+   pyepr.sequences.ReptimeScan
+   pyepr.sequences.CarrPurcellSequence
+   pyepr.sequences.ResonatorProfileSequence
+   pyepr.sequences.TWTProfileSequence
+
+

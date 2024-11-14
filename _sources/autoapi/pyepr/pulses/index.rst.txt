@@ -1,0 +1,48 @@
+pyepr.pulses
+============
+
+.. py:module:: pyepr.pulses
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/pulses/Pulse
+   /autoapi/pyepr/pulses/Detection
+   /autoapi/pyepr/pulses/Delay
+   /autoapi/pyepr/pulses/RectPulse
+   /autoapi/pyepr/pulses/GaussianPulse
+   /autoapi/pyepr/pulses/FrequencySweptPulse
+   /autoapi/pyepr/pulses/HSPulse
+   /autoapi/pyepr/pulses/ChirpPulse
+   /autoapi/pyepr/pulses/SincPulse
+
+.. autoapisummary::
+
+   pyepr.pulses.Pulse
+   pyepr.pulses.Detection
+   pyepr.pulses.Delay
+   pyepr.pulses.RectPulse
+   pyepr.pulses.GaussianPulse
+   pyepr.pulses.FrequencySweptPulse
+   pyepr.pulses.HSPulse
+   pyepr.pulses.ChirpPulse
+   pyepr.pulses.SincPulse
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.pulses.build_default_pulses
+
+
+Module Contents
+---------------
+
+.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
+

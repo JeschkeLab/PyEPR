@@ -1,0 +1,36 @@
+pyepr.criteria
+==============
+
+.. py:module:: pyepr.criteria
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.criteria.log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/criteria/Criteria
+   /autoapi/pyepr/criteria/TimeCriteria
+   /autoapi/pyepr/criteria/SNRCriteria
+
+.. autoapisummary::
+
+   pyepr.criteria.Criteria
+   pyepr.criteria.TimeCriteria
+   pyepr.criteria.SNRCriteria
+
+
+Module Contents
+---------------
+
+.. py:data:: log
+

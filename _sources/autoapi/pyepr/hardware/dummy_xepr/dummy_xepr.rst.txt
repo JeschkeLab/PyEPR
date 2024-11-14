@@ -1,0 +1,29 @@
+pyepr.hardware.dummy_xepr.dummy_xepr
+====================================
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds
+
+.. py:class:: pyepr.hardware.dummy_xepr.dummy_xepr
+
+   .. py:attribute:: cur_exp
+
+
+   .. py:attribute:: hidden
+
+
+   .. py:method:: XeprExperiment(hidden=None)
+
+
+   .. py:method:: XeprDataset()
+
+Classes
+-------
+
+.. autoapisummary::
+
+   pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
+
+

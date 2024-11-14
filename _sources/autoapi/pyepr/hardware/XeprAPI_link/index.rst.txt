@@ -1,0 +1,35 @@
+pyepr.hardware.XeprAPI_link
+===========================
+
+.. py:module:: pyepr.hardware.XeprAPI_link
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.XeprAPI_link.xepr_path
+   pyepr.hardware.XeprAPI_link.hw_log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink
+
+.. autoapisummary::
+
+   pyepr.hardware.XeprAPI_link.XeprAPILink
+
+
+Module Contents
+---------------
+
+.. py:data:: xepr_path
+
+.. py:data:: hw_log
+

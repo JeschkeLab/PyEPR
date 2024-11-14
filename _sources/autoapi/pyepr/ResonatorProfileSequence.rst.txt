@@ -1,0 +1,76 @@
+pyepr.ResonatorProfileSequence
+==============================
+
+.. py:class:: pyepr.ResonatorProfileSequence(*, B, LO, reptime, averages, shots, fwidth=0.3, dtp=2, **kwargs)
+
+   Bases: :py:obj:`Sequence`
+
+
+   Builds nutation based Resonator Profile sequence. 
+
+
+   Build a resonator profile nutation sequence using either 
+   rectangular pulses or specified pulses.
+
+
+   :Parameters:
+
+       **B** : int or float
+           The B0 field, in Guass
+
+       **Bwidth: int or float**
+           The width of the field sweep, in Gauss
+
+       **LO** : int or float
+           The LO frequency in GHz
+
+       **reptime** : _type_
+           The shot repetition time in us
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point
+
+       **fwidth: float**
+           The frequency width of the resonator profile in GHz, 
+           by default 0.3GHz
+
+       **dtp: float**
+           The time step for the test pulse in ns, by default 2 ns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: gyro
+
+
+   .. py:attribute:: fwidth
+
+
+   .. py:attribute:: dtp
+
+
+   .. py:attribute:: kwargs
+
+
+   .. py:method:: _build_sequence()
+
+
+   .. py:method:: simulate(Q=100, fc=None, nu1=75)
+

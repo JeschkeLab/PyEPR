@@ -1,0 +1,2910 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 --><title>Index - PyEPR 0.10 documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-toolbox-code.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/pyepr_logo_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="API_docs.html">API doc</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/PyEPR">Github</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/autoDEER">autoDEER</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a> | <a href="#X"><strong>X</strong></a></div>
+</section>
+<section id="_" class="genindex-section">
+  <h2>_</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.__add__">__add__() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria.__add__">(pyepr.Criteria method)</a>
+</li>
+          <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria.__add__">(pyepr.criteria.Criteria method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.__add__">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.__call__">__call__() (pyepr.CarrPurcellAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.__call__">(pyepr.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.__call__">(pyepr.relaxation_analysis.CarrPurcellAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.__call__">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.__copyright__">__copyright__ (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/_version/index.html#pyepr._version.__copyright__">(in module pyepr._version)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.__eq__">__eq__() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.__eq__">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.__getitem__">__getitem__() (pyepr.hardware.dummy_xepr.dummy_cur_exp method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.__getitem__">(pyepr.hardware.dummy_xepr.dummy_hidden method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.__mul__">__mul__() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.__mul__">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.__rmul__">__rmul__() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.__rmul__">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle.__str__">__str__() (pyepr.hardware.Bruker_tools.PSPhaseCycle method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.__str__">(pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.__str__">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.__str__">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.__str__">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.__str__">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.__sub__">__sub__() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.__sub__">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools._addAWGPulse">_addAWGPulse() (in module pyepr.hardware.Bruker_tools)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._addAWGPulse">(pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._addDef">_addDef() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._addExp">_addExp() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._addPhaseCycle">_addPhaseCycle() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._addPhaseCycle">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._addPhaseCycle">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._addScanLoop">_addScanLoop() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface._build_exp_struct">_build_exp_struct() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface._build_parvar">_build_parvar() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface._build_phase_cycle">_build_phase_cycle() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface._build_pulse">_build_pulse() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence._build_sequence">_build_sequence() (pyepr.CarrPurcellSequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence._build_sequence">(pyepr.ResonatorProfileSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence._build_sequence">(pyepr.sequences.CarrPurcellSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence._build_sequence">(pyepr.sequences.ResonatorProfileSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/TWTProfileSequence.html#pyepr.sequences.TWTProfileSequence._build_sequence">(pyepr.sequences.TWTProfileSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/TWTProfileSequence.html#pyepr.TWTProfileSequence._build_sequence">(pyepr.TWTProfileSequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._buildFMAM">_buildFMAM() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._buildFMAM">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._buildPhaseCycle">_buildPhaseCycle() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._buildPhaseCycle">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._buildProgTable">_buildProgTable() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._buildProgTable">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._calc_fft">_calc_fft() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._calc_fft">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._check_sequence">_check_sequence() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._checkRect">_checkRect() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._checkRect">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._cmpl_def">_cmpl_def() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._cmpl_Exp">_cmpl_Exp() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle._detect">_detect() (pyepr.hardware.Bruker_tools.PSPhaseCycle method)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._estimate_time">_estimate_time() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._estimate_time">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._ExpDefs">_ExpDefs() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile._freq_sweep">_freq_sweep() (pyepr.hardware.xepr_experiments.PulseProfile method)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter._from_dict">_from_dict() (pyepr.classes.Parameter static method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter._from_dict">(pyepr.Parameter static method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._from_dict">(pyepr.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._from_dict">(pyepr.pulses.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._from_dict">(pyepr.Sequence class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._from_dict">(pyepr.sequences.Sequence class method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter._from_json">_from_json() (pyepr.classes.Parameter class method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter._from_json">(pyepr.Parameter class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._from_json">(pyepr.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._from_json">(pyepr.pulses.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._from_json">(pyepr.Sequence class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._from_json">(pyepr.sequences.Sequence class method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#id3">_gen_ESEEM() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#pyepr._gen_ESEEM">[1]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils._gen_ESEEM">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._get_cur_exp_global">_get_cur_exp_global() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune._get_exp">_get_exp() (pyepr.hardware.xepr_experiments.ELDORtune method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._get_Xepr_global">_get_Xepr_global() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG._launch_complex_thread">_launch_complex_thread() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU._launch_complex_thread">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle._main">_main() (pyepr.hardware.Bruker_tools.PSPhaseCycle method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle._MPFU">_MPFU() (pyepr.hardware.Bruker_tools.PSPhaseCycle method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU._MPFU_channels">_MPFU_channels() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._new_delay">_new_delay() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._new_pulse">_new_pulse() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel._new_var">_new_var() (pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor._obj">_obj (pyepr.dataset.EPRAccessor attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._pcyc_str">_pcyc_str() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._pcyc_str">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis._process_fit">_process_fit() (pyepr.resonator_profile_analysis.ResonatorProfileAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis._process_fit">(pyepr.ResonatorProfileAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._set_cur_exp_global">_set_cur_exp_global() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._set_cur_exp_param">_set_cur_exp_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._set_hidden_param">_set_hidden_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._set_Xepr_global">_set_Xepr_global() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune._setup_echo">_setup_echo() (pyepr.hardware.xepr_experiments.MPFUtune method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune._setup_exp">_setup_exp() (pyepr.hardware.xepr_experiments.ELDORtune method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile._setup_exp">(pyepr.hardware.xepr_experiments.PulseProfile method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU._SPFU_channels">_SPFU_channels() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api._tmp_dir">_tmp_dir (pyepr.hardware.dummy_xepr.dummy_api attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._tmp_dir">(pyepr.hardware.XeprAPI_link.XeprAPILink attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter._to_dict">_to_dict() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter._to_dict">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._to_dict">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._to_dict">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._to_dict">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._to_dict">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter._to_json">_to_json() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter._to_json">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse._to_json">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse._to_json">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence._to_json">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence._to_json">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink._xepr_retry">_xepr_retry() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.A">A (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.A">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.abort_exp">abort_exp() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.abort_exp">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.acquire_dataset">acquire_dataset() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.acquire_dataset">(pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.acquire_dataset">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.acquire_dataset">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_dataset">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.acquire_dataset">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset_from_matlab">acquire_dataset_from_matlab() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.acquire_scan">acquire_scan() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.acquire_scan_2d">acquire_scan_2d() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan_2d">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.acquire_scan_at">acquire_scan_at() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan_at">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.add_axis">add_axis() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.add_axis">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.add_noise">add_noise() (in module pyepr.hardware.dummy)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#id2">add_phaseshift() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#pyepr.add_phaseshift">[1]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.add_phaseshift">(in module pyepr.hardware.dummy)</a>
+</li>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.add_phaseshift">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.addPulse">addPulse() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.addPulse">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.adjust_step">adjust_step() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.adjust_step">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.adjust_step">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.adjust_step">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/FrequencySweptPulse.html#pyepr.FrequencySweptPulse.amp_factor">amp_factor (pyepr.FrequencySweptPulse property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.amp_factor">(pyepr.Pulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/FrequencySweptPulse.html#pyepr.pulses.FrequencySweptPulse.amp_factor">(pyepr.pulses.FrequencySweptPulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.amp_factor">(pyepr.pulses.Pulse property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.api">api (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.api">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.api">(pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.api">(pyepr.hardware.xepr_experiments.ELDORtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.api">(pyepr.hardware.xepr_experiments.MPFUtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile.api">(pyepr.hardware.xepr_experiments.PulseProfile attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.aqExpRun">aqExpRun() (pyepr.hardware.dummy_xepr.dummy_cur_exp method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqExpSelect">aqExpSelect() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_param.html#pyepr.hardware.dummy_xepr.dummy_param.aqGetParMaxValue">aqGetParMaxValue (pyepr.hardware.dummy_xepr.dummy_param attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_param.html#pyepr.hardware.dummy_xepr.dummy_param.aqGetParMinValue">aqGetParMinValue (pyepr.hardware.dummy_xepr.dummy_param attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgCompile">aqPgCompile() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgDefLoad">aqPgDefLoad() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgDefSaveAs">aqPgDefSaveAs() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgLoad">aqPgLoad() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgSaveAs">aqPgSaveAs() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.aqPgShowPrg">aqPgShowPrg() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#id5">autoEPRDecoder() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#id9">[1]</a>, <a href="autoapi/pyepr/index.html#pyepr.autoEPRDecoder">[2]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.autoEPRDecoder">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.averages">averages (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.averages">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.AWG">AWG (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.awg">awg (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.awg_freq">awg_freq (pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.ax_id">ax_id (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.ax_id">(pyepr.Parameter attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.axes_uuid">axes_uuid (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.axes_uuid">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.axis">axis (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.axis">(pyepr.Parameter attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis.axis">(pyepr.relaxation_analysis.ReptimeAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis.axis">(pyepr.ReptimeAnalysis attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/FieldSweepSequence.html#pyepr.FieldSweepSequence.B">B (pyepr.FieldSweepSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/FieldSweepSequence.html#pyepr.sequences.FieldSweepSequence.B">(pyepr.sequences.FieldSweepSequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.bandwidth">bandwidth (pyepr.Pulse property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.bandwidth">(pyepr.pulses.Pulse property)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse.beta">beta (pyepr.HSPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse.beta">(pyepr.pulses.HSPulse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_data">bg_data (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.bg_data">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.bg_data">(pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_thread">bg_thread (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.bg_thread">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.bg_thread">(pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/index.html#pyepr.hardware.ETH_awg.bg_thread">bg_thread() (in module pyepr.hardware.ETH_awg)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle.BPhaseCycles">BPhaseCycles (pyepr.hardware.Bruker_tools.PSPhaseCycle attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/_version/index.html#pyepr._version.branch">branch (in module pyepr._version)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.bridge_config">bridge_config (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.bridge_config">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.BrXAmp">BrXAmp (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.BrXPhase">BrXPhase (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.BrYAmp">BrYAmp (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.BrYPhase">BrYPhase (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.BSpline_extra">BSpline_extra() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.resonator_profile_analysis.BSpline_extra">(in module pyepr.resonator_profile_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.build_default_pulses">build_default_pulses() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/index.html#pyepr.pulses.build_default_pulses">(in module pyepr.pulses)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.build_shape">build_shape() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.build_shape">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.build_spectrum">build_spectrum() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.build_spectrum">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#id4">build_table() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#id6">[1]</a>, <a href="autoapi/pyepr/index.html#pyepr.build_table">[2]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.build_table">(in module pyepr.utils)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.build_table">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.build_table">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.build_unique_progtable">build_unique_progtable() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0">calc_d0() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.calc_d0">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.calc_d0">(pyepr.hardware.xepr_experiments.MPFUtune method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo">calc_d0_from_Hahn_Echo() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.calc_d0_from_Hahn_Echo">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.calc_gyro">calc_gyro() (pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.calc_gyro">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.calc_noise_level">calc_noise_level() (pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.calc_noise_level">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis.calc_optimal_reptime">calc_optimal_reptime() (pyepr.relaxation_analysis.ReptimeAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis.calc_optimal_reptime">(pyepr.ReptimeAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.calc_overlap">calc_overlap() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.resonator_profile_analysis.calc_overlap">(in module pyepr.resonator_profile_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.calc_percieved_freq">calc_percieved_freq() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.calc_rel_positions">calc_rel_positions() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.CalibrateFreq">CalibrateFreq() (in module pyepr.hardware.xepr_experiments)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.ceil">ceil() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.resonator_profile_analysis.ceil">(in module pyepr.resonator_profile_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.CenterField">CenterField (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.change_dimensions">change_dimensions() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.check_decay">check_decay() (pyepr.CarrPurcellAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.check_decay">(pyepr.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.check_decay">(pyepr.relaxation_analysis.CarrPurcellAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.check_decay">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.check_variable">check_variable() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSparvar.html#pyepr.hardware.Bruker_tools.PSparvar.checkPulseSpel">checkPulseSpel() (pyepr.hardware.Bruker_tools.PSparvar method)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.cmap">cmap (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/relaxation_analysis/index.html#pyepr.relaxation_analysis.cmap">(in module pyepr.relaxation_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.compile_PulseSpel_def">compile_PulseSpel_def() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.compile_PulseSpel_def">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.compile_PulseSpel_prg">compile_PulseSpel_prg() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.compile_PulseSpel_prg">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/_version/index.html#pyepr._version.config">config (in module pyepr._version)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.connect">connect() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.connect">(pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.connect">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.connect">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.connect">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.connect">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.convert_progtable">convert_progtable() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.copy">copy() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.copy">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.copy">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.copy">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.copy">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.copy">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.correctphase">correctphase (pyepr.dataset.EPRAccessor property)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.correctphasefull">correctphasefull (pyepr.dataset.EPRAccessor property)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.CP_run">CP_run() (in module pyepr.hardware.xepr_experiments)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_axes">create_dataset_from_axes() (in module pyepr.dataset)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_bruker">create_dataset_from_bruker() (in module pyepr.dataset)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_sequence">create_dataset_from_sequence() (in module pyepr.dataset)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#id12">create_Nmodel() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#pyepr.create_Nmodel">[1]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.create_Nmodel">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.cur_exp">cur_exp (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.cur_exp">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.html#pyepr.hardware.dummy_xepr.dummy_xepr.cur_exp">(pyepr.hardware.dummy_xepr.dummy_xepr attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.cur_exp">(pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.cur_exp">(pyepr.hardware.XeprAPI_link.XeprAPILink attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.d0">d0 (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.d0">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.d0">(pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.d0">(pyepr.hardware.xepr_experiments.ELDORtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.d0">(pyepr.hardware.xepr_experiments.MPFUtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile.d0">(pyepr.hardware.xepr_experiments.PulseProfile attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.data">data (pyepr.CarrPurcellAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.data">(pyepr.fieldsweep_analysis.FieldSweepAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.data">(pyepr.FieldSweepAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.data">(pyepr.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.data">(pyepr.relaxation_analysis.CarrPurcellAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.data">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.dataset">dataset (pyepr.CarrPurcellAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.dataset">(pyepr.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.dataset">(pyepr.relaxation_analysis.CarrPurcellAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.dataset">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.dataset">(pyepr.resonator_profile_analysis.ResonatorProfileAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.dataset">(pyepr.ResonatorProfileAnalysis attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.DEER5p_run">DEER5p_run() (in module pyepr.hardware.xepr_experiments)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.def_file_str">def_file_str (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.description">description (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria.description">(pyepr.Criteria attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria.description">(pyepr.criteria.Criteria attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.description">(pyepr.Parameter attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.det_frq">det_frq (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.detect_ESEEM">detect_ESEEM() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/relaxation_analysis/index.html#pyepr.relaxation_analysis.detect_ESEEM">(in module pyepr.relaxation_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.determine_TWT_split">determine_TWT_split() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.dig_rate">dig_rate (pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.digitally_upconvert">digitally_upconvert() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence.dim">dim (pyepr.CarrPurcellSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.dim">(pyepr.classes.Parameter property)</a>
+</li>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.dim">(pyepr.Parameter property)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence.dim">(pyepr.sequences.CarrPurcellSequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.dims">dims (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence.dtp">dtp (pyepr.ResonatorProfileSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence.dtp">(pyepr.sequences.ResonatorProfileSequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.ELDORtune">ELDORtune() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria.end_signal">end_signal (pyepr.Criteria attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria.end_signal">(pyepr.criteria.Criteria attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/tools/index.html#pyepr.tools.eprload">eprload() (in module pyepr.tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.erot">erot() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.erot">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSparvar.html#pyepr.hardware.Bruker_tools.PSparvar.events">events (pyepr.hardware.Bruker_tools.PSparvar attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.evolution">evolution() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.evolution">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.exciteprofile">exciteprofile() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.exciteprofile">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.exciteprofile_old">exciteprofile_old() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.exciteprofile_old">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.exp_file_str">exp_file_str (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.eyekron">eyekron() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.eyekron">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.f_lims">f_lims (pyepr.resonator_profile_analysis.ResonatorProfileAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.f_lims">(pyepr.ResonatorProfileAnalysis attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.fft">fft (pyepr.dataset.EPRAccessor property)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.find_cur_exp">find_cur_exp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.find_hidden">find_hidden() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.find_max">find_max() (pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.find_max">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.find_max_pulse_length">find_max_pulse_length() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.find_min">find_min() (pyepr.hardware.xepr_experiments.ELDORtune method)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.find_optimal">find_optimal() (pyepr.CarrPurcellAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.find_optimal">(pyepr.relaxation_analysis.CarrPurcellAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.find_Xepr">find_Xepr() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.find_Xepr">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.fit">fit() (pyepr.CarrPurcellAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.fit">(pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.fit">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.fit">(pyepr.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.fit">(pyepr.relaxation_analysis.CarrPurcellAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.fit">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis.fit">(pyepr.relaxation_analysis.ReptimeAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis.fit">(pyepr.ReptimeAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.fit">(pyepr.resonator_profile_analysis.ResonatorProfileAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.fit">(pyepr.ResonatorProfileAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.floor">floor() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.resonator_profile_analysis.floor">(in module pyepr.resonator_profile_analysis)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/Detection.html#pyepr.Detection.freq">freq (pyepr.Detection attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/GaussianPulse.html#pyepr.GaussianPulse.freq">(pyepr.GaussianPulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Detection.html#pyepr.pulses.Detection.freq">(pyepr.pulses.Detection attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/GaussianPulse.html#pyepr.pulses.GaussianPulse.freq">(pyepr.pulses.GaussianPulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/RectPulse.html#pyepr.pulses.RectPulse.freq">(pyepr.pulses.RectPulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/SincPulse.html#pyepr.pulses.SincPulse.freq">(pyepr.pulses.SincPulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/RectPulse.html#pyepr.RectPulse.freq">(pyepr.RectPulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/SincPulse.html#pyepr.SincPulse.freq">(pyepr.SincPulse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.FrequencyMon">FrequencyMon (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.FTAcqModeSlct">FTAcqModeSlct (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/ChirpPulse.html#pyepr.ChirpPulse.func">func() (pyepr.ChirpPulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/GaussianPulse.html#pyepr.GaussianPulse.func">(pyepr.GaussianPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse.func">(pyepr.HSPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/ChirpPulse.html#pyepr.pulses.ChirpPulse.func">(pyepr.pulses.ChirpPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/GaussianPulse.html#pyepr.pulses.GaussianPulse.func">(pyepr.pulses.GaussianPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse.func">(pyepr.pulses.HSPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/RectPulse.html#pyepr.pulses.RectPulse.func">(pyepr.pulses.RectPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/SincPulse.html#pyepr.pulses.SincPulse.func">(pyepr.pulses.SincPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/RectPulse.html#pyepr.RectPulse.func">(pyepr.RectPulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/SincPulse.html#pyepr.SincPulse.func">(pyepr.SincPulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/GaussianPulse.html#pyepr.GaussianPulse.FWHM">FWHM (pyepr.GaussianPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/GaussianPulse.html#pyepr.pulses.GaussianPulse.FWHM">(pyepr.pulses.GaussianPulse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence.fwidth">fwidth (pyepr.ResonatorProfileSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence.fwidth">(pyepr.sequences.ResonatorProfileSequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.g">g (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.g">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.gcd">gcd() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.gcd">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_Acquisition_mode">get_Acquisition_mode() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/index.html#pyepr.dataset.get_all_axes">get_all_axes() (in module pyepr.dataset)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/index.html#pyepr.dataset.get_all_fixed_param">get_all_fixed_param() (in module pyepr.dataset)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.get_arange">get_arange() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_attenuator">get_attenuator() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.get_axis">get_axis() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.get_axis">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_config_file">get_config_file() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_counterfreq">get_counterfreq() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_ELDOR_freq">get_ELDOR_freq() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_field">get_field() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_freq">get_freq() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_hidden_param">get_hidden_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_MW_amp">get_MW_amp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.get_nutations">get_nutations() (in module pyepr.hardware.xepr_experiments)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_param">get_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_phase">get_phase() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PhaseCycle">get_PhaseCycle() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_def_filename">get_PulseSpel_def_filename() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_def_filepath">get_PulseSpel_def_filepath() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_exp_filename">get_PulseSpel_exp_filename() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_exp_filepath">get_PulseSpel_exp_filepath() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_experiment">get_PulseSpel_experiment() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_phase_cycling">get_PulseSpel_phase_cycling() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_ReplaceMode">get_ReplaceMode() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_spec_config">get_spec_config() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/index.html#pyepr.hardware.Bruker_AWG.get_specjet_data">get_specjet_data() (in module pyepr.hardware.Bruker_AWG)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.get_specjet_data">(in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_sweep_width">get_sweep_width() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_bandwidth">get_video_bandwidth() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain">get_video_gain() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.get_waveform_precision">get_waveform_precision() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/config/index.html#pyepr.config.get_waveform_precision">(in module pyepr.config)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.getParam">getParam() (pyepr.hardware.dummy_xepr.dummy_cur_exp method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.getParam">(pyepr.hardware.dummy_xepr.dummy_hidden method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.gnscale">gnscale (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.gnscale">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence.gyro">gyro (pyepr.ResonatorProfileSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence.gyro">(pyepr.sequences.ResonatorProfileSequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/index.html#pyepr.ham">ham() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.ham">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.ham_ez">ham_ez() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.ham_ez">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.ham_nz">ham_nz() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.ham_nz">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/index.html#pyepr.hardware.dummy_xepr.hardware_meta">hardware_meta (in module pyepr.hardware.dummy_xepr)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.hardware_wait">hardware_wait (pyepr.hardware.xepr_experiments.ELDORtune attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.hardware_wait">(pyepr.hardware.xepr_experiments.MPFUtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile.hardware_wait">(pyepr.hardware.xepr_experiments.PulseProfile attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.header">header (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.html#pyepr.hardware.dummy_xepr.dummy_xepr.hidden">hidden (pyepr.hardware.dummy_xepr.dummy_xepr attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.hidden">(pyepr.hardware.XeprAPI_link.XeprAPILink attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.hw_log">hw_log (in module pyepr.hardware.Bruker_MPFU)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.hw_log">(in module pyepr.hardware.Bruker_tools)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.hw_log">(in module pyepr.hardware.dummy)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/index.html#pyepr.hardware.dummy_xepr.hw_log">(in module pyepr.hardware.dummy_xepr)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/index.html#pyepr.hardware.XeprAPI_link.hw_log">(in module pyepr.hardware.XeprAPI_link)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.hybrid">hybrid (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.I">I (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.I">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain">IFgain (pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain_options">IFgain_options (pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.is_exp_running">is_exp_running() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.is_exp_running">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.is_static">is_static() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.is_static">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.is_static">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.is_static">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.isDelayFocused">isDelayFocused() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.isDelayFocused">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.isPulseFocused">isPulseFocused() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.isPulseFocused">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.isrunning">isrunning() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.isrunning">(pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.isrunning">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.isrunning">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.isrunning">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.isrunning">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/index.html#pyepr.kroneye">kroneye() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.kroneye">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence.kwargs">kwargs (pyepr.ResonatorProfileSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence.kwargs">(pyepr.sequences.ResonatorProfileSequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.launch">launch() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.launch">(pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.launch">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.launch">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.launch">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.launch">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.launch_long">launch_long() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.launch_normal">launch_normal() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.launch_withIFGain">launch_withIFGain() (pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.LO">LO (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.LO">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.load">load() (pyepr.classes.Parameter class method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.load">(pyepr.Parameter class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.load">(pyepr.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.load">(pyepr.pulses.Pulse class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.load">(pyepr.Sequence class method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.load">(pyepr.sequences.Sequence class method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.log">log (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/criteria/index.html#pyepr.criteria.log">(in module pyepr.criteria)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/index.html#pyepr.hardware.ETH_awg.log">(in module pyepr.hardware.ETH_awg)</a>
+</li>
+          <li><a href="autoapi/pyepr/tools/index.html#pyepr.tools.log">(in module pyepr.tools)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.match_filter_dc">match_filter_dc() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.MeasurementTime">MeasurementTime (pyepr.dataset.EPRAccessor property)</a>
+</li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.merge">merge() (pyepr.dataset.EPRAccessor method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.meta">meta (pyepr.hardware.dummy_xepr.dummy_api attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.MinBrXAmp">MinBrXAmp (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.MinBrXPhase">MinBrXPhase (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.MinBrYAmp">MinBrYAmp (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.MinBrYPhase">MinBrYPhase (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.mode">mode (pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="autoapi/pyepr/index.html#module-pyepr">pyepr</a>
+</li>
+          <li><a href="autoapi/pyepr/_version/index.html#module-pyepr._version">pyepr._version</a>
+</li>
+          <li><a href="autoapi/pyepr/classes/index.html#module-pyepr.classes">pyepr.classes</a>
+</li>
+          <li><a href="autoapi/pyepr/colors/index.html#module-pyepr.colors">pyepr.colors</a>
+</li>
+          <li><a href="autoapi/pyepr/config/index.html#module-pyepr.config">pyepr.config</a>
+</li>
+          <li><a href="autoapi/pyepr/criteria/index.html#module-pyepr.criteria">pyepr.criteria</a>
+</li>
+          <li><a href="autoapi/pyepr/dataset/index.html#module-pyepr.dataset">pyepr.dataset</a>
+</li>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#module-pyepr.fieldsweep_analysis">pyepr.fieldsweep_analysis</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/index.html#module-pyepr.hardware">pyepr.hardware</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/index.html#module-pyepr.hardware.Bruker_AWG">pyepr.hardware.Bruker_AWG</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#module-pyepr.hardware.Bruker_MPFU">pyepr.hardware.Bruker_MPFU</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#module-pyepr.hardware.Bruker_tools">pyepr.hardware.Bruker_tools</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#module-pyepr.hardware.dummy">pyepr.hardware.dummy</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/index.html#module-pyepr.hardware.dummy_xepr">pyepr.hardware.dummy_xepr</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/index.html#module-pyepr.hardware.ETH_awg">pyepr.hardware.ETH_awg</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#module-pyepr.hardware.ETH_awg_load">pyepr.hardware.ETH_awg_load</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#module-pyepr.hardware.xepr_experiments">pyepr.hardware.xepr_experiments</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/index.html#module-pyepr.hardware.XeprAPI_link">pyepr.hardware.XeprAPI_link</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/index.html#module-pyepr.pulses">pyepr.pulses</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/index.html#module-pyepr.relaxation_analysis">pyepr.relaxation_analysis</a>
+</li>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#module-pyepr.resonator_profile_analysis">pyepr.resonator_profile_analysis</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/index.html#module-pyepr.sequences">pyepr.sequences</a>
+</li>
+          <li><a href="autoapi/pyepr/tools/index.html#module-pyepr.tools">pyepr.tools</a>
+</li>
+          <li><a href="autoapi/pyepr/utils/index.html#module-pyepr.utils">pyepr.utils</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/_version/index.html#pyepr._version.MODULE_DIR">MODULE_DIR (in module pyepr._version)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.MODULE_DIR">(in module pyepr.hardware.Bruker_tools)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.MODULE_DIR">(in module pyepr.hardware.xepr_experiments)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.MPFU">MPFU (pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.MPFU">(pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.mpfu">mpfu (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.MPFUtune">MPFUtune() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence.n">n (pyepr.CarrPurcellSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence.n">(pyepr.sequences.CarrPurcellSequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.n_files">n_files (pyepr.resonator_profile_analysis.ResonatorProfileAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.n_files">(pyepr.ResonatorProfileAnalysis attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.name">name (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria.name">(pyepr.Criteria attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria.name">(pyepr.criteria.Criteria attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/FieldSweepSequence.html#pyepr.FieldSweepSequence.name">(pyepr.FieldSweepSequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.name">(pyepr.Parameter attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.name">(pyepr.Pulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.name">(pyepr.pulses.Pulse attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/ReptimeScan.html#pyepr.ReptimeScan.name">(pyepr.ReptimeScan attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.name">(pyepr.Sequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/FieldSweepSequence.html#pyepr.sequences.FieldSweepSequence.name">(pyepr.sequences.FieldSweepSequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/ReptimeScan.html#pyepr.sequences.ReptimeScan.name">(pyepr.sequences.ReptimeScan attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.name">(pyepr.sequences.Sequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/T2RelaxationSequence.html#pyepr.sequences.T2RelaxationSequence.name">(pyepr.sequences.T2RelaxationSequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/T2RelaxationSequence.html#pyepr.T2RelaxationSequence.name">(pyepr.T2RelaxationSequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.NbScansDone">NbScansDone (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.NbScansToDo">NbScansToDo (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.nElectrons">nElectrons (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.nElectrons">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.nNuclei">nNuclei (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.nNuclei">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.noise">noise (pyepr.CarrPurcellAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.noise">(pyepr.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.noise">(pyepr.relaxation_analysis.CarrPurcellAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.noise">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.normalise">normalise (pyepr.dataset.EPRAccessor property)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.nStates">nStates (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.nStates">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.num_pulses">num_pulses (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.num_pulses">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_dataset.html#pyepr.hardware.dummy_xepr.dummy_dataset.O">O (pyepr.hardware.dummy_xepr.dummy_dataset attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.optimise_spectra_position">optimise_spectra_position() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.resonator_profile_analysis.optimise_spectra_position">(in module pyepr.resonator_profile_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/pulses/SincPulse.html#pyepr.pulses.SincPulse.order">order (pyepr.pulses.SincPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SincPulse.html#pyepr.SincPulse.order">(pyepr.SincPulse attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse.order1">order1 (pyepr.HSPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse.order1">(pyepr.pulses.HSPulse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse.order2">order2 (pyepr.HSPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse.order2">(pyepr.pulses.HSPulse attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.parvars">parvars (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.pause_exp">pause_exp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/Delay.html#pyepr.Delay.pcyc">pcyc (pyepr.Delay attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Detection.html#pyepr.Detection.pcyc">(pyepr.Detection attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Delay.html#pyepr.pulses.Delay.pcyc">(pyepr.pulses.Delay attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Detection.html#pyepr.pulses.Detection.pcyc">(pyepr.pulses.Detection attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.pcyc_str">pcyc_str (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis.plot">plot() (pyepr.CarrPurcellAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.plot">(pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.plot">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis.plot">(pyepr.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.plot">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.plot">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis.plot">(pyepr.relaxation_analysis.CarrPurcellAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis.plot">(pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis.plot">(pyepr.relaxation_analysis.ReptimeAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis.plot">(pyepr.ReptimeAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.plot">(pyepr.resonator_profile_analysis.ResonatorProfileAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.plot">(pyepr.ResonatorProfileAnalysis method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.plot">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.plot">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.plot_1Drelax">plot_1Drelax() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/relaxation_analysis/index.html#pyepr.relaxation_analysis.plot_1Drelax">(in module pyepr.relaxation_analysis)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.plot_fft">plot_fft() (pyepr.Pulse method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.plot_fft">(pyepr.pulses.Pulse method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.plot_pulse_exc">plot_pulse_exc() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.plot_pulse_exc">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.PlsSPELEXPSlct">PlsSPELEXPSlct (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.PlsSPELGlbPaF">PlsSPELGlbPaF (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.PlsSPELLISTSlct">PlsSPELLISTSlct (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.PlsSPELPrgPaF">PlsSPELPrgPaF (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.pool">pool (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.possible_delays">possible_delays (in module pyepr.hardware.Bruker_tools)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.possible_delays">(pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.possible_pulses">possible_pulses (in module pyepr.hardware.Bruker_tools)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.possible_pulses">(pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.possible_vars">possible_vars (in module pyepr.hardware.Bruker_tools)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.possible_vars">(pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#id13">primary_colors (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#id14">[1]</a>, <a href="autoapi/pyepr/index.html#pyepr.primary_colors">[2]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/colors/index.html#pyepr.colors.primary_colors">(in module pyepr.colors)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.process_nutations">process_nutations() (pyepr.resonator_profile_analysis.ResonatorProfileAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.process_nutations">(pyepr.ResonatorProfileAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/tools/index.html#pyepr.tools.progress_bar">progress_bar() (in module pyepr.tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/tools/index.html#pyepr.tools.progress_bar_frac">progress_bar_frac() (in module pyepr.tools)</a>
+</li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.Progression">Progression (pyepr.Pulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.Progression">(pyepr.pulses.Pulse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.progTable">progTable (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.progTable">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.ps_length">ps_length (pyepr.hardware.xepr_experiments.ELDORtune attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.ps_length">(pyepr.hardware.xepr_experiments.MPFUtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile.ps_length">(pyepr.hardware.xepr_experiments.PulseProfile attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.pulses">pulses (pyepr.classes.Interface attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.pulses">(pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.pulses">(pyepr.hardware.ETH_awg.ETH_awg_interface attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.pulses">(pyepr.Interface attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.pulses">(pyepr.Sequence attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.pulses">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSparvar.html#pyepr.hardware.Bruker_tools.PSparvar.PulseSpel">PulseSpel (pyepr.hardware.Bruker_tools.PSparvar attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.pump_frq">pump_frq (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+</li>
+        <li>
+    pyepr
+
+        <ul>
+          <li><a href="autoapi/pyepr/index.html#module-pyepr">module</a>
+</li>
+        </ul></li>
+        <li>
+    pyepr._version
+
+        <ul>
+          <li><a href="autoapi/pyepr/_version/index.html#module-pyepr._version">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/CarrPurcellAnalysis.html#pyepr.CarrPurcellAnalysis">pyepr.CarrPurcellAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence">pyepr.CarrPurcellSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/ChirpPulse.html#pyepr.ChirpPulse">pyepr.ChirpPulse (built-in class)</a>
+</li>
+        <li>
+    pyepr.classes
+
+        <ul>
+          <li><a href="autoapi/pyepr/classes/index.html#module-pyepr.classes">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface">pyepr.classes.Interface (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter">pyepr.classes.Parameter (built-in class)</a>
+</li>
+        <li>
+    pyepr.colors
+
+        <ul>
+          <li><a href="autoapi/pyepr/colors/index.html#module-pyepr.colors">module</a>
+</li>
+        </ul></li>
+        <li>
+    pyepr.config
+
+        <ul>
+          <li><a href="autoapi/pyepr/config/index.html#module-pyepr.config">module</a>
+</li>
+        </ul></li>
+        <li>
+    pyepr.criteria
+
+        <ul>
+          <li><a href="autoapi/pyepr/criteria/index.html#module-pyepr.criteria">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria">pyepr.Criteria (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria">pyepr.criteria.Criteria (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/criteria/SNRCriteria.html#pyepr.criteria.SNRCriteria">pyepr.criteria.SNRCriteria (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/criteria/TimeCriteria.html#pyepr.criteria.TimeCriteria">pyepr.criteria.TimeCriteria (built-in class)</a>
+</li>
+        <li>
+    pyepr.dataset
+
+        <ul>
+          <li><a href="autoapi/pyepr/dataset/index.html#module-pyepr.dataset">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor">pyepr.dataset.EPRAccessor (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Delay.html#pyepr.Delay">pyepr.Delay (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Detection.html#pyepr.Detection">pyepr.Detection (built-in class)</a>
+</li>
+        <li>
+    pyepr.fieldsweep_analysis
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#module-pyepr.fieldsweep_analysis">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis">pyepr.fieldsweep_analysis.FieldSweepAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem">pyepr.fieldsweep_analysis.SpinSystem (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis">pyepr.FieldSweepAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/FieldSweepSequence.html#pyepr.FieldSweepSequence">pyepr.FieldSweepSequence (built-in class)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/FrequencySweptPulse.html#pyepr.FrequencySweptPulse">pyepr.FrequencySweptPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/GaussianPulse.html#pyepr.GaussianPulse">pyepr.GaussianPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/HahnEchoRelaxationAnalysis.html#pyepr.HahnEchoRelaxationAnalysis">pyepr.HahnEchoRelaxationAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/HahnEchoSequence.html#pyepr.HahnEchoSequence">pyepr.HahnEchoSequence (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/index.html#module-pyepr.hardware">module</a>
+</li>
+        </ul></li>
+        <li>
+    pyepr.hardware.Bruker_AWG
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/index.html#module-pyepr.hardware.Bruker_AWG">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG">pyepr.hardware.Bruker_AWG.BrukerAWG (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.Bruker_MPFU
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#module-pyepr.hardware.Bruker_MPFU">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU">pyepr.hardware.Bruker_MPFU.BrukerMPFU (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.Bruker_tools
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#module-pyepr.hardware.Bruker_tools">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSparvar.html#pyepr.hardware.Bruker_tools.PSparvar">pyepr.hardware.Bruker_tools.PSparvar (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PSPhaseCycle.html#pyepr.hardware.Bruker_tools.PSPhaseCycle">pyepr.hardware.Bruker_tools.PSPhaseCycle (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel">pyepr.hardware.Bruker_tools.PulseSpel (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.dummy
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#module-pyepr.hardware.dummy">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface">pyepr.hardware.dummy.dummyInterface (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.dummy_xepr
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy_xepr/index.html#module-pyepr.hardware.dummy_xepr">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api">pyepr.hardware.dummy_xepr.dummy_api (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp">pyepr.hardware.dummy_xepr.dummy_cur_exp (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_dataset.html#pyepr.hardware.dummy_xepr.dummy_dataset">pyepr.hardware.dummy_xepr.dummy_dataset (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden">pyepr.hardware.dummy_xepr.dummy_hidden (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_param.html#pyepr.hardware.dummy_xepr.dummy_param">pyepr.hardware.dummy_xepr.dummy_param (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.html#pyepr.hardware.dummy_xepr.dummy_xepr">pyepr.hardware.dummy_xepr.dummy_xepr (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds">pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.ETH_awg
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/index.html#module-pyepr.hardware.ETH_awg">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface">pyepr.hardware.ETH_awg.ETH_awg_interface (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.ETH_awg_load
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#module-pyepr.hardware.ETH_awg_load">module</a>
+</li>
+        </ul></li>
+        <li>
+    pyepr.hardware.xepr_experiments
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/index.html#module-pyepr.hardware.xepr_experiments">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER">pyepr.hardware.xepr_experiments.DEER (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune">pyepr.hardware.xepr_experiments.ELDORtune (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune">pyepr.hardware.xepr_experiments.MPFUtune (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile">pyepr.hardware.xepr_experiments.PulseProfile (built-in class)</a>
+</li>
+        <li>
+    pyepr.hardware.XeprAPI_link
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/index.html#module-pyepr.hardware.XeprAPI_link">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink">pyepr.hardware.XeprAPI_link.XeprAPILink (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse">pyepr.HSPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface">pyepr.Interface (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter">pyepr.Parameter (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse">pyepr.Pulse (built-in class)</a>
+</li>
+        <li>
+    pyepr.pulses
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/index.html#module-pyepr.pulses">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/pulses/ChirpPulse.html#pyepr.pulses.ChirpPulse">pyepr.pulses.ChirpPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/Delay.html#pyepr.pulses.Delay">pyepr.pulses.Delay (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/Detection.html#pyepr.pulses.Detection">pyepr.pulses.Detection (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/FrequencySweptPulse.html#pyepr.pulses.FrequencySweptPulse">pyepr.pulses.FrequencySweptPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/GaussianPulse.html#pyepr.pulses.GaussianPulse">pyepr.pulses.GaussianPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse">pyepr.pulses.HSPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse">pyepr.pulses.Pulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/RectPulse.html#pyepr.pulses.RectPulse">pyepr.pulses.RectPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/SincPulse.html#pyepr.pulses.SincPulse">pyepr.pulses.SincPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/RectPulse.html#pyepr.RectPulse">pyepr.RectPulse (built-in class)</a>
+</li>
+        <li>
+    pyepr.relaxation_analysis
+
+        <ul>
+          <li><a href="autoapi/pyepr/relaxation_analysis/index.html#module-pyepr.relaxation_analysis">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis.html#pyepr.relaxation_analysis.CarrPurcellAnalysis">pyepr.relaxation_analysis.CarrPurcellAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis.html#pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis">pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis">pyepr.relaxation_analysis.ReptimeAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis">pyepr.ReptimeAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/ReptimeScan.html#pyepr.ReptimeScan">pyepr.ReptimeScan (built-in class)</a>
+</li>
+        <li>
+    pyepr.resonator_profile_analysis
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/index.html#module-pyepr.resonator_profile_analysis">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis">pyepr.resonator_profile_analysis.ResonatorProfileAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis">pyepr.ResonatorProfileAnalysis (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence">pyepr.ResonatorProfileSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence">pyepr.Sequence (built-in class)</a>
+</li>
+        <li>
+    pyepr.sequences
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/index.html#module-pyepr.sequences">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence">pyepr.sequences.CarrPurcellSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/FieldSweepSequence.html#pyepr.sequences.FieldSweepSequence">pyepr.sequences.FieldSweepSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/HahnEchoSequence.html#pyepr.sequences.HahnEchoSequence">pyepr.sequences.HahnEchoSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/ReptimeScan.html#pyepr.sequences.ReptimeScan">pyepr.sequences.ReptimeScan (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence">pyepr.sequences.ResonatorProfileSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence">pyepr.sequences.Sequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/T2RelaxationSequence.html#pyepr.sequences.T2RelaxationSequence">pyepr.sequences.T2RelaxationSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/sequences/TWTProfileSequence.html#pyepr.sequences.TWTProfileSequence">pyepr.sequences.TWTProfileSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/SincPulse.html#pyepr.SincPulse">pyepr.SincPulse (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/SNRCriteria.html#pyepr.SNRCriteria">pyepr.SNRCriteria (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem">pyepr.SpinSystem (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/T2RelaxationSequence.html#pyepr.T2RelaxationSequence">pyepr.T2RelaxationSequence (built-in class)</a>
+</li>
+        <li><a href="autoapi/pyepr/TimeCriteria.html#pyepr.TimeCriteria">pyepr.TimeCriteria (built-in class)</a>
+</li>
+        <li>
+    pyepr.tools
+
+        <ul>
+          <li><a href="autoapi/pyepr/tools/index.html#module-pyepr.tools">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/TWTProfileSequence.html#pyepr.TWTProfileSequence">pyepr.TWTProfileSequence (built-in class)</a>
+</li>
+        <li>
+    pyepr.utils
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#module-pyepr.utils">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Q" class="genindex-section">
+  <h2>Q</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/FrequencySweptPulse.html#pyepr.FrequencySweptPulse.Qcrit">Qcrit (pyepr.FrequencySweptPulse property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/FrequencySweptPulse.html#pyepr.pulses.FrequencySweptPulse.Qcrit">(pyepr.pulses.FrequencySweptPulse property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.reduce_uuid">reduce_uuid (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.reduce_uuid">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.ReIm_colors">ReIm_colors (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/colors/index.html#pyepr.colors.ReIm_colors">(in module pyepr.colors)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.remove_dynamic">remove_dynamic() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.remove_dynamic">(pyepr.Parameter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.ReplaceMode">ReplaceMode (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.rerun_exp">rerun_exp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.resfields">resfields() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/fieldsweep_analysis/index.html#pyepr.fieldsweep_analysis.resfields">(in module pyepr.fieldsweep_analysis)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.resonator">resonator (pyepr.classes.Interface attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.resonator">(pyepr.Interface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.rng">rng (in module pyepr.hardware.dummy)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.round_step">round_step() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.round_step">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.run_4p">run_4p() (pyepr.hardware.xepr_experiments.DEER method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.run_5p">run_5p() (pyepr.hardware.xepr_experiments.DEER method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.run_CP">run_CP() (pyepr.hardware.xepr_experiments.DEER method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.run_exp">run_exp() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.run_exp">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.run_general">run_general() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.S">S (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.S">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.save">save() (pyepr.classes.Parameter method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.save">(pyepr.dataset.EPRAccessor method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.save">(pyepr.hardware.Bruker_tools.PulseSpel method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.save">(pyepr.Parameter method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Pulse.html#pyepr.Pulse.save">(pyepr.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Pulse.html#pyepr.pulses.Pulse.save">(pyepr.pulses.Pulse method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.save">(pyepr.Sequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.save">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.save_file">save_file() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.save_file">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.save_PulseSpel_def">save_PulseSpel_def() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.save_PulseSpel_exp">save_PulseSpel_exp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.savefolder">savefolder (pyepr.classes.Interface attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder">(pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.savefolder">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder">(pyepr.hardware.ETH_awg.ETH_awg_interface property)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.savefolder">(pyepr.Interface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.savename">savename (pyepr.classes.Interface attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.savename">(pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.savename">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.savename">(pyepr.Interface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Delay.html#pyepr.Delay.scale">scale (pyepr.Delay attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Detection.html#pyepr.Detection.scale">(pyepr.Detection attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Delay.html#pyepr.pulses.Delay.scale">(pyepr.pulses.Delay attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/Detection.html#pyepr.pulses.Detection.scale">(pyepr.pulses.Detection attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.scipy_filter_dc">scipy_filter_dc() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/relaxation_analysis/ReptimeAnalysis.html#pyepr.relaxation_analysis.ReptimeAnalysis.seq">seq (pyepr.relaxation_analysis.ReptimeAnalysis attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/ReptimeAnalysis.html#pyepr.ReptimeAnalysis.seq">(pyepr.ReptimeAnalysis attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.seqtable_steps">seqtable_steps (pyepr.Sequence property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.seqtable_steps">(pyepr.sequences.Sequence property)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.sequence">sequence (pyepr.dataset.EPRAccessor property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.sequence">(pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_Acquisition_mode">set_Acquisition_mode() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_attenuator">set_attenuator() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_config_file">set_config_file() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_ELDOR_freq">set_ELDOR_freq() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_field">set_field() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_freq">set_freq() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_hidden_param">set_hidden_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_MW_amp">set_MW_amp() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_param">set_param() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_phase">set_phase() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PhaseCycle">set_PhaseCycle() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_def_filepath">set_PulseSpel_def_filepath() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_exp_filepath">set_PulseSpel_exp_filepath() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_experiment">set_PulseSpel_experiment() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_phase_cycling">set_PulseSpel_phase_cycling() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.set_PulseSpel_var">set_PulseSpel_var() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_var">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_ReplaceMode">set_ReplaceMode() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_sweep_width">set_sweep_width() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_bandwidth">set_video_bandwidth() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain">set_video_gain() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.set_waveform_precision">set_waveform_precision() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/config/index.html#pyepr.config.set_waveform_precision">(in module pyepr.config)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.setup">setup() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.setup">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.setup_flag">setup_flag (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.setup_flag">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/colors/index.html#pyepr.colors.shade_colors">shade_colors (in module pyepr.colors)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.shift_detfreq_to_zero">shift_detfreq_to_zero() (pyepr.Sequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.shift_detfreq_to_zero">(pyepr.sequences.Sequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.ShotRepTime">ShotRepTime (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/Sequence.html#pyepr.Sequence.shots">shots (pyepr.Sequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/sequences/Sequence.html#pyepr.sequences.Sequence.shots">(pyepr.sequences.Sequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.ShotsPLoop">ShotsPLoop (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_hidden.html#pyepr.hardware.dummy_xepr.dummy_hidden.SignalPhase">SignalPhase (pyepr.hardware.dummy_xepr.dummy_hidden attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence.simulate">simulate() (pyepr.CarrPurcellSequence method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FieldSweepSequence.html#pyepr.FieldSweepSequence.simulate">(pyepr.FieldSweepSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ReptimeScan.html#pyepr.ReptimeScan.simulate">(pyepr.ReptimeScan method)</a>
+</li>
+          <li><a href="autoapi/pyepr/ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence.simulate">(pyepr.ResonatorProfileSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence.simulate">(pyepr.sequences.CarrPurcellSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/FieldSweepSequence.html#pyepr.sequences.FieldSweepSequence.simulate">(pyepr.sequences.FieldSweepSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/ReptimeScan.html#pyepr.sequences.ReptimeScan.simulate">(pyepr.sequences.ReptimeScan method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/ResonatorProfileSequence.html#pyepr.sequences.ResonatorProfileSequence.simulate">(pyepr.sequences.ResonatorProfileSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/T2RelaxationSequence.html#pyepr.sequences.T2RelaxationSequence.simulate">(pyepr.sequences.T2RelaxationSequence method)</a>
+</li>
+          <li><a href="autoapi/pyepr/T2RelaxationSequence.html#pyepr.T2RelaxationSequence.simulate">(pyepr.T2RelaxationSequence method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_dataset.html#pyepr.hardware.dummy_xepr.dummy_dataset.size">size (pyepr.hardware.dummy_xepr.dummy_dataset attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/FieldSweepAnalysis.html#pyepr.fieldsweep_analysis.FieldSweepAnalysis.smooth">smooth() (pyepr.fieldsweep_analysis.FieldSweepAnalysis method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis.smooth">(pyepr.FieldSweepAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/dataset/EPRAccessor.html#pyepr.dataset.EPRAccessor.SNR">SNR (pyepr.dataset.EPRAccessor property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.SNR">(pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#id10">sop() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#id7">[1]</a>, <a href="autoapi/pyepr/index.html#pyepr.sop">[2]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.sop">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.spec_config">spec_config (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.spec_config">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.speedup">speedup (pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.SPFUtune">SPFUtune() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        <li><a href="autoapi/pyepr/fieldsweep_analysis/SpinSystem.html#pyepr.fieldsweep_analysis.SpinSystem.Spins">Spins (pyepr.fieldsweep_analysis.SpinSystem attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SpinSystem.html#pyepr.SpinSystem.Spins">(pyepr.SpinSystem attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/xepr_experiments/DEER.html#pyepr.hardware.xepr_experiments.DEER.srt">srt (pyepr.hardware.xepr_experiments.DEER attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.srt">(pyepr.hardware.xepr_experiments.ELDORtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.srt">(pyepr.hardware.xepr_experiments.MPFUtune attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/PulseProfile.html#pyepr.hardware.xepr_experiments.PulseProfile.srt">(pyepr.hardware.xepr_experiments.PulseProfile attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.start_time">start_time (pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.state">state (pyepr.hardware.dummy.dummyInterface attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.step_parameters">step_parameters() (in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_api.html#pyepr.hardware.dummy_xepr.dummy_api.stop_exp">stop_exp() (pyepr.hardware.dummy_xepr.dummy_api method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.stop_exp">(pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/ChirpPulse.html#pyepr.ChirpPulse.sweeprate">sweeprate (pyepr.ChirpPulse property)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/FrequencySweptPulse.html#pyepr.FrequencySweptPulse.sweeprate">(pyepr.FrequencySweptPulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/HSPulse.html#pyepr.HSPulse.sweeprate">(pyepr.HSPulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/ChirpPulse.html#pyepr.pulses.ChirpPulse.sweeprate">(pyepr.pulses.ChirpPulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/FrequencySweptPulse.html#pyepr.pulses.FrequencySweptPulse.sweeprate">(pyepr.pulses.FrequencySweptPulse property)</a>
+</li>
+          <li><a href="autoapi/pyepr/pulses/HSPulse.html#pyepr.pulses.HSPulse.sweeprate">(pyepr.pulses.HSPulse property)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.SweepsPExp">SweepsPExp (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.SweepWidth">SweepWidth (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/CarrPurcellSequence.html#pyepr.CarrPurcellSequence.t">t (pyepr.CarrPurcellSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis.html#pyepr.resonator_profile_analysis.ResonatorProfileAnalysis.t">(pyepr.resonator_profile_analysis.ResonatorProfileAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis.t">(pyepr.ResonatorProfileAnalysis attribute)</a>
+</li>
+          <li><a href="autoapi/pyepr/sequences/CarrPurcellSequence.html#pyepr.sequences.CarrPurcellSequence.t">(pyepr.sequences.CarrPurcellSequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/sequences/T2RelaxationSequence.html#pyepr.sequences.T2RelaxationSequence.tau">tau (pyepr.sequences.T2RelaxationSequence attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/T2RelaxationSequence.html#pyepr.T2RelaxationSequence.tau">(pyepr.T2RelaxationSequence attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir">temp_dir (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.temp_dir">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.terminate">terminate() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.terminate">(pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.terminate">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.terminate">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.terminate">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.terminate">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/classes/Interface.html#pyepr.classes.Interface.terminate_at">terminate_at() (pyepr.classes.Interface method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Interface.html#pyepr.Interface.terminate_at">(pyepr.Interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Criteria.html#pyepr.Criteria.test">test (pyepr.Criteria attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/criteria/Criteria.html#pyepr.criteria.Criteria.test">(pyepr.criteria.Criteria attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/index.html#pyepr.hardware.Bruker_AWG.test_if_MPFU_compatability">test_if_MPFU_compatability() (in module pyepr.hardware.Bruker_AWG)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.test_if_MPFU_compatability">(in module pyepr.hardware.Bruker_MPFU)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/Delay.html#pyepr.Delay.tp">tp (pyepr.Delay attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/pulses/Delay.html#pyepr.pulses.Delay.tp">(pyepr.pulses.Delay attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/index.html#pyepr.transpose_dict_of_list">transpose_dict_of_list() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.transpose_dict_of_list">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#pyepr.transpose_list_of_dicts">transpose_list_of_dicts() (in module pyepr)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.transpose_list_of_dicts">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.tune">tune() (pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.tune">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/ELDORtune.html#pyepr.hardware.xepr_experiments.ELDORtune.tune">(pyepr.hardware.xepr_experiments.ELDORtune method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.tune">(pyepr.hardware.xepr_experiments.MPFUtune method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.tune_phase">tune_phase() (in module pyepr.hardware.Bruker_MPFU)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.tune_phase">(pyepr.hardware.xepr_experiments.MPFUtune method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/index.html#pyepr.hardware.Bruker_MPFU.tune_power">tune_power() (in module pyepr.hardware.Bruker_MPFU)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/xepr_experiments/MPFUtune.html#pyepr.hardware.xepr_experiments.MPFUtune.tune_power">(pyepr.hardware.xepr_experiments.MPFUtune method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse">tune_pulse() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.tune_pulse">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.tune_pulse">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_pulse">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse">tune_rectpulse() (pyepr.hardware.Bruker_AWG.BrukerAWG method)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.tune_rectpulse">(pyepr.hardware.Bruker_MPFU.BrukerMPFU method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/dummy/dummyInterface.html#pyepr.hardware.dummy.dummyInterface.tune_rectpulse">(pyepr.hardware.dummy.dummyInterface method)</a>
+</li>
+          <li><a href="autoapi/pyepr/hardware/ETH_awg/ETH_awg_interface.html#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_rectpulse">(pyepr.hardware.ETH_awg.ETH_awg_interface method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_AWG/BrukerAWG.html#pyepr.hardware.Bruker_AWG.BrukerAWG.tuning">tuning (pyepr.hardware.Bruker_AWG.BrukerAWG attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU.html#pyepr.hardware.Bruker_MPFU.BrukerMPFU.tuning">(pyepr.hardware.Bruker_MPFU.BrukerMPFU attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.unit">unit (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.unit">(pyepr.Parameter attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.uwb_eval_match">uwb_eval_match() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.uwb_load">uwb_load() (in module pyepr.hardware.ETH_awg_load)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_param.html#pyepr.hardware.dummy_xepr.dummy_param.val">val (pyepr.hardware.dummy_xepr.dummy_param attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/index.html#id0">val_in_ns() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#pyepr.val_in_ns">[1]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.val_in_ns">(in module pyepr.hardware.dummy)</a>
+</li>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.val_in_ns">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/index.html#id1">val_in_us() (in module pyepr)</a>, <a href="autoapi/pyepr/index.html#pyepr.val_in_us">[1]</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/hardware/dummy/index.html#pyepr.hardware.dummy.val_in_us">(in module pyepr.hardware.dummy)</a>
+</li>
+          <li><a href="autoapi/pyepr/utils/index.html#pyepr.utils.val_in_us">(in module pyepr.utils)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_param.html#pyepr.hardware.dummy_xepr.dummy_param.value">value (pyepr.hardware.dummy_xepr.dummy_param property)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/PulseSpel.html#pyepr.hardware.Bruker_tools.PulseSpel.var_hash">var_hash (pyepr.hardware.Bruker_tools.PulseSpel attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/classes/Parameter.html#pyepr.classes.Parameter.virtual">virtual (pyepr.classes.Parameter attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/Parameter.html#pyepr.Parameter.virtual">(pyepr.Parameter attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds.vpSave">vpSave() (pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/config/index.html#pyepr.config.waveform_precision">waveform_precision (in module pyepr.config)</a>
+</li>
+        <li><a href="autoapi/pyepr/pulses/SincPulse.html#pyepr.pulses.SincPulse.window">window (pyepr.pulses.SincPulse attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/pyepr/SincPulse.html#pyepr.SincPulse.window">(pyepr.SincPulse attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.write_pulsespel_file">write_pulsespel_file() (in module pyepr.hardware.Bruker_tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="X" class="genindex-section">
+  <h2>X</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.Xepr">Xepr (pyepr.hardware.XeprAPI_link.XeprAPILink attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/index.html#pyepr.hardware.XeprAPI_link.xepr_path">xepr_path (in module pyepr.hardware.XeprAPI_link)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.xepr_save">xepr_save() (pyepr.hardware.XeprAPI_link.XeprAPILink method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/pyepr/hardware/XeprAPI_link/XeprAPILink.html#pyepr.hardware.XeprAPI_link.XeprAPILink.XeprCmds">XeprCmds (pyepr.hardware.XeprAPI_link.XeprAPILink attribute)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprDataset">XeprDataset() (pyepr.hardware.dummy_xepr.dummy_xepr method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.html#pyepr.hardware.dummy_xepr.dummy_xepr.XeprExperiment">XeprExperiment() (pyepr.hardware.dummy_xepr.dummy_xepr method)</a>
+</li>
+        <li><a href="autoapi/pyepr/hardware/dummy_xepr/dummy_cur_exp.html#pyepr.hardware.dummy_xepr.dummy_cur_exp.XSpecRes">XSpecRes (pyepr.hardware.dummy_xepr.dummy_cur_exp attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=ac14934e"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

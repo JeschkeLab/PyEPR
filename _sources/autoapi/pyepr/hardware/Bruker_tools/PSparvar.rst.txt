@@ -1,0 +1,45 @@
+pyepr.hardware.Bruker_tools.PSparvar
+====================================
+
+.. py:class:: pyepr.hardware.Bruker_tools.PSparvar(sequence, id)
+
+   .. py:attribute:: PulseSpel
+      :value: True
+
+
+
+   .. py:attribute:: events
+      :value: []
+
+
+
+   .. py:method:: checkPulseSpel()
+
+      
+      Checks if parvar can be run in PulseSpel.\
+      Criteria:
+          1) Only pulse/delay lengths changing
+          2) Constant integer step changes
+
+
+
+
+
+      :Returns:
+
+          bool
+              _description_
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

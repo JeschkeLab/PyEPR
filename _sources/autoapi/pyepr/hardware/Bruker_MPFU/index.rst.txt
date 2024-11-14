@@ -1,0 +1,190 @@
+pyepr.hardware.Bruker_MPFU
+==========================
+
+.. py:module:: pyepr.hardware.Bruker_MPFU
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_MPFU.hw_log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/Bruker_MPFU/BrukerMPFU
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_MPFU.BrukerMPFU
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_MPFU.step_parameters
+   pyepr.hardware.Bruker_MPFU._MPFU_channels
+   pyepr.hardware.Bruker_MPFU._SPFU_channels
+   pyepr.hardware.Bruker_MPFU.get_specjet_data
+   pyepr.hardware.Bruker_MPFU.tune_power
+   pyepr.hardware.Bruker_MPFU.tune_phase
+   pyepr.hardware.Bruker_MPFU.MPFUtune
+   pyepr.hardware.Bruker_MPFU.ELDORtune
+   pyepr.hardware.Bruker_MPFU.SPFUtune
+   pyepr.hardware.Bruker_MPFU.test_if_MPFU_compatability
+
+
+Module Contents
+---------------
+
+.. py:data:: hw_log
+
+.. py:function:: step_parameters(interface, reduced_seq, dim, variables)
+
+.. py:function:: _MPFU_channels(sequence)
+
+   
+   Idenitifies how many unique MPFU channels are needed for a sequence and
+   applies the correct Channel infomation to each pulse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _SPFU_channels(sequence, ELDOR=True)
+
+   
+   Idenitifies how many unique MPFU channels are needed for a sequence and
+   applies the correct Channel infomation to each pulse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_specjet_data(interface)
+
+.. py:function:: tune_power(interface, channel, tol=0.1, maxiter=30, bounds=[0, 100], hardware_wait=3, echo='abs', save=True)
+
+   
+   Tunes the attenuator of a given channel to a given target using the
+   standard scipy optimisation scripts. 
+
+
+   :Parameters:
+
+       **channel** : str
+           The chosen MPFU channel. Options: ['+<x>', '-<x>', '+<y>', '-<y>']
+
+       **tol** : float, optional
+           The tolerance in attenuator parameter, by default 0.1
+
+       **maxiter** : int, optional
+           The maximum number of iterations in the optimisation, by default 30
+
+
+
+   :Returns:
+
+       float
+           The optimal value of the attenuator parameter
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: tune_phase(interface, channel, target, tol=0.1, maxiter=30, bounds=[0, 100], hardware_wait=3)
+
+   
+   Tunes the phase of a given channel to a given target using the
+   standard scipy optimisation scripts. 
+
+
+   :Parameters:
+
+       **channel** : str
+           The chosen MPFU channel. Options: ['+<x>', '-<x>', '+<y>', '-<y>']
+
+       **target** : str
+           The target echo position, this can either be maximising (+) or
+           minimising (-) either the real (R) or imaginary (I) of the echo. 
+           Options: ['R+', 'R-', 'I+', 'I-']
+
+       **tol** : float, optional
+           The tolerance in phase parameter, by default 0.1
+
+       **maxiter** : int, optional
+           The maximum number of iterations in the optimisation, by default 30
+
+
+
+   :Returns:
+
+       float
+           The optimal value of the phase parameter
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: MPFUtune(interface, sequence, channels, echo='Hahn', tol = 0.1, bounds=[0, 100], tau_value=550)
+
+.. py:function:: ELDORtune(interface, sequence, freq, MPFU=True, tau_value=550, test_tp=16, plot=False, save=True)
+
+.. py:function:: SPFUtune(interface, sequence, flip_power, echo='Hahn', tol = 0.1, bounds=[0, 60], tau_value=550)
+
+.. py:function:: test_if_MPFU_compatability(seq)
+

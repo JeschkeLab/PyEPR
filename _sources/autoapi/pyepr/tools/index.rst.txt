@@ -1,0 +1,77 @@
+pyepr.tools
+===========
+
+.. py:module:: pyepr.tools
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.tools.log
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.tools.eprload
+   pyepr.tools.progress_bar
+   pyepr.tools.progress_bar_frac
+
+
+Module Contents
+---------------
+
+.. py:data:: log
+
+.. py:function:: eprload(path, experiment = None, type = None, **kwargs)
+
+   
+   A general versions of eprload
+
+
+   :Parameters:
+
+       **path** : str
+           The file path of the data that should be loaded.
+
+       **experiment** : str, optional
+           _description_, by default None
+
+       **type** : str, optional
+           _description_, by default None
+
+
+
+   :Returns:
+
+       xarray.Dataarray
+           _description_
+
+
+
+
+   :Raises:
+
+       ValueError
+           _description_
+
+       RuntimeError
+           _description_
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: progress_bar(progress, post='')
+
+.. py:function:: progress_bar_frac(num, den)
+

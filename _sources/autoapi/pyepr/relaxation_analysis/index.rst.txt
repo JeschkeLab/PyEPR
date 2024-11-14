@@ -1,0 +1,120 @@
+pyepr.relaxation_analysis
+=========================
+
+.. py:module:: pyepr.relaxation_analysis
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.relaxation_analysis.cmap
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/relaxation_analysis/CarrPurcellAnalysis
+   /autoapi/pyepr/relaxation_analysis/HahnEchoRelaxationAnalysis
+   /autoapi/pyepr/relaxation_analysis/ReptimeAnalysis
+
+.. autoapisummary::
+
+   pyepr.relaxation_analysis.CarrPurcellAnalysis
+   pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis
+   pyepr.relaxation_analysis.ReptimeAnalysis
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   pyepr.relaxation_analysis.detect_ESEEM
+   pyepr.relaxation_analysis.plot_1Drelax
+
+
+Module Contents
+---------------
+
+.. py:function:: detect_ESEEM(dataset, type='deuteron', threshold=1.5)
+
+   
+   Detect if the dataset is an ESEEM experiment.
+
+
+   :Parameters:
+
+       **dataset** : xr.DataArray
+           The dataset to be analyzed.
+
+       **type** : str, optional
+           The type of ESEEM experiment, either deuteron or proton, by default 'deuteron'
+
+       **threshold** : float, optional
+           The SNR threshold for detection, by default 1.5
+
+
+
+   :Returns:
+
+       bool
+           True if ESEEM is detected, False if not.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: cmap
+   :value: ['#D95B6F', '#42A399']
+
+
+.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap)
+
+   
+   Create a superimposed plot of relaxation data and fits.
+
+
+   :Parameters:
+
+       **args** : ad.Analysis
+           The 1D relaxation data to be plotted.
+
+       **fig** : Figure, optional
+           The figure to plot to, by default None
+
+       **axs** : Axes, optional
+           The axes to plot to, by default None
+
+       **cmap** : list, optional
+           The color map to use, by default ad.cmap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

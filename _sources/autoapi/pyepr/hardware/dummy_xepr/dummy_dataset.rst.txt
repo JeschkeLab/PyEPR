@@ -1,0 +1,10 @@
+pyepr.hardware.dummy_xepr.dummy_dataset
+=======================================
+
+.. py:class:: pyepr.hardware.dummy_xepr.dummy_dataset(t, V)
+
+   .. py:attribute:: O
+
+
+   .. py:attribute:: size
+

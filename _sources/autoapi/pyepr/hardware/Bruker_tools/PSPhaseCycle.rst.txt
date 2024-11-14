@@ -1,0 +1,19 @@
+pyepr.hardware.Bruker_tools.PSPhaseCycle
+========================================
+
+.. py:class:: pyepr.hardware.Bruker_tools.PSPhaseCycle(sequence, MPFU=None, OnlyDet=False)
+
+   .. py:attribute:: BPhaseCycles
+
+
+   .. py:method:: _MPFU(sequence, MPFU)
+
+
+   .. py:method:: _main(sequence)
+
+
+   .. py:method:: _detect(sequence)
+
+
+   .. py:method:: __str__()
+
