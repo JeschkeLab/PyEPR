@@ -1,0 +1,34 @@
+name: Build and Deploy Docs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - uses: abatilo/actions-poetry@v2.1.3
+      - name: Install dependencies
+        run: poetry install --with doc
+        
+      - name: Build documentation
+        run: poetry run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
+      - name: Upload build log
+        uses: actions/upload-artifact@v3
+        with:
+          name: sphinx-build-log
+          path: sphinx_build.log
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html
