@@ -8,6 +8,16 @@ from scipy.optimize import curve_fit
 import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
 
+def phase_correct_respro(data_array):
+    Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
+    index =  np.argmax(np.abs(Vre),axis=0)
+    max_val = Vre[index,np.arange(Vre.shape[1])]
+    scale = (max_val >= 0)*2-1
+    Vre = Vre*scale
+    Vim = Vim*scale
+    data_array.values = Vre + 1j*Vim
+    return data_array
+
 class ResonatorProfileAnalysis:
 
     def __init__(
@@ -23,7 +33,7 @@ class ResonatorProfileAnalysis:
             The frequency limits of the resonator profile, by default (33,35)
         """
 
-        self.dataset = dataset.epr.correctphase
+        self.dataset = phase_correct_respro(dataset)
         
         if "LO" in self.dataset.coords:
             self.freqs = self.dataset.LO
@@ -101,6 +111,8 @@ class ResonatorProfileAnalysis:
 
         for i in range(self.n_LO):
             nutation = self.dataset[:,i]
+            if np.is_complexobj(nutation):
+                nutation = nutation.real
             nutation = nutation/np.max(nutation)
             x = self.t
             try:
