@@ -30,6 +30,7 @@ sphinx-autoapi = "^3.3.3"
 sphinx-toolbox = "^3.8.1"
 sphinx-copybutton = "^0.5.2"
 numpydoc = "^1.8.0"
+sphinx-favicon = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

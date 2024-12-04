@@ -34,7 +34,7 @@ autoDEER's Key Features
     :hidden:
     :caption: User Guide
 
-    ./Install.rst
+    ./install.rst
     ./tutorial.rst
     ./API_docs.rst
 
