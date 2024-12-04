@@ -383,7 +383,7 @@ class Sequence:
 
     def __str__(self):
 
-        header = "#" * 79 + "\n" + "autoDEER Sequence Definition" + \
+        header = "#" * 79 + "\n" + "PyEPR Sequence Definition" + \
                  "\n" + "#" * 79 + "\n"
 
         # Sequence Parameters
@@ -458,7 +458,7 @@ class Sequence:
                 prog_table["axis"][i].shape[0], get_unit(i))
 
         footer = "#" * 79 + "\n" +\
-            f"Built by autoDEER Version: {__version__}" + "\n" + "#" * 79
+            f"Built by PyEPR Version: {__version__}" + "\n" + "#" * 79
 
         return header + seq_param_string + pulses_string + prog_string + footer
 
