@@ -111,7 +111,7 @@ class ResonatorProfileAnalysis:
 
         for i in range(self.n_LO):
             nutation = self.dataset[:,i]
-            if np.is_complexobj(nutation):
+            if np.iscomplexobj(nutation):
                 nutation = nutation.real
             nutation = nutation/np.max(nutation)
             x = self.t

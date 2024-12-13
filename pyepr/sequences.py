@@ -331,7 +331,31 @@ class Sequence:
     def seqtable_steps(self):
         if len(self.evo_params) > 0:
             return self.pcyc_dets.shape[0] * (len(self.pcyc_vars)+1) * np.prod([np.prod(param.dim) for param in self.evo_params])
-        
+    
+    @property
+    def shape(self):
+        """
+        Gives the shape of the sequence,excluding the number of shots. 
+        Return
+        ------
+        list:
+            [nAvgs, axes_dims, nPcyc]
+
+        """
+        nAvgs = self.averages.value
+        nPcyc = self.pcyc_dets.shape[0]
+        nAxes = len(self.evo_params)
+        if nAxes > 0:
+            axes_dim  = []
+            for i in range(nAxes):
+                axes_dim.append(self.evo_params[i].dim[0])
+        else:
+            axes_dim = [1]
+
+        return [nAvgs]+  axes_dim +[nPcyc]
+
+
+
     def adjust_step(self,waveform_precision):
         """
         Adjust the step size of all axes and pulses to be an integer multiple of the waveform precision
