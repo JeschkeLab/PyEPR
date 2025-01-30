@@ -300,7 +300,7 @@ class Pulse:
 
         if resonator is not None:
             FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.LO_c, resonator.profile)
+            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
             amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
@@ -381,7 +381,7 @@ class Pulse:
         
         if resonator is not None:
             FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.LO_c, resonator.profile)
+            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
             amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor

@@ -9,7 +9,8 @@ import numpy as np
 import deerlab as dl
 import time
 import logging
-
+from dataclasses import dataclass
+import os
 
 rng = np.random.default_rng(12345)
 
@@ -53,14 +54,78 @@ def add_phaseshift(data, phase):
     data = data.astype(np.complex128) * np.exp(-1j*phase*np.pi)
     return data
     
+@dataclass()
+class dummySample:
+    """
+    This is a data class that holdes the information for a dummy sample allowing for the simulation of the experiment.
+
+    Parameters:
+    -----------
+    name: str
+        The name of the sample
+    conc: float
+        The spin concentration of the sample, this is used for both signal strength and DEER simulation
+    Tm: float
+        The Tm of the sample
+    
+    """
+
+    name: str
+    conc:float        
+
+@dataclass()
+class dummyResonator:
+    fc:float
+    Q:float
+    nu1:float
+    noise_level:float
+
+    def mode(self,x):
+        def lorenz_fcn(x, centre, sigma):
+            y = (0.5*sigma)/((x-centre)**2 + (0.5*sigma)**2)
+            return y
+
+        mode = lambda x: lorenz_fcn(x, self.fc, self.fc/self.Q)
+        scale = self.nu1/mode(self.fc)
+
+        return lorenz_fcn(x, self.fc, self.fc/self.Q) * scale
+
+        
 
 class dummyInterface(Interface):
 
 
     def __init__(self,config_file) -> None:
-        with open(config_file, mode='r') as file:
-            config = yaml.safe_load(file)
+        """
+        Parameters:
+        -----------
+        config_file: str or dict
+            Either the path to the config file or a dictionary containing the config file. The config file should be a yaml file containing the following
+            keys:
+            - Spectrometer
+                - Dummy: 
+                    - speedup: float
+                    - SNR: float
+                    - ESEEM_depth: float
+                    - noise_level: float
+                    - Sample:
+                        - name: str
+                        - conc: float
+                        - Tm: float
+                - Bridge: 
+                    
+        """
+        
+        if isinstance(config_file, dict):
+            config = config_file
             self.config = config
+
+        elif os.path.exists(config_file) == True:
+            with open(config_file, mode='r') as file:
+                config = yaml.safe_load(file)
+                self.config = config
+        else:
+            raise FileNotFoundError("Config file not found")
         
         Dummy = config['Spectrometer']['Dummy']
         Bridge = config['Spectrometer']['Bridge']
@@ -75,24 +140,35 @@ class dummyInterface(Interface):
         else:
             self.ESEEM = 0
 
-        # Create virtual mode
+
+        # Create virtual Resonator
         key1 = resonator_list[0]
         fc = self.config['Resonators'][key1]['Center Freq']
         Q = self.config['Resonators'][key1]['Q']
-        def lorenz_fcn(x, centre, sigma):
-            y = (0.5*sigma)/((x-centre)**2 + (0.5*sigma)**2)
-            return y
+        nu1 = self.config['Resonators'][key1].get('nu1',75)
+        noise_level = Dummy.get('noise_level',0.02)
+        
+        self.dummyResonator = dummyResonator(fc,Q,nu1,noise_level)
 
-        mode = lambda x: lorenz_fcn(x, fc, fc/Q)
-        x = np.linspace(Bridge['Min Freq'],Bridge['Max Freq'])
-        scale = 75/mode(x).max()
-        self.mode = lambda x: lorenz_fcn(x, fc, fc/Q) * scale
+        # Create virtual Sample
+        if 'DummySample' in Dummy.keys():
+            DummySample = Dummy['Sample']
+        else:
+            DummySample = {'name':'dummy','conc':20,'Tm':1.5}
+        name = DummySample.get('name','dummy')
+        conc = DummySample.get('conc',20)
+        Tm = DummySample.get('Tm',1.5) #us
+
+        self.dummySample = dummySample(name,conc)
+
+
+        self.mode = self.dummyResonator.mode
         super().__init__(log=hw_log)
 
     def launch(self, sequence, savename: str, **kwargs):
         hw_log.info(f"Launching {sequence.name} sequence")
         self.state = True
-        self.cur_exp = sequence
+        self.cur_exp:Sequence = sequence
         self.start_time = time.time()
         return super().launch(sequence, savename)
     
@@ -110,7 +186,14 @@ class dummyInterface(Interface):
             progress = (time.time() - self.start_time) / time_estimate
             if progress > 1:
                 progress = 1
-            data = add_noise(data, 1/(self.SNR*progress))
+            elif progress < 0.01:
+                progress = 0.01
+            n_acq = int(progress * self.cur_exp.averages.value * self.cur_exp.shots.value * self.cur_exp.pcyc_dets.shape[0])
+            if n_acq == 0:
+                n_acq = 1
+            SNR = ((self.dummySample.conc * 1e-3) / self.dummyResonator.noise_level) * np.sqrt(n_acq)
+
+            data = add_noise(data, 1/SNR)
         else:
             progress = 1
         scan_num = self.cur_exp.averages.value
@@ -120,9 +203,9 @@ class dummyInterface(Interface):
     
         return super().acquire_dataset(dset)
     
-    def tune_rectpulse(self,*,tp, LO, B, reptime,**kwargs):
+    def tune_rectpulse(self,*,tp, freq, B, reptime,**kwargs):
 
-        rabi_freq = self.mode(LO)
+        rabi_freq = self.mode(freq)
         def Hz2length(x):
             return 1 / ((x/1000)*2)
         rabi_time = Hz2length(rabi_freq)
@@ -138,7 +221,7 @@ class dummyInterface(Interface):
 
         return self.pulses[f"p90_{tp}"], self.pulses[f"p180_{tp}"]
     
-    def tune_pulse(self, pulse, mode, LO, B , reptime, shots=400):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400):
         hw_log.debug(f"Tuning {pulse.name} pulse")
         pulse.scale = Parameter('scale',0.5,unit=None,description='The amplitude of the pulse 0-1')
         hw_log.debug(f"Setting {pulse.name} pulse to {pulse.scale.value}")

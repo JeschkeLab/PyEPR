@@ -106,8 +106,10 @@ class FieldSweepAnalysis():
         self.data = dataset
         self.data = self.data.epr.correctphasefull
 
-        if 'LO' in dataset.attrs:
-            self.LO = dataset.attrs['LO']
+        if 'freq' in dataset.attrs:
+            self.freq = dataset.attrs['freq']
+        elif 'LO' in dataset.attrs:
+            self.freq = dataset.attrs['LO']
         
         pass
 
@@ -126,7 +128,7 @@ class FieldSweepAnalysis():
 
         return self.max_field
 
-    def calc_gyro(self, LO: float=None) -> float:
+    def calc_gyro(self, freq: float=None, **kwargs) -> float:
         """Calculates the gyromagnetic ratio for a given frequency
 
         Parameters
@@ -143,18 +145,24 @@ class FieldSweepAnalysis():
         if not hasattr(self, "max_field"):
             self.find_max()
 
-        if LO is None:
-            if hasattr(self,"LO"):
+        if freq is None:
+            if 'LO' in kwargs:
+                freq = kwargs.get('LO')
+                print("WARNING: LO is deprecated, please use freq instead")
+            elif hasattr(self,"freq"):
                 # LO = self.LO.value
-                LO = self.LO
+                freq = self.freq
+            elif hasattr(self,"LO"):
+                # LO = self.LO.value
+                freq = self.LO
             else:
                 raise ValueError("A LO frequency must eithe be in the dataset or specified as an argument")
             
-        self.LO = LO
-        self.gyro = LO/self.max_field
-        hf_x = LO - self.gyro*self.axis
-        self.fs_x = LO + hf_x
-        self.fs_x = LO - self.gyro*self.axis
+        self.freq = freq
+        self.gyro = freq/self.max_field
+        hf_x = freq - self.gyro*self.axis
+        self.fs_x = freq + hf_x
+        self.fs_x = freq - self.gyro*self.axis
         return self.gyro
     
     def calc_noise_level(self,SNR_target=30):
@@ -188,11 +196,10 @@ class FieldSweepAnalysis():
         if spintype != 'N':
             raise ValueError("Currently the fit function only supports Nitroxide spins")
 
-        if isinstance(self.LO,Parameter):
-            mymodel  = create_Nmodel(self.LO.value*1e3)
-
+        if isinstance(self.freq,Parameter):
+            mymodel  = create_Nmodel(self.freq.value*1e3)
         else:
-            mymodel  = create_Nmodel(self.LO*1e3)
+            mymodel  = create_Nmodel(self.freq*1e3)
         B = np.linspace(self.axis.min(), self.axis.max(), self.data.shape[0])*0.1
         if np.iscomplexobj(self.data):
             Vexp = dl.correctphase(self.data.to_numpy())
@@ -202,7 +209,7 @@ class FieldSweepAnalysis():
         self.results = result
         self.model = mymodel
         self.func = lambda x: result.evaluate(mymodel,x*0.1)
-        self.func_freq = lambda x: result.evaluate(mymodel,(-x+self.LO) /self.gyro*1e-1)
+        self.func_freq = lambda x: result.evaluate(mymodel,(-x+self.freq) /self.gyro*1e-1)
         return result
 
     def plot(self, norm: bool = True, axis: str = "field", axs=None, fig=None) -> Figure:
@@ -552,8 +559,14 @@ def resfields(system, Orientations, mwFreq, computeIntensities = True,
         B = - kroneye(muzL.conj()) + eyekron(muzL)
         
         if computeIntensities:
-            [Fields,Vecs] = eig(A,B);
-            idx  = np.argsort(Fields);
+            try:
+                [Fields,Vecs] = eig(A,B)
+            except np.linalg.LinAlgError as e:
+                print(f"Eigenvalue computation did not converge for orientation {iOri}")
+                EigenFields.append(np.array([]))
+                Intensities.append(np.array([]))
+                continue
+            idx  = np.argsort(Fields)
             Fields = Fields[idx]
             Vecs = Vecs[:, idx]
 
@@ -564,8 +577,9 @@ def resfields(system, Orientations, mwFreq, computeIntensities = True,
         mask &= np.less(Fields, Range[1])
 
         if np.equal(mask, False).all():
-            EigenFields.append([])
-            Intensities.append([])
+            EigenFields.append(np.array([]))
+            Intensities.append(np.array([]))
+            continue
         else:
             EigenFields.append(Fields[mask].real)
             Vecs = Vecs[:,mask]
@@ -599,9 +613,10 @@ def resfields(system, Orientations, mwFreq, computeIntensities = True,
             
         # Combine factors
         Intensities.append(Polarization * np.real(TransitionRate*dBdE).T)
-        mask = Intensities[iOri] >= Threshold*Intensities[iOri].max();
-        EigenFields[iOri] = EigenFields[iOri][mask];
-        Intensities[iOri] = Intensities[iOri][mask];
+        if Intensities[iOri].size != 0:
+            mask = Intensities[iOri] >= Threshold*Intensities[iOri].max();
+            EigenFields[iOri] = EigenFields[iOri][mask];
+            Intensities[iOri] = Intensities[iOri][mask];
 
 
     return EigenFields, Intensities

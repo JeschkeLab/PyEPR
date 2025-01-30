@@ -224,7 +224,7 @@ class EPRAccessor:
         pulses = len([key for key in dataset_attrs.keys() if re.match(r"pulse\d+_name$", key)])
         det_events = len([key for key in dataset_attrs.keys() if re.match(r"det\d+_t$", key)])
         n_events = pulses + det_events
-        seq_param_types = ['seq_name','B','LO','reptime','shots','averages','det_window']
+        seq_param_types = ['seq_name','B','freq','reptime','shots','averages','det_window']
         seq_params = {}
 
         for param_type in seq_param_types:
@@ -242,7 +242,7 @@ class EPRAccessor:
 
         pulses_obj = []
         for i in range(n_events):
-            if f"pulse{i}_t" in dataset_attrs:
+            if f"pulse{i}_name" in dataset_attrs:
                 pulse_type = dataset_attrs[f"pulse{i}_name"]
                 key="pulse"
             elif f"det{i}_t" in dataset_attrs:

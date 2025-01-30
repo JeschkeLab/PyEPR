@@ -44,7 +44,7 @@ class ETH_awg_interface(Interface):
         -----------
         awg_freq : float
             The normal operating AWG frequency. 
-            Sequence.LO = AWG.LO + AWG.awg_freq 
+            Sequence.freq = AWG.LO + AWG.awg_freq 
 
         dig_rate : float
             The speed of the digitser in GSa/s
@@ -327,7 +327,7 @@ class ETH_awg_interface(Interface):
             state= self.bg_thread.is_alive()
         return state
     
-    def tune_rectpulse(self,*,tp, LO, B, reptime, shots=400):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -335,7 +335,7 @@ class ETH_awg_interface(Interface):
         ----------
         tp : float
             Pulse length of pi/2 pulse in ns
-        LO : float
+        freq : float
             Central frequency of this pulse in GHz
         B : float
             Magnetic B0 field position in Gauss
@@ -353,7 +353,7 @@ class ETH_awg_interface(Interface):
         """
 
         amp_tune =HahnEchoSequence(
-            B=B, LO=LO, reptime=reptime, averages=1, shots=shots
+            B=B, freq=freq, reptime=reptime, averages=1, shots=shots
         )
 
         scale = Parameter("scale",0,dim=45,step=0.02)
@@ -379,15 +379,15 @@ class ETH_awg_interface(Interface):
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
-            scale=scale, LO=amp_tune.LO)
+            scale=scale, freq=amp_tune.freq)
         
         p180 = amp_tune.pulses[1].copy(
-            scale=scale, LO=amp_tune.LO)
+            scale=scale, freq=amp_tune.freq)
 
         return p90, p180
 
     
-    def tune_pulse(self, pulse, mode, LO, B , reptime, shots=400):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -396,7 +396,7 @@ class ETH_awg_interface(Interface):
             The Pulse object in need of tuning.
         mode : str
             The method to be used.
-        LO : float
+        freq : float
             The local oscilator frequency in GHz
         B : float
             Magnetic B0 field position in Gauss
@@ -418,13 +418,13 @@ class ETH_awg_interface(Interface):
         
         # Get absolute central frequency
         if hasattr(pulse,"freq"):
-            c_frq = pulse.freq.value + LO
+            c_frq = pulse.freq.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "BW"):
-            c_frq = pulse.init_freq.value + 0.5*pulse.BW.value + LO
+            c_frq = pulse.init_freq.value + 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
-            c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + LO
+            c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + LO
+            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
 
         # Find rect pulses
         if mode == "amp_hahn":
@@ -433,9 +433,9 @@ class ETH_awg_interface(Interface):
             elif pulse.flipangle.value == np.pi/2:
                 tp = pulse.tp.value
 
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, LO=c_frq, reptime=reptime)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime)
             amp_tune =HahnEchoSequence(
-                B=B, LO=LO, 
+                B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
                 pi2_pulse = pulse, pi_pulse=pi_pulse
             )
@@ -464,9 +464,9 @@ class ETH_awg_interface(Interface):
             return pulse
 
         elif mode == "amp_nut":
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, LO=c_frq, reptime=reptime)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, freq=c_frq, reptime=reptime)
             nut_tune = Sequence(
-                name="nut_tune", B=(B/LO*c_frq), LO=LO, reptime=reptime,
+                name="nut_tune", B=(B/freq*c_frq), freq=freq, reptime=reptime,
                 averages=1,shots=shots
             )
             nut_tune.addPulse(pulse.copy(
@@ -474,11 +474,11 @@ class ETH_awg_interface(Interface):
             nut_tune.addPulse(
                 pi2_pulse.copy(t=2e3,
                                pcyc={"phases":[0, np.pi],"dets":[1, -1]},
-                               freq=c_frq-LO))
+                               freq=c_frq-freq))
             nut_tune.addPulse(
                 pi_pulse.copy(t=2.5e3, pcyc={"phases":[0],"dets":[1]},
-                              freq=c_frq-LO))
-            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-LO))
+                              freq=c_frq-freq))
+            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-freq))
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
@@ -515,18 +515,18 @@ class ETH_awg_interface(Interface):
         
             return pulse
     
-    def tune(self,*, sequence=None, mode="amp_hahn", LO=None, gyro=None):
+    def tune(self,*, sequence=None, mode="amp_hahn", freq=None, gyro=None):
 
         if mode == "rect_tune":
-            if LO is None:
-                raise ValueError("LO must be given for rect_tune")
+            if freq is None:
+                raise ValueError("freq must be given for rect_tune")
             if gyro is None:
                 raise ValueError("gyro must be give")
             elif gyro >1:
                 raise ValueError("Gyromagnetic ratio must be give in GHz/G")
             
             amp_tune =HahnEchoSequence(
-                B=LO/gyro, LO=LO, reptime=2e3, averages=1, shots=400
+                B=freq/gyro, freq=freq, reptime=2e3, averages=1, shots=400
             )
             tp = 12
             amp_tune.pulses[0].tp.value = tp
@@ -551,9 +551,9 @@ class ETH_awg_interface(Interface):
                 raise RuntimeError("Not enough power avaliable.")
             
             self.pulses[f"p90_{tp}"] = amp_tune.pulses[0].copy(
-                scale=scale, LO=amp_tune.LO)
+                scale=scale, freq=amp_tune.freq)
             self.pulses[f"p180_{tp*2}"] = amp_tune.pulses[1].copy(
-                scale=scale, LO=amp_tune.LO)
+                scale=scale, freq=amp_tune.freq)
         
         elif mode == "amp_hahn":
             for pulse in sequence.pulses:
@@ -567,7 +567,7 @@ class ETH_awg_interface(Interface):
                 for pulse_name in all_pulses:
                     if not re.match(r"^p180_",pulse_name):
                         continue
-                    if not np.abs((self.pulses[pulse_name].LO.value + self.pulses[pulse_name].freq.value) - (sequence.LO.value + pulse.freq.value)) < 0.01:
+                    if not np.abs((self.pulses[pulse_name].freq.value + self.pulses[pulse_name].freq.value) - (sequence.freq.value + pulse.freq.value)) < 0.01:
                         continue
                     pulse_matches.append(pulse_name)
                     
@@ -581,7 +581,7 @@ class ETH_awg_interface(Interface):
                 
 
                 amp_tune =HahnEchoSequence(
-                    B=sequence.B.value, LO=sequence.LO.value, 
+                    B=sequence.B.value, freq=sequence.freq.value, 
                     reptime=sequence.reptime.value, averages=1, shots=400,
                     pi2_pulse = pulse, pi_pulse=pi_pulse
                 )
@@ -629,7 +629,7 @@ class ETH_awg_interface(Interface):
         for i in unique_parvars:
             struc["parvars"].append(self._build_parvar(i, sequence))
         
-        struc["LO"] = round(float(sequence.LO.value - self.awg_freq), 3)
+        struc["LO"] = round(float(sequence.freq.value - self.awg_freq), 3)
 
         return struc
 
@@ -697,7 +697,7 @@ class ETH_awg_interface(Interface):
         
         if self.resonator is not None:
             resonator = {}
-            resonator['LO'] = self.resonator.dataset.pulse1_LO #- 1.5 # Change to LO after shifting resonator profile definition
+            resonator['LO'] = self.resonator.dataset.pulse1_freq #- 1.5 # Change to LO after shifting resonator profile definition
             resonator['nu1'] = self.resonator.profile
             resonator['range'] = self.resonator.freqs.values - resonator['LO'] + self.awg_freq
             resonator['scale'] = self.resonator.dataset.pulse0_scale
@@ -736,7 +736,7 @@ class ETH_awg_interface(Interface):
 
 
         .. note::
-            This interface interprets any change in `LO` as being a 
+            This interface interprets any change in `freq` as being a 
             change in the IF frequency of all pulses and detections.
              I.e. the physcial LO **does not** change. 
 
@@ -809,14 +809,14 @@ class ETH_awg_interface(Interface):
                     parvar["variables"].append(pulse_str)
                     parvar["vec"].append(vec)
 
-                elif var == "LO":
-                    # Instead of stepping the LO we will step the frequency
+                elif var == "freq":
+                    # Instead of stepping the freq we will step the frequency
                     # all the pulses and detection events.
                     pulse_strings = []
                     # vec = prog_table["axis"][i].astype(float)
                     centre_freq = (vec[-1] + vec[0])/2
                     LO = centre_freq - self.awg_freq
-                    sequence.LO.value = centre_freq
+                    sequence.freq.value = centre_freq
                     vec = vec - LO
                     vecs = []
                     pulse_str = lambda i: f"events{{{i+1}}}.pulsedef.nu_init"

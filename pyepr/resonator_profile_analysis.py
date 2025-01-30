@@ -27,10 +27,13 @@ class ResonatorProfileAnalysis:
         
         if "LO" in self.dataset.coords:
             self.freqs = self.dataset.LO
-            self.LO = np.mean(self.dataset.LO)
+            self.freq_c = np.mean(self.dataset.LO)
         elif "freq" in self.dataset.coords:
             self.freqs = self.dataset.freq
-            self.LO = self.dataset.LO
+            self.freq_c = np.mean(self.dataset.freq)
+        elif "freq_axis" in self.dataset.coords:
+            self.freqs = self.dataset.freq_axis
+            self.freq_c = self.dataset.freq
         self.n_files = self.freqs.shape[0]
         self.t = self.dataset.pulse0_tp
         self.f_lims = f_lims
@@ -383,7 +386,7 @@ class ResonatorProfileAnalysis:
             fsweep_data = np.abs(fieldsweep.data)
             fsweep_data /= fsweep_data.max()
             fsweep_data = fsweep_data * prof_data.max()
-            axs1.plot(fieldsweep.fs_x + fieldsweep.LO, fsweep_data)
+            axs1.plot(fieldsweep.fs_x + fieldsweep.freq, fsweep_data)
 
         return fig
 
@@ -460,7 +463,7 @@ def optimise_spectra_position(resonator_profile, fieldsweep, verbosity=0):
     x = np.linspace(lower_field_lim,upper_field_lim,n_points)
     # smooth_condition = (dl.der_snr(fieldsweep.data)**2)*fieldsweep.data.shape[-1]
     smooth_condition = 0.1
-    edfs_x = np.flip(fieldsweep.fs_x + fieldsweep.LO)
+    edfs_x = np.flip(fieldsweep.fs_x + fieldsweep.freq)
     edfs_y = np.flip(fieldsweep.data)
     tck_s = splrep(edfs_x, edfs_y, s=smooth_condition)
     xc = signal.correlate(resonator_profile.model_func(x),BSpline_extra(tck_s)(x), mode='same')

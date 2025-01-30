@@ -201,7 +201,7 @@ class XeprAPILink:
             "reptime": self.get_param("ftEPR.ShotRepTime"),
             "shots": self.get_param("ftEPR.ShotsPLoop"),
             "B": self.get_field(),
-            "LO": self.get_counterfreq(),
+            "freq": self.get_counterfreq(),
             }
 
         if sequence is None:
