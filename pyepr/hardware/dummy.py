@@ -108,6 +108,7 @@ class dummyInterface(Interface):
                     - SNR: float
                     - ESEEM_depth: float
                     - noise_level: float
+                    - phaseshift: float
                     - Sample:
                         - name: str
                         - conc: float
@@ -135,10 +136,8 @@ class dummyInterface(Interface):
         self.pulses = {}
         self.start_time = 0
         self.SNR = Dummy['SNR']
-        if 'ESEEM_depth' in Dummy.keys():
-            self.ESEEM = Dummy['ESEEM_depth']
-        else:
-            self.ESEEM = 0
+        self.phaseshift = Dummy.get('phaseshift',0.1)
+        self.ESEEM = Dummy.get('ESEEM_depth',0)
 
 
         # Create virtual Resonator
@@ -196,6 +195,8 @@ class dummyInterface(Interface):
             data = add_noise(data, 1/SNR)
         else:
             progress = 1
+
+        data = add_phaseshift(data,self.phaseshift)
         scan_num = self.cur_exp.averages.value
         dset = create_dataset_from_sequence(data,self.cur_exp)
         dset.attrs['nAvgs'] = int(scan_num*progress)
