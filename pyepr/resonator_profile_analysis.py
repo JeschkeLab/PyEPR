@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
-
+from pyepr.dataset import create_dataset_from_axes
 def phase_correct_respro(data_array):
     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
     index =  np.argmax(np.abs(Vre),axis=0)
@@ -33,8 +33,11 @@ class ResonatorProfileAnalysis:
             The frequency limits of the resonator profile, by default (33,35)
         """
 
-        self.dataset = phase_correct_respro(dataset)
-        
+        if np.iscomplexobj(dataset):
+            self.dataset = phase_correct_respro(dataset)
+        else:
+            self.dataset = dataset
+            
         if "LO" in self.dataset.coords:
             self.freqs = self.dataset.LO
             self.freq_c = np.mean(self.dataset.LO)
@@ -401,6 +404,36 @@ class ResonatorProfileAnalysis:
             axs1.plot(fieldsweep.fs_x + fieldsweep.freq, fsweep_data)
 
         return fig
+
+    @classmethod
+    def _dummy_create(cls,freq_axis:np.ndarray,nu_max:float,Q:float,fc:float):
+        """Creates a dummy resonator profile for testing purposes.
+        
+        Parameters
+        ----------
+        freq_axis : np.ndarray
+            The frequency axis of the resonator profile.
+        nu_max : float
+            The maximum nutation frequency.
+        Q : float
+            The quality factor of the resonator.
+        fc : float
+            The center frequency of the resonator.
+        
+
+        """
+        tp_axis = np.linspace(0,128,128)
+        nutations = np.zeros((freq_axis.shape[0],tp_axis.shape[0]))
+        for i,freq in enumerate(freq_axis):
+            f_offset = np.abs(freq - fc)
+            nu_local = nu_max *(0.5*fc)/(Q*(f_offset)**2 + Q*(0.5*(fc/Q))**2) * (fc/(2*Q))
+            nutations[i,:] = np.cos(2*np.pi*nu_local*tp_axis)*np.exp(-tp_axis/50)
+
+        extra_params = {'nAvgs':1,'nShots':1,'nReps':1,'B':12220}
+        dataset = create_dataset_from_axes(nutations.T, [tp_axis,freq_axis],params=extra_params, axes_labels=['pulse0_tp','LO'])
+        return cls(dataset,f_lims=(freq_axis.min(),freq_axis.max()))
+
+
 
 # =============================================================================
 # Spectral Position optimisation
