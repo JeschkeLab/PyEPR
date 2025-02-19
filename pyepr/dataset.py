@@ -103,6 +103,21 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
 
 def create_dataset_from_axes(data, axes, params: dict = None,axes_labels=None):
+    """
+    Create an xarray dataset from a numpy array and a list of axes.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        The data to be stored in the dataset.
+    axes : list
+        A list of numpy arrays containing the axes for each dimension of the data.
+    params : dict, optional
+        A dictionary containing any additional parameters to be stored in the dataset, by default None
+    axes_labels : list, optional
+        A list of labels for each axis, by default None
+    
+    """
     ndims = data.ndim
     if axes_labels is None:
         default_labels = ['X','Y','Z','T']
