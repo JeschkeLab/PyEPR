@@ -15,6 +15,7 @@ xarray = "^2024.10.0"
 h5netcdf = "^1.4.0"
 toml = "^0.10.2"
 deerlab = "^1.1.4"
+numba = "^0.60.0"
 
 
 [tool.poetry.group.dev.dependencies]
