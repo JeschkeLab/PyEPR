@@ -556,7 +556,12 @@ class ReptimeAnalysis():
     def calc_optimal_reptime(self, recovery=0.9):
         # Calculates the x% recovery time
         if recovery is not None:
-            self.optimal = self.fit_result[0][1]*np.log(1/(1-recovery))
+            T1 = self.fit_result[0][1]
+            if self.fit_result[0].shape[0] == 3:
+                xi = self.fit_result[0][2]
+            else:
+                xi = 1
+            self.optimal = T1 * np.log(1/(1-recovery))**(1/xi)            
         else:
             t = self.axis
             optimal_vals = self.func(t,*self.fit_result[0])* 1/np.sqrt(t)
