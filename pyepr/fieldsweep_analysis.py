@@ -173,9 +173,14 @@ class FieldSweepAnalysis():
             level = 0.2
         return level 
     
-    def smooth(self,*args,**kwargs):
+    def smooth(self,smoothing_factor=0.01,*args,**kwargs):
         """
         Generates a smoothed version of the data using a 1D smoothing spline.
+
+        Parameters
+        ----------
+        smoothing_factor : float, optional
+            The smoothing factor of the spline, by default 0.01. A value of 0 will interpolate the data and None will set the smoothing factor to the number of points.
         
         Returns
         -------
@@ -183,9 +188,9 @@ class FieldSweepAnalysis():
             The smoothed data.
         """
         smooth_spl = UnivariateSpline(self.axis, self.data,ext=1)
-        smooth_spl.set_smoothing_factor(0.01)
+        smooth_spl.set_smoothing_factor(smoothing_factor)
         smooth_spl_freq = UnivariateSpline(np.flip(self.fs_x), np.flip(self.data),ext=1)
-        smooth_spl_freq.set_smoothing_factor(0.01)
+        smooth_spl_freq.set_smoothing_factor(smoothing_factor)
         self.smooth_data = smooth_spl(self.axis)
         self.func = smooth_spl
         self.func_freq = smooth_spl_freq
@@ -212,7 +217,7 @@ class FieldSweepAnalysis():
         self.func_freq = lambda x: result.evaluate(mymodel,(-x+self.freq) /self.gyro*1e-1)
         return result
 
-    def plot(self, norm: bool = True, axis: str = "field", axs=None, fig=None) -> Figure:
+    def plot(self, norm: bool = True, axis: str = "field", bandwidth=False, axs=None, fig=None) -> Figure:
         """Generate a field sweep plot
 
         Parameters
@@ -221,6 +226,12 @@ class FieldSweepAnalysis():
             Nomarlisation of the plot to a maximum of 1, by default True
         axis : str, optional
             plot field sweep on either the "field" axis or "freq" axis
+        bandwidth : bool, optional
+            If True, the bandwidth is calculated and displayed on the plot, by default False
+        axs : Matplotlib.Axes, optional
+            Matplotlib axes to plot on, by default None
+        fig : Matplotlib.Figure, optional
+            Matplotlib figure to plot on, by default None
 
         Returns
         -------
@@ -259,7 +270,7 @@ class FieldSweepAnalysis():
                 axs.plot(self.fs_x, np.real(data), label='Re',color=primary_colors[1])
                 axs.plot(self.fs_x, np.imag(data), label='Im',color=primary_colors[2])
             else:
-                axs.plot(self.axis, data, label='Re',color=primary_colors[1])
+                axs.plot(self.fs_x, data, label='Re',color=primary_colors[1])
             axs.set_xlabel('Frequency GHz')
             axs.set_ylabel('Normalised Amplitude')
 
@@ -285,7 +296,74 @@ class FieldSweepAnalysis():
                 axs.plot(self.fs_x, data, label='smooth',c=primary_colors[0])
             axs.legend()
 
+        if bandwidth:
+            level = -30
+            left, right, bw = self.calculate_bandwidth(level*-1)
+            
+            norm_level = 10**(level/20)
+            norm_level *= data.max()
+
+            axs.annotate("", xy=(left, norm_level), xytext=(right, norm_level), arrowprops=dict(arrowstyle="<->"))
+            axs.text((left+right)/2, norm_level, f"{bw:.2f} GHz", ha='center', va='bottom')
+
+            # draw an arrow from the left to the right of the bandwidth at the level and label it
+
+
         return fig
+
+    def calculate_bandwidth(self, level=20):
+        """
+        Calculates the bandwidth of the field sweep data at a given level in dB
+
+        Parameters
+        ----------
+        level : int, optional
+            The level in dB to calculate the bandwidth, by default 20
+
+        Returns
+        -------
+        float
+            The lower frequency
+        float
+            The upper frequency
+        float
+            The bandwidth
+        """
+        if not hasattr(self, "smooth_data"):
+            self.smooth()
+        
+        if not hasattr(self, "fs_x"):
+            self.calc_gyro()
+        
+        freq_axis = np.flip(self.fs_x)
+        spectrum = np.flip(self.smooth_data)
+        
+        db_spectrum = 20 * np.log10(spectrum / np.max(spectrum))
+
+        indices = np.where(db_spectrum >= -1*level)[0]
+        if len(indices) == 0:
+            raise ValueError("No data points above -20 dB threshold found.")
+        
+        left_index, right_index = indices[0], indices[-1]
+        if left_index == 0:
+            left_cross = freq_axis[0]
+        else:
+            x0, x1 = freq_axis[left_index - 1], freq_axis[left_index]
+            y0, y1 = db_spectrum[left_index - 1], db_spectrum[left_index]
+            left_cross = np.interp(level, [y0, y1], [x0, x1])
+        
+        # Interpolate right crossing.
+        if right_index == len(freq_axis) - 1:
+            right_cross = freq_axis[-1]
+        else:
+            x0, x1 = freq_axis[right_index], freq_axis[right_index + 1]
+            y0, y1 = db_spectrum[right_index], db_spectrum[right_index + 1]
+            right_cross = np.interp(level, [y0, y1], [x0, x1])
+        
+        bandwidth = right_cross - left_cross
+        return left_cross, right_cross, bandwidth
+
+
 
 class SpinSystem:
 
