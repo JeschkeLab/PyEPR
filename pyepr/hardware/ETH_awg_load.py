@@ -824,7 +824,10 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
                         f"an IFgain setting of {best_idx} , where the maximum "
                         f"level will be on the order of {best_lev}.")
                     
-    det_frqs_perc = calc_percieved_freq(fsmp,det_frq)
+    if det_frq > fsmp/2:
+        det_frqs_perc = calc_percieved_freq(fsmp,det_frq)
+    else:
+        det_frqs_perc = det_frq
     echo_len = dta[0].shape[0]
     dt = 1/fsmp
     t = np.linspace(0,echo_len//2,echo_len,endpoint=False)
@@ -850,7 +853,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         if filter_width is None:
             raise ValueError('You must provide a filter width for the cheby2 or butter filter')
         
-        filter_func = lambda dta, det_frq: scipy_filter_dc(dta,t,filter_width,det_frq,filter_type)
+        filter_func = lambda dta, det_frq: scipy_filter_dc(dta,t,filter_width,det_frq,fsmp,filter_type)
             
 
 
@@ -931,11 +934,11 @@ def match_filter_dc(pulse,t, win, offset_freq):
     filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
     return filtered_dc
 
-def scipy_filter_dc(dta,t,filter_width,offset_freq,filter_type='cheby2'):
+def scipy_filter_dc(dta,t,filter_width,offset_freq,sampling_freq,filter_type='cheby2'):
     if filter_type == 'cheby2':
-        filter_sos = sig.cheby2(10,40,(offset_freq-filter_width,offset_freq+filter_width),fs=2,btype="bandpass",output='sos')
+        filter_sos = sig.cheby2(10,40,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
     elif filter_type == 'butter':
-        filter_sos = sig.butter(10,(offset_freq-filter_width,offset_freq+filter_width),fs=2,btype="bandpass",output='sos')
+        filter_sos = sig.butter(10,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
     filtered = sig.sosfilt(filter_sos,dta)
     filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
     return filtered_dc
