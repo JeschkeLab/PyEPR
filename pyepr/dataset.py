@@ -308,7 +308,7 @@ class EPRAccessor:
             raise ValueError("Both datasets must be 1D")
 
         keys_check = [
-            'B','LO','reptime','shots','nAvgs','nPcyc','pcyc_name',
+            'B', 'freq', 'reptime', 'shots', 'nAvgs', 'nPcyc', 'pcyc_name',
         ]
 
         for key in keys_check:
