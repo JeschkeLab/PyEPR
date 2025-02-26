@@ -643,6 +643,9 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         if arg.dataset.seq_name == 'T2RelaxationSequence':
             xscale = 2
             label='Hahn Echo'
+        elif arg.dataset.seq_name == 'RefocusedEcho1DSequence':
+            xscale = 2
+            label='1D Refocused Echo'
         elif arg.dataset.seq_name == 'CarrPurcellSequence':
             xscale = 4
             label='CP-2'
