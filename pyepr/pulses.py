@@ -299,11 +299,16 @@ class Pulse:
 
         return axis_fft, pulse_fft
     
+    def flip(self):
+        """Flips the sweep direction of the pulse. Has no meaning for monochromatic pulses."""
+        return self
+    
     @property
     def amp_factor(self):
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
         amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapz(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
+    
 
     # @cached(thread_safe=False)
     def exciteprofile_old(self, freqs=None, resonator = None):
@@ -1000,6 +1005,13 @@ class FrequencySweptPulse(Pulse):
         amp_factor_value=  np.sqrt(2*np.pi*self.Qcrit.value*self.sweeprate.value)/(2*np.pi)
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
     
+    def flip(self):
+        """Flips the sweep direction of the pulse"""
+        temp = self.init_freq.value
+        self.init_freq.value = self.final_freq.value
+        self.final_freq.value = temp
+        return self
+        
 
 class HSPulse(FrequencySweptPulse):
     """
