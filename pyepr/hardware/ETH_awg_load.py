@@ -5,7 +5,7 @@ from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
 from pyepr.pulses import Pulse
 from scipy.integrate import cumulative_trapezoid
 from deerlab import correctphase
-
+from warnings import warn
 
 
 def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
@@ -278,8 +278,8 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
     # during acquisition or reduction of phasecycles just above)
     n_traces = np.prod(parvar_pts) / np.prod(list(map(len, dta_x)))
 
-    if "dig_max" in conf.keys():
-        trace_maxlev = n_traces * estr["shots"] * conf["dig_max"]
+    if "dig_max" in conf['std'].keys():
+        trace_maxlev = n_traces * estr["shots"] * conf['std']["dig_max"]
     else:
         trace_maxlev = n_traces * estr["shots"] * 2**11
     
@@ -565,18 +565,22 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         elif "dta_001" in matfile.keys():
             dta = []
             if scans is None:
+                nAvgs = 0
                 for ii in range(1, estr["avgs"]+1):
                     actname = 'dta_%03u' % ii 
                     if actname in matfile.keys():
-                        dta.append(matfile[actname])
+                        single_scan = matfile[actname]
                         # Only keep it if the average is complete, unless it is 
                         # the first
-                        if sum(dta[ii-1][:, -1]) == 0 and ii > 1:
-                            dta = dta[:-1]
-                        elif sum(dta[ii-1][:, -1]) == 0 and ii == 1:
+                        if sum(single_scan[:, -1]) == 0 and ii > 1: # incomplete scan
+                            if (nAvgs+1) != ii:
+                                print(f"Scan {ii} is incomplete and will be skipped.")
+                            continue
+                        elif sum(single_scan[:, -1]) == 0 and ii == 1:
                             nAvgs = 0
                         else:
-                            nAvgs = ii
+                            nAvgs += 1
+                        dta.append(single_scan)
             else:
                 for i,ii in enumerate(scans):
                     actname = 'dta_%03u' % ii 
@@ -670,12 +674,13 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
             np.array(estr["postsigns"]["ids"]).reshape(-1)
         if not (elim_pcyc and cycled[ii]):
             if type(estr["parvars"]) is list:
-                vecs = estr["parvars"][estr["postsigns"]["ids"][ii]-1]["axis"]
+                vecs = estr["parvars"][int(estr["postsigns"]["ids"][ii]-1)]["axis"]
                 if np.ndim(vecs) == 1:
                     dta_x.append(vecs.astype(np.float32))
 
                 elif np.ndim(vecs) == 2:
                     unique_axes = np.unique(vecs, axis=1)
+                    unique_axes = np.squeeze(unique_axes)
                     dta_x.append(unique_axes.astype(np.float32))
             else:
                 dta_x.append(estr["parvars"]["axis"].astype(np.float32))
@@ -690,22 +695,18 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     elif ii_dtax > 2:
         raise RuntimeError("Uwb_eval cannot handle more than two dimensions")
     
-    det_frq = estr["events"][estr["det_event"]-1]["det_frq"]
+    det_frq = estr["events"][int(estr["det_event"]-1)]["det_frq"]
     det_frq_dim = 0
     fsmp = conf["std"]["dig_rate"]
 
     for ii in range(0, len(relevant_parvars)):
-        act_par = estr["parvars"][relevant_parvars[ii]]
-        frq_change = np.zeros((len(act_par["variables"]), 1))
-        for jj in range(0, len(act_par["variables"])):
-            if not any('nu_' in word for word
-                        in estr["parvars"][0]["variables"]):
-                frq_change[jj] = 1
+        act_par = estr["parvars"][int(relevant_parvars[ii])]
+        frq_change =  any('nu_' in word for word in act_par["variables"])
 
-        if any(frq_change):  # was there a frequency change
+        if frq_change:  # was there a frequency change
             # is the frequency change relevant
-            if "det_frq_id" in estr["events"][estr["det_event"]-1]:
-                frq_pulse = estr["events"][estr["det_event"]-1]["det_frq_id"]
+            if "det_frq_id" in estr["events"][int(estr["det_event"]-1)]:
+                frq_pulse = estr["events"][int(estr["det_event"]-1)]["det_frq_id"]
                 nu_init_change = 0
                 nu_final_change = 0
                 for jj in range(0, np.size(act_par["variables"])):
@@ -800,18 +801,18 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # during acquisition or reduction of phasecycles just above)
     n_traces = np.prod(parvar_pts) / np.prod(list(map(len, dta_x)))
 
-    if "dig_max" in conf.keys():
-        trace_maxlev = n_traces * estr["shots"] * conf["dig_max"]
+    if "dig_max" in conf["std"].keys():
+        trace_maxlev = n_traces * estr["shots"] * conf["std"]["dig_max"]
     else:
-        trace_maxlev = n_traces * estr["shots"] * 2**11
+        trace_maxlev = n_traces * estr["shots"] * 2**15
     
     max_amp = np.amax(dta[0],0)
     dig_level = np.amax(max_amp)
 
     if "IFgain_levels" in conf["std"]:
-                # Check about eventual improvemnets by changing IF levels
-                possible_levels = dig_level * conf["std"]["IFgain_levels"] / \
-                    conf["std"]["IFgain_levels"][estr["IFgain"]]
+                # Check about eventual improvemnets by changing IF levels:
+                IF_gain_levels = np.squeeze(conf["std"]["IFgain_levels"])
+                possible_levels = dig_level * IF_gain_levels / IF_gain_levels[int(estr["IFgain"])]
 
                 possible_levels[possible_levels > 0.75] = 0
                 best_lev = np.amax(possible_levels)
@@ -824,7 +825,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
                         f"an IFgain setting of {best_idx} , where the maximum "
                         f"level will be on the order of {best_lev}.")
                     
-    if det_frq > fsmp/2:
+    if np.any(det_frq > fsmp/2):
         det_frqs_perc = calc_percieved_freq(fsmp,det_frq)
     else:
         det_frqs_perc = det_frq
@@ -835,6 +836,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     if (filter_pulse is None) and (filter_type.lower() == 'match'):
         # If no filter pulse is given, use a rectangular pulse matching the length of the longest fixed pulse
         tp = find_max_pulse_length(estr)
+        tp *= 2
         tp *= fsmp
         AM,FM = np.zeros((2,echo_len))
         AM[echo_len//2-tp//2:echo_len//2+tp//2] = 1
@@ -885,7 +887,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     
     if corr_phase is True:
         dta_ang = np.angle(dta_ev)
-        if np.any(frq_change):
+        if frq_change:
             if exp_dim == 2:
                 corr_phase = dta_ang[..., peak_echo_idx[1]]
             else:
@@ -895,10 +897,8 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
 
         dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
 
-
-
     if sequence is None:
-        params = {'nAvgs': nAvgs, 'LO': estr['LO']+1.5, 'B': estr['B'], 
+        params = {'nAvgs': nAvgs, 'LO': estr['LO']+1.5, 'B': estr['B'],
                   'reptime': estr['reptime'], 'shots': estr['shots'], 'diglevel': dig_level}
         axis = [];
         for i in range(exp_dim):
@@ -907,11 +907,13 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
             else:
                 axis.append(dta_x[i][:, 0])
         output = create_dataset_from_axes(dta_ev, axis, params)
+
     else:
-        params = {'nAvgs': nAvgs,'diglevel': dig_level}
-        output = create_dataset_from_sequence(dta_ev, sequence,params)
+        params = {'nAvgs': nAvgs, 'diglevel': dig_level}
+        output = create_dataset_from_sequence(dta_ev, sequence, params)
 
     return output
+
 
 def find_max_pulse_length(estr):
     n_pulses = len(estr["events"])

@@ -2,13 +2,10 @@ import matlab.engine
 from pyepr.classes import  Interface, Parameter
 from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, Delay, Detection
 from pyepr.sequences import Sequence, HahnEchoSequence, FieldSweepSequence
-from pyepr.hardware.ETH_awg_load import uwb_load
 import numpy as np
-import os
 import re
 import time
 from deerlab import correctphase
-import numpy as np
 import scipy.signal as sig
 from scipy.io import loadmat
 from scipy.io.matlab import MatReadError
@@ -17,7 +14,6 @@ from pyepr.hardware.ETH_awg_load import uwb_eval_match
 from pyepr.utils import save_file, transpose_list_of_dicts, transpose_dict_of_list
 from pyepr import create_dataset_from_sequence
 import datetime
-from pyepr.hardware.Bruker_tools import build_unique_progtable
 import copy
 import threading
 import warnings
@@ -26,6 +22,8 @@ import collections
 
 
 log = logging.getLogger("interface")
+
+
 class ETH_awg_interface(Interface):
     """
     Represents the interface for connecting to Andrin Doll style spectrometers.
@@ -59,6 +57,10 @@ class ETH_awg_interface(Interface):
         self.bg_thread = None
         self.IFgain_options = np.array([1, 18.7, 36.14])
         self.IFgain = 2
+
+        self.filter = {}
+        self.filter['filter_type'] = 'cheby2'
+        self.filter['filter_width'] = 0.01 # GHz
         
         pass
 
@@ -103,9 +105,18 @@ class ETH_awg_interface(Interface):
         self.workspace = self.engine.workspace
         self.engine.cd(self._savefolder)
 
-    def acquire_dataset(self,verbosity=0):
+    def acquire_dataset(self, verbosity=0):
         if self.bg_data is None:
-            data = self.acquire_dataset_from_matlab(verbosity=verbosity)
+
+            current_acq, current_scan = self.engine.dig_interface('progress', nargout=2)
+            if current_scan == 0:
+                while current_acq == 0:
+                    time.sleep(2)
+                    current_acq, current_scan = self.engine.dig_interface('progress', nargout=2)
+                data = self.get_buffer(verbosity=verbosity)
+            else:
+                data = self.read_dataset(verbosity=verbosity)
+            # data = self.acquire_dataset_from_matlab(verbosity=verbosity)
         else:
             data = self.bg_data
 
@@ -146,16 +157,19 @@ class ETH_awg_interface(Interface):
             try:
                 e = 'None'
                 self.engine.dig_interface('savenow')
-                Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+                try:
+                    Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+                except:
+                    raise MatReadError()
                 # data = uwb_load(Matfile, options=options, verbosity=verbosity,sequence=self.cur_exp)
                 if 'cur_exp' in kwargs:
                     exp = kwargs['cur_exp']
                 else:
                     exp = self.cur_exp
                 if isinstance(exp, FieldSweepSequence):
-                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity,filter_type='cheby2',filter_width=0.01)
+                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01)
                 else:
-                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity)
+                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter)
 
                 if np.all(data.data == 0+0j) and not (hasattr(self,'stop_flag') and self.stop_flag.is_set()):
                     time.sleep(10)
@@ -173,6 +187,98 @@ class ETH_awg_interface(Interface):
                 return data
         raise RuntimeError("Data was unable to be retrieved")
     
+    def _wait_for_scan(self, target_scan=None):
+        if target_scan is None:
+            target_scan = self.cur_exp.averages.value
+        _, current_scan = self.engine.dig_interface('progress', nargout=2)
+        scan_time = self.cur_exp._estimate_time() / self.cur_exp.averages.value
+        while True:
+            _, scan = self.engine.dig_interface('progress', nargout=2)
+            if scan >= target_scan:
+                break
+            elif scan > current_scan:
+                break
+            time.sleep(np.min([scan_time/10, 2]))
+
+    def get_buffer(self, verbosity=0,**kwargs):
+        _, current_scan = self.engine.dig_interface('progress', nargout=2)
+
+        dta = np.array(self.engine.dig_interface('get'))
+        conf = dict(self.engine.workspace['conf'])
+        awg = dict(self.engine.workspace['awg'])
+        exp = dict(self.engine.workspace['exp'])
+        ext = dict(self.engine.workspace['ext'])
+        expname = 'exp'
+        nAvgs = current_scan
+
+        Matfile = {
+            'dta': dta,
+            'conf': conf,
+            'awg': awg,
+            'exp': exp,
+            'ext': ext,
+            'nAvgs': nAvgs,
+            'expname': expname
+        }
+
+        if 'cur_exp' in kwargs:
+            exp = kwargs['cur_exp']
+        else:
+            exp = self.cur_exp
+
+        if isinstance(self.cur_exp, FieldSweepSequence):
+            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01)
+        else:
+            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter)
+
+        if np.all(data.data == 0+0j) and not (hasattr(self, 'stop_flag') and self.stop_flag.is_set()):
+            time.sleep(10)
+            print("Data is all zeros")
+
+        return data
+
+
+    def read_dataset(self, verbosity=0, **kwargs):
+        cur_exp = self.workspace['currexp']
+        folder_path = cur_exp['savepath']
+        curexpname = self.workspace['currexpname']
+
+        path = folder_path + "\\" + curexpname + ".mat"
+
+        for i in range(0, 50):
+            try:
+                e = 'None'
+                self.engine.dig_interface('savenow')
+                try:
+                    Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+                except:
+                    raise MatReadError()
+                if 'cur_exp' in kwargs:
+                    exp = kwargs['cur_exp']
+                else:
+                    exp = self.cur_exp
+                if isinstance(exp, FieldSweepSequence):
+                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity,filter_type='cheby2',filter_width=0.01)
+                else:
+                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity, **self.filter)
+
+                if np.all(data.data == 0+0j) and not (hasattr(self, 'stop_flag') and self.stop_flag.is_set()):
+                    time.sleep(10)
+                    print("Data is all zeros")
+                    continue
+            except OSError as e:
+                time.sleep(10)
+            except IndexError as e:
+                time.sleep(10)
+            except ValueError as e:
+                time.sleep(10)
+            except MatReadError as e:
+                time.sleep(10)
+            else:
+                return data
+        raise RuntimeError("Data was unable to be retrieved")
+        
+
     def launch(self, sequence: Sequence , savename: str, IFgain=None, *args,**kwargs):
         
         if IFgain is None:
@@ -180,14 +286,14 @@ class ETH_awg_interface(Interface):
             while test_IF:
                 self.terminate()
                 print(self.IFgain)
-                self.launch_withIFGain(sequence,savename,self.IFgain)
+                self.launch_withIFGain(sequence, savename, self.IFgain)
                 scan_time = sequence._estimate_time() / sequence.averages.value
                 check_1stScan = True
                 while check_1stScan:
-                    dataset = self.acquire_dataset()
-                    time.sleep(np.min([scan_time//10,2]))
+                    self._wait_for_scan(1)
+                    dataset = self.read_dataset()
 
-                    dig_level = dataset.attrs['diglevel'] / (2**11 *sequence.shots.value* sequence.pcyc_dets.shape[0])
+                    dig_level = dataset.attrs['diglevel'] / (2**15 * sequence.shots.value * sequence.pcyc_dets.shape[0])
                     pos_levels = dig_level * self.IFgain_options / self.IFgain_options[self.IFgain]
                     pos_levels[pos_levels > 0.85] = 0
                     if dig_level == 0:
@@ -368,7 +474,7 @@ class ETH_awg_interface(Interface):
 
         while self.isrunning():
             time.sleep(10)
-        dataset = self.acquire_dataset()
+        dataset = self.read_dataset()
         dataset = dataset.epr.correctphase
 
         data = np.abs(dataset.data)
@@ -379,10 +485,10 @@ class ETH_awg_interface(Interface):
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
-            scale=scale, freq=amp_tune.freq)
+            scale=scale, freq=0)
         
         p180 = amp_tune.pulses[1].copy(
-            scale=scale, freq=amp_tune.freq)
+            scale=scale, freq=0)
 
         return p90, p180
 
@@ -449,7 +555,7 @@ class ETH_awg_interface(Interface):
 
             while self.isrunning():
                 time.sleep(10)
-            dataset = self.acquire_dataset()
+            dataset = self.read_dataset()
             dataset = dataset.epr.correctphase
             data = np.abs(dataset.data)
 
@@ -495,7 +601,7 @@ class ETH_awg_interface(Interface):
 
             while self.isrunning():
                 time.sleep(10)
-            dataset = self.acquire_dataset()
+            dataset = self.read_dataset()
             dataset = dataset.epr.correctphase
             data = dataset.data
             axis = dataset.pulse0_scale
@@ -545,15 +651,15 @@ class ETH_awg_interface(Interface):
 
             while self.isrunning():
                 time.sleep(10)
-            dataset = self.acquire_dataset()
+            dataset = self.read_dataset()
             scale = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
             if scale > 0.9:
                 raise RuntimeError("Not enough power avaliable.")
             
             self.pulses[f"p90_{tp}"] = amp_tune.pulses[0].copy(
-                scale=scale, freq=amp_tune.freq)
+                scale=scale, freq=0)
             self.pulses[f"p180_{tp*2}"] = amp_tune.pulses[1].copy(
-                scale=scale, freq=amp_tune.freq)
+                scale=scale, freq=0)
         
         elif mode == "amp_hahn":
             for pulse in sequence.pulses:
@@ -599,7 +705,7 @@ class ETH_awg_interface(Interface):
 
                 while self.isrunning():
                     time.sleep(10)
-                dataset = self.acquire_dataset()
+                dataset = self.read_dataset()
                 scale = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
                 pulse.scale.value = scale
 
@@ -640,7 +746,7 @@ class ETH_awg_interface(Interface):
 
         if type(pulse) is Detection:
             # event["det_len"] = float(pulse.tp.value * self.dig_rate)
-            event["det_len"] = float(1024)
+            event["det_len"] = float(1024*2)
             event["det_frq"] = float(pulse.freq.value) + self.awg_freq
             event["name"] = "det"
             return event
@@ -702,7 +808,7 @@ class ETH_awg_interface(Interface):
             resonator['range'] = self.resonator.freqs.values - resonator['LO'] + self.awg_freq
             resonator['scale'] = self.resonator.dataset.pulse0_scale
 
-            event["pulsedef"]["resonator"] = resonator
+            # event["pulsedef"]["resonator"] = resonator
 
         return event
 
@@ -921,13 +1027,14 @@ def bg_thread(interface,seq,savename,IFgain,axID,stop_flag):
             tmp_seq.evolution(new_params,new_reduce_param)
             
             interface.launch_normal(tmp_seq, savename=f"{savename}_avg{iavg+1}of{nAvg}_{i+1}of{fixed_param.dim[0]}", IFgain=IFgain, reset_cur_exp=False)
-
-            while bool(interface.engine.dig_interface('savenow')):
-                if stop_flag.is_set():
+            scan_time = tmp_seq._estimate_time()
+            while True:
+                _, scan = interface.engine.dig_interface('progress', nargout=2)
+                if scan == 1:
                     break
-                time.sleep(10)
-
-            single_scan = interface.acquire_dataset_from_matlab(cur_exp=tmp_seq)
+                time.sleep(np.min([scan_time/4, 2]))
+            
+            single_scan = interface.get_buffer(cur_exp=tmp_seq)
             if reduced:
                 single_scan_data = single_scan.data
             else:

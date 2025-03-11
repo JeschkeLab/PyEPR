@@ -5,6 +5,7 @@ import logging
 from pyepr.dataset import create_dataset_from_bruker
 from pyepr.hardware.ETH_awg_load import uwb_load, uwb_eval_match
 from scipy.io import loadmat
+from scipy.io.matlab import MatReadError
 import xarray as xr
 
 log = logging.getLogger('autoDEER.Tools')
@@ -76,8 +77,12 @@ def eprload(
         return data
 
     elif type == 'MAT':
+        try:
+            Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+        except Exception as e:
+            raise MatReadError("Error opening MatFile")
 
-        Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+
         # Params = Matfile[Matfile["expname"]]
         if "options" in kwargs:
             opts=kwargs["options"]
