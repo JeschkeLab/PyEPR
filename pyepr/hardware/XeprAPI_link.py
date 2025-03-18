@@ -195,7 +195,7 @@ class XeprAPILink:
         dataclass = self._xepr_retry(lambda: self.Xepr.XeprDataset())
         size = dataclass.size
         data_dim = len(size)
-        data = dataclass.O
+        data = self._xepr_retry(lambda: dataclass.O)
         params = {
             "nAvgs": self.get_param("recorder.NbScansDone"),
             "reptime": self.get_param("ftEPR.ShotRepTime"),
@@ -251,7 +251,12 @@ class XeprAPILink:
             self.pause_exp()
             while self.is_exp_running():
                 time.sleep(1)
-            dataset = self.acquire_dataset(sequence)
+            try:
+                dataset = self.acquire_dataset(sequence)
+            except ValueError:
+                self.Xepr.XeprCmds.aqExpSelect("Experiment")
+                time.sleep(0.5)
+                dataset = self.acquire_dataset(sequence)
 
             self.rerun_exp()
             time.sleep(0.5)
@@ -526,6 +531,12 @@ class XeprAPILink:
             Field position in Gauss
         """
         return self.get_param('CenterField')
+    
+    def center_field(self):
+        """
+        Centers the field
+        """
+        self.cur_exp['AtCenter'].value = True
 
     def set_field(self, val: int, hold: bool = True) -> int:
         """Sets the magentic field.
@@ -543,6 +554,7 @@ class XeprAPILink:
             Field position in Gauss
         """
         self.set_param('CenterField', np.around(val,3))
+        self.center_field()
         time.sleep(2)  # Always wait 2s after a field change
         hw_log.info(f'Field position set to {val} G')
         if hold is True:
@@ -614,7 +626,7 @@ class XeprAPILink:
             if val > self.bridge_config["Max Freq"]:
                 raise RuntimeError("Set Frequency is too high!")
                 
-        if "Digital Source" in self.bridge_config.keys():
+        if "Digital Source" in self.bridge_config.keys() and self.bridge_config["Digital Source"]:
             if self.bridge_config["Digital Source"]:
                 self.set_hidden_param('FineFreq',val)
                 hw_log.info(f'Bridge Frequency set to {val}Fset')
@@ -800,6 +812,10 @@ class XeprAPILink:
             Video gain in dB
         """
         return self.get_param('VideoGain')
+    
+    def get_video_gain_step(self) -> int:
+
+        return self.cur_exp['VideoGain'].aqGetParFineSteps()
 
     def set_video_gain(self, value: int) -> int:
         """Set the video gain in dB
