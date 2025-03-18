@@ -21,7 +21,7 @@ def phase_correct_respro(data_array):
 class ResonatorProfileAnalysis:
 
     def __init__(
-            self, dataset,f_lims=(32,36)) -> None:
+            self, dataset,f_lims=(32,36),attenuator=0) -> None:
         """Analysis and calculation of resonator profiles.
 
         Parameters
@@ -31,6 +31,8 @@ class ResonatorProfileAnalysis:
             and a 'pulse0_tp' axis.
         f_lims : tuple, optional
             The frequency limits of the resonator profile, by default (33,35)
+        attenuator: int
+            The value of the main attentuator in dB, by default 0
         """
 
         if np.iscomplexobj(dataset):
@@ -50,6 +52,8 @@ class ResonatorProfileAnalysis:
         self.n_files = self.freqs.shape[0]
         self.t = self.dataset.pulse0_tp
         self.f_lims = f_lims
+
+        self.attenuator = attenuator
 
         self._process_fit()
         pass
@@ -103,7 +107,7 @@ class ResonatorProfileAnalysis:
 
         return self.prof_data, self.prof_frqs
     
-    def _process_fit(self,R_limit=0.5):
+    def _process_fit(self,R_limit=0.5,mask=None):
         self.n_LO = self.freqs.shape[0]
 
         self.profile = np.zeros(self.n_LO)
@@ -114,13 +118,18 @@ class ResonatorProfileAnalysis:
         p0 = [50e-3,150,1,0]
 
         R2 = lambda y, yhat: 1 - np.sum((y - yhat)**2) / np.sum((y - np.mean(y))**2)
-
+        
         for i in range(self.n_LO):
-            nutation = self.dataset[:,i]
+            if mask is not None:
+                nutation = self.dataset[mask,i]
+                x = self.t[mask]
+            else:
+                nutation = self.dataset[:,i]
+                x = self.t
             if np.iscomplexobj(nutation):
                 nutation = nutation.real
             nutation = nutation/np.max(nutation)
-            x = self.t
+            
             try:
                 results = curve_fit(fun, x, nutation, bounds=bounds,xtol=1e-4,ftol=1e-4,p0=p0)
                 if R2(nutation,fun(x,*results[0])) > R_limit:
@@ -138,6 +147,10 @@ class ResonatorProfileAnalysis:
         self.freqs = self.freqs[~np.isnan(self.profile)]
         self.profile = self.profile[~np.isnan(self.profile)]
         self.profile_ci = self.profile_ci[~np.isnan(self.profile_ci)]
+
+        # Adjust for attenuator
+        self.profile = self.profile * 10**(self.attenuator/20)
+        self.profile_ci = self.profile_ci * 10**(self.attenuator/20)
         
 
 
