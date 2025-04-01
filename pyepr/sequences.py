@@ -718,6 +718,43 @@ class HahnEchoSequence(Sequence):
 
 # =============================================================================
 
+class T1InversionRecoverySequence(Sequence):
+    """
+    Represents a T1 Inversion Recovery Sequence. 
+
+    Sequence:
+    [\pi - \tau - \pi/2 - \tau - echo]
+    
+    Parameters
+    ----------
+    B : int or float
+        The B0 field, in Guass
+    LO : int or float
+        The LO frequency in GHz
+    reptime : _type_
+        The shot repetition time in us
+    averages : int
+        The number of scans.
+    shots : int
+        The number of shots per point
+    start : float
+        The minimum interpulse delay in ns, by default 300 ns
+    step : float
+        The step size of the interpulse delay in ns, by default 50 ns
+    dim : int
+        The number of points in the X axis
+
+    Optional Parameters
+    -------------------
+    pi2_pulse : Pulse
+        An autoEPR Pulse object describing the excitation pi/2 pulse. If
+        not specified a RectPulse will be created instead. 
+    pi_pulse : Pulse
+        An autoEPR Pulse object describing the refocusing pi pulses. If
+        not specified a RectPulse will be created instead. 
+    """
+# =============================================================================
+
 class T2RelaxationSequence(HahnEchoSequence):
     """
     Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases
@@ -847,7 +884,7 @@ class ReptimeScan(HahnEchoSequence):
     """
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
-    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, reptime_min=20, dim=100, **kwargs) -> None:
         """A Hahn echo sequence is perfomed with the shot repetition time increasing.1
 
         Parameters
@@ -858,12 +895,17 @@ class ReptimeScan(HahnEchoSequence):
             The freq frequency in GHz
         reptime: float
             The default reptime, this is used for tuning pulses etc...
-        reptime_max : np.ndarray
-            The maximum shot repetition time in us    
         averages : int
             The number of scans.
         shots : int
             The number of shots per point
+        reptime_max : float
+            The maximum shot repetition time in us
+        reptime_min : float
+            The minimum shot repetition time in us, by default 20 us
+        dim : int
+            The number of points in the reptime axis
+        
         
         Optional Parameters
         -------------------
@@ -874,8 +916,8 @@ class ReptimeScan(HahnEchoSequence):
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
         """
-        min_reptime = 20
-        dim = 100
+        min_reptime = reptime_min
+        dim = dim
         step  = (reptime_max-min_reptime)/dim
         step = np.around(step,decimals=-1)
         step = np.around(step,decimals=-1)

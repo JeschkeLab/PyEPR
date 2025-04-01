@@ -4,9 +4,9 @@ from deerlab.utils import der_snr
 from deerlab import noiselevel
 import logging
 import datetime
-log = logging.getLogger('PyEPR.criteria')
 
 
+log = logging.getLogger('interface')
 class Criteria:
     """
     A class for defining criteria for terminating experiments. This should
