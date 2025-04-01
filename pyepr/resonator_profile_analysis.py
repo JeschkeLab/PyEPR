@@ -21,7 +21,7 @@ def phase_correct_respro(data_array):
 class ResonatorProfileAnalysis:
 
     def __init__(
-            self, dataset,f_lims=(32,36),attenuator=0) -> None:
+            self, dataset,f_lims=(32,36),attentuator=0,R_limit=0.2,bounds=None,p0=None) -> None:
         """Analysis and calculation of resonator profiles.
 
         Parameters
@@ -33,6 +33,12 @@ class ResonatorProfileAnalysis:
             The frequency limits of the resonator profile, by default (33,35)
         attenuator: int
             The value of the main attentuator in dB, by default 0
+        R_limit: float, optional
+            The R^2 limit for extracting fits, by default 0.2
+        bounds : tuple, optional
+            The bounds for the fit in the form ([lower bounds],[upper bounds]), by default None. If not given the bounds are set to ([5e-3,10,0,-1],[0.3,2000,2,1])
+        p0 : list, optional
+            The initial guess for the fit, by default None. If not given the guess is set to [50e-3,150,1,0]
         """
 
         if np.iscomplexobj(dataset):
