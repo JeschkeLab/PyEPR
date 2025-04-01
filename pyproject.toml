@@ -7,14 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-numpy = "^2.0"
+numpy = ">2.1"
 scipy = "^1.14.1"
 matplotlib = "^3.9.2"
 pyyaml = "^6.0.2"
-xarray = "^2024.10.0"
+xarray = ">2025"
 h5netcdf = "^1.4.0"
 toml = "^0.10.2"
 deerlab = "^1.1.4"
+numba = ">0.60.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -30,6 +31,7 @@ sphinx-autoapi = "^3.3.3"
 sphinx-toolbox = "^3.8.1"
 sphinx-copybutton = "^0.5.2"
 numpydoc = "^1.8.0"
+sphinx-favicon = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -102,7 +102,22 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
 
-def create_dataset_from_axes(data, axes, params: dict = None,axes_labels=None):
+def create_dataset_from_axes(data, axes, params: dict = {},axes_labels=None):
+    """
+    Create an xarray dataset from a numpy array and a list of axes.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        The data to be stored in the dataset.
+    axes : list
+        A list of numpy arrays containing the axes for each dimension of the data.
+    params : dict, optional
+        A dictionary containing any additional parameters to be stored in the dataset, by default None
+    axes_labels : list, optional
+        A list of labels for each axis, by default None
+    
+    """
     ndims = data.ndim
     if axes_labels is None:
         default_labels = ['X','Y','Z','T']
@@ -224,7 +239,7 @@ class EPRAccessor:
         pulses = len([key for key in dataset_attrs.keys() if re.match(r"pulse\d+_name$", key)])
         det_events = len([key for key in dataset_attrs.keys() if re.match(r"det\d+_t$", key)])
         n_events = pulses + det_events
-        seq_param_types = ['seq_name','B','LO','reptime','shots','averages','det_window']
+        seq_param_types = ['seq_name','B','freq','reptime','shots','averages','det_window']
         seq_params = {}
 
         for param_type in seq_param_types:
@@ -242,7 +257,7 @@ class EPRAccessor:
 
         pulses_obj = []
         for i in range(n_events):
-            if f"pulse{i}_t" in dataset_attrs:
+            if f"pulse{i}_name" in dataset_attrs:
                 pulse_type = dataset_attrs[f"pulse{i}_name"]
                 key="pulse"
             elif f"det{i}_t" in dataset_attrs:
@@ -293,7 +308,7 @@ class EPRAccessor:
             raise ValueError("Both datasets must be 1D")
 
         keys_check = [
-            'B','LO','reptime','shots','nAvgs','nPcyc','pcyc_name',
+            'B', 'freq', 'reptime', 'shots', 'nAvgs', 'nPcyc', 'pcyc_name',
         ]
 
         for key in keys_check:

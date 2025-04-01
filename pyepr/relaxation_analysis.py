@@ -556,7 +556,12 @@ class ReptimeAnalysis():
     def calc_optimal_reptime(self, recovery=0.9):
         # Calculates the x% recovery time
         if recovery is not None:
-            self.optimal = self.fit_result[0][1]*np.log(1/(1-recovery))
+            T1 = self.fit_result[0][1]
+            if self.fit_result[0].shape[0] == 3:
+                xi = self.fit_result[0][2]
+            else:
+                xi = 1
+            self.optimal = T1 * np.log(1/(1-recovery))**(1/xi)            
         else:
             t = self.axis
             optimal_vals = self.func(t,*self.fit_result[0])* 1/np.sqrt(t)
@@ -638,6 +643,9 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         if arg.dataset.seq_name == 'T2RelaxationSequence':
             xscale = 2
             label='Hahn Echo'
+        elif arg.dataset.seq_name == 'RefocusedEcho1DSequence':
+            xscale = 2
+            label='1D Refocused Echo'
         elif arg.dataset.seq_name == 'CarrPurcellSequence':
             xscale = 4
             label='CP-2'

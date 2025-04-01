@@ -26,7 +26,8 @@ extensions = ['sphinx.ext.viewcode',
               'sphinx_toolbox.collapse',
               'sphinx_toolbox.code',
               'sphinx_copybutton',
-              'numpydoc',]
+              'numpydoc',
+              'sphinx_favicon']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -55,3 +56,8 @@ html_theme_options = {
     "dark_logo": "pyepr_logo_dark.svg",
 
 }
+favicons = [
+    "favicon_16x16.png",
+    "favicon_32x32.png",
+    "icon.svg",
+]

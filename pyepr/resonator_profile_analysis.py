@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
-
+from pyepr.dataset import create_dataset_from_axes
 def phase_correct_respro(data_array):
     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
     index =  np.argmax(np.abs(Vre),axis=0)
@@ -21,7 +21,7 @@ def phase_correct_respro(data_array):
 class ResonatorProfileAnalysis:
 
     def __init__(
-            self, dataset,f_lims=(32,36)) -> None:
+            self, dataset,f_lims=(32,36),attenuator=0) -> None:
         """Analysis and calculation of resonator profiles.
 
         Parameters
@@ -31,19 +31,29 @@ class ResonatorProfileAnalysis:
             and a 'pulse0_tp' axis.
         f_lims : tuple, optional
             The frequency limits of the resonator profile, by default (33,35)
+        attenuator: int
+            The value of the main attentuator in dB, by default 0
         """
 
-        self.dataset = phase_correct_respro(dataset)
-        
+        if np.iscomplexobj(dataset):
+            self.dataset = phase_correct_respro(dataset)
+        else:
+            self.dataset = dataset
+            
         if "LO" in self.dataset.coords:
             self.freqs = self.dataset.LO
-            self.LO = np.mean(self.dataset.LO)
+            self.freq_c = np.mean(self.dataset.LO)
         elif "freq" in self.dataset.coords:
             self.freqs = self.dataset.freq
-            self.LO = self.dataset.LO
+            self.freq_c = np.mean(self.dataset.freq)
+        elif "freq_axis" in self.dataset.coords:
+            self.freqs = self.dataset.freq_axis
+            self.freq_c = self.dataset.freq
         self.n_files = self.freqs.shape[0]
         self.t = self.dataset.pulse0_tp
         self.f_lims = f_lims
+
+        self.attenuator = attenuator
 
         self._process_fit()
         pass
@@ -97,7 +107,7 @@ class ResonatorProfileAnalysis:
 
         return self.prof_data, self.prof_frqs
     
-    def _process_fit(self,R_limit=0.5):
+    def _process_fit(self,R_limit=0.5,mask=None):
         self.n_LO = self.freqs.shape[0]
 
         self.profile = np.zeros(self.n_LO)
@@ -108,13 +118,18 @@ class ResonatorProfileAnalysis:
         p0 = [50e-3,150,1,0]
 
         R2 = lambda y, yhat: 1 - np.sum((y - yhat)**2) / np.sum((y - np.mean(y))**2)
-
+        
         for i in range(self.n_LO):
-            nutation = self.dataset[:,i]
+            if mask is not None:
+                nutation = self.dataset[mask,i]
+                x = self.t[mask]
+            else:
+                nutation = self.dataset[:,i]
+                x = self.t
             if np.iscomplexobj(nutation):
                 nutation = nutation.real
             nutation = nutation/np.max(nutation)
-            x = self.t
+            
             try:
                 results = curve_fit(fun, x, nutation, bounds=bounds,xtol=1e-4,ftol=1e-4,p0=p0)
                 if R2(nutation,fun(x,*results[0])) > R_limit:
@@ -132,6 +147,10 @@ class ResonatorProfileAnalysis:
         self.freqs = self.freqs[~np.isnan(self.profile)]
         self.profile = self.profile[~np.isnan(self.profile)]
         self.profile_ci = self.profile_ci[~np.isnan(self.profile_ci)]
+
+        # Adjust for attenuator
+        self.profile = self.profile * 10**(self.attenuator/20)
+        self.profile_ci = self.profile_ci * 10**(self.attenuator/20)
         
 
 
@@ -395,9 +414,39 @@ class ResonatorProfileAnalysis:
             fsweep_data = np.abs(fieldsweep.data)
             fsweep_data /= fsweep_data.max()
             fsweep_data = fsweep_data * prof_data.max()
-            axs1.plot(fieldsweep.fs_x + fieldsweep.LO, fsweep_data)
+            axs1.plot(fieldsweep.fs_x + fieldsweep.freq, fsweep_data)
 
         return fig
+
+    @classmethod
+    def _dummy_create(cls,freq_axis:np.ndarray,nu_max:float,Q:float,fc:float):
+        """Creates a dummy resonator profile for testing purposes.
+        
+        Parameters
+        ----------
+        freq_axis : np.ndarray
+            The frequency axis of the resonator profile.
+        nu_max : float
+            The maximum nutation frequency.
+        Q : float
+            The quality factor of the resonator.
+        fc : float
+            The center frequency of the resonator.
+        
+
+        """
+        tp_axis = np.linspace(0,128,128)
+        nutations = np.zeros((freq_axis.shape[0],tp_axis.shape[0]))
+        for i,freq in enumerate(freq_axis):
+            f_offset = np.abs(freq - fc)
+            nu_local = nu_max *(0.5*fc)/(Q*(f_offset)**2 + Q*(0.5*(fc/Q))**2) * (fc/(2*Q))
+            nutations[i,:] = np.cos(2*np.pi*nu_local*tp_axis)*np.exp(-tp_axis/50)
+
+        extra_params = {'nAvgs':1,'nShots':1,'nReps':1,'B':12220}
+        dataset = create_dataset_from_axes(nutations.T, [tp_axis,freq_axis],params=extra_params, axes_labels=['pulse0_tp','LO'])
+        return cls(dataset,f_lims=(freq_axis.min(),freq_axis.max()))
+
+
 
 # =============================================================================
 # Spectral Position optimisation
@@ -472,7 +521,7 @@ def optimise_spectra_position(resonator_profile, fieldsweep, verbosity=0):
     x = np.linspace(lower_field_lim,upper_field_lim,n_points)
     # smooth_condition = (dl.der_snr(fieldsweep.data)**2)*fieldsweep.data.shape[-1]
     smooth_condition = 0.1
-    edfs_x = np.flip(fieldsweep.fs_x + fieldsweep.LO)
+    edfs_x = np.flip(fieldsweep.fs_x + fieldsweep.freq)
     edfs_y = np.flip(fieldsweep.data)
     tck_s = splrep(edfs_x, edfs_y, s=smooth_condition)
     xc = signal.correlate(resonator_profile.model_func(x),BSpline_extra(tck_s)(x), mode='same')

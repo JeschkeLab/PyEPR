@@ -189,7 +189,7 @@ class BrukerMPFU(Interface):
 
                     if ELDOR_flip_angle == np.inf:
                         self.api.set_attenuator('ELDOR',0)
-                        self.api.set_ELDOR_freq(sequence.LO.value + dif_freq)
+                        self.api.set_ELDOR_freq(sequence.freq.value + dif_freq)
                     else:
                         ELDORtune(self,sequence,freq=dif_freq, MPFU=False)
                 SPFUtune(self,sequence,SPFU_flip_power)
@@ -260,7 +260,7 @@ class BrukerMPFU(Interface):
             #     time.sleep(0.1)
                 
         self.api.set_field(sequence.B.value)
-        self.api.set_freq(sequence.LO.value)
+        self.api.set_freq(sequence.freq.value)
         
         if 'B' in sequence.progTable['Variable']:
             idx = sequence.progTable['Variable'].index('B')
@@ -304,7 +304,7 @@ class BrukerMPFU(Interface):
         return pulse
     
 
-    def tune(self, sequence, B0, LO) -> None:
+    def tune(self, sequence, B0, freq) -> None:
         channels = _MPFU_channels(sequence)
         
         for i,channel in enumerate(channels):
@@ -318,7 +318,7 @@ class BrukerMPFU(Interface):
                 echo = "R-"
             elif (phase == -np.pi/2) or (phase == 3*np.pi/2):
                 echo = "I-"
-            mpfu_tune = MPFUtune(self.api,B0=B0,LO=LO, echo="Hahn",ps_length=ps_length)
+            mpfu_tune = MPFUtune(self.api,B0=B0,freq=freq, echo="Hahn",ps_length=ps_length)
             mpfu_tune.tune({self.MPFU[i]: echo})
         
         pass
@@ -351,14 +351,14 @@ class BrukerMPFU(Interface):
         hw_log.debug('Setting Detection = TM')
         self.api.hidden['Detection'].value = 'TM'
         B = self.api.get_field()
-        LO = self.api.get_counterfreq()
+        freq = self.api.get_counterfreq()
 
         self.api.set_attenuator('+<x>',100)
 
         d0=0
         self.d0=d0
 
-        seq = Sequence(name='single_pulse',B=B,LO=LO,reptime=3e3,averages=1,shots=4)
+        seq = Sequence(name='single_pulse',B=B,freq=freq,reptime=3e3,averages=1,shots=4)
         det_tp = Parameter('tp',value=16,dim=4,step=0)
         seq.addPulse(RectPulse(tp=det_tp,t=0,flipangle=np.pi,pcyc={'phases':[0],'dets':[1]}))
         seq.addPulse(Detection(tp=16,t=d0))
@@ -400,7 +400,7 @@ class BrukerMPFU(Interface):
 
         d0 = calc_d0 - 256
 
-        seq = Sequence(name='single_pulse',B=B,LO=LO,reptime=3e3,averages=1,shots=20)
+        seq = Sequence(name='single_pulse',B=B,freq=freq,reptime=3e3,averages=1,shots=20)
         det_tp = Parameter('tp',value=16,dim=4,step=0)
         seq.addPulse(RectPulse(tp=det_tp,t=0,flipangle=np.pi))
         seq.addPulse(Detection(tp=16,t=d0))
@@ -425,15 +425,15 @@ class BrukerMPFU(Interface):
         hw_log.info(f"d0 set to {self.d0}")
         self.api.hidden['Detection'].value = 'Signal'
 
-    def calc_d0_from_Hahn_Echo(self, B=None, LO=None):
+    def calc_d0_from_Hahn_Echo(self, B=None, freq=None):
         
         B = self.api.get_field()
-        LO = self.api.get_counterfreq()
+        freq = self.api.get_counterfreq()
 
         if B is not None:
             self.api.set_field(B)
-        if LO is not None:
-            self.api.set_freq(LO)
+        if freq is not None:
+            self.api.set_freq(freq)
         
         d0 = self.d0
         # self.api.set_PulseSpel_var('d0',d0)
@@ -493,7 +493,7 @@ def step_parameters(interface, reduced_seq, dim, variables):
         # self.launch(new_seq,savename='test',tune=False, update_pulsespel=False)
 
         interface.api.set_field(new_seq.B.value)
-        interface.api.set_freq(new_seq.LO.value)
+        interface.api.set_freq(new_seq.freq.value)
 
         interface.api.run_exp()
 
@@ -859,7 +859,7 @@ def MPFUtune(interface, sequence, channels, echo='Hahn',tol: float = 0.1,
         ref_pulse = RectPulse(freq=0, tp = np.around(np.pi / channel[0] ), scale=1, flipangle = np.pi)
         
         seq = HahnEchoSequence(
-            B=sequence.B,LO=sequence.LO,reptime=sequence.reptime,averages=1,
+            B=sequence.B,freq=sequence.freq,reptime=sequence.reptime,averages=1,
             shots=10, tau=tau, pi2_pulse=exc_pulse, pi_pulse=ref_pulse)
         seq.pulses[0].pcyc = {'Phases': [0], 'DetSigns': [1.0]}
         seq._buildPhaseCycle()
@@ -886,12 +886,12 @@ def MPFUtune(interface, sequence, channels, echo='Hahn',tol: float = 0.1,
 def ELDORtune(interface, sequence, freq, MPFU=True,
              tau_value=550,test_tp = 16,plot=False,save=True):
 
-    sequence_gyro = sequence.B.value / sequence.LO.value
-    new_freq = sequence.LO.value + freq
+    sequence_gyro = sequence.B.value / sequence.freq.value
+    new_freq = sequence.freq.value + freq
     new_B = new_freq * sequence_gyro
     interface.api.set_ELDOR_freq(new_freq)
 
-    ref_echoseq = Sequence(name='ELDOR tune',B=new_B, LO=new_freq, reptime=sequence.reptime, averages=1, shots=10)
+    ref_echoseq = Sequence(name='ELDOR tune',B=new_B, freq=new_freq, reptime=sequence.reptime, averages=1, shots=10)
 
 
     # tune a pair of 90/180 pulses at the eldor frequency
@@ -967,7 +967,7 @@ def SPFUtune(interface, sequence, flip_power, echo='Hahn',tol: float = 0.1,
     ref_pulse = RectPulse(freq=0, tp = np.around(np.pi / flip_power ), scale=1, flipangle = np.pi)
     
     seq = HahnEchoSequence(
-        B=sequence.B,LO=sequence.LO,reptime=sequence.reptime,averages=1,
+        B=sequence.B,freq=sequence.freq,reptime=sequence.reptime,averages=1,
         shots=10, tau=tau, pi2_pulse=exc_pulse, pi_pulse=ref_pulse)
     seq.pulses[0].pcyc = {'Phases': [0], 'DetSigns': [1.0]}
     seq._buildPhaseCycle()
@@ -992,7 +992,7 @@ def SPFUtune(interface, sequence, flip_power, echo='Hahn',tol: float = 0.1,
 
 def test_if_MPFU_compatability(seq):
     table = seq.progTable
-    if 'LO' in table['Variable']:
+    if 'freq' in table['Variable']:
         return False
     elif np.unique(table['axID']).size > 2:
         return False 

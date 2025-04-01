@@ -13,6 +13,81 @@ from pyepr import __version__
 import copy
 from functools import reduce
 from itertools import accumulate
+from numba import njit
+
+@njit
+def compute_upulses_not_trajectory(dUs):
+    n_offsets, n_steps, _, _ = dUs.shape
+    Upulses = np.empty((n_offsets, 2, 2), dtype=np.complex128)
+    for i in range(n_offsets):
+        U = np.eye(2, dtype=np.complex128)
+        for j in range(n_steps):
+            U = dUs[i, j] @ U
+        Upulses[i] = U
+    return Upulses
+
+@njit
+def compute_upulses_trajectory(dUs):
+    n_offsets, n_steps, _, _ = dUs.shape
+    Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
+    eye = np.eye(2, dtype=np.complex128)
+    for i in range(n_offsets):
+        U = eye.copy()
+        Upulses[i, 0] = U
+        for j in range(n_steps):
+            U = dUs[i, j] @ U
+            Upulses[i, j + 1] = U
+    return Upulses
+
+@njit
+def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
+    n_offsets = Upulses.shape[0]
+    density = np.empty((n_offsets, 2, 2), dtype=np.complex128)
+    Mag = np.empty((n_offsets, 3))
+
+    for i in range(n_offsets):
+        U = Upulses[i]
+        density_i = density0[i]
+       
+        # Ensure density_i is contiguous
+        if not density_i.flags.c_contiguous:
+            density_i = np.ascontiguousarray(density_i)
+       
+        # Compute U_conj_T and ensure it's contiguous
+        U_conj_T = U.conj().T
+        if not U_conj_T.flags.c_contiguous:
+            U_conj_T = np.ascontiguousarray(U_conj_T)
+        
+        # Ensure U is contiguous
+        if not U.flags.c_contiguous:
+            U = np.ascontiguousarray(U)
+       
+        D = U @ density_i @ U_conj_T
+        density[i] = D
+
+        Mag[i, 0] =  2 * D[0, 1].real
+        Mag[i, 1] = -2 * D[1, 0].imag
+        Mag[i, 2] =  D[0, 0].real - D[1, 1].real
+
+    return Mag * Mmag[:, None]
+
+@njit
+def compute_magnetization_trajectory(Upulses, density0):
+    n_offsets, n_steps = Upulses.shape[:2]
+    density = np.empty((n_offsets, n_steps, 2, 2), dtype=np.complex128)
+    Mag = np.empty((n_offsets, n_steps, 3))
+
+    for i in range(n_offsets):
+        for j in range(n_steps):
+            U = Upulses[i, j]
+            D = U @ density0[i] @ U.conj().T
+            density[i, j] = D
+
+            Mag[i, j, 0] =  2 * D[0, 1].real
+            Mag[i, j, 1] = -2 * D[1, 0].imag
+            Mag[i, j, 2] =  D[0, 0].real - D[1, 1].real
+
+    return Mag
 
 class Pulse:
     """
@@ -224,11 +299,16 @@ class Pulse:
 
         return axis_fft, pulse_fft
     
+    def flip(self):
+        """Flips the sweep direction of the pulse. Has no meaning for monochromatic pulses."""
+        return self
+    
     @property
     def amp_factor(self):
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
         amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapz(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
+    
 
     # @cached(thread_safe=False)
     def exciteprofile_old(self, freqs=None, resonator = None):
@@ -300,7 +380,7 @@ class Pulse:
 
         if resonator is not None:
             FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.LO_c, resonator.profile)
+            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
             amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
@@ -332,7 +412,7 @@ class Pulse:
         
         return Mag[0,:], Mag[1,:], Mag[2,:]
     
-    @cached(thread_safe=False)
+    # @cached(thread_safe=False)
     def exciteprofile(self, freqs=None, resonator=None, trajectory=False):
         """Excitation profile
 
@@ -381,7 +461,7 @@ class Pulse:
         
         if resonator is not None:
             FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.LO_c, resonator.profile)
+            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
             amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
@@ -419,30 +499,34 @@ class Pulse:
         dUs[mask] = np.eye(2, dtype=complex) + M[mask]
 
         if not trajectory:
-            Upulses = np.empty((len(dUs), 2, 2), dtype=complex)
-            for i in range(len(dUs)):
-                Upulses[i] = reduce(lambda x, y: y@x, dUs[i, :-1])
-            density = np.einsum('ijk,ikl,ilm->ijm', Upulses, density0, Upulses.conj().transpose((0, 2, 1)))
-            density = density.transpose((0, 2, 1))
+            # Upulses = np.empty((len(dUs), 2, 2), dtype=complex)
+            # for i in range(len(dUs)):
+            #     Upulses[i] = reduce(lambda x, y: y@x, dUs[i, :-1])
+            # density = np.einsum('ijk,ikl,ilm->ijm', Upulses, density0, Upulses.conj().transpose((0, 2, 1)))
+            # density = density.transpose((0, 2, 1))
 
-            Mag = np.zeros((len(offsets), 3))
-            Mag[..., 0] =  2 * density[..., 0, 1].real             # 2 * (Sx[None, :, :] * density).sum(axis=(1, 2)).real
-            Mag[..., 1] = -2 * density[..., 1, 0].imag             # 2 * (Sy[None, :, :] * density).sum(axis=(1, 2)).real
-            Mag[..., 2] =  density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, :, :] * density).sum(axis=(1, 2)).real
-            return np.squeeze(Mag * Mmag[:, None])
+            # Mag = np.zeros((len(offsets), 3))
+            # Mag[..., 0] =  2 * density[..., 0, 1].real             # 2 * (Sx[None, :, :] * density).sum(axis=(1, 2)).real
+            # Mag[..., 1] = -2 * density[..., 1, 0].imag             # 2 * (Sy[None, :, :] * density).sum(axis=(1, 2)).real
+            # Mag[..., 2] =  density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, :, :] * density).sum(axis=(1, 2)).real
+            # return np.squeeze(Mag * Mmag[:, None])
+            Upulses = compute_upulses_not_trajectory(dUs)
+            Mag = compute_magnetization_not_trajectory(Upulses, density0, Mmag)
+            return np.squeeze(Mag)
         else:
-            Upulses = np.empty((len(dUs), len(t), 2, 2), dtype=complex)
-            for i in range(len(dUs)):
-                Upulses[i] = [np.eye(2)] +  list((accumulate(dUs[i, :-1], lambda x, y: y @ x)))
+            # Upulses = np.empty((len(dUs), len(t), 2, 2), dtype=complex)
+            # for i in range(len(dUs)):
+            #     Upulses[i] = [np.eye(2)] +  list((accumulate(dUs[i, :-1], lambda x, y: y @ x)))
 
-            density = np.einsum('hijk,hkl,hilm->hijm', Upulses, density0, Upulses.conj().transpose((0, 1, 3, 2)))
-            density = density.transpose((0, 1, 3, 2))
+            # density = np.einsum('hijk,hkl,hilm->hijm', Upulses, density0, Upulses.conj().transpose((0, 1, 3, 2)))
+            # density = density.transpose((0, 1, 3, 2))
 
-            Mag = np.zeros((len(offsets), len(t), 3))
-            Mag[..., 0] = 2 * density[..., 0, 1].real # 2 * (Sx[None, None, :, :] * density).sum(axis=(2, 3)).real
-            Mag[..., 1] = -2 * density[..., 1, 0].imag # 2 * (Sy[None, None, :, :] * density).sum(axis=(2, 3)).real
-            Mag[..., 2] = density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, None, :, :] * density).sum(axis=(2, 3)).real
-
+            # Mag = np.zeros((len(offsets), len(t), 3))
+            # Mag[..., 0] = 2 * density[..., 0, 1].real # 2 * (Sx[None, None, :, :] * density).sum(axis=(2, 3)).real
+            # Mag[..., 1] = -2 * density[..., 1, 0].imag # 2 * (Sy[None, None, :, :] * density).sum(axis=(2, 3)).real
+            # Mag[..., 2] = density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, None, :, :] * density).sum(axis=(2, 3)).real
+            Upulses = compute_upulses_trajectory(dUs)
+            Mag = compute_magnetization_trajectory(Upulses, density0)
             return Mag
 
 
@@ -921,6 +1005,13 @@ class FrequencySweptPulse(Pulse):
         amp_factor_value=  np.sqrt(2*np.pi*self.Qcrit.value*self.sweeprate.value)/(2*np.pi)
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
     
+    def flip(self):
+        """Flips the sweep direction of the pulse"""
+        temp = self.init_freq.value
+        self.init_freq.value = self.final_freq.value
+        self.final_freq.value = temp
+        return self
+        
 
 class HSPulse(FrequencySweptPulse):
     """

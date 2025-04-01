@@ -183,7 +183,7 @@ class BrukerAWG(Interface):
             #     time.sleep(0.1)
                 
         self.api.set_field(sequence.B.value)
-        self.api.set_freq(sequence.LO.value)
+        self.api.set_freq(sequence.freq.value)
         
         if 'B' in sequence.progTable['Variable']:
             idx = sequence.progTable['Variable'].index('B')
@@ -211,7 +211,7 @@ class BrukerAWG(Interface):
         pass
 
     
-    def tune_rectpulse(self,*,tp, LO, B, reptime, shots=400):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -219,7 +219,7 @@ class BrukerAWG(Interface):
         ----------
         tp : float
             Pulse length in ns
-        LO : float
+        freq : float
             Central frequency of this pulse in GHz
         B : float
             Magnetic B0 field position in Gauss
@@ -237,7 +237,7 @@ class BrukerAWG(Interface):
         """
 
         amp_tune =HahnEchoSequence(
-            B=B, LO=LO, reptime=reptime, averages=1, shots=shots
+            B=B, freq=freq, reptime=reptime, averages=1, shots=shots
         )
 
         scale = Parameter("scale",0,dim=45,step=0.02)
@@ -263,14 +263,14 @@ class BrukerAWG(Interface):
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
-            scale=scale, LO=amp_tune.LO)
+            scale=scale, freq=amp_tune.freq)
         
         p180 = amp_tune.pulses[1].copy(
-            scale=scale, LO=amp_tune.LO)
+            scale=scale, freq=amp_tune.freq)
 
         return p90, p180
     
-    def tune_pulse(self, pulse, mode, LO, B , reptime, shots=400):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -279,7 +279,7 @@ class BrukerAWG(Interface):
             The Pulse object in need of tuning.
         mode : str
             The method to be used.
-        LO : float
+        freq : float
             The local oscilator frequency in GHz
         B : float
             Magnetic B0 field position in Gauss
@@ -301,19 +301,19 @@ class BrukerAWG(Interface):
         
         # Get absolute central frequency
         if hasattr(pulse,"freq"):
-            c_frq = pulse.freq.value + LO
+            c_frq = pulse.freq.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "BW"):
-            c_frq = pulse.init_freq.value + 0.5*pulse.BW.value + LO
+            c_frq = pulse.init_freq.value + 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
-            c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + LO
+            c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + LO
+            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
 
-        pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, LO=c_frq, reptime=reptime)
+        pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, freq=c_frq, reptime=reptime)
         
         if mode == "amp_hahn":
             amp_tune =HahnEchoSequence(
-                B=B, LO=LO, 
+                B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
                 pi2_pulse = pulse, pi_pulse=pi_pulse
             )
@@ -335,7 +335,7 @@ class BrukerAWG(Interface):
         elif mode == "amp_nut":
 
             nut_tune = Sequence(
-                name="nut_tune", B=(B/LO*c_frq), LO=LO, reptime=reptime,
+                name="nut_tune", B=(B/freq*c_frq), freq=freq, reptime=reptime,
                 averages=1,shots=shots
             )
             nut_tune.addPulse(pulse.copy(
@@ -343,11 +343,11 @@ class BrukerAWG(Interface):
             nut_tune.addPulse(
                 pi2_pulse.copy(t=2e3,
                                pcyc={"phases":[0, np.pi],"dets":[1, -1]},
-                               freq=c_frq-LO))
+                               freq=c_frq-freq))
             nut_tune.addPulse(
                 pi_pulse.copy(t=2.5e3, pcyc={"phases":[0],"dets":[1]},
-                              freq=c_frq-LO))
-            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-LO))
+                              freq=c_frq-freq))
+            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-freq))
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
@@ -406,14 +406,14 @@ class BrukerAWG(Interface):
         hw_log.debug('Setting Detection = TM')
         self.api.hidden['Detection'].value = 'TM'
         B = self.api.get_field()
-        LO = self.api.get_counterfreq()
+        freq = self.api.get_counterfreq()
 
         self.api.set_attenuator('+<x>',100)
 
         d0=0
         self.d0=d0
 
-        seq = Sequence(name='single_pulse',B=B,LO=LO,reptime=3e3,averages=1,shots=20)
+        seq = Sequence(name='single_pulse',B=B,freq=freq,reptime=3e3,averages=1,shots=20)
         det_tp = Parameter('tp',value=16,dim=4,step=0)
         seq.addPulse(RectPulse(tp=det_tp,t=0,flipangle=np.pi))
         seq.addPulse(Detection(tp=16,t=d0))
@@ -454,7 +454,7 @@ class BrukerAWG(Interface):
 
         d0 = calc_d0 - 256
 
-        seq = Sequence(name='single_pulse',B=B,LO=LO,reptime=3e3,averages=1,shots=20)
+        seq = Sequence(name='single_pulse',B=B,freq=freq,reptime=3e3,averages=1,shots=20)
         det_tp = Parameter('tp',value=16,dim=4,step=0)
         seq.addPulse(RectPulse(tp=det_tp,t=0,flipangle=np.pi))
         seq.addPulse(Detection(tp=16,t=d0))
@@ -479,15 +479,15 @@ class BrukerAWG(Interface):
         hw_log.info(f"d0 set to {self.d0}")
         self.api.hidden['Detection'].value = 'Signal'
 
-    def calc_d0_from_Hahn_Echo(self, B=None, LO=None):
+    def calc_d0_from_Hahn_Echo(self, B=None, freq=None):
         
         B = self.api.get_field()
-        LO = self.api.get_counterfreq()
+        freq = self.api.get_counterfreq()
 
         if B is not None:
             self.api.set_field(B)
-        if LO is not None:
-            self.api.set_freq(LO)
+        if freq is not None:
+            self.api.set_freq(freq)
         
         d0 = self.d0
         # self.api.set_PulseSpel_var('d0',d0)
@@ -539,7 +539,7 @@ def get_specjet_data(interface):
 
 def test_if_MPFU_compatability(seq):
     table = seq.progTable
-    if 'LO' in table['Variable']:
+    if 'freq' in table['Variable']:
         return False
     elif np.unique(table['axID']).size > 2:
         return False 
