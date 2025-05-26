@@ -1121,10 +1121,10 @@ class ResonatorProfileSequence(Sequence):
         fstep = 0.02
         dim = np.floor(fwidth*2/0.02)
         center_freq = self.freq.value
-        self.freq_axis = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="freq frequency")
+        self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
         self.B = Parameter(
             "B",((center_freq)/self.gyro), start=-fwidth/self.gyro, step=fstep/self.gyro, dim=dim,
-            unit="Guass",link=self.freq_axis,description="B0 Field" )
+            unit="Guass",link=self.freq,description="B0 Field" )
         
         self.addPulse(RectPulse(  # Hard pulse
             t=0, tp=tp, freq=0, flipangle="Hard"
@@ -1151,24 +1151,9 @@ class ResonatorProfileSequence(Sequence):
 
 
         self.pulses[0].scale.value = 1
-        # nut_axis = np.arange(0,66,2,)
-        # self.addPulsesProg(
-        #     [0],
-        #     ["tp"],
-        #     0,
-        #     nut_axis)
 
-        # # Add frequency sweep
-        # width= 0.3
-        # axis = np.arange(self.freq.value-width,self.freq.value+width+0.02,0.02)
-        # self.addPulsesProg(
-        #     [None, None],
-        #     ["freq", "B"],
-        #     1,
-        #     axis,
-        #     multipliers=[1,1/self.gyro])
         
-        self.evolution([tp, self.freq_axis])
+        self.evolution([tp, self.freq])
 
     def simulate(self, Q=100, fc=None, nu1=75,damping=0.06):
         """
@@ -1205,7 +1190,7 @@ class ResonatorProfileSequence(Sequence):
 
         damped_oscilations = lambda x, f, c: np.cos(2*np.pi*f*x) * np.exp(-c*x)
         damped_oscilations_vec = np.vectorize(damped_oscilations)
-        freq_axis = self.freq_axis.value + self.freq_axis.axis[0]['axis']
+        freq_axis = self.freq.value + self.freq.axis[0]['axis']
         freq_len = freq_axis.shape[0]
         tp_x = val_in_ns(self.pulses[0].tp)
         tp_len = tp_x.shape[0]

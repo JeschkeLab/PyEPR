@@ -102,7 +102,7 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
 
-def create_dataset_from_axes(data, axes, params: dict = None,axes_labels=None):
+def create_dataset_from_axes(data, axes, params: dict = {},axes_labels=None):
     """
     Create an xarray dataset from a numpy array and a list of axes.
 
