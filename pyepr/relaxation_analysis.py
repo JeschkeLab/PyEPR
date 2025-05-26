@@ -411,7 +411,7 @@ class HahnEchoRelaxationAnalysis():
         Parameters
         ----------
         level : float, optional
-            The level to check the decay, by default 0.05
+            The level to check the decay, by default 0.1
 
         Returns
         -------

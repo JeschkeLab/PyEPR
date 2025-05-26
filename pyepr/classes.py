@@ -227,8 +227,17 @@ class Parameter:
 
         if isinstance(value, Parameter):
             self.value = value.value
-        else:
+            self.NUS = False # uniform sampling
+        elif np.isscalar(value):
             self.value = value
+            self.NUS = False # uniform sampling
+        elif isinstance(value, np.ndarray):
+            self.value = np.median(value)
+            axis = value - self.value
+            self.NUS = True # non-uniform sampling
+        else:
+            self.NUS = False # uniform sampling
+
             
         self.unit = unit
         self.description = description
@@ -242,7 +251,7 @@ class Parameter:
         else:
             self.uuid = uuid.uuid1()
 
-        if "step" in kwargs:
+        if ("step" in kwargs) and not self.NUS:
             step = kwargs["step"]
             dim = kwargs["dim"]
             if "axis_id" in kwargs:
@@ -257,6 +266,18 @@ class Parameter:
                 axis = np.zeros(dim)
             else:
                 axis = np.arange(start=start, stop= dim*step+start,step=step)
+                if axis.shape[0] != dim:
+                    print(f"Warning: The step size {step} does not match the dimension {dim}.")
+                    axis = axis[:dim]
+            self.add_axis(axis=axis,axis_id=axis_id)
+        elif ("step" in kwargs) and self.NUS:
+            raise ValueError("Step size can only be with a scalar value.")
+        elif self.NUS:
+            if "axis_id" in kwargs:
+                axis_id = kwargs["axis_id"]
+            else:
+                axis_id = 0
+            
             self.add_axis(axis=axis,axis_id=axis_id)
         
         waveform_precision = get_waveform_precision()

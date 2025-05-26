@@ -551,6 +551,9 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         The width of the filter to be used. This is only used if filter_type is 'cheby2' or 'butter'
     verbosity : int, optional
         The verbosity of the function. Default is 0.
+    corr_phase: bool, optional  
+        If True each echo is idenpendently phased, if false then it is globally phased.
+        If a vector is applied then this is used phase them. Default is False
     
     """
     # imports Andrin Doll AWG datafiles using a matched filter
@@ -895,6 +898,8 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         else:
             corr_phase = dta_ang[peak_echo_idx]
 
+        dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
+    elif not np.isscalar(corr_phase):
         dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
 
     if sequence is None:

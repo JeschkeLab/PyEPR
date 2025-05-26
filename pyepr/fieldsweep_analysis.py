@@ -205,7 +205,7 @@ class FieldSweepAnalysis():
             mymodel  = create_Nmodel(self.freq.value*1e3)
         else:
             mymodel  = create_Nmodel(self.freq*1e3)
-        B = np.linspace(self.axis.min(), self.axis.max(), self.data.shape[0])*0.1
+        B = np.linspace(self.axis.min().values, self.axis.max().values, self.data.shape[0])*0.1
         if np.iscomplexobj(self.data):
             Vexp = dl.correctphase(self.data.to_numpy())
         else:
