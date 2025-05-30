@@ -1,13 +1,18 @@
 Release Notes
 =============
 
-Version 0.10.0 (2024-12-01):
+Version 0.11.0 (2025-03-01):
+++++++++++++++++++++++++++++
+- All references to `LO` have been changed to `freq` in the frequency object and related.
+
+
+Version 0.10.0 (2024-12-18):
 ++++++++++++++++++++++++++++
 
 - Split of PyEPR into a separate package
   - autoDEER now uses PyEPR as a dependency
   - Some paths have been changed to reflect the new package structure
-- All sequences now have a simulate method that is used by the dummy interface.
+- All sequences now have a simulate method that is used by the dummy interface. The simulate methods in the dummy interface are now deprecated.
 - Move to Poetry for package management, and the default installation method
 - Expanded option for ResonatorProfileSequence to include different time steps
 

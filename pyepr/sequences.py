@@ -768,6 +768,7 @@ class T2RelaxationSequence(HahnEchoSequence):
             data *= _gen_ESEEM(xaxis, 7.842, ESEEM_depth)
         return xaxis, data
 
+
 # =============================================================================
 
 class FieldSweepSequence(HahnEchoSequence):

@@ -15,7 +15,7 @@ from functools import reduce
 from itertools import accumulate
 from numba import njit
 
-# @njit
+#@njit
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -26,7 +26,7 @@ def compute_upulses_not_trajectory(dUs):
         Upulses[i] = U
     return Upulses
 
-# @njit
+#@njit
 def compute_upulses_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
@@ -39,7 +39,7 @@ def compute_upulses_trajectory(dUs):
             Upulses[i, j + 1] = U
     return Upulses
 
-# @njit
+#@njit
 def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
     n_offsets = Upulses.shape[0]
     density = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -71,7 +71,7 @@ def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
 
     return Mag * Mmag[:, None]
 
-# @njit
+#@njit
 def compute_magnetization_trajectory(Upulses, density0):
     n_offsets, n_steps = Upulses.shape[:2]
     density = np.empty((n_offsets, n_steps, 2, 2), dtype=np.complex128)
@@ -198,7 +198,8 @@ class Pulse:
         pulse_points = int(np.around(self.tp.value/dt))
         total_points = ax.shape[0]
         remaining_points = total_points-pulse_points
-        pulse_axis = np.zeros(pulse_points)
+        # pulse_axis = np.zeros(pulse_points)
+        pulse_axis =np.arange(self.ax.min(),self.ax.max(),dt)
         AM, FM = self.func(pulse_axis)
         AM = np.pad(AM,(int(np.floor(remaining_points/2)),int(np.ceil(remaining_points/2))),'constant',constant_values=0)
         FM = np.pad(FM,(int(np.floor(remaining_points/2)),int(np.ceil(remaining_points/2))),'constant',constant_values=0)
@@ -461,8 +462,13 @@ class Pulse:
         
         if resonator is not None:
             FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
-            amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
+            if self.scale.value is None:
+                amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
+                amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
+            else:
+                amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
+                amp_factor = amp_factor * self.scale.value
+
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
 
