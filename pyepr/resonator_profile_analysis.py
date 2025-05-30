@@ -24,6 +24,16 @@ class ResonatorProfileAnalysis:
             self, dataset,f_lims=(32,36),attentuator=0,R_limit=0.2,bounds=None,p0=None) -> None:
         """Analysis and calculation of resonator profiles.
 
+        Fitting fuction:
+
+        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
+
+        where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
+        :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
+        The fit is performed for each frequency in the dataset. The fit is
+        performed using the `curve_fit` function from `scipy.optimize`.
+
+
         Parameters
         ----------
         dataset : xr.xarray
@@ -36,7 +46,7 @@ class ResonatorProfileAnalysis:
         R_limit: float, optional
             The R^2 limit for extracting fits, by default 0.2
         bounds : tuple, optional
-            The bounds for the fit in the form ([lower bounds],[upper bounds]), by default None. If not given the bounds are set to ([5e-3,10,0,-1],[0.3,2000,2,1])
+            The bounds for the fit in the form ([lower bounds],[upper bounds]), by default None. If not given the bounds are set to ([5e-3,10,0,-1,-5],[0.3,2000,2,1,5])
         p0 : list, optional
             The initial guess for the fit, by default None. If not given the guess is set to [50e-3,150,1,0]
         """
@@ -59,15 +69,16 @@ class ResonatorProfileAnalysis:
         self.t = self.dataset.pulse0_tp
         self.f_lims = f_lims
 
-        self.attenuator = attenuator
+        self.attenuator = attentuator
         if bounds is not None:
             self.bounds = bounds
         else:
-            self.bounds = ([5e-3,10,0,-1],[0.3,2000,2,1])
+            self.bounds = ([5e-3,10,0,-1,-5],[0.3,2000,2,1,5])
+
         if p0 is not None:
             self.p0 = p0
         else:
-            self.p0 = [50e-3,150,1,0]
+            self.p0 = [50e-3,150,1,0,0]
 
         self._process_fit(R_limit)
         pass
@@ -122,12 +133,13 @@ class ResonatorProfileAnalysis:
         return self.prof_data, self.prof_frqs
     
     def _process_fit(self,R_limit=0.5,mask=None):
+        
         self.n_LO = self.freqs.shape[0]
 
         self.profile = np.zeros(self.n_LO)
         self.profile_ci = np.zeros(self.n_LO)
 
-        fun = lambda x, f, tau,a,k: a*np.cos(2*np.pi*f*x)*np.exp(-x/tau)+ k
+        fun = lambda x, f, tau,a,k,x0: a*np.cos(2*np.pi*f*(x-x0))*np.exp(-(x-x0)/tau)+ k
 
         R2 = lambda y, yhat: 1 - np.sum((y - yhat)**2) / np.sum((y - np.mean(y))**2)
         

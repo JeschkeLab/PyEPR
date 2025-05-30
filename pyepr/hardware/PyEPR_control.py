@@ -57,13 +57,27 @@ class PyEPRControlInterface(Interface):
         self.ip = ip
         self.port = port
         self.server = f'http://{ip}:{port}'
-        response = requests.post(self.server + '/connect', json={'config_file': self.config_file})
 
-        if 'error' in response.json():
-            raise RuntimeError(response.json()['error'])
-        else:
-            log.info(response.json()['message'])
-        
+        try: 
+            response = requests.get(self.server + '/isconfigured')
+            if response.json()['isconfigured']:
+                log.info("Spectrometer already configured")
+                print("Spectrometer already configured")
+            
+            else:
+                if self.config_file is None:
+                    raise ValueError("No config file provided. Please provide a config file to connect to the spectrometer.")
+            
+                response = requests.post(self.server + '/connect', json={'config_file': self.config_file})
+                if 'error' in response.json():
+                    raise RuntimeError(response.json()['detail'])
+                else:
+                    log.info(response.json()['message'])
+
+
+        except requests.exceptions.ConnectionError:
+            
+            raise RuntimeError(f"Could not connect to server at {self.server}. Please check the server is running.")
         if self.savefolder is not None:
             self.savefolder = self.savefolder
         
@@ -73,10 +87,11 @@ class PyEPRControlInterface(Interface):
         self.server = None
         return True
 
-    def acquire_dataset(self,verbosity=0,sum_scans=True):
+    def acquire_dataset(self,verbosity=0,sum_scans=True, **kwargs):
         
         for i in range(60):
-            response = requests.get(self.server + '/get_data')
+
+            response = requests.get(self.server + '/get_data', json={'downconvert': True})
             if 'error' in response.json():
                 if verbosity > 0:
                     log.warning(response.json()['error'])
@@ -94,7 +109,48 @@ class PyEPRControlInterface(Interface):
                 return data
         else:
             raise RuntimeError("No data returned from server")
-    
+        
+    def get_buffer(self,verbosity=0,sum_scans=True, **kwargs):
+        for i in range(60):
+            args = kwargs.copy()
+            args['downconvert'] = False
+
+            response = requests.get(self.server + '/get_databuffer', json=args)
+            if 'error' in response.json():
+                if verbosity > 0:
+                    log.warning(response.json()['error'])
+                time.sleep(5)
+                continue
+            elif 'data' in response.json():
+                break
+            time.sleep(2)
+        
+        if 'data' in response.json():
+            data = pickle.loads(response.json()['data'].encode('latin1')) #xr.datarray
+            if sum_scans and 'Scan' in data.dims:
+                return data.sum('Scan',keep_attrs = True)
+            else:
+                return data
+        else:
+            raise RuntimeError("No data returned from server")
+        
+    def set_param(self, param: str, value: float):
+        """Set a parameter for the spectrometer.
+
+        Parameters
+        ----------
+        param : str
+            The parameter to set. Possible values are 'LO', 'temp', 'reptime', 'field', 'videoGain'.
+        value : float
+            The value to set the parameter to.
+        """
+        response = requests.post(self.server + '/set_param', json={'param': param, 'value': value})
+        if 'error' in response.json():
+            raise RuntimeError(response.json()['error'])
+        else:
+            log.info(response.json()['message'])
+        return True
+
     def terminate(self):
         response = requests.post(self.server + '/terminate')
         log.debug(response.json()['message'])
@@ -106,14 +162,14 @@ class PyEPRControlInterface(Interface):
         # increase the detection length to a minimum 1024ns
         for pulse in sequence.pulses:
             if isinstance(pulse, Detection):
-                if pulse.tp.value < 1024:
-                    pulse.tp.value = 1024
+                if pulse.tp.value < 128:
+                    pulse.tp.value = 128
         
         if (IFgain is None) or (IFgain is True):
             test_IF = True
             while test_IF:
                 self.terminate()
-                self._launch(sequence,savename,self.IFgain)
+                self._launch(sequence,savename,self.IFgain, *args,**kwargs)
                 scan_time = sequence._estimate_time() / sequence.averages.value
                 check_1stScan = True
                 while check_1stScan:
@@ -150,17 +206,18 @@ class PyEPRControlInterface(Interface):
                         log.debug(f"IF gain {self.IFgain} is optimal")
                         check_1stScan = False
                         test_IF = False
-        elif (IFgain is not None) and isinstance(IFgain, [int, float]):
+        elif (IFgain is not None) and isinstance(IFgain, (int, float)):
             
-            self._launch(sequence,savename,IFgain)
+            self._launch(sequence,savename,IFgain, *args,**kwargs)
 
         else:
             raise ValueError(f"IFgain must be of type [None, bool, int, float]. {IFgain} is not valid.")
 
-    def _launch(self, sequence: Sequence , savename: str, IFgain=0,reset_cur_exp=True):
+    def _launch(self, sequence: Sequence , savename: str, IFgain=0,reset_cur_exp=True,*args,**kwargs):
 
         timestamp = datetime.datetime.now().strftime(r'%Y%m%d_%H%M_')
         self.savename = timestamp + savename + '.h5'
+        
         if reset_cur_exp:
             self.cur_exp = sequence
 
@@ -170,11 +227,20 @@ class PyEPRControlInterface(Interface):
             new_IFgain = new_IFgain[-1]
         
         log.debug(f"Launching sequence {savename} with IF gain {new_IFgain}")
-        response = requests.post(self.server + '/launch', data= pickle.dumps({'seq':sequence,'savefile':savename,'IFgain':new_IFgain}))
+        launch_arg = {
+            'seq': sequence,
+            'savefile': self.savename,
+            'IFgain': new_IFgain
+        }
+        launch_arg.update(kwargs)
+        response = requests.post(self.server + '/launch', data= pickle.dumps(launch_arg))
 
         if 'error' in response.json():
             raise RuntimeError(response.json()['error'])
+        elif response.status_code == 500:
+            raise RuntimeError(response.json()['detail'])
         pass
+
     def isrunning(self) -> bool:
         response = requests.get(self.server + '/isrunning')
 
