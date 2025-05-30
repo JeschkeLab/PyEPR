@@ -15,7 +15,7 @@ from functools import reduce
 from itertools import accumulate
 from numba import njit
 
-@njit
+# @njit
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -26,7 +26,7 @@ def compute_upulses_not_trajectory(dUs):
         Upulses[i] = U
     return Upulses
 
-@njit
+# @njit
 def compute_upulses_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
@@ -39,7 +39,7 @@ def compute_upulses_trajectory(dUs):
             Upulses[i, j + 1] = U
     return Upulses
 
-@njit
+# @njit
 def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
     n_offsets = Upulses.shape[0]
     density = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -71,7 +71,7 @@ def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
 
     return Mag * Mmag[:, None]
 
-@njit
+# @njit
 def compute_magnetization_trajectory(Upulses, density0):
     n_offsets, n_steps = Upulses.shape[:2]
     density = np.empty((n_offsets, n_steps, 2, 2), dtype=np.complex128)

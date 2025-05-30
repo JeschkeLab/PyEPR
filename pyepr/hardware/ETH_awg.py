@@ -828,7 +828,7 @@ class ETH_awg_interface(Interface):
         if self.resonator is not None:
             resonator = {}
 
-            resonator['LO'] = self.resonator.dataset.freq - self.awg_freq#- 1.5 # Change to LO after shifting resonator profile definition
+            resonator['LO'] = self.resonator.freq_c - self.awg_freq#- 1.5 # Change to LO after shifting resonator profile definition
             resonator['nu1'] = self.resonator.profile
             resonator['range'] = self.resonator.freqs.values - resonator['LO']
             resonator['scale'] = self.resonator.dataset.pulse0_scale
