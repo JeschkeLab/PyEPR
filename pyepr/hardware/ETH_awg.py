@@ -105,17 +105,17 @@ class ETH_awg_interface(Interface):
         self.workspace = self.engine.workspace
         self.engine.cd(self._savefolder)
 
-    def acquire_dataset(self, verbosity=0):
+    def acquire_dataset(self, verbosity=0,**kwargs):
         if self.bg_data is None:
 
-            current_acq, current_scan = self.engine.dig_interface('progress', nargout=2)
+            current_acq, current_scan, _, _ = self.engine.dig_interface('progress', nargout=4)
             if current_scan == 0:
                 while current_acq == 0:
                     time.sleep(2)
-                    current_acq, current_scan = self.engine.dig_interface('progress', nargout=2)
+                    current_acq, current_scan, _, _ = self.engine.dig_interface('progress', nargout=4)
                 data = self.get_buffer(verbosity=verbosity)
             else:
-                data = self.read_dataset(verbosity=verbosity)
+                data = self.read_dataset(verbosity=verbosity,**kwargs)
             # data = self.acquire_dataset_from_matlab(verbosity=verbosity)
         else:
             data = self.bg_data
@@ -150,13 +150,17 @@ class ETH_awg_interface(Interface):
         # start_time = newest - date * 10000
         # path = folder_path + "\\" \
         #     + f"{date:08d}_{start_time:04d}_{filename}.mat"
+
+        # Remove filter from kwargs if present
+        kwargs.pop('filter_type',None)
+        kwargs.pop('filter_width',None) # GHz
         
         path = folder_path + "\\" + curexpname + ".mat"
         
         for i in range(0, 50):
             try:
                 e = 'None'
-                self.engine.dig_interface('savenow')
+                # self.engine.dig_interface('savenow')
                 try:
                     Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
                 except:
@@ -167,9 +171,9 @@ class ETH_awg_interface(Interface):
                 else:
                     exp = self.cur_exp
                 if isinstance(exp, FieldSweepSequence):
-                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01)
+                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01,**kwargs)
                 else:
-                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter)
+                    data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter,**kwargs)
 
                 if np.all(data.data == 0+0j) and not (hasattr(self,'stop_flag') and self.stop_flag.is_set()):
                     time.sleep(10)
@@ -190,10 +194,10 @@ class ETH_awg_interface(Interface):
     def _wait_for_scan(self, target_scan=None):
         if target_scan is None:
             target_scan = self.cur_exp.averages.value
-        _, current_scan = self.engine.dig_interface('progress', nargout=2)
+        _, current_scan, _, _ = self.engine.dig_interface('progress', nargout=4)
         scan_time = self.cur_exp._estimate_time() / self.cur_exp.averages.value
         while True:
-            _, scan = self.engine.dig_interface('progress', nargout=2)
+            _, scan, _, _ = self.engine.dig_interface('progress', nargout=4)
             if scan >= target_scan:
                 break
             elif scan > current_scan:
@@ -201,7 +205,7 @@ class ETH_awg_interface(Interface):
             time.sleep(np.min([scan_time/10, 2]))
 
     def get_buffer(self, verbosity=0,**kwargs):
-        _, current_scan = self.engine.dig_interface('progress', nargout=2)
+        _, current_scan, _, _ = self.engine.dig_interface('progress', nargout=4)
 
         dta = np.array(self.engine.dig_interface('get'))
         conf = dict(self.engine.workspace['conf'])
@@ -226,10 +230,14 @@ class ETH_awg_interface(Interface):
         else:
             exp = self.cur_exp
 
+        # Remove filter from kwargs if present
+        kwargs.pop('filter_type',None)
+        kwargs.pop('filter_width',None) # GHz
+
         if isinstance(self.cur_exp, FieldSweepSequence):
-            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01)
+            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, filter_type='cheby2', filter_width=0.01,**kwargs)
         else:
-            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter)
+            data = uwb_eval_match(Matfile, exp, verbosity=verbosity, **self.filter,**kwargs)
 
         if np.all(data.data == 0+0j) and not (hasattr(self, 'stop_flag') and self.stop_flag.is_set()):
             time.sleep(10)
@@ -238,17 +246,23 @@ class ETH_awg_interface(Interface):
         return data
 
 
-    def read_dataset(self, verbosity=0, **kwargs):
+    def read_dataset(self, verbosity=0,savenow=False, **kwargs):
         cur_exp = self.workspace['currexp']
         folder_path = cur_exp['savepath']
         curexpname = self.workspace['currexpname']
 
         path = folder_path + "\\" + curexpname + ".mat"
 
+         # Remove filter from kwargs if present
+        kwargs.pop('filter_type',None)
+        kwargs.pop('filter_width',None) # GHz
+
+
         for i in range(0, 50):
             try:
                 e = 'None'
-                self.engine.dig_interface('savenow')
+                if savenow:
+                    self.engine.dig_interface('savenow')
                 try:
                     Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
                 except:
@@ -258,9 +272,9 @@ class ETH_awg_interface(Interface):
                 else:
                     exp = self.cur_exp
                 if isinstance(exp, FieldSweepSequence):
-                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity,filter_type='cheby2',filter_width=0.01)
+                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity,filter_type='cheby2',filter_width=0.01,**kwargs)
                 else:
-                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity, **self.filter)
+                    data = uwb_eval_match(Matfile, exp,verbosity=verbosity, **self.filter,**kwargs)
 
                 if np.all(data.data == 0+0j) and not (hasattr(self, 'stop_flag') and self.stop_flag.is_set()):
                     time.sleep(10)
@@ -290,10 +304,11 @@ class ETH_awg_interface(Interface):
                 scan_time = sequence._estimate_time() / sequence.averages.value
                 check_1stScan = True
                 while check_1stScan:
-                    self._wait_for_scan(1)
-                    dataset = self.read_dataset()
+                    # self._wait_for_scan(1)
+                    time.sleep(np.max([scan_time/10, 5]))
+                    dataset = self.acquire_dataset()
 
-                    dig_level = dataset.attrs['diglevel'] / (2**15 * sequence.shots.value * sequence.pcyc_dets.shape[0])
+                    dig_level = dataset.attrs['diglevel'] / (2**13 * sequence.shots.value * sequence.pcyc_dets.shape[0])
                     pos_levels = dig_level * self.IFgain_options / self.IFgain_options[self.IFgain]
                     pos_levels[pos_levels > 0.85] = 0
                     if dig_level == 0:
@@ -427,7 +442,16 @@ class ETH_awg_interface(Interface):
 
     def isrunning(self) -> bool:
         if self.bg_thread is None:
-            state = bool(self.engine.dig_interface('savenow'))
+            # state = bool(self.engine.dig_interface('savenow'))
+            _,_,_,state = self.engine.dig_interface('progress', nargout=4)
+
+            if state == 0:
+                state = False
+            elif state == 1:
+                state = True
+            else:
+                state = False
+
             return state
         else:
             state= self.bg_thread.is_alive()
@@ -539,7 +563,7 @@ class ETH_awg_interface(Interface):
             elif pulse.flipangle.value == np.pi/2:
                 tp = pulse.tp.value
 
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime,shots=shots)
             amp_tune =HahnEchoSequence(
                 B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
@@ -570,7 +594,7 @@ class ETH_awg_interface(Interface):
             return pulse
 
         elif mode == "amp_nut":
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, freq=c_frq, reptime=reptime)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, freq=c_frq, reptime=reptime,shots=shots)
             nut_tune = Sequence(
                 name="nut_tune", B=(B/freq*c_frq), freq=freq, reptime=reptime,
                 averages=1,shots=shots
@@ -803,12 +827,13 @@ class ETH_awg_interface(Interface):
         
         if self.resonator is not None:
             resonator = {}
-            resonator['LO'] = self.resonator.dataset.pulse1_freq #- 1.5 # Change to LO after shifting resonator profile definition
+
+            resonator['LO'] = self.resonator.freq_c - self.awg_freq#- 1.5 # Change to LO after shifting resonator profile definition
             resonator['nu1'] = self.resonator.profile
-            resonator['range'] = self.resonator.freqs.values - resonator['LO'] + self.awg_freq
+            resonator['range'] = self.resonator.freqs.values - resonator['LO']
             resonator['scale'] = self.resonator.dataset.pulse0_scale
 
-            # event["pulsedef"]["resonator"] = resonator
+            event["pulsedef"]["resonator"] = resonator
 
         return event
 
@@ -915,7 +940,7 @@ class ETH_awg_interface(Interface):
                     parvar["variables"].append(pulse_str)
                     parvar["vec"].append(vec)
 
-                elif var == "freq":
+                elif (var == "freq") or (var == "freq_axis"):
                     # Instead of stepping the freq we will step the frequency
                     # all the pulses and detection events.
                     pulse_strings = []
@@ -1029,7 +1054,7 @@ def bg_thread(interface,seq,savename,IFgain,axID,stop_flag):
             interface.launch_normal(tmp_seq, savename=f"{savename}_avg{iavg+1}of{nAvg}_{i+1}of{fixed_param.dim[0]}", IFgain=IFgain, reset_cur_exp=False)
             scan_time = tmp_seq._estimate_time()
             while True:
-                _, scan = interface.engine.dig_interface('progress', nargout=2)
+                _, scan,_,_ = interface.engine.dig_interface('progress', nargout=4)
                 if scan == 1:
                     break
                 time.sleep(np.min([scan_time/4, 2]))

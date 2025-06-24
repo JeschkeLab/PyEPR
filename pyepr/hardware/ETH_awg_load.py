@@ -551,6 +551,9 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         The width of the filter to be used. This is only used if filter_type is 'cheby2' or 'butter'
     verbosity : int, optional
         The verbosity of the function. Default is 0.
+    corr_phase: bool, optional  
+        If True each echo is idenpendently phased, if false then it is globally phased.
+        If a vector is applied then this is used phase them. Default is False
     
     """
     # imports Andrin Doll AWG datafiles using a matched filter
@@ -879,12 +882,20 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         dta_filt_dc = np.apply_along_axis(filter_func, 0, dta_c,det_frqs_perc)
 
     
+    echo_pos = kwargs.get('echo_pos', None)
+    if echo_pos is None:
+        peak_echo_idx = np.unravel_index(np.argmax(np.abs(dta_filt_dc).max(axis=0)),dims)
+        
+        echo_pos = np.argmax(np.abs(dta_filt_dc[tuple([slice(None)]) + peak_echo_idx]))
+    elif echo_pos == False:
+        # Find the maximum echo position independently for each trace
+        echo_pos = np.argmax(np.abs(dta_filt_dc),axis=0)
+        
+    if echo_pos.ndim == 0:
+        dta_ev = dta_filt_dc[echo_pos,:]
+    else:
+        dta_ev = dta_filt_dc[echo_pos,np.arange(echo_pos.shape[0])]
 
-    peak_echo_idx = np.unravel_index(np.argmax(np.abs(dta_filt_dc).max(axis=0)),dims)
-    
-    echo_pos = np.argmax(np.abs(dta_filt_dc[tuple([slice(None)]) + peak_echo_idx]))    
-    dta_ev = dta_filt_dc[echo_pos,:]
-    
     if corr_phase is True:
         dta_ang = np.angle(dta_ev)
         if frq_change:
@@ -895,6 +906,8 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         else:
             corr_phase = dta_ang[peak_echo_idx]
 
+        dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
+    elif not np.isscalar(corr_phase):
         dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
 
     if sequence is None:

@@ -80,7 +80,11 @@ class CarrPurcellAnalysis():
         monoModel = dl.bg_strexp
         monoModel.name = 'Stretched exponential'
         doubleModel = dl.bg_sumstrexp
-        doubleModel.weight1.ub = 500
+        doubleModel.weight1.ub = 1
+        doubleModel.decay1.ub = 1e3
+        doubleModel.decay2.ub = 1e3
+        doubleModel.decay1.lb = 1e-2
+        doubleModel.decay2.lb = 1e-2
         doubleModel.name = "Sum of two stretched exponentials"
 
         testModels = []
@@ -136,15 +140,15 @@ class CarrPurcellAnalysis():
         if hasattr(self, "fit_result"):
             x = self.axis
             V = self.fit_result.evaluate(self.fit_model, x)*self.fit_result.scale
-            fitUncert = self.fit_result.propagate(self.fit_model, x)
-            VCi = fitUncert.ci(ci)*self.fit_result.scale
-            ub = VCi[:,1]
-            lb = VCi[:,0]
             # ub = self.fit_model(x,*self.fit_result.paramUncert.ci(ci)[:-1,1])*self.fit_result.paramUncert.ci(ci)[-1,1]
             # lb = self.fit_model(x,*self.fit_result.paramUncert.ci(ci)[:-1,0])*self.fit_result.paramUncert.ci(ci)[-1,0]
             axs.plot(self.axis, data, '.', label='data', color='0.6', ms=6)
             axs.plot(x, V, label='fit', color=primary_colors[0], lw=2)
             if ci is not None:
+                fitUncert = self.fit_result.propagate(self.fit_model, x)
+                VCi = fitUncert.ci(ci)*self.fit_result.scale
+                ub = VCi[:,1]
+                lb = VCi[:,0]
                 axs.fill_between(x, lb, ub, color=primary_colors[0], alpha=0.3, label=f"{ci}% CI")
 
             axs.legend()
@@ -330,7 +334,11 @@ class HahnEchoRelaxationAnalysis():
         monoModel = dl.bg_strexp
         monoModel.name = 'Stretched exponential'
         doubleModel = dl.bg_sumstrexp
-        doubleModel.weight1.ub = 200
+        doubleModel.weight1.ub = 1
+        doubleModel.decay1.ub = 1e3
+        doubleModel.decay2.ub = 1e3
+        doubleModel.decay1.lb = 1e-2
+        doubleModel.decay2.lb = 1e-2
         doubleModel.name = "Sum of two stretched exponentials"
 
         testModels = []
@@ -394,6 +402,10 @@ class HahnEchoRelaxationAnalysis():
             axs.plot(self.axis, data, '.', label='data', color='0.6', ms=6)
             axs.plot(x, V, label='fit', color=primary_colors[0], lw=2)
             if ci is not None:
+                fitUncert = self.fit_result.propagate(self.fit_model, x)
+                VCi = fitUncert.ci(ci)*self.fit_result.scale
+                ub = VCi[:,1]
+                lb = VCi[:,0]
                 axs.fill_between(x, lb, ub, color=primary_colors[0], alpha=0.3, label=f"{ci}% CI")
 
             axs.legend()
@@ -411,7 +423,7 @@ class HahnEchoRelaxationAnalysis():
         Parameters
         ----------
         level : float, optional
-            The level to check the decay, by default 0.05
+            The level to check the decay, by default 0.1
 
         Returns
         -------
@@ -525,7 +537,7 @@ class ReptimeAnalysis():
 
         return self.fit_result
 
-    def plot(self, axs=None, fig=None):
+    def plot(self, axs=None, fig=None,lw=2,ms=6):
 
         if axs is None and fig is None:
             fig, axs = plt.subplots()
@@ -536,17 +548,17 @@ class ReptimeAnalysis():
         # else:
         data = self.data
 
-        axs.plot(self.axis/1e3, data, '.', label='data', color='0.6', ms=6)
+        axs.plot(self.axis/1e3, data, '.', label='data', color='0.6', ms=ms)
         
         if hasattr(self,'fit_result'):
-            axs.plot(self.axis/1e3, self.func(self.axis,*self.fit_result[0]), label='Fit', color=primary_colors[0], lw=2)
+            axs.plot(self.axis/1e3, self.func(self.axis,*self.fit_result[0]), label='Fit', color=primary_colors[0], lw=lw)
             axs.set_xlim(*axs.get_xlim())
             axs.set_ylim(*axs.get_ylim())
             ylim = axs.get_ylim()
-            axs.vlines(self.fit_result[0][1]/1e3,*ylim,linestyles='dashed',label='T1 = {:.3g} ms'.format(self.fit_result[0][1]/1e3),colors=primary_colors[1])
+            axs.vlines(self.fit_result[0][1]/1e3,*ylim,linestyles='dashed',label='T1 = {:.3g} ms'.format(self.fit_result[0][1]/1e3),colors=primary_colors[1],lw=lw)
 
             if hasattr(self,'optimal'):
-                axs.vlines(self.optimal/1e3,*ylim,linestyles='dashed',label='Optimal = {:.3g} ms'.format(self.optimal/1e3),colors=primary_colors[2])
+                axs.vlines(self.optimal/1e3,*ylim,linestyles='dashed',label='Optimal = {:.3g} ms'.format(self.optimal/1e3),colors=primary_colors[2],lw=lw)
 
         axs.set_xlabel('Reptime / ms')
         axs.set_ylabel('Normalised signal')
@@ -661,9 +673,10 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         if hasattr(arg, 'func'):
             print('The scipy fitting elements are being deprecated, please use DeerLab fitting')
             V = arg.func(arg.axis,*arg.fit_result[0])
-        else:
+            axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
+        elif hasattr(arg, 'fit_model'):
             V = arg.fit_model(arg.axis,*arg.fit_result.param[:-1])*arg.fit_result.scale
-        axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
+            axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
 
     axs.legend()
     axs.set_xlabel('Total Sequence Length / $\mu s$')

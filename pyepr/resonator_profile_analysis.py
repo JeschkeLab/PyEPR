@@ -8,6 +8,8 @@ from scipy.optimize import curve_fit
 import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
 from pyepr.dataset import create_dataset_from_axes
+import xarray as xr
+
 def phase_correct_respro(data_array):
     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
     index =  np.argmax(np.abs(Vre),axis=0)
@@ -49,6 +51,10 @@ class ResonatorProfileAnalysis:
         elif "freq_axis" in self.dataset.coords:
             self.freqs = self.dataset.freq_axis
             self.freq_c = self.dataset.freq
+
+        if isinstance(self.freq_c,xr.DataArray):
+            self.freq_c = self.freq_c.values
+
         self.n_files = self.freqs.shape[0]
         self.t = self.dataset.pulse0_tp
         self.f_lims = f_lims
