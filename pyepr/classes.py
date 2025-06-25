@@ -235,8 +235,13 @@ class Parameter:
             self.value = np.median(value)
             axis = value - self.value
             self.NUS = True # non-uniform sampling
+        elif value is None:
+            self.value = None
+            self.NUS = False # uniform sampling
         else:
             self.NUS = False # uniform sampling
+            self.value = 0
+
 
             
         self.unit = unit
