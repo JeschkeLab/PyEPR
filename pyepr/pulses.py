@@ -462,7 +462,7 @@ class Pulse:
         
         if resonator is not None:
             FM = self.FM
-            if self.scale.value is None:
+            if self.scale is None or self.scale.value is None:
                 amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
                 amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             else:
