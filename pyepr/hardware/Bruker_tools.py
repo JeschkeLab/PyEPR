@@ -751,9 +751,15 @@ def _add_AWG_line(elements, comment=None, indent=2, repeat=1):
     for i in range(0,repeat):
         if isinstance(elements,list) or isinstance(elements,np.ndarray):
             for ele in elements:
-                string += f"{ele:<4}  "
+                if isinstance(ele,str):
+                    string += f"{ele:>4}  "
+                else:
+                    string += f"{ele:.3f}  "
         else:
-            string += f"{elements:<4}  "
+            if isinstance(elements,str):
+                string += f"{elements:>4}  "
+            else:
+                string += f"{elements:.3f}  "
     
     if comment is not None:
         string += ";  " + comment
@@ -765,7 +771,7 @@ def addAWGPulse(sequence, pulse_num, id,last_awg_pulse_num,amp_var=None,SpinJet_
     
     if SpinJet_version == 1:
         default_pulses = [RectPulse,ChirpPulse,GaussianPulse]
-
+    
     else:
         raise ValueError("Only SpinJet version 1 is currently supported")
     
@@ -781,15 +787,15 @@ def _addDefaultAWGPulse(sequence, pulse_num, id,amp_var=None,SpinJet_version=1):
     awg_id = id
     pulse=sequence.pulses[pulse_num]
     if isinstance(pulse, RectPulse):
-        shape = 0
+        shape = '0'
         init_freq = pulse.freq.value
         final_freq = init_freq
     elif isinstance(pulse, ChirpPulse):
-        shape = 5
+        shape = '0' #5 on AWG1
         init_freq = pulse.init_freq.value
         final_freq = pulse.final_freq.value
     elif isinstance(pulse, GaussianPulse):
-        shape = 1
+        shape = '1'
         init_freq = pulse.freq.value
         final_freq = init_freq
         
@@ -810,9 +816,9 @@ def _addDefaultAWGPulse(sequence, pulse_num, id,amp_var=None,SpinJet_version=1):
     
     string += f"begin awg{awg_id}\n"
     string += _add_AWG_line(
-        init_freq, repeat=num_cycles, comment="Initial Frequency [MHz]")
+        init_freq *1e3, repeat=num_cycles, comment="Initial Frequency [MHz]")
     string += _add_AWG_line(
-        final_freq, repeat=num_cycles, comment="Final Frequency [MHz]")
+        final_freq *1e3, repeat=num_cycles, comment="Final Frequency [MHz]")
     string += _add_AWG_line(
         phase, repeat=1, comment="Phase")
     string += _add_AWG_line(
@@ -836,7 +842,7 @@ def _addCustomAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None
         amplitude = amp_var
     else:
         if hasattr(pulse,"scale"):
-            amplitude = pulse.scale.value
+            amplitude = pulse.scale.value * 100 # convert from 0->1 to %
         else:
             amplitude = 0
 
@@ -1357,3 +1363,59 @@ def write_shape_file(pulse,name:str = "", phase_shift=0, number=None, AWG_rate=1
 
     return shape_file
 
+
+def step_parameters(interface, reduced_seq, dim, variables):
+    
+    for i in range(dim):
+        new_seq  =reduced_seq.copy()
+        # Change all variables in the sequence
+        for var in variables:
+            if var['variable'][0] is not None:
+                raise ValueError('Only exp parameters are supported at the moment')
+            attr = getattr(new_seq,var['variable'][1]) 
+            shift = attr.get_axis()[i]
+            attr.value = (shift)
+            setattr(new_seq,var['variable'][1],attr)
+            print(f"{var['variable'][1]}: {getattr(new_seq,var['variable'][1]).value} ")
+
+        # self.launch(new_seq,savename='test',tune=False, update_pulsespel=False)
+
+        interface.api.set_field(new_seq.B.value)
+        interface.api.set_freq(new_seq.freq.value)
+
+        interface.api.run_exp()
+
+        while interface.api.is_exp_running():
+            time.sleep(1)
+        single_scan_data = interface.api.acquire_dataset()
+        interface.bg_data[:,i] += single_scan_data.data
+
+def get_specjet_data(interface, full_output=False,suppress_exceptions=False):
+    n_points  = interface.api.hidden['specJet.Data'].aqGetParDimSize(0)
+    if np.iscomplexobj(interface.api.hidden['specJet.Data'][0]):
+        model = 3
+    elif 'specJet.Data1' in interface.api.hidden:
+        model = 2
+    else:
+        raise RuntimeError('Failed to indentify the specJet model from the API')
+
+    array = np.zeros(n_points,dtype=np.complex128)
+    TimeBase = interface.api.hidden['specJet.TimeBase'].value
+    time_axis = np.linspace(0,TimeBase*n_points,n_points)
+    for i in range(n_points):
+        if model == 3:
+            array[i] = interface.api.hidden['specJet.Data'][i]
+        elif model == 2:
+            array[i] = interface.api.hidden['specJet.Data'][i] + 1j* interface.api.hidden['specJet.Data1'][i]
+    
+    
+    if np.all(array == 0 + 0j):
+        if suppress_exceptions:
+            print('SpecJet returned array of all zeros')
+        else:
+            raise RuntimeError('SpecJet returned array of all zeros')
+    
+    if full_output:
+        return time_axis, array
+    else:
+        return array
