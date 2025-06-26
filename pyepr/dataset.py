@@ -290,7 +290,7 @@ class EPRAccessor:
         return sequence
 
 
-    def merge(self,other):
+    def merge(self,other,ignore_errors=True):
         """
         Merge two datasets into one dataset.
 
@@ -314,7 +314,11 @@ class EPRAccessor:
         for key in keys_check:
             if key in dataarray1.attrs and key in dataarray2.attrs:
                 if dataarray1.attrs[key] != dataarray2.attrs[key]:
-                    raise ValueError(f"Datasets have different values for {key}, cannot merge")
+                    if ignore_errors:
+                        print(f"Datasets have different values for {key}, cannot merge")
+                        print(f"Dataset 1: {dataarray1.attrs[key]} \t Dataset 2: {dataarray2.attrs[key]}")
+                    else:
+                        raise ValueError(f"Datasets have different values for {key}, cannot merge")
             elif key in dataarray1.attrs:
                 print(f"Parameter {key} not found in dataset 2")
             elif key in dataarray2.attrs:
