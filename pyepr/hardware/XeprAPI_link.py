@@ -251,6 +251,7 @@ class XeprAPILink:
             self.pause_exp()
             while self.is_exp_running():
                 time.sleep(1)
+                
             try:
                 dataset = self.acquire_dataset(sequence)
             except ValueError:

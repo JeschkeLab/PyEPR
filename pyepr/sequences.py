@@ -848,7 +848,7 @@ class ReptimeScan(HahnEchoSequence):
     """
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
-    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, start=100, **kwargs) -> None:
         """A Hahn echo sequence is perfomed with the shot repetition time increasing.1
 
         Parameters
@@ -865,6 +865,8 @@ class ReptimeScan(HahnEchoSequence):
             The number of scans.
         shots : int
             The number of shots per point
+        start: float
+            The minimum reptime that is used, by default 100us
         
         Optional Parameters
         -------------------
@@ -875,7 +877,7 @@ class ReptimeScan(HahnEchoSequence):
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
         """
-        min_reptime = 20
+        min_reptime = start
         dim = 100
         step  = (reptime_max-min_reptime)/dim
         step = np.around(step,decimals=-1)
@@ -1078,6 +1080,8 @@ class ResonatorProfileSequence(Sequence):
             by default 0.3GHz
         dtp: float
             The time step for the test pulse in ns, by default 2 ns
+        step:
+            The frequency step parameter in GHz, by default 0.02GHz
 
         Optional Parameters
         -------------------
@@ -1116,11 +1120,12 @@ class ResonatorProfileSequence(Sequence):
 
         tau1 = self.kwargs.get("tau1",2000) #2000
         tau2 = self.kwargs.get("tau2",500) #500
+        fstep = self.kwargs.get("step",0.02)
         dim = np.floor(120/self.dtp.value).astype(int)
         tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
         fwidth= self.fwidth.value
-        fstep = 0.02
-        dim = np.floor(fwidth*2/0.02)
+        # fstep = 0.02
+        dim = np.floor(fwidth*2/fstep)
         center_freq = self.freq.value
         self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
         self.B = Parameter(
