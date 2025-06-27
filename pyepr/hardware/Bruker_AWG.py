@@ -225,8 +225,8 @@ class BrukerAWG(Interface):
             self.api.XeprCmds.aqPgSelectBuf(2)
 
             self.api.cur_exp.getParam('*ftEpr.PlsSPELPrgTxt').value = exp_text
-            plsSPELCmdParam.value=6 # Compile experiments
-            time.sleep(2)
+            plsSPELCmdParam.value=5 # Compile experiments
+            time.sleep(4)
             # while not "Second pass ended" in verbMsgParam.value:
             #     time.sleep(0.1)
 
