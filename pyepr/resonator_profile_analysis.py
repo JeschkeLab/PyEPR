@@ -8,9 +8,11 @@ from scipy.optimize import curve_fit
 import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
 from pyepr.dataset import create_dataset_from_axes
+
 def phase_correct_respro(data_array):
     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
     index =  np.argmax(np.abs(Vre),axis=0)
+    index = 0 # normalise to first point
     max_val = Vre[index,np.arange(Vre.shape[1])]
     scale = (max_val >= 0)*2-1
     Vre = Vre*scale
@@ -21,7 +23,7 @@ def phase_correct_respro(data_array):
 class ResonatorProfileAnalysis:
 
     def __init__(
-            self, dataset,f_lims=(32,36),attentuator=0,R_limit=0.2,bounds=None,p0=None) -> None:
+            self, dataset,f_lims=(32,36),attentuator=0,R_limit=0.2,bounds=None,p0=None,**kwargs) -> None:
         """Analysis and calculation of resonator profiles.
 
         Fitting fuction:
@@ -80,12 +82,12 @@ class ResonatorProfileAnalysis:
         else:
             self.p0 = [50e-3,150,1,0,0]
 
-        self._process_fit(R_limit)
+        self._process_fit(R_limit,**kwargs)
         pass
 
     def process_nutations(
             self, noisedensity: float = None, threshold:int = 2,
-            nfft: int = 1000):
+            nfft: int = 1000,**kwargs):
         """ Uses a power series to extract the resonator profile.
 
         Parameters
@@ -132,7 +134,25 @@ class ResonatorProfileAnalysis:
 
         return self.prof_data, self.prof_frqs
     
-    def _process_fit(self,R_limit=0.5,mask=None):
+    def _process_fit(self,R_limit=0.5,mask=None,debug=False):
+        """Processes the nutation data by fitting a cosine function to each
+        frequency in the dataset.
+
+        Function used for fitting:
+        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
+        where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
+        :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
+
+        Parameters
+        ----------
+        R_limit : float, optional
+            The R^2 limit for extracting fits, by default 0.5
+        mask : np.ndarray, optional
+            A mask to apply to the dataset, by default None. If not given the whole dataset is used.
+            The mask is applied along the 'pulse0_tp' axis, so it should be a 1D array
+        debug : bool, optional
+            If True all fits that are below the R_limit are plotted, by default False
+        """
         
         self.n_LO = self.freqs.shape[0]
 
@@ -142,6 +162,8 @@ class ResonatorProfileAnalysis:
         fun = lambda x, f, tau,a,k,x0: a*np.cos(2*np.pi*f*(x-x0))*np.exp(-(x-x0)/tau)+ k
 
         R2 = lambda y, yhat: 1 - np.sum((y - yhat)**2) / np.sum((y - np.mean(y))**2)
+
+        excluded = {}
         
         for i in range(self.n_LO):
             if mask is not None:
@@ -153,6 +175,15 @@ class ResonatorProfileAnalysis:
             if np.iscomplexobj(nutation):
                 nutation = nutation.real
             nutation = nutation/np.max(nutation)
+
+            if np.any(np.isnan(nutation)):
+                if debug:
+                    print(f"Skipping frequency {self.freqs[i].values} GHz due to NaN values")
+                excluded[i] = None
+                # If the nutation is NaN, set the profile and profile_ci to nan
+                self.profile[i] = np.nan
+                self.profile_ci[i] = np.nan
+                continue
             
             try:
                 results = curve_fit(fun, x, nutation, bounds=self.bounds,xtol=1e-4,ftol=1e-4,p0=self.p0)
@@ -161,9 +192,14 @@ class ResonatorProfileAnalysis:
 
                     self.profile_ci[i] = np.sqrt(np.diag(results[1]))[0]*1.96
                 else:
+                    excluded[i] = results[0]
                     self.profile[i] = np.nan
                     self.profile_ci[i] = np.nan
-            except RuntimeError:
+            except RuntimeError as e:
+                if debug:
+                    print(f"Fit failed for frequency {self.freqs[i].values} GHz \n {e}")
+                excluded[i] = None
+                # If the fit fails, set the profile and profile_ci to nan
                 self.profile[i] = np.nan
                 self.profile_ci[i] = np.nan
             
@@ -175,6 +211,33 @@ class ResonatorProfileAnalysis:
         # Adjust for attenuator
         self.profile = self.profile * 10**(self.attenuator/20)
         self.profile_ci = self.profile_ci * 10**(self.attenuator/20)
+
+        if debug:
+            n_excluded = len(excluded)
+            if n_excluded == 0:
+                print("All fits were successful")
+                return
+            
+            print(f"{n_excluded} fits were excluded due to low R^2 value")            
+            n_columns = 2
+            n_rows = int(np.ceil(n_excluded/n_columns))
+            fig, axs = plt.subplots(n_rows, n_columns, figsize=(10, 5*n_rows), constrained_layout=True,sharex=True,sharey=True)
+            axs = axs.flatten() if n_rows > 1 else [axs]
+            for i in range(n_excluded):
+                key = int(list(excluded.keys())[i])
+                nutation = self.dataset[:,key]
+                freq = self.freqs[key].values
+                if np.iscomplexobj(nutation):
+                    nutation = nutation.real
+                nutation = nutation/np.max(nutation)
+                x = self.t
+                axs[i].set_title(f'Excluded fit for {freq} GHz')
+                axs[i].plot(x,nutation,label=f'data')
+                if excluded[key] is not None:
+                    axs[i].plot(x,fun(x,*excluded[key]),label=f'Excluded fit')
+                axs[i].set_xlabel('Time / ns')
+            return fig
+
         
 
 
