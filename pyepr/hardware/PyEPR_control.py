@@ -90,7 +90,9 @@ class PyEPRControlInterface(Interface):
     def acquire_dataset(self,verbosity=0,sum_scans=True, **kwargs):
         
         for i in range(60):
-
+            args = kwargs.copy()
+            args['downconvert'] = True
+            
             response = requests.get(self.server + '/get_data', json={'downconvert': True})
             if 'error' in response.json():
                 if verbosity > 0:

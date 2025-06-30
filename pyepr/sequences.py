@@ -1117,6 +1117,9 @@ class ResonatorProfileSequence(Sequence):
         fwidth: float
             The frequency width of the resonator profile in GHz, 
             by default 0.3GHz
+        fstep: float
+            The frequency step for the profile in GHz, by default 0.02GHz
+            
         dtp: float
             The time step for the test pulse in ns, by default 2 ns
 
@@ -1142,6 +1145,7 @@ class ResonatorProfileSequence(Sequence):
             shots=shots, **kwargs)
         self.gyro = freq/B
         self.fwidth = Parameter('fwidth',fwidth,'GHz','Half the frequency sw')
+        self.fstep = Parameter('fstep',kwargs.get('fstep',0.02),'GHz','Frequency step for the profile')
         self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
 
         self.kwargs = kwargs
@@ -1160,8 +1164,8 @@ class ResonatorProfileSequence(Sequence):
         dim = np.floor(120/self.dtp.value).astype(int)
         tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
         fwidth= self.fwidth.value
-        fstep = 0.02
-        dim = np.floor(fwidth*2/0.02)
+        fstep = self.fstep.value
+        dim = np.floor(fwidth*2/fstep)
         center_freq = self.freq.value
         self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
         self.B = Parameter(
