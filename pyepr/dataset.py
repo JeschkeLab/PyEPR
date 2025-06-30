@@ -177,10 +177,36 @@ class EPRAccessor:
     def __init__(self, xarray_obj):
         self._obj = xarray_obj
 
-    def save(self, filename,type='netCDF'):
+    def save(self, filename, type='netCDF',overwrite=True):
+        """
+        Save the dataset to a hdf5 file
+
+        Parameters
+        ----------
+        filename : str
+            The name of the file to save the dataset
+        type : str, optional
+            The type of file to save, by default 'netCDF' (including .h5)
+        overwrite : bool, optional
+            Overwrite the file if it exists, by default True
+        """
+        if overwrite:
+            mode= "w"
+        else:
+            mode = "a"
+
+        #if filename doesn't have the extension .h5, add it
+        if not filename.endswith('.h5'):
+            filename = filename + '.h5'
+
+        if 'Scan' in self._obj.dims:
+            unlimited_dims = ['Scan']
+        else:
+            unlimited_dims = None
+
 
         if type == 'netCDF':
-            self._obj.to_netcdf(f"{filename}.h5",engine='h5netcdf',invalid_netcdf=True)
+            self._obj.to_netcdf(filename,engine='h5netcdf',invalid_netcdf=True,mode=mode,unlimited_dims=unlimited_dims)
 
     @property
     def correctphase(self):

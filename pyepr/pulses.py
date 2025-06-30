@@ -1172,6 +1172,35 @@ class SincPulse(Pulse):
 #         AM = np.exp(-ax**2/(((self.tp.value/2)**2)/(-1*np.log(0.001))))
 
 #         return AM, FM
+
+class CPMGDetection(Detection):
+    """
+    CPMGDetection Implements a Carr-Purcell-Meiboom-Gill (CPMG) detection sequence.
+
+    """
+
+    def __init__(self, *, tp, t=None, freq=0, n_echoes=1, echo_spacing=100, **kwargs) -> None:
+        """A CPMG detection pulse.
+
+        Parameters
+        ----------
+        tp : float
+            The **total** time of each detection event. The detection event will
+            be symetrical about the centre time. 
+        t : float, optional
+            The **centre** time of the first detection event
+        freq: float, optional
+            The detection frequency, not all spectrometer support this 
+            functionality, by default 0 MHz
+        n_echoes : int, optional
+            Number of echoes in the CPMG sequence, by default 1
+        echo_spacing : float, optional
+            Spacing between echoes in ns, by default 100 ns
+        """
+        super().__init__(tp=tp, t=t, freq=freq, **kwargs)
+        self.n_echoes = Parameter("n_echoes", n_echoes, None, "Number of echoes in the CPMG sequence")
+        self.echo_spacing = Parameter("echo_spacing", echo_spacing, "ns", "Spacing between echoes in the CPMG sequence")
+
     
 # =============================================================================
 
