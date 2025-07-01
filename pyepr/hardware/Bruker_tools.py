@@ -8,8 +8,6 @@ import importlib
 from pyepr import __version__
 import os
 import logging
-import platform
-import subprocess
 
 MODULE_DIR = importlib.util.find_spec('pyepr').submodule_search_locations[0]
 
@@ -1422,43 +1420,3 @@ def get_specjet_data(interface, full_output=False,suppress_exceptions=False):
     else:
         return array
     
-
-def get_package_version_from_dnf(package_name):
-    """Get the version and release of a package installed via dnf.
-    
-    Parameters
-    ----------
-    package_name : str
-        The name of the package to check.
-    Returns
-    -------
-    dict or None
-        A dictionary with 'version' and 'release' keys if the package is found,
-        otherwise None.
-    
-    """
-    
-    if platform.system() != 'Linux':
-        return None
-    
-    try:
-        result = subprocess.run(['dnf', 'info', package_name], 
-                                capture_output=True, text=True, check=False)
-        if result.returncode != 0:
-            return None
-            
-        output = result.stdout
-        version_line = [line for line in output.split('\n') if 'Version' in line]
-        release_line = [line for line in output.split('\n') if 'Release' in line]
-        source_line = [line for line in output.split('\n') if 'Source' in line]
-
-        
-        if version_line and release_line and source_line:
-            version = version_line[0].split(':')[1].strip()
-            release = release_line[0].split(':')[1].strip()
-            source = source_line[0].split(':')[1].strip()
-            return {'version': version, 'release': release, 'source': source}
-        
-        return None
-    except (FileNotFoundError, subprocess.SubprocessError):
-        return None

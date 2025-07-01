@@ -95,7 +95,7 @@ class BrukerAWG(Interface):
 
         # TODO add detection of VAMP-III model
         video_bw = self.bridge_config.get('Video BW')
-        self.api.cur_exp['VideoBW'].value = 20
+        # self.api.cur_exp['VideoBW'].value = 20
 
         self.time_base = 1/(video_bw*2e-3)
         self.api.hidden['specJet.TimeBase'].value = self.time_base
@@ -196,6 +196,11 @@ class BrukerAWG(Interface):
         
         if update_pulsespel:
 
+            try:
+                self.log.debug(sequence.__str__())
+            except:
+                pass
+
             MaxGate = np.min([40,sequence.reptime.value*self.bridge_config['DutyCycle']*1e-2])
             def_text, exp_text, pulse_shapes = write_pulsespel_file(sequence,d0,AWG=True,MaxGate=MaxGate)
             
@@ -245,7 +250,7 @@ class BrukerAWG(Interface):
             idx = sequence.progTable['Variable'].index('B')
             B_axis = sequence.progTable['axis'][idx]
             self.api.set_sweep_width(B_axis.max()-B_axis.min())
-            self.api.set_PhaseCycle(False)
+            self.api.set_PhaseCycle(self.bridge_config.get('On Board Pcyc (EDFS)',False))
             # self.api.set_field(sequence.B.value + B_axis.min())
             self.api.set_field(sequence.B.value)
             self.api.cur_exp['fieldCtrl.AtLeftBorder'].value = True
@@ -311,7 +316,7 @@ class BrukerAWG(Interface):
         p180: RectPulse
             A tuned rectangular pi pulse of length tp
         """
-
+        time.sleep(5)
         amp_tune =HahnEchoSequence(
             B=B, freq=freq, reptime=reptime, averages=1, shots=shots
         )
@@ -329,9 +334,12 @@ class BrukerAWG(Interface):
         while overflow_flag:
             vg = self.api.get_video_gain()
             self.launch(amp_tune, "autoDEER_amptune")
-
+            
+            time.sleep(10)
+            
             while self.isrunning():
-                time.sleep(10)
+                time.sleep(5)
+            time.sleep(3)
             dataset = self.acquire_dataset()
             dataset = dataset.epr.correctphase
 
@@ -358,7 +366,7 @@ class BrukerAWG(Interface):
 
             self.launch(amp_tune_short, "autoDEER_amptune")
 
-            time.sleep(3)
+            time.sleep(5)
             self.terminate()
             time.sleep(2)
             while self.api.is_exp_running():
@@ -371,7 +379,7 @@ class BrukerAWG(Interface):
             self.api.hidden['specJet.NOnBoardAvgs'].value = 1
             if not self.api.hidden['specJet.AverageStart'].value:
                 self.api.hidden['specJet.AverageStart'].value = True
-            time.sleep(2)
+            time.sleep(3)
             limit = np.abs(self.api.hidden['specjet.DataRange'][0])
             data = get_specjet_data(self)
             
@@ -579,7 +587,7 @@ class BrukerAWG(Interface):
 
         while not condition:
             
-            time.sleep(np.max[seq_time_scan/4,10])
+            time.sleep(np.max([seq_time_scan/4,10]))
 
             if not self.isrunning():
                 if keep_running:
@@ -597,8 +605,8 @@ class BrukerAWG(Interface):
                 restart_exp= True
             else:
                 restart_exp = False
-
-            data = self.acquire_dataset(after_scan=last_scan+1,restart_exp=restart_exp)
+            restart_exp=True
+            data = self.acquire_dataset(after_scan=last_scan,restart_exp=restart_exp)
             if autosave:
                 self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
                 data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
@@ -649,6 +657,9 @@ class BrukerAWG(Interface):
         
         
         self.terminate()
+        time.sleep(3)
+
+
         pass
             
     def calc_d0(self):
@@ -673,8 +684,11 @@ class BrukerAWG(Interface):
 
         seq.evolution([det_tp])
         self.launch(seq,savename='test',tune=False)
-        self.terminate(now=True)
         time.sleep(3)
+        while self.isrunning():
+            time.sleep(1)
+        # self.terminate(now=True)
+        # time.sleep(1.5)
 
         self.api.cur_exp['ftEPR.StartPlsPrg'].value = True
         self.api.hidden['specJet.NoOfAverages'].value = 20
@@ -719,7 +733,10 @@ class BrukerAWG(Interface):
 
         seq.evolution([det_tp])
         self.launch(seq,savename='test',tune=False)
-        self.terminate()
+        time.sleep(3)
+        while self.isrunning():
+            time.sleep(1)
+        # self.terminate()
 
         self.api.cur_exp['ftEPR.StartPlsPrg'].value = True
                 
