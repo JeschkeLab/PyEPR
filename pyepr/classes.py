@@ -94,6 +94,7 @@ class Interface:
 
 
         while not condition:
+            time.sleep(10) # TODO: Replace with half sequence time 
 
             if not self.isrunning():
                 if keep_running:
@@ -118,7 +119,7 @@ class Interface:
                 nAvgs = 1
             finally:
                 if nAvgs < 1:
-                    time.sleep(30)  # Replace with single scan time
+                    time.sleep(30)  # TODO: Replace with single scan time
                     continue
                 elif nAvgs <= last_scan:
                     time.sleep(30)

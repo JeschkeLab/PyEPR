@@ -885,7 +885,7 @@ class ReptimeScan(HahnEchoSequence):
     """
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
-    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, reptime_min=20, dim=100, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs) -> None:
         """A Hahn echo sequence is perfomed with the shot repetition time increasing.1
 
         Parameters
@@ -902,7 +902,7 @@ class ReptimeScan(HahnEchoSequence):
             The number of shots per point
         reptime_max : float
             The maximum shot repetition time in us
-        reptime_min : float
+        start : float
             The minimum shot repetition time in us, by default 20 us
         dim : int
             The number of points in the reptime axis
@@ -917,8 +917,7 @@ class ReptimeScan(HahnEchoSequence):
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
         """
-        min_reptime = reptime_min
-        dim = dim
+        min_reptime = start
         step  = (reptime_max-min_reptime)/dim
         step = np.around(step,decimals=-1)
         step = np.around(step,decimals=-1)
@@ -1123,6 +1122,8 @@ class ResonatorProfileSequence(Sequence):
             
         dtp: float
             The time step for the test pulse in ns, by default 2 ns
+        step:
+            The frequency step parameter in GHz, by default 0.02GHz
 
         Optional Parameters
         -------------------
@@ -1162,6 +1163,7 @@ class ResonatorProfileSequence(Sequence):
 
         tau1 = self.kwargs.get("tau1",2000) #2000
         tau2 = self.kwargs.get("tau2",500) #500
+        fstep = self.kwargs.get("step",0.02)
         dim = np.floor(120/self.dtp.value).astype(int)
         tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
         fwidth= self.fwidth.value

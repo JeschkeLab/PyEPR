@@ -146,7 +146,7 @@ class BrukerMPFU(Interface):
         
     def launch(self, sequence: Sequence, savename: str, start=True, tune=True,
                MPFU_overwrite=None,update_pulsespel=True, reset_bg_data = True,
-               reset_cur_exp=True,**kwargs):
+               reset_cur_exp=True, attenuator=0,**kwargs):
         
         sequence.shift_detfreq_to_zero()
 
@@ -162,6 +162,8 @@ class BrukerMPFU(Interface):
             self.savename = timestamp+savename
             # self.savename = savename
             self.cur_exp = sequence
+
+            self.api.set_attenuator('Main',attenuator)
                     
         # First check if the sequence is pulsespel compatible
     
@@ -235,7 +237,7 @@ class BrukerMPFU(Interface):
         if update_pulsespel:
             # PSpel = PulseSpel(sequence, MPFU=self.MPFU)
             
-            def_text, exp_text = write_pulsespel_file(sequence,self.d0,False,MPFU_chans)
+            def_text, exp_text, _ = write_pulsespel_file(sequence,self.d0,False,MPFU_chans)
             
             verbMsgParam = self.api.cur_exp.getParam('*ftEPR.PlsSPELVerbMsg')
             plsSPELCmdParam = self.api.cur_exp.getParam('*ftEPR.PlsSPELCmd')
@@ -261,16 +263,18 @@ class BrukerMPFU(Interface):
                 
         self.api.set_field(sequence.B.value)
         self.api.set_freq(sequence.freq.value)
-        
+        self.api.set_PhaseCycle(True)
+
         if 'B' in sequence.progTable['Variable']:
             idx = sequence.progTable['Variable'].index('B')
             B_axis = sequence.progTable['axis'][idx]
             self.api.set_sweep_width(B_axis.max()-B_axis.min())
+            self.api.set_PhaseCycle(True)
         
 
         self.api.set_ReplaceMode(False)
         self.api.set_Acquisition_mode(1)
-        self.api.set_PhaseCycle(True)
+        
         pg = sequence.pulses[-1].tp.value
         pg = round_step(pg/2,self.bridge_config['Pulse dt'])
         d0 = self.d0-pg
@@ -385,11 +389,12 @@ class BrukerMPFU(Interface):
             max_value = np.abs(get_specjet_data(self)).max()
             y_max = np.abs(self.api.hidden['specjet.DataRange'][0])
             vg  =self.api.get_video_gain()
+            vg_step = self.api.get_video_gain_step()
             if max_value > 0.7* y_max:
-                self.api.set_video_gain(vg - 3)
+                self.api.set_video_gain(vg - vg_step)
                 time.sleep(0.5)
             elif max_value < 0.3* y_max:
-                self.api.set_video_gain(vg + 3)
+                self.api.set_video_gain(vg + vg_step)
                 time.sleep(0.5)
             else:
                 optimal=True
@@ -426,14 +431,19 @@ class BrukerMPFU(Interface):
         self.api.hidden['Detection'].value = 'Signal'
 
     def calc_d0_from_Hahn_Echo(self, B=None, freq=None):
-        
-        B = self.api.get_field()
-        freq = self.api.get_counterfreq()
 
         if B is not None:
-            self.api.set_field(B)
+            B = self.api.get_field()
         if freq is not None:
-            self.api.set_freq(freq)
+            freq = self.api.get_counterfreq()
+
+        self.api.set_field(B)
+        self.api.set_freq(freq)
+
+        # Retune the channels
+        channels = _MPFU_channels(self.cur_exp)
+        MPFUtune(self,self.cur_exp, [channels[0]])
+
         
         d0 = self.d0
         # self.api.set_PulseSpel_var('d0',d0)
@@ -441,6 +451,8 @@ class BrukerMPFU(Interface):
         self.api.abort_exp()
         while self.api.is_exp_running():
             time.sleep(1)
+        
+        self.api.set_field(B)
 
         self.api.cur_exp['ftEPR.StartPlsPrg'].value = True
         self.api.hidden['specJet.NoOfAverages'].value = 20
@@ -456,20 +468,23 @@ class BrukerMPFU(Interface):
             max_value = np.abs(get_specjet_data(self)).max()
             y_max = np.abs(self.api.hidden['specjet.DataRange'][0])
             vg  =self.api.get_video_gain()
+            vg_step = self.api.get_video_gain_step()
             if max_value > 0.7* y_max:
-                self.api.set_video_gain(vg - 3)
+                self.api.set_video_gain(vg - vg_step)
                 time.sleep(0.5)
             elif max_value < 0.3* y_max:
-                self.api.set_video_gain(vg + 3)
+                self.api.set_video_gain(vg + vg_step)
                 time.sleep(0.5)
             else:
                 optimal=True
         
         specjet_data = np.abs(get_specjet_data(self))
+        # x_data = self.api.hidden['specJet.Abs1Data'] + d0 - 64
+        # np.save(os.path.join(self.savefolder,'calcd0_from_specjet'),np.array([x_data,specjet_data]))
         calc_d0 = d0 - 64 + self.api.hidden['specJet.Abs1Data'][specjet_data.argmax()]
 
         self.d0 = calc_d0 
-        hw_log.info(f"d0 set to {self.d0}")
+        hw_log.info(f"d0 set to {self.d0} from Hahn Echo")
         return self.d0
 
         
@@ -658,9 +673,9 @@ def tune_power(
             elif echo=='R-':
                 tran_sum = lambda x: 1 * np.sum(np.real(x))
             elif echo=='I+':
-                tran_sum = lambda x: -1 * np.sum(np.real(x))
+                tran_sum = lambda x: -1 * np.sum(np.imag(x))
             elif echo=='I-':
-                tran_sum = lambda x: 1 * np.sum(np.real(x))
+                tran_sum = lambda x: 1 * np.sum(np.imag(x))
 
             def objective(x, *args):
                 interface.api.hidden[atten_channel].value = x  # Set phase to value
@@ -677,6 +692,9 @@ def tune_power(
             start_point = 0
             loops = 0
             limit = np.abs(interface.api.hidden['specjet.DataRange'][0])
+            vg_step = interface.api.get_video_gain_step()
+            if vg_step <6:
+                vg_step *= 2
             while start_point ==0:
                 overflow_flag = False
                 x = np.linspace(lb,ub,dx,endpoint=True)
@@ -690,7 +708,7 @@ def tune_power(
                     data = get_specjet_data(interface)
                     
                     if (np.abs(data.real).max() > 0.7*limit) or (np.abs(data.imag).max() > 0.7*limit):
-                        interface.api.set_video_gain(vg - 9)
+                        interface.api.set_video_gain(vg - vg_step)
                         overflow_flag= True
                         print('overflow')
                         break
@@ -699,16 +717,22 @@ def tune_power(
                     print(f'Power Setting = {xi:.1f} \t Echo Amplitude = {-1*val:.2f}')
                     y[i] = val
 
-                if not overflow_flag:
+                # if not overflow_flag:
+                #     if y[np.abs(y).argmax()].max() < 1:
+                #         y *= -1
+                #     start_point = x[np.argmax(y)]  
+                
+                if not overflow_flag and (np.abs(y.real).max() < 0.3*limit) and (np.abs(y.imag).max() < 0.3*limit):
+                    interface.api.set_video_gain(vg + vg_step)
+                    overflow_flag= True
+                    print('undeflow')
+                    continue
+                elif not overflow_flag:
                     if y[np.abs(y).argmax()].max() < 1:
                         y *= -1
-                    start_point = x[np.argmax(y)]  
-                
-                elif (np.abs(y.real).max() < 0.3*limit) and (np.abs(y.imag).max() < 0.3*limit):
-                    interface.api.set_video_gain(vg + 6)
-                    overflow_flag= True
-                    print('underflow')
-                    continue                  
+                    start_point = x[np.argmax(y)]
+
+
                 loops += 1
                 if loops > 10:
                     raise RuntimeError('Failed to optimise videogain')

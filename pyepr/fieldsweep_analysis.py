@@ -169,8 +169,8 @@ class FieldSweepAnalysis():
         SNR = self.data.epr.correctphase.epr.SNR
         SNRp1k = SNR / (self.data.nPcyc * self.data.nAvgs * self.data.shots *1e-3)**0.5
         level = np.round((SNR_target/SNRp1k)**2 / (self.data.nPcyc * 2 * 50* 1e-3))
-        if level < 0.2:
-            level = 0.2
+        if level < 0.1:
+            level = 0.1
         return level 
     
     def smooth(self,smoothing_factor=0.01,*args,**kwargs):
