@@ -240,13 +240,17 @@ class XeprAPILink:
             return dset
 
 
-    def acquire_scan(self,sequence = None):
+    def acquire_scan(self,sequence = None,after_scan=None):
         """
         This script detects the end of the scan and acquires the data set. 
         This requires that the experiment is still running, or recently 
         finished. Once it has been saved this will no longer work.
         """
         if self.is_exp_running():
+            
+            if after_scan is not None:
+                while self.get_param("NbScansDone") < after_scan:
+                    time.sleep(5)
             
             self.pause_exp()
             while self.is_exp_running():

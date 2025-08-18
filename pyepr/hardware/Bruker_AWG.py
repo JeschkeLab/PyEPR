@@ -109,7 +109,7 @@ class BrukerAWG(Interface):
         self.setup_flag = True
         pass
 
-    def acquire_dataset(self):
+    def acquire_dataset(self, **kwargs):
         if self.bg_data is None:
             if not self.isrunning():
                 if (self.savename is not None) and (self.savename != ''):
@@ -119,7 +119,7 @@ class BrukerAWG(Interface):
                     self.api.xepr_save(os.path.join(self.savefolder,self.savename))
                 data = self.api.acquire_dataset(self.cur_exp)
             else:
-                data = self.api.acquire_scan(self.cur_exp)
+                data = self.api.acquire_scan(self.cur_exp,**kwargs)
         else:
 
             data = create_dataset_from_sequence(self.bg_data, self.cur_exp)
@@ -546,6 +546,101 @@ class BrukerAWG(Interface):
             attempt = self.bg_thread.cancel()
             if not attempt:
                 raise RuntimeError("Thread failed to be canceled!")
+    
+
+    # Override the terminate method to allow for a more complex termination, that reduces the number of call to the XeprAPI
+    def terminate_at(self, criterion, test_interval=2, keep_running=True, verbosity=0,autosave=True):
+        """Terminates the experiment upon a specific condition being
+        satisified. 
+
+        Parameters
+        ----------
+        criterion : _type_
+            The criteria to be tested.
+        test_interval : int, optional
+            How often should the criteria be tested in minutes, by default 10.
+        keep_running : bool, optional
+            If True, an error will not be raised if the experiment finishes before the criteria is met, by default True.
+        verbosity : int, optional
+            The verbosity level, by default 0. 
+        autosave : bool, optional
+            If True, the data will be autosaved, by default True.
+
+        """
+
+
+
+        test_interval_seconds = test_interval * 60
+        condition = False
+        last_scan = 0
+
+        seq_time_scan = self.cur_exp._estimate_time() / self.cur_exp.averages.value
+
+
+        while not condition:
+            
+            time.sleep(np.max[seq_time_scan/4,10])
+
+            if not self.isrunning():
+                if keep_running:
+                    self.terminate()
+                    return None
+                else:
+                    msg = "Experiments has finished before criteria met."
+                    raise RuntimeError(msg)
+
+            start_time = time.time()
+
+            data = self.acquire_dataset(after_scan=last_scan+1)
+            if autosave:
+                self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
+                data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+
+            try:
+                # nAvgs = data.num_scans.value
+                nAvgs = data.attrs['nAvgs']
+
+            except AttributeError or KeyError:
+                self.log.warning("WARNING: Dataset missing number of averages(nAvgs)!")
+                nAvgs = 1
+            finally:
+                if nAvgs < 1:
+                    time.sleep(seq_time_scan/2)  # TODO: Replace with single scan time
+                    continue
+                elif nAvgs <= last_scan:
+                    time.sleep(seq_time_scan/2)
+                    continue    
+            last_scan = nAvgs
+            if verbosity > 0:
+                print("Testing")
+
+            if isinstance(criterion,list):
+                conditions = [crit.test(data, verbosity) for crit in criterion]
+                condition = any(conditions)
+
+            else:
+                condition = criterion.test(data, verbosity)
+
+            if not condition:
+                end_time = time.time()
+                if (end_time - start_time) < test_interval_seconds:
+                    if verbosity > 0:
+                        print("Sleeping")
+                    time.sleep(test_interval_seconds - (end_time - start_time))
+        
+        if isinstance(criterion,list):
+            for i,crit in enumerate(criterion):
+                if conditions[i]:
+                    if callable(crit.end_signal):
+                        crit.end_signal()
+                
+        else:
+            if callable(criterion.end_signal):
+                criterion.end_signal()
+        
+        
+        self.terminate()
+        pass
             
     def calc_d0(self):
         """
