@@ -9,18 +9,29 @@ import deerlab as dl
 from matplotlib.ticker import AutoMinorLocator,AutoLocator
 from pyepr.dataset import create_dataset_from_axes
 import xarray as xr
+from pyepr.colors import primary_colors
 
-def phase_correct_respro(data_array):
-    Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
-    index =  np.argmax(np.abs(Vre),axis=0)
-    index = 0 # normalise to first point
-    max_val = Vre[index,np.arange(Vre.shape[1])]
-    scale = (max_val >= 0)*2-1
-    Vre = Vre*scale
-    Vim = Vim*scale
-    data_array.values = Vre + 1j*Vim
-    return data_array
+# def phase_correct_respro(data_array):
+#     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
+#     index =  np.argmax(np.abs(Vre),axis=0)
+#     index = 0 # normalise to first point
+#     max_val = Vre[index,np.arange(Vre.shape[1])]
+#     scale = (max_val >= 0)*2-1
+#     Vre = Vre*scale
+#     Vim = Vim*scale
+#     data_array.values = Vre + 1j*Vim
+#     return data_array
 
+def phase_correct_respro(dataset):
+    """ Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real"""
+    data = dataset.values
+    Vre, Vim, ph = dl.correctphase(data, full_output=True)
+    new_data = Vre + 1j * Vim
+    first_points = Vre[0, np.arange(Vre.shape[1])]
+    first_angles = np.angle(first_points)
+    new_data *= np.exp(-1j * first_angles)
+    dataset.values = new_data
+    return dataset
 class ResonatorProfileAnalysis:
 
     def __init__(
