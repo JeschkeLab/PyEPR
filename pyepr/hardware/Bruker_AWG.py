@@ -591,7 +591,14 @@ class BrukerAWG(Interface):
 
             start_time = time.time()
 
-            data = self.acquire_dataset(after_scan=last_scan+1)
+            # TODO: make this behavour a property of the criteria not the sequence
+            if any(cls.__name__ == 'DEERSequence' for cls in self.cur_exp.__class__.__mro__):
+                # Special handling for DEERSequence
+                restart_exp= True
+            else:
+                restart_exp = False
+
+            data = self.acquire_dataset(after_scan=last_scan+1,restart_exp=restart_exp)
             if autosave:
                 self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
                 data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
@@ -622,6 +629,8 @@ class BrukerAWG(Interface):
                 condition = criterion.test(data, verbosity)
 
             if not condition:
+                if not restart_exp:
+                    self.api.rerun_exp()
                 end_time = time.time()
                 if (end_time - start_time) < test_interval_seconds:
                     if verbosity > 0:

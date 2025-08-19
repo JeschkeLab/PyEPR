@@ -56,10 +56,22 @@ class XeprAPILink:
         """
         Connect to the Xepr Spectrometer.
         """
+        self.log_xepr_version()
         self.find_Xepr()
         self.find_cur_exp()
         self.find_hidden()
         pass
+    
+    def log_xepr_version(self):
+        """Logs the Xepr and Linacq versions for debugging purposes."""
+        packages = ['xper','linacq']
+
+        for package in packages:
+            details = get_package_version_from_dnf(package)
+            if details is None:
+                hw_log.warning(f"Could not find {package} version")
+                continue
+            hw_log.info(f"{package} version: {details['version']}, release: {details['release']}, source: {details['source']}")
 
     def _set_Xepr_global(self, Xepr_inst):
         self.Xepr = Xepr_inst
@@ -240,7 +252,7 @@ class XeprAPILink:
             return dset
 
 
-    def acquire_scan(self,sequence = None,after_scan=None):
+    def acquire_scan(self,sequence = None,after_scan=None, restart_exp=True):
         """
         This script detects the end of the scan and acquires the data set. 
         This requires that the experiment is still running, or recently 
@@ -263,8 +275,9 @@ class XeprAPILink:
                 time.sleep(0.5)
                 dataset = self.acquire_dataset(sequence)
 
-            self.rerun_exp()
-            time.sleep(0.5)
+            if restart_exp:
+                self.rerun_exp()
+                time.sleep(0.5)
             return dataset
         else:
             return self.acquire_dataset(sequence)
