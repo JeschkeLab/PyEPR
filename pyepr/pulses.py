@@ -191,22 +191,44 @@ class Pulse:
         return self.AM, self.FM
     
     
-    def build_shape(self,ax=None):
+    def build_shape(self,ax=None, full_output=False):
+        """
+        Creates the time domain representation of the pulse shape, using the method `func`.
+
+        Parameters
+        ----------
+        ax : np.ndarray, optional
+            The axis to build the shape on. If None, uses the internal `ax` attribute.
+        
+        """
         if ax is None:
             ax = self.ax
+
         dt = ax[1]-ax[0]
         pulse_points = int(np.around(self.tp.value/dt))
         total_points = ax.shape[0]
-        remaining_points = total_points-pulse_points
+        pad_points = total_points - pulse_points
+
         # pulse_axis = np.zeros(pulse_points)
-        pulse_axis =np.arange(self.ax.min(),self.ax.max(),dt)
+        pulse_axis = np.linspace(self.ax.min(),self.ax.max(),pulse_points)
         AM, FM = self.func(pulse_axis)
-        AM = np.pad(AM,(int(np.floor(remaining_points/2)),int(np.ceil(remaining_points/2))),'constant',constant_values=0)
-        FM = np.pad(FM,(int(np.floor(remaining_points/2)),int(np.ceil(remaining_points/2))),'constant',constant_values=0)
-        FM_arg = 2*np.pi*cumulative_trapezoid(FM, initial=0) * dt
-        shape = AM * (np.cos(FM_arg) +1j* np.sin(FM_arg))
- 
-        return shape
+
+        if pad_points > 0:
+            pre_pad_points = int(np.floor(pad_points/2))
+            post_pad_points = int(np.ceil(pad_points/2))
+            AM = np.pad(AM,(pre_pad_points,post_pad_points),'constant',constant_values=0)
+            FM = np.pad(FM,(pre_pad_points,post_pad_points),'constant',constant_values=0)
+            full_axis = np.linspace(ax[0], ax[-1], total_points)
+        else:
+            full_axis = pulse_axis
+        cum_phase = 2*np.pi*cumulative_trapezoid(FM, initial=0) * dt
+        shape = AM * (np.cos(cum_phase) +1j* np.sin(cum_phase))
+        
+        
+        if full_output:
+            return full_axis, shape
+        else:
+            return shape
 
     def build_table(self):
             """
@@ -466,8 +488,11 @@ class Pulse:
                 amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
                 amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             else:
-                amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
-                amp_factor = amp_factor * self.scale.value
+                if hasattr(self,'init_freq'):
+                    amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
+                    amp_factor = amp_factor * self.scale.value
+                else:
+                    amp_factor = self.amp_factor.value
 
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
@@ -1092,6 +1117,55 @@ class ChirpPulse(FrequencySweptPulse):
     def func(self, ax):
         nx = ax.shape[0]
         AM = np.ones(nx)
+
+        FM = np.linspace(
+            self.init_freq.value, self.final_freq.value, nx)
+
+        return AM, FM
+    
+    @property
+    def sweeprate(self):
+        """ The sweep rate of the pulse in GHz/ns"""
+        sweeprate_value = self.bandwidth.value / self.tp.value
+        return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
+# =============================================================================
+
+class WURSTPulse(FrequencySweptPulse):
+    """
+    Represents a WURST frequency-swept pulse.
+
+    Equations:
+
+    The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:
+    .. math::
+        AM(t) = 1 - \left|\sin\left(\frac{\pi}{tp} \cdot t\right)\right|^{order}
+    
+    .. math::
+        FM(t) = \frac{BW t}{tp} + init\_freq
+    where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`init_freq` is the initial frequency of the pulse, and :math:`order` is the order of the WURST pulse.
+
+    Parameters
+    ----------
+    tp : int, optional
+        Pulse length in ns, by default 128
+    order : int, optional
+        The order of the WURST pulse, by default 32
+    **kwargs : dict, optional
+        Additional keyword arguments to pass to the default pulse class.
+
+    """
+
+    def __init__(self, *, tp=128, order=32, **kwargs) -> None:
+        FrequencySweptPulse.__init__(self, tp=tp,name='ChirpPulse', **kwargs)
+        self.order = Parameter("Order", order, None, "The order of the WURST pulse")
+
+        self._buildFMAM(self.func)
+        pass
+
+    def func(self, ax):
+        nx = ax.shape[0]
+        
+        AM = np.ones(nx) - np.abs(np.sin((np.pi*ax/self.tp.value)))** self.order.value
 
         FM = np.linspace(
             self.init_freq.value, self.final_freq.value, nx)

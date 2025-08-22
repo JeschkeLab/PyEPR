@@ -214,7 +214,7 @@ class Sequence:
         self._buildPhaseCycle()
         self._estimate_time()
 
-    def _estimate_time(self):
+    def _estimate_time(self) -> float:
         """
         Calculates the estimated experiment time in seconds.
         """

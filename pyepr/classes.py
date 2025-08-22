@@ -94,6 +94,7 @@ class Interface:
 
 
         while not condition:
+            
             time.sleep(10) # TODO: Replace with half sequence time 
 
             if not self.isrunning():
