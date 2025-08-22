@@ -259,7 +259,7 @@ class Parameter:
 
         if ("step" in kwargs) and not self.NUS:
             step = kwargs["step"]
-            dim = kwargs["dim"]
+            dim = int(kwargs["dim"])
             if "axis_id" in kwargs:
                 axis_id = kwargs["axis_id"]
             else:

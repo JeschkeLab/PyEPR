@@ -7,6 +7,8 @@ from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
 from scipy.optimize import minimize_scalar
 import logging
 import re
+import platform
+import subprocess
 
 try:
     xepr_path = os.popen("Xepr --apipath").read()[:-1]
@@ -56,10 +58,22 @@ class XeprAPILink:
         """
         Connect to the Xepr Spectrometer.
         """
+        self.log_xepr_version()
         self.find_Xepr()
         self.find_cur_exp()
         self.find_hidden()
         pass
+    
+    def log_xepr_version(self):
+        """Logs the Xepr and Linacq versions for debugging purposes."""
+        packages = ['xper','linacq']
+
+        for package in packages:
+            details = get_package_version_from_dnf(package)
+            if details is None:
+                hw_log.warning(f"Could not find {package} version")
+                continue
+            hw_log.info(f"{package} version: {details['version']}, release: {details['release']}, source: {details['source']}")
 
     def _set_Xepr_global(self, Xepr_inst):
         self.Xepr = Xepr_inst
@@ -240,7 +254,7 @@ class XeprAPILink:
             return dset
 
 
-    def acquire_scan(self,sequence = None,after_scan=None):
+    def acquire_scan(self,sequence = None,after_scan=None, restart_exp=True):
         """
         This script detects the end of the scan and acquires the data set. 
         This requires that the experiment is still running, or recently 
@@ -253,8 +267,9 @@ class XeprAPILink:
                     time.sleep(5)
             
             self.pause_exp()
+            time.sleep(1)
             while self.is_exp_running():
-                time.sleep(1)
+                time.sleep(3)
                 
             try:
                 dataset = self.acquire_dataset(sequence)
@@ -263,8 +278,9 @@ class XeprAPILink:
                 time.sleep(0.5)
                 dataset = self.acquire_dataset(sequence)
 
-            self.rerun_exp()
-            time.sleep(0.5)
+            if restart_exp:
+                self.rerun_exp()
+                time.sleep(0.5)
             return dataset
         else:
             return self.acquire_dataset(sequence)
@@ -348,8 +364,8 @@ class XeprAPILink:
 
     def set_PhaseCycle(self, state=True):
         init_state = self.get_PhaseCycle()
+        hw_log.info(f"On-Board Phase Cycling set to {state}")
         if state != init_state:
-            hw_log.info(f"On-Board Phase Cycling set to {state}")
             self.set_param("PCycleOn", state)  
         return self.get_PhaseCycle()
 
@@ -940,3 +956,44 @@ class XeprAPILink:
 
         return self.get_video_bandwidth()
 # =============================================================================
+
+
+def get_package_version_from_dnf(package_name):
+    """Get the version and release of a package installed via dnf.
+    
+    Parameters
+    ----------
+    package_name : str
+        The name of the package to check.
+    Returns
+    -------
+    dict or None
+        A dictionary with 'version' and 'release' keys if the package is found,
+        otherwise None.
+    
+    """
+    
+    if platform.system() != 'Linux':
+        return None
+    
+    try:
+        result = subprocess.run(['dnf', 'info', package_name], 
+                                capture_output=True, text=True, check=False)
+        if result.returncode != 0:
+            return None
+            
+        output = result.stdout
+        version_line = [line for line in output.split('\n') if 'Version' in line]
+        release_line = [line for line in output.split('\n') if 'Release' in line]
+        source_line = [line for line in output.split('\n') if 'Source' in line]
+
+        
+        if version_line and release_line and source_line:
+            version = version_line[0].split(':')[1].strip()
+            release = release_line[0].split(':')[1].strip()
+            source = source_line[0].split(':')[1].strip()
+            return {'version': version, 'release': release, 'source': source}
+        
+        return None
+    except (FileNotFoundError, subprocess.SubprocessError):
+        return None

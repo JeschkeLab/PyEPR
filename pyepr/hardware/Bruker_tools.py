@@ -1419,3 +1419,4 @@ def get_specjet_data(interface, full_output=False,suppress_exceptions=False):
         return time_axis, array
     else:
         return array
+    
