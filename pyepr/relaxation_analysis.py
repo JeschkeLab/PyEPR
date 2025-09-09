@@ -38,12 +38,13 @@ class CarrPurcellAnalysis():
             self.axis = dataset['step'] 
         else:
             self.axis = dataset['X']
-        
-        dataset = dataset.epr.correctphasefull
-        self.data = dataset.data.real
-        self.dataset = dataset
 
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
         data = self.data / np.max(self.data)
+
         self.noise = noiselevel(data)
         # if sequence is None and hasattr(dataset,'sequence'):
         #     self.seq = dataset.sequence
@@ -309,11 +310,12 @@ class HahnEchoRelaxationAnalysis():
         else:
             self.axis = dataset['X']
         
-        dataset = dataset.epr.correctphasefull
-        self.data = dataset.data.real
-        self.dataset = dataset
-
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
         data = self.data / np.max(self.data)
+
         self.noise = noiselevel(data)
 
         
@@ -501,13 +503,14 @@ class ReptimeAnalysis():
         # if self.axis.max() > 1e4:
         #     self.axis /= 1e3 # ns -> us
         # self.data = dataset.data/np.max(dataset.data)
-        
-        if np.iscomplexobj(dataset.data):
-            self.data = dataset.epr.correctphase
-        else:
-            self.data = dataset
 
-        self.data.data /= np.max(self.data.data)
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
+        self.data = self.data / np.max(self.data)
+        
+    
         self.seq = sequence
         pass
 
@@ -542,16 +545,19 @@ class ReptimeAnalysis():
         if axs is None and fig is None:
             fig, axs = plt.subplots()
 
-        # if hasattr(self,'fit_result'):
-        #     # renormalise data to fit amplitude
-        #     data = self.data/self.fit_result[0][0]
-        # else:
-        data = self.data
+        if hasattr(self,'fit_result'):
+            # renormalise data to fit amplitude
+            fit_data = self.func(self.axis, *self.fit_result[0])
+            fit_scale = self.fit_result[0][0]
+            data = self.data/fit_scale
+            fit_data /= fit_scale
+        else:
+            data = self.data
 
         axs.plot(self.axis/1e3, data, '.', label='data', color='0.6', ms=ms)
         
         if hasattr(self,'fit_result'):
-            axs.plot(self.axis/1e3, self.func(self.axis,*self.fit_result[0]), label='Fit', color=primary_colors[0], lw=lw)
+            axs.plot(self.axis/1e3, fit_data, label='Fit', color=primary_colors[0], lw=lw)
             axs.set_xlim(*axs.get_xlim())
             axs.set_ylim(*axs.get_ylim())
             ylim = axs.get_ylim()
