@@ -12,6 +12,8 @@ from pyepr.utils import autoEPRDecoder, round_step
 from pathlib import Path
 import logging
 from pyepr.config import get_waveform_precision
+import yaml
+
 
 # =============================================================================
 
@@ -20,7 +22,13 @@ class Interface:
     """Represents the interface connection from autoEPR to the spectrometer.
     """
 
-    def __init__(self,log=None) -> None:
+    def __init__(self,config_file:dict=None,log=None) -> None:
+        if isinstance(config_file, (str,Path)):
+            with open(config_file, 'r') as f:
+                config_file = yaml.safe_load(f)
+        
+        self.config = config_file if isinstance(config_file, dict) else {}
+        
         self.pulses = {}
         self.savefolder = str(Path.home())
         self.savename = ""
@@ -29,6 +37,7 @@ class Interface:
         else:
             self.log = log
         self.resonator = None
+        self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
         pass
 
     def connect(self) -> None:
@@ -60,6 +69,41 @@ class Interface:
 
     def isrunning(self) -> bool:
         return False
+    
+    def rescale(self,scale: float) -> float:
+        """Rescales the scale factor to account for applifier non-linearity.
+
+        Parameters
+        ----------
+        scale : float
+            The scale factor to be rescaled.
+
+        Returns
+        -------
+        float
+            The rescaled value.
+        """
+
+        if self.amp_nonlinearity is None:
+            print("WARNING: No amplifier non-linearity defined. Using linear scaling.")
+            return scale
+        if isinstance(self.amp_nonlinearity, list): # Assume polyniomial coefficients 
+            coeff = copy.copy(self.amp_nonlinearity)
+            coeff[-1] -= scale  # Set the last coefficient to the negative of the scale factor
+            roots = np.roots(coeff) # Check if the coefficients are valid
+            real_roots = roots[np.isreal(roots)].real
+
+            if np.all(real_roots < 0):
+                new_scale = scale
+                print("Warning: All roots are negative, setting scale to orginal")
+            elif len(real_roots[(real_roots >= 0) & (real_roots <= 1)]) == 0:
+                new_scale = 1.0
+            else:
+                valid = real_roots[(real_roots >= 0) & (real_roots <= 1)]
+                new_scale = valid[0]
+
+            new_scale = np.clip(new_scale, 0, 1)
+            return new_scale
 
     def terminate(self) -> None:
         """

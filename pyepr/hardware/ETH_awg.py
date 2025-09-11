@@ -28,7 +28,7 @@ class ETH_awg_interface(Interface):
     """
     Represents the interface for connecting to Andrin Doll style spectrometers.
     """
-    def __init__(self, awg_freq=1.5, dig_rate=2) -> None:
+    def __init__(self,config_file:dict, awg_freq=1.5, dig_rate=2) -> None:
         """An interface for connecting to a Andrin Doll style spectrometer,
         commonly in use at ETH Zürich.
 
@@ -47,20 +47,26 @@ class ETH_awg_interface(Interface):
         dig_rate : float
             The speed of the digitser in GSa/s
         """
-        super().__init__()
-            
-        self.awg_freq = awg_freq
-        self.dig_rate = dig_rate
+        super().__init__(config_file)
+
+        self.spec_config = self.config["Spectrometer"]
+        self.bridge_config = self.spec_config["Bridge"]
+        
+        
+        self.IF_freq = self.bridge_config['IF Freq']
+        self.dig_rate = self.bridge_config['Det Freq']
         self.pulses = {}
         self.cur_exp = None
         self.bg_data = None
         self.bg_thread = None
-        self.IFgain_options = np.array([1, 18.7, 36.14])
+        self.IFgain_options = np.array(self.bridge_config['IFgain'])
         self.IFgain = 2
 
         self.filter = {}
         self.filter['filter_type'] = 'cheby2'
         self.filter['filter_width'] = 0.01 # GHz
+
+        print(self.amp_nonlinearity)
         
         pass
 
@@ -313,7 +319,7 @@ class ETH_awg_interface(Interface):
                     pos_levels[pos_levels > 0.85] = 0
                     if dig_level == 0:
                         continue
-                    if (pos_levels[self.IFgain] > 0.85) or  (pos_levels[self.IFgain] < 0.03):
+                    if (pos_levels[self.IFgain] > 0.85) or  (pos_levels[self.IFgain] < 0.02):
                         best_IFgain = np.argmax(pos_levels)
                     else:
                         best_IFgain = self.IFgain
@@ -380,6 +386,16 @@ class ETH_awg_interface(Interface):
                 
             return False
 
+        if self.bg_thread is not None:
+            if self.bg_thread.is_alive():
+                log.warning('Background thread still running. Terminating it now.')
+                self.stop_flag.set()
+                self.bg_thread.join(timeout=120)
+                if self.bg_thread.is_alive():
+                        log.critical('Background thread still running. Unable to launch new sequence.')
+                else:
+                    log.debug('Background thread terminated.')
+
 
         self.bg_thread=None
         self.bg_data = None
@@ -394,7 +410,7 @@ class ETH_awg_interface(Interface):
         try:
             self.launch_normal(sequence,savename,IFgain)
         except matlab.engine.MatlabExecutionError:
-            log.warning('Sequence too long. Breaking the problem down...')
+            log.warning('Matlab error trying to launch sequence. Breaking the problem down...')
             self.launch_long(sequence,savename,IFgain)
 
     def launch_normal(self, sequence , savename: str, IFgain: int = 0,reset_cur_exp=True):
@@ -747,6 +763,7 @@ class ETH_awg_interface(Interface):
         struc['name'] = sequence.name
         # Build pulse/detection events
         struc["events"] = list(map(self._build_pulse, sequence.pulses))
+        struc["store_avgs"] = int(self.bridge_config.get('Store Averages', True))
 
         unique_parvars = np.unique(sequence.progTable["axID"])
 
@@ -759,7 +776,7 @@ class ETH_awg_interface(Interface):
         for i in unique_parvars:
             struc["parvars"].append(self._build_parvar(i, sequence))
         
-        struc["LO"] = round(float(sequence.freq.value - self.awg_freq), 3)
+        struc["LO"] = round(float(sequence.freq.value - self.IF_freq), 3)
 
         return struc
 
@@ -771,7 +788,7 @@ class ETH_awg_interface(Interface):
         if type(pulse) is Detection:
             # event["det_len"] = float(pulse.tp.value * self.dig_rate)
             event["det_len"] = float(1024*2)
-            event["det_frq"] = float(pulse.freq.value) + self.awg_freq
+            event["det_frq"] = float(pulse.freq.value) + self.IF_freq
             event["name"] = "det"
             return event
 
@@ -782,40 +799,40 @@ class ETH_awg_interface(Interface):
 
         if type(pulse) is RectPulse:
             event["pulsedef"]["type"] = 'chirp'
-            event["pulsedef"]["nu_init"] = pulse.freq.value + self.awg_freq
+            event["pulsedef"]["nu_init"] = pulse.freq.value + self.IF_freq
         
         elif type(pulse) is ChirpPulse:
             event["pulsedef"]["type"] = 'chirp'
             
             if hasattr(pulse, "init_freq"):
                 event["pulsedef"]["nu_init"] = pulse.init_freq.value +\
-                     self.awg_freq
+                     self.IF_freq
             else:
                 nu_init = pulse.final_freq.value - pulse.BW.value
-                event["pulsedef"]["nu_init"] = nu_init + self.awg_freq
+                event["pulsedef"]["nu_init"] = nu_init + self.IF_freq
             
             if hasattr(pulse, "final_freq"):
                 event["pulsedef"]["nu_final"] = pulse.final_freq.value +\
-                     self.awg_freq
+                     self.IF_freq
             else:
                 nu_final = pulse.init_freq.value + pulse.BW.value
-                event["pulsedef"]["nu_final"] = nu_final + self.awg_freq
+                event["pulsedef"]["nu_final"] = nu_final + self.IF_freq
             
         elif type(pulse) is HSPulse:
             event["pulsedef"]["type"] = 'HS'
             if hasattr(pulse, "init_freq"):
                 event["pulsedef"]["nu_init"] = pulse.init_freq.value +\
-                     self.awg_freq
+                     self.IF_freq
             else:
                 nu_init = pulse.final_freq.value - pulse.BW.value
-                event["pulsedef"]["nu_init"] = nu_init + self.awg_freq
+                event["pulsedef"]["nu_init"] = nu_init + self.IF_freq
             
             if hasattr(pulse, "final_freq"):
                 event["pulsedef"]["nu_final"] = pulse.final_freq.value +\
-                     self.awg_freq
+                     self.IF_freq
             else:
                 nu_final = pulse.init_freq.value + pulse.BW.value
-                event["pulsedef"]["nu_final"] = nu_final + self.awg_freq
+                event["pulsedef"]["nu_final"] = nu_final + self.IF_freq
 
             event["pulsedef"]["HSorder"] = float(pulse.order1.value)
             event["pulsedef"]["HSorder2"] = float(pulse.order2.value)
@@ -828,7 +845,7 @@ class ETH_awg_interface(Interface):
         if self.resonator is not None:
             resonator = {}
 
-            resonator['LO'] = self.resonator.freq_c - self.awg_freq#- 1.5 # Change to LO after shifting resonator profile definition
+            resonator['LO'] = self.resonator.freq_c - self.IF_freq#- 1.5 # Change to LO after shifting resonator profile definition
             resonator['nu1'] = self.resonator.profile
             resonator['range'] = self.resonator.freqs.values - resonator['LO']
             resonator['scale'] = self.resonator.dataset.pulse0_scale
@@ -921,13 +938,13 @@ class ETH_awg_interface(Interface):
                 vec = get_vec(sequence,pulse_num,var,uuid)
                 if pulse_num is not None:
                     if var in ["freq", "init_freq"]:
-                        vec += self.awg_freq
+                        vec += self.IF_freq
                         if isinstance(sequence.pulses[pulse_num],Detection):
                             var = 'det_frq'
                         else:
                             var = "nu_init"
                     elif var == "final_freq":
-                        vec += self.awg_freq
+                        vec += self.IF_freq
                         var = "nu_final"
 
                     if var == "t":
@@ -946,7 +963,7 @@ class ETH_awg_interface(Interface):
                     pulse_strings = []
                     # vec = prog_table["axis"][i].astype(float)
                     centre_freq = (vec[-1] + vec[0])/2
-                    LO = centre_freq - self.awg_freq
+                    LO = centre_freq - self.IF_freq
                     sequence.freq.value = centre_freq
                     vec = vec - LO
                     vecs = []
@@ -1053,11 +1070,12 @@ def bg_thread(interface,seq,savename,IFgain,axID,stop_flag):
             
             interface.launch_normal(tmp_seq, savename=f"{savename}_avg{iavg+1}of{nAvg}_{i+1}of{fixed_param.dim[0]}", IFgain=IFgain, reset_cur_exp=False)
             scan_time = tmp_seq._estimate_time()
+            time.sleep(np.max([scan_time, 5]))
             while True:
-                _, scan,_,_ = interface.engine.dig_interface('progress', nargout=4)
-                if scan == 1:
+                _, _,_,state = interface.engine.dig_interface('progress', nargout=4)
+                if state != 1:
                     break
-                time.sleep(np.min([scan_time/4, 2]))
+                time.sleep(np.min([scan_time/4, 10]))
             
             single_scan = interface.get_buffer(cur_exp=tmp_seq)
             if reduced:

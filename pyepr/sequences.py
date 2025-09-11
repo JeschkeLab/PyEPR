@@ -1256,49 +1256,55 @@ class TWTProfileSequence(Sequence):
     Builds TWT based Resonator Profile sequence. 
     """
     
-    def __init__(self,*,B,freq,reptime,averages=1,shots=100,**kwargs) -> None:
+    def __init__(self,*,B,freq,reptime,averages=1,shots=100,dtp=2,**kwargs) -> None:
 
         name = "TWTProfileSequence"
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
+        
+        self.kwargs = kwargs
+        self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
+
+        if "pi_pulse" in kwargs:
+            self.pi_pulse = kwargs["pi_pulse"]
+        if "pi2_pulse" in kwargs:
+            self.pi2_pulse = kwargs["pi2_pulse"]
 
         self._build_sequence()
 
     def _build_sequence(self,):
 
-        tau1=2000
-        tau2=500
+        tau1 = self.kwargs.get("tau1",2000) #2000
+        tau2 = self.kwargs.get("tau2",500) #500
+
+        dim = np.floor(120/self.dtp.value).astype(int)
+        tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
+        scale = Parameter("scale", 0, step=0.01, dim=100, unit="None", description="Amplitude scale factor")
 
         self.addPulse(RectPulse(  # Hard pulse
-            t=0, tp=4, freq=0, flipangle="Hard"
+            t=0, tp=tp, freq=0, flipangle="Hard",scale=scale
         ))
-
-        self.addPulse(RectPulse(  # pi/2
-            t=tau1, tp=16, freq=0, flipangle=np.pi/2
-        ))
-        self.addPulse(RectPulse(  # pi
+        
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=tau1, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
+        else:
+            self.addPulse(RectPulse(  # pi/2
+            t=tau1, tp=16, freq=0, flipangle=np.pi/2, 
+            pcyc={"phases":[0, np.pi], "dets": [1, -1]}
+            ))
+        
+        if hasattr(self, "pi_pulse"):
+            self.addPulse(self.pi_pulse.copy(
+                t=tau1+tau2))
+        else:
+            self.addPulse(RectPulse(  # pi/2
             t=tau1+tau2, tp=32, freq=0, flipangle=np.pi
-        ))
+            ))
 
         self.addPulse(Detection(t=tau1+2*tau2, tp=512))
 
-
-        self.pulses[0].scale.value = 1
-        nut_axis = np.arange(0,66,2)
-        self.addPulsesProg(
-            [0],
-            ["tp"],
-            0,
-            nut_axis)
-
-        # Add amplitude sweep
-        width= 0.3
-        axis = np.arange(0,1.01,0.01)
-        self.addPulsesProg(
-                [0],
-                ["scale"],
-                1,
-                axis)
+        self.evolution([tp, scale])
 
 # =============================================================================

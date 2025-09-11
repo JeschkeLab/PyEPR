@@ -67,7 +67,7 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
 
     if "postsigns" not in estr.keys():
         print("TODO: check uwb_eval")
-        raise RuntimeError("This is not implemented yet")
+        # raise RuntimeError("This is not implemented yet")
 
     if np.isscalar(estr["postsigns"]["signs"]):
         estr["postsigns"]["signs"] = [estr["postsigns"]["signs"]]
@@ -562,7 +562,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     conf = matfile['conf'] 
 
     def extract_data(matfile,scans):
-        if "dta" in matfile.keys():
+        if "dta" in matfile.keys() and not kwargs.get('ignore_dta',False):
             nAvgs = matfile["nAvgs"]
             dta = [matfile["dta"]]
         elif "dta_001" in matfile.keys():
@@ -621,8 +621,8 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # Eliminate Phase cycles
 
     if "postsigns" not in estr.keys():
-        print("TODO: check uwb_eval")
-        raise RuntimeError("This is not implemented yet")
+        print("TODO: check uwb_eval, postsigns in estr")
+        # raise RuntimeError("This is not implemented yet")
 
     if np.isscalar(estr["postsigns"]["signs"]):
         estr["postsigns"]["signs"] = [estr["postsigns"]["signs"]]
