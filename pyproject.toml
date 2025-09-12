@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "pyepr"
+name = "pyEPR-ESR"
 version = "1.0"
 description = ""
 authors = ["Hugo Karas <hkaras@ethz.ch>", "Gunnar Jeschke <gjeschke@eth.ch>", "Stefan Stoll <stst@uw.edu>"]
 readme = "README.md"
+packages = [
+    { include = "pyepr" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
