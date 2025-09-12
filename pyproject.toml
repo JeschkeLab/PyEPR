@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyepr"
-version = "0.10"
+version = "1.0"
 description = ""
 authors = ["Hugo Karas <hkaras@ethz.ch>", "Gunnar Jeschke <gjeschke@eth.ch>", "Stefan Stoll <stst@uw.edu>"]
 readme = "README.md"
