@@ -5,7 +5,6 @@ on:
     branches:
     - release/*
 
-
 jobs:
   build:
     name: Build distribution 📦
@@ -33,19 +32,19 @@ jobs:
         name: python-package-distributions
         path: dist/
 
-  publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to PyPI
+  publish-to-pypi:
+    name: >-
+      Publish Python 🐍 distribution 📦 to PyPI
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     needs:
     - build
     runs-on: ubuntu-latest
-  
     environment:
       name: pypi
-      url: https://pypi.org/p/PyEPR-ESR
-  
+      url: https://pypi.org/p/PyEPR-ESR  # Replace <package-name> with your PyPI project name
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
-  
+
     steps:
     - name: Download all the dists
       uses: actions/download-artifact@v4
@@ -56,4 +55,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         verbose: true
-        repository-url: https://pypi.org/legacy/
+        
