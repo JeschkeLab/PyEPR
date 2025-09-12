@@ -1,6 +1,10 @@
 # PyEPR
 
 
+[![DOI](https://zenodo.org/badge/888368760.svg)](https://doi.org/10.5281/zenodo.17107010)
+
+
+
 ## About
 PyEPR is a Python based software package for designing, running and processing EPR experiments on a wide variety of hardware. It is built to be modular and extensible, allowing easy integration of new hardware and experiment types. PyEPR is developed by the Jeschke Lab @ ETH. To extend the functionality of PyEPR we are actively looking for contributors.
 
