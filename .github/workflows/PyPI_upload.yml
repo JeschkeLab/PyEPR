@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
   
     environment:
-      name: testpypi
+      name: pypi
       url: https://pypi.org/p/PyEPR-ESR
   
     permissions:
