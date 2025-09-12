@@ -14,6 +14,7 @@ from pyepr import __version__
 import uuid
 import base64
 import numbers
+import warnings
 
 class Sequence:
     """
@@ -21,7 +22,7 @@ class Sequence:
     """
 
     def __init__(
-            self, *, name, B, LO, reptime, averages, shots, **kwargs) -> None:
+            self, *, name, B, reptime, averages, shots,LO=None, freq=None, **kwargs) -> None:
         """Represents an experimental pulse sequence.
 
         Parameters
@@ -30,7 +31,7 @@ class Sequence:
             The name of this pulse sequence
         B : float
             The magnetic field for this sequence in Gauss.
-        LO : float
+        freq : float
             The central frequency of this sequence. I.e. The frequnecy at which
             a zero offset pulse is at. 
         reptime : float
@@ -39,6 +40,8 @@ class Sequence:
             The number of scans to be accumulated.
         shots : itn
             The number of shots per point.
+        LO : float
+            The now deprecated local oscillator frequency. freq should be used.
         """
 
         self.pulses = []
@@ -55,9 +58,17 @@ class Sequence:
                 "B", B, "Gauss",
                 "The static B0 field for the experiment")
         
-        self.LO = Parameter(
-            "LO", LO, "GHz",
-            "The local oscillator frequency.")
+        if freq is not None:
+            self.freq = Parameter(
+                "freq", freq, "GHz",
+                "The central frequency of the sequence")
+        elif LO is not None:
+            self.freq = Parameter(
+                "freq", LO, "GHz",
+                "The central frequency of the sequence")
+            warnings.warn("LO is deprecated, please use freq instead", DeprecationWarning, stacklevel=2)
+        else:
+            raise ValueError("Either freq or LO must be specified")
         
         if isinstance(reptime, Parameter):
             self.reptime = reptime.copy()
@@ -203,7 +214,7 @@ class Sequence:
         self._buildPhaseCycle()
         self._estimate_time()
 
-    def _estimate_time(self):
+    def _estimate_time(self) -> float:
         """
         Calculates the estimated experiment time in seconds.
         """
@@ -331,7 +342,31 @@ class Sequence:
     def seqtable_steps(self):
         if len(self.evo_params) > 0:
             return self.pcyc_dets.shape[0] * (len(self.pcyc_vars)+1) * np.prod([np.prod(param.dim) for param in self.evo_params])
-        
+    
+    @property
+    def shape(self):
+        """
+        Gives the shape of the sequence,excluding the number of shots. 
+        Return
+        ------
+        list:
+            [nAvgs, axes_dims, nPcyc]
+
+        """
+        nAvgs = self.averages.value
+        nPcyc = self.pcyc_dets.shape[0]
+        nAxes = len(self.evo_params)
+        if nAxes > 0:
+            axes_dim  = []
+            for i in range(nAxes):
+                axes_dim.append(self.evo_params[i].dim[0])
+        else:
+            axes_dim = [1]
+
+        return [nAvgs]+  axes_dim +[nPcyc]
+
+
+
     def adjust_step(self,waveform_precision):
         """
         Adjust the step size of all axes and pulses to be an integer multiple of the waveform precision
@@ -360,7 +395,7 @@ class Sequence:
                 det_pulse = pulse
         
         det_freq = det_pulse.freq.value
-        self.LO.value -= det_freq
+        self.freq.value -= det_freq
         for pulse in self.pulses:
             if hasattr(pulse,'freq'):
                 pulse.freq.value -= det_freq
@@ -383,7 +418,7 @@ class Sequence:
 
     def __str__(self):
 
-        header = "#" * 79 + "\n" + "autoDEER Sequence Definition" + \
+        header = "#" * 79 + "\n" + "PyEPR Sequence Definition" + \
                  "\n" + "#" * 79 + "\n"
 
         # Sequence Parameters
@@ -458,7 +493,7 @@ class Sequence:
                 prog_table["axis"][i].shape[0], get_unit(i))
 
         footer = "#" * 79 + "\n" +\
-            f"Built by autoDEER Version: {__version__}" + "\n" + "#" * 79
+            f"Built by PyEPR Version: {__version__}" + "\n" + "#" * 79
 
         return header + seq_param_string + pulses_string + prog_string + footer
 
@@ -541,12 +576,12 @@ class Sequence:
     def _from_dict(cls, dct):
         name = dct["name"]
         B = Parameter._from_dict(dct["B"])
-        LO = Parameter._from_dict(dct["LO"])
+        freq = Parameter._from_dict(dct["freq"])
         reptime = Parameter._from_dict(dct["reptime"])
         averages = Parameter._from_dict(dct["averages"])
         shots = Parameter._from_dict(dct["shots"])
         new_sequence = cls(
-            name=name, B=B, LO=LO, reptime=reptime, averages=averages, shots=shots
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages, shots=shots
         )
         for key, var in dct.items(): 
             if isinstance(var, dict) and ("type" in var):
@@ -604,7 +639,7 @@ class HahnEchoSequence(Sequence):
     """
     Represents a Hahn-Echo sequence. 
     """
-    def __init__(self, *, B, LO, reptime, averages, shots, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, averages, shots, **kwargs) -> None:
         """Build a Hahn-Echo sequence using either rectangular pulses or
         specified pulses. By default no progression is added to this sequence.
 
@@ -612,8 +647,8 @@ class HahnEchoSequence(Sequence):
         ----------
         B : int or float
             The B0 field, in Guass
-        LO : int or float
-            The LO frequency in GHz
+        freq : int or float
+            The freq frequency in GHz
         reptime : _type_
             The shot repetition time in us
         averages : int
@@ -647,7 +682,7 @@ class HahnEchoSequence(Sequence):
 
 
         super().__init__(
-            name=name, B=B, LO=LO, reptime=reptime, averages=averages,
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
 
         if "tau" in kwargs:
@@ -683,9 +718,12 @@ class HahnEchoSequence(Sequence):
 
 # =============================================================================
 
-class T2RelaxationSequence(HahnEchoSequence):
+class T1InversionRecoverySequence(Sequence):
     """
-    Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases
+    Represents a T1 Inversion Recovery Sequence. 
+
+    Sequence:
+    [\pi - \tau - \pi/2 - \tau - echo]
     
     Parameters
     ----------
@@ -715,11 +753,45 @@ class T2RelaxationSequence(HahnEchoSequence):
         An autoEPR Pulse object describing the refocusing pi pulses. If
         not specified a RectPulse will be created instead. 
     """
+# =============================================================================
 
-    def __init__(self, *, B, LO, reptime, averages, shots,start=500, step=40, dim=200, **kwargs) -> None:
+class T2RelaxationSequence(HahnEchoSequence):
+    """
+    Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases
+    
+    Parameters
+    ----------
+    B : int or float
+        The B0 field, in Guass
+    freq : int or float
+        The freq frequency in GHz
+    reptime : _type_
+        The shot repetition time in us
+    averages : int
+        The number of scans.
+    shots : int
+        The number of shots per point
+    start : float
+        The minimum interpulse delay in ns, by default 300 ns
+    step : float
+        The step size of the interpulse delay in ns, by default 50 ns
+    dim : int
+        The number of points in the X axis
+
+    Optional Parameters
+    -------------------
+    pi2_pulse : Pulse
+        An autoEPR Pulse object describing the excitation pi/2 pulse. If
+        not specified a RectPulse will be created instead. 
+    pi_pulse : Pulse
+        An autoEPR Pulse object describing the refocusing pi pulses. If
+        not specified a RectPulse will be created instead. 
+    """
+
+    def __init__(self, *, B, freq, reptime, averages, shots,start=500, step=40, dim=200, **kwargs) -> None:
 
         self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="The interpulse delay",virtual=True)
-        super().__init__(B=B, LO=LO, reptime=reptime, averages=averages, shots=shots,tau=self.tau, **kwargs)
+        super().__init__(B=B, freq=freq, reptime=reptime, averages=averages, shots=shots,tau=self.tau, **kwargs)
 
         self.name = "T2RelaxationSequence"
         self.evolution([self.tau])
@@ -733,13 +805,14 @@ class T2RelaxationSequence(HahnEchoSequence):
             data *= _gen_ESEEM(xaxis, 7.842, ESEEM_depth)
         return xaxis, data
 
+
 # =============================================================================
 
 class FieldSweepSequence(HahnEchoSequence):
     """
     Represents a Field Sweep (EDFS) sequence. 
     """
-    def __init__(self, *, B, LO, Bwidth, reptime, averages, shots, **kwargs) -> None:
+    def __init__(self, *, B, freq, Bwidth, reptime, averages, shots, **kwargs) -> None:
         """Build a Field Sweep (EDFS) sequence using either rectangular pulses or
         specified pulses.
 
@@ -749,8 +822,8 @@ class FieldSweepSequence(HahnEchoSequence):
             The B0 field, in Guass
         Bwidth: int or float
             The width of the field sweep, in Gauss
-        LO : int or float
-            The LO frequency in GHz
+        freq : int or float
+            The freq frequency in GHz
         reptime : _type_
             The shot repetition time in us
         averages : int
@@ -768,7 +841,7 @@ class FieldSweepSequence(HahnEchoSequence):
             not specified a RectPulse will be created instead. 
         """
         super().__init__(
-            B=B, LO=LO, reptime=reptime, averages=averages,
+            B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
         self.name = "FieldSweepSequence"
 
@@ -791,7 +864,7 @@ class FieldSweepSequence(HahnEchoSequence):
             The y-axis of the simulation
 
         """
-        Vmodel = create_Nmodel(self.LO.value *1e3)
+        Vmodel = create_Nmodel(self.freq.value *1e3)
         axis = self.B.value + self.B.axis[0]['axis']
         sim_axis = axis * 0.1
         Boffset=0
@@ -812,23 +885,28 @@ class ReptimeScan(HahnEchoSequence):
     """
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
-    def __init__(self, *, B, LO, reptime, reptime_max, averages, shots, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs) -> None:
         """A Hahn echo sequence is perfomed with the shot repetition time increasing.1
 
         Parameters
         ----------
         B : int or float
             The B0 field, in Guass
-        LO : int or float
-            The LO frequency in GHz
+        freq : int or float
+            The freq frequency in GHz
         reptime: float
             The default reptime, this is used for tuning pulses etc...
-        reptime_max : np.ndarray
-            The maximum shot repetition time in us    
         averages : int
             The number of scans.
         shots : int
             The number of shots per point
+        reptime_max : float
+            The maximum shot repetition time in us
+        start : float
+            The minimum shot repetition time in us, by default 20 us
+        dim : int
+            The number of points in the reptime axis
+        
         
         Optional Parameters
         -------------------
@@ -839,8 +917,7 @@ class ReptimeScan(HahnEchoSequence):
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
         """
-        min_reptime = 20
-        dim = 100
+        min_reptime = start
         step  = (reptime_max-min_reptime)/dim
         step = np.around(step,decimals=-1)
         step = np.around(step,decimals=-1)
@@ -849,7 +926,7 @@ class ReptimeScan(HahnEchoSequence):
             description = "The shot repetition time")
         
         super().__init__(
-            B=B, LO=LO, reptime=reptime, averages=averages,
+            B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
         self.name = "ReptimeScan"
 
@@ -884,7 +961,7 @@ class CarrPurcellSequence(Sequence):
     """
     Represents a Carr-Purcell sequence. 
     """
-    def __init__(self, *, B, LO, reptime, averages, shots,
+    def __init__(self, *, B, freq, reptime, averages, shots,
              n,start=300,step=50, dim=100,**kwargs) -> None:
         """Build a Carr-Purcell dynamical decoupling sequence using either 
         rectangular pulses or specified pulses.
@@ -893,8 +970,8 @@ class CarrPurcellSequence(Sequence):
         ----------
         B : int or float
             The B0 field, in Guass
-        LO : int or float
-            The LO frequency in GHz
+        freq : int or float
+            The freq frequency in GHz
         reptime : _type_
             The shot repetition time in us
         averages : int
@@ -922,7 +999,7 @@ class CarrPurcellSequence(Sequence):
 
         name = "CarrPurcellSequence"
         super().__init__(
-            name=name, B=B, LO=LO, reptime=reptime, averages=averages,
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
         self.t = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns",
             description="First interpulse delay", virtual=True)
@@ -1019,7 +1096,7 @@ class ResonatorProfileSequence(Sequence):
     Builds nutation based Resonator Profile sequence. 
     """
 
-    def __init__(self, *, B, LO, reptime, averages, shots, fwidth=0.3,dtp=2, **kwargs) -> None:
+    def __init__(self, *, B, freq, reptime, averages, shots, fwidth=0.3,dtp=2, **kwargs) -> None:
         """Build a resonator profile nutation sequence using either 
         rectangular pulses or specified pulses.
 
@@ -1029,8 +1106,8 @@ class ResonatorProfileSequence(Sequence):
             The B0 field, in Guass
         Bwidth: int or float
             The width of the field sweep, in Gauss
-        LO : int or float
-            The LO frequency in GHz
+        freq : int or float
+            The freq frequency in GHz
         reptime : _type_
             The shot repetition time in us
         averages : int
@@ -1040,8 +1117,13 @@ class ResonatorProfileSequence(Sequence):
         fwidth: float
             The frequency width of the resonator profile in GHz, 
             by default 0.3GHz
+        fstep: float
+            The frequency step for the profile in GHz, by default 0.02GHz
+            
         dtp: float
             The time step for the test pulse in ns, by default 2 ns
+        step:
+            The frequency step parameter in GHz, by default 0.02GHz
 
         Optional Parameters
         -------------------
@@ -1061,10 +1143,11 @@ class ResonatorProfileSequence(Sequence):
 
         name = "ResonatorProfileSequence"
         super().__init__(
-            name=name, B=B, LO=LO, reptime=reptime, averages=averages,
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
-        self.gyro = LO/B
+        self.gyro = freq/B
         self.fwidth = Parameter('fwidth',fwidth,'GHz','Half the frequency sw')
+        self.fstep = Parameter('fstep',kwargs.get('fstep',0.02),'GHz','Frequency step for the profile')
         self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
 
         self.kwargs = kwargs
@@ -1080,16 +1163,17 @@ class ResonatorProfileSequence(Sequence):
 
         tau1 = self.kwargs.get("tau1",2000) #2000
         tau2 = self.kwargs.get("tau2",500) #500
+        fstep = self.kwargs.get("step",0.02)
         dim = np.floor(120/self.dtp.value).astype(int)
         tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
         fwidth= self.fwidth.value
-        fstep = 0.02
-        dim = np.floor(fwidth*2/0.02)
-        center_LO = self.LO.value
-        self.LO = Parameter("LO", center_LO, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="LO frequency")
+        fstep = self.fstep.value
+        dim = np.floor(fwidth*2/fstep)
+        center_freq = self.freq.value
+        self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
         self.B = Parameter(
-            "B",((self.LO.value)/self.gyro), start=-fwidth/self.gyro, step=fstep/self.gyro, dim=dim,
-            unit="Guass",link=self.LO,description="B0 Field" )
+            "B",((center_freq)/self.gyro), start=-fwidth/self.gyro, step=fstep/self.gyro, dim=dim,
+            unit="Guass",link=self.freq,description="B0 Field" )
         
         self.addPulse(RectPulse(  # Hard pulse
             t=0, tp=tp, freq=0, flipangle="Hard"
@@ -1116,32 +1200,32 @@ class ResonatorProfileSequence(Sequence):
 
 
         self.pulses[0].scale.value = 1
-        # nut_axis = np.arange(0,66,2,)
-        # self.addPulsesProg(
-        #     [0],
-        #     ["tp"],
-        #     0,
-        #     nut_axis)
 
-        # # Add frequency sweep
-        # width= 0.3
-        # axis = np.arange(self.LO.value-width,self.LO.value+width+0.02,0.02)
-        # self.addPulsesProg(
-        #     [None, None],
-        #     ["LO", "B"],
-        #     1,
-        #     axis,
-        #     multipliers=[1,1/self.gyro])
         
-        self.evolution([tp, self.LO])
+        self.evolution([tp, self.freq])
 
-    def simulate(self, Q=100, fc=None, nu1=75):
+    def simulate(self, Q=100, fc=None, nu1=75,damping=0.06):
+        """
+        Simulates a resonator profile sequence as a damped oscillation.
+
+        Parameters
+        ----------
+        Q : int
+            The quality factor of the resonator, by default 100
+        fc : float
+            The center frequency of the resonator, by default None. If None the freq frequency is used.
+        nu1 : float
+            The maximum amplitude of the resonator profile, by default 75 MHz. This is a linear frequency scale.
+        damping : float
+            The damping factor of the resonator, by default 0.06.
+        
+        """
 
         if fc is None:
-            fc = self.LO.value
+            fc = self.freq.value
 
-        xmin = self.LO.value - self.fwidth.value
-        xmax = self.LO.value + self.fwidth.value
+        xmin = self.freq.value - self.fwidth.value
+        xmax = self.freq.value + self.fwidth.value
 
 
         def lorenz_fcn(x, centre, sigma):
@@ -1149,21 +1233,21 @@ class ResonatorProfileSequence(Sequence):
             return y
 
         mode = lambda x: lorenz_fcn(x, fc, fc/Q)
-        x = np.linspace(xmin,xmax)
-        scale = nu1/mode(x).max()
+        axis = np.linspace(xmin,xmax)
+        scale = nu1/mode(axis).max()
         self.mode = lambda x: lorenz_fcn(x, fc, fc/Q) * scale
 
         damped_oscilations = lambda x, f, c: np.cos(2*np.pi*f*x) * np.exp(-c*x)
         damped_oscilations_vec = np.vectorize(damped_oscilations)
-        LO_axis = self.LO.value + self.LO.axis[0]['axis']
-        LO_len = LO_axis.shape[0]
+        freq_axis = self.freq.value + self.freq.axis[0]['axis']
+        freq_len = freq_axis.shape[0]
         tp_x = val_in_ns(self.pulses[0].tp)
         tp_len = tp_x.shape[0]
-        nut_freqs = mode(LO_axis)
+        nut_freqs = self.mode(freq_axis)
 
         damped_oscilations_vec
-        data = damped_oscilations_vec(tp_x.reshape(tp_len,1),nut_freqs.reshape(1,LO_len)*1e-3,0.06)
-        return [tp_x, LO_axis], data
+        data = damped_oscilations_vec(tp_x.reshape(tp_len,1),nut_freqs.reshape(1,freq_len)*1e-3,damping)
+        return [tp_x, freq_axis], data
 
 # =============================================================================
 
@@ -1172,49 +1256,55 @@ class TWTProfileSequence(Sequence):
     Builds TWT based Resonator Profile sequence. 
     """
     
-    def __init__(self,*,B,LO,reptime,averages=1,shots=100,**kwargs) -> None:
+    def __init__(self,*,B,freq,reptime,averages=1,shots=100,dtp=2,**kwargs) -> None:
 
         name = "TWTProfileSequence"
         super().__init__(
-            name=name, B=B, LO=LO, reptime=reptime, averages=averages,
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
+        
+        self.kwargs = kwargs
+        self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
+
+        if "pi_pulse" in kwargs:
+            self.pi_pulse = kwargs["pi_pulse"]
+        if "pi2_pulse" in kwargs:
+            self.pi2_pulse = kwargs["pi2_pulse"]
 
         self._build_sequence()
 
     def _build_sequence(self,):
 
-        tau1=2000
-        tau2=500
+        tau1 = self.kwargs.get("tau1",2000) #2000
+        tau2 = self.kwargs.get("tau2",500) #500
+
+        dim = np.floor(120/self.dtp.value).astype(int)
+        tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
+        scale = Parameter("scale", 0, step=0.01, dim=100, unit="None", description="Amplitude scale factor")
 
         self.addPulse(RectPulse(  # Hard pulse
-            t=0, tp=4, freq=0, flipangle="Hard"
+            t=0, tp=tp, freq=0, flipangle="Hard",scale=scale
         ))
-
-        self.addPulse(RectPulse(  # pi/2
-            t=tau1, tp=16, freq=0, flipangle=np.pi/2
-        ))
-        self.addPulse(RectPulse(  # pi
+        
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=tau1, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
+        else:
+            self.addPulse(RectPulse(  # pi/2
+            t=tau1, tp=16, freq=0, flipangle=np.pi/2, 
+            pcyc={"phases":[0, np.pi], "dets": [1, -1]}
+            ))
+        
+        if hasattr(self, "pi_pulse"):
+            self.addPulse(self.pi_pulse.copy(
+                t=tau1+tau2))
+        else:
+            self.addPulse(RectPulse(  # pi/2
             t=tau1+tau2, tp=32, freq=0, flipangle=np.pi
-        ))
+            ))
 
         self.addPulse(Detection(t=tau1+2*tau2, tp=512))
 
-
-        self.pulses[0].scale.value = 1
-        nut_axis = np.arange(0,66,2)
-        self.addPulsesProg(
-            [0],
-            ["tp"],
-            0,
-            nut_axis)
-
-        # Add amplitude sweep
-        width= 0.3
-        axis = np.arange(0,1.01,0.01)
-        self.addPulsesProg(
-                [0],
-                ["scale"],
-                1,
-                axis)
+        self.evolution([tp, scale])
 
 # =============================================================================

@@ -17,7 +17,9 @@ def build_table(source, params, params_widths):
             line_str += f" {{:<{params_widths[i]}}}"
             tmp = re.findall(r'(\d+)', params_widths[i])[0]
             title_str += f" {{:<{tmp}}}"
-            if attr.unit is None:
+            if attr is None: 
+                title_fmt.append(param)
+            elif attr.unit is None:
                 title_fmt.append(attr.name)
             else:
                 title_fmt.append(attr.name + ' (' + attr.unit + ")")

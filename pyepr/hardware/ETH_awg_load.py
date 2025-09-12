@@ -5,7 +5,7 @@ from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
 from pyepr.pulses import Pulse
 from scipy.integrate import cumulative_trapezoid
 from deerlab import correctphase
-
+from warnings import warn
 
 
 def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
@@ -67,7 +67,7 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
 
     if "postsigns" not in estr.keys():
         print("TODO: check uwb_eval")
-        raise RuntimeError("This is not implemented yet")
+        # raise RuntimeError("This is not implemented yet")
 
     if np.isscalar(estr["postsigns"]["signs"]):
         estr["postsigns"]["signs"] = [estr["postsigns"]["signs"]]
@@ -278,8 +278,8 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
     # during acquisition or reduction of phasecycles just above)
     n_traces = np.prod(parvar_pts) / np.prod(list(map(len, dta_x)))
 
-    if "dig_max" in conf.keys():
-        trace_maxlev = n_traces * estr["shots"] * conf["dig_max"]
+    if "dig_max" in conf['std'].keys():
+        trace_maxlev = n_traces * estr["shots"] * conf['std']["dig_max"]
     else:
         trace_maxlev = n_traces * estr["shots"] * 2**11
     
@@ -551,6 +551,9 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         The width of the filter to be used. This is only used if filter_type is 'cheby2' or 'butter'
     verbosity : int, optional
         The verbosity of the function. Default is 0.
+    corr_phase: bool, optional  
+        If True each echo is idenpendently phased, if false then it is globally phased.
+        If a vector is applied then this is used phase them. Default is False
     
     """
     # imports Andrin Doll AWG datafiles using a matched filter
@@ -559,24 +562,28 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     conf = matfile['conf'] 
 
     def extract_data(matfile,scans):
-        if "dta" in matfile.keys():
+        if "dta" in matfile.keys() and not kwargs.get('ignore_dta',False):
             nAvgs = matfile["nAvgs"]
             dta = [matfile["dta"]]
         elif "dta_001" in matfile.keys():
             dta = []
             if scans is None:
+                nAvgs = 0
                 for ii in range(1, estr["avgs"]+1):
                     actname = 'dta_%03u' % ii 
                     if actname in matfile.keys():
-                        dta.append(matfile[actname])
+                        single_scan = matfile[actname]
                         # Only keep it if the average is complete, unless it is 
                         # the first
-                        if sum(dta[ii-1][:, -1]) == 0 and ii > 1:
-                            dta = dta[:-1]
-                        elif sum(dta[ii-1][:, -1]) == 0 and ii == 1:
+                        if sum(single_scan[:, -1]) == 0 and ii > 1: # incomplete scan
+                            if (nAvgs+1) != ii:
+                                print(f"Scan {ii} is incomplete and will be skipped.")
+                            continue
+                        elif sum(single_scan[:, -1]) == 0 and ii == 1:
                             nAvgs = 0
                         else:
-                            nAvgs = ii
+                            nAvgs += 1
+                        dta.append(single_scan)
             else:
                 for i,ii in enumerate(scans):
                     actname = 'dta_%03u' % ii 
@@ -614,8 +621,8 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # Eliminate Phase cycles
 
     if "postsigns" not in estr.keys():
-        print("TODO: check uwb_eval")
-        raise RuntimeError("This is not implemented yet")
+        print("TODO: check uwb_eval, postsigns in estr")
+        # raise RuntimeError("This is not implemented yet")
 
     if np.isscalar(estr["postsigns"]["signs"]):
         estr["postsigns"]["signs"] = [estr["postsigns"]["signs"]]
@@ -670,12 +677,13 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
             np.array(estr["postsigns"]["ids"]).reshape(-1)
         if not (elim_pcyc and cycled[ii]):
             if type(estr["parvars"]) is list:
-                vecs = estr["parvars"][estr["postsigns"]["ids"][ii]-1]["axis"]
+                vecs = estr["parvars"][int(estr["postsigns"]["ids"][ii]-1)]["axis"]
                 if np.ndim(vecs) == 1:
                     dta_x.append(vecs.astype(np.float32))
 
                 elif np.ndim(vecs) == 2:
                     unique_axes = np.unique(vecs, axis=1)
+                    unique_axes = np.squeeze(unique_axes)
                     dta_x.append(unique_axes.astype(np.float32))
             else:
                 dta_x.append(estr["parvars"]["axis"].astype(np.float32))
@@ -690,22 +698,18 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     elif ii_dtax > 2:
         raise RuntimeError("Uwb_eval cannot handle more than two dimensions")
     
-    det_frq = estr["events"][estr["det_event"]-1]["det_frq"]
+    det_frq = estr["events"][int(estr["det_event"]-1)]["det_frq"]
     det_frq_dim = 0
     fsmp = conf["std"]["dig_rate"]
 
     for ii in range(0, len(relevant_parvars)):
-        act_par = estr["parvars"][relevant_parvars[ii]]
-        frq_change = np.zeros((len(act_par["variables"]), 1))
-        for jj in range(0, len(act_par["variables"])):
-            if not any('nu_' in word for word
-                        in estr["parvars"][0]["variables"]):
-                frq_change[jj] = 1
+        act_par = estr["parvars"][int(relevant_parvars[ii])]
+        frq_change =  any('nu_' in word for word in act_par["variables"])
 
-        if any(frq_change):  # was there a frequency change
+        if frq_change:  # was there a frequency change
             # is the frequency change relevant
-            if "det_frq_id" in estr["events"][estr["det_event"]-1]:
-                frq_pulse = estr["events"][estr["det_event"]-1]["det_frq_id"]
+            if "det_frq_id" in estr["events"][int(estr["det_event"]-1)]:
+                frq_pulse = estr["events"][int(estr["det_event"]-1)]["det_frq_id"]
                 nu_init_change = 0
                 nu_final_change = 0
                 for jj in range(0, np.size(act_par["variables"])):
@@ -800,18 +804,18 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # during acquisition or reduction of phasecycles just above)
     n_traces = np.prod(parvar_pts) / np.prod(list(map(len, dta_x)))
 
-    if "dig_max" in conf.keys():
-        trace_maxlev = n_traces * estr["shots"] * conf["dig_max"]
+    if "dig_max" in conf["std"].keys():
+        trace_maxlev = n_traces * estr["shots"] * conf["std"]["dig_max"]
     else:
-        trace_maxlev = n_traces * estr["shots"] * 2**11
+        trace_maxlev = n_traces * estr["shots"] * 2**15
     
     max_amp = np.amax(dta[0],0)
     dig_level = np.amax(max_amp)
 
     if "IFgain_levels" in conf["std"]:
-                # Check about eventual improvemnets by changing IF levels
-                possible_levels = dig_level * conf["std"]["IFgain_levels"] / \
-                    conf["std"]["IFgain_levels"][estr["IFgain"]]
+                # Check about eventual improvemnets by changing IF levels:
+                IF_gain_levels = np.squeeze(conf["std"]["IFgain_levels"])
+                possible_levels = dig_level * IF_gain_levels / IF_gain_levels[int(estr["IFgain"])]
 
                 possible_levels[possible_levels > 0.75] = 0
                 best_lev = np.amax(possible_levels)
@@ -824,7 +828,10 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
                         f"an IFgain setting of {best_idx} , where the maximum "
                         f"level will be on the order of {best_lev}.")
                     
-    det_frqs_perc = calc_percieved_freq(fsmp,det_frq)
+    if np.any(det_frq > fsmp/2):
+        det_frqs_perc = calc_percieved_freq(fsmp,det_frq)
+    else:
+        det_frqs_perc = det_frq
     echo_len = dta[0].shape[0]
     dt = 1/fsmp
     t = np.linspace(0,echo_len//2,echo_len,endpoint=False)
@@ -832,6 +839,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     if (filter_pulse is None) and (filter_type.lower() == 'match'):
         # If no filter pulse is given, use a rectangular pulse matching the length of the longest fixed pulse
         tp = find_max_pulse_length(estr)
+        tp *= 2
         tp *= fsmp
         AM,FM = np.zeros((2,echo_len))
         AM[echo_len//2-tp//2:echo_len//2+tp//2] = 1
@@ -850,7 +858,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         if filter_width is None:
             raise ValueError('You must provide a filter width for the cheby2 or butter filter')
         
-        filter_func = lambda dta, det_frq: scipy_filter_dc(dta,t,filter_width,det_frq,filter_type)
+        filter_func = lambda dta, det_frq: scipy_filter_dc(dta,t,filter_width,det_frq,fsmp,filter_type)
             
 
 
@@ -874,15 +882,23 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         dta_filt_dc = np.apply_along_axis(filter_func, 0, dta_c,det_frqs_perc)
 
     
+    echo_pos = kwargs.get('echo_pos', None)
+    if echo_pos is None:
+        peak_echo_idx = np.unravel_index(np.argmax(np.abs(dta_filt_dc).max(axis=0)),dims)
+        
+        echo_pos = np.argmax(np.abs(dta_filt_dc[tuple([slice(None)]) + peak_echo_idx]))
+    elif echo_pos == False:
+        # Find the maximum echo position independently for each trace
+        echo_pos = np.argmax(np.abs(dta_filt_dc),axis=0)
+        
+    if echo_pos.ndim == 0:
+        dta_ev = dta_filt_dc[echo_pos,:]
+    else:
+        dta_ev = dta_filt_dc[echo_pos,np.arange(echo_pos.shape[0])]
 
-    peak_echo_idx = np.unravel_index(np.argmax(np.abs(dta_filt_dc).max(axis=0)),dims)
-    
-    echo_pos = np.argmax(np.abs(dta_filt_dc[tuple([slice(None)]) + peak_echo_idx]))    
-    dta_ev = dta_filt_dc[echo_pos,:]
-    
     if corr_phase is True:
         dta_ang = np.angle(dta_ev)
-        if np.any(frq_change):
+        if frq_change:
             if exp_dim == 2:
                 corr_phase = dta_ang[..., peak_echo_idx[1]]
             else:
@@ -891,11 +907,11 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
             corr_phase = dta_ang[peak_echo_idx]
 
         dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
-
-
+    elif not np.isscalar(corr_phase):
+        dta_ev = np.apply_along_axis(lambda x: x * np.exp(-1j * corr_phase), 0, dta_ev)
 
     if sequence is None:
-        params = {'nAvgs': nAvgs, 'LO': estr['LO']+1.5, 'B': estr['B'], 
+        params = {'nAvgs': nAvgs, 'LO': estr['LO']+1.5, 'B': estr['B'],
                   'reptime': estr['reptime'], 'shots': estr['shots'], 'diglevel': dig_level}
         axis = [];
         for i in range(exp_dim):
@@ -904,11 +920,13 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
             else:
                 axis.append(dta_x[i][:, 0])
         output = create_dataset_from_axes(dta_ev, axis, params)
+
     else:
-        params = {'nAvgs': nAvgs,'diglevel': dig_level}
-        output = create_dataset_from_sequence(dta_ev, sequence,params)
+        params = {'nAvgs': nAvgs, 'diglevel': dig_level}
+        output = create_dataset_from_sequence(dta_ev, sequence, params)
 
     return output
+
 
 def find_max_pulse_length(estr):
     n_pulses = len(estr["events"])
@@ -931,11 +949,11 @@ def match_filter_dc(pulse,t, win, offset_freq):
     filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
     return filtered_dc
 
-def scipy_filter_dc(dta,t,filter_width,offset_freq,filter_type='cheby2'):
+def scipy_filter_dc(dta,t,filter_width,offset_freq,sampling_freq,filter_type='cheby2'):
     if filter_type == 'cheby2':
-        filter_sos = sig.cheby2(10,40,(offset_freq-filter_width,offset_freq+filter_width),fs=2,btype="bandpass",output='sos')
+        filter_sos = sig.cheby2(10,40,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
     elif filter_type == 'butter':
-        filter_sos = sig.butter(10,(offset_freq-filter_width,offset_freq+filter_width),fs=2,btype="bandpass",output='sos')
+        filter_sos = sig.butter(10,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
     filtered = sig.sosfilt(filter_sos,dta)
     filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
     return filtered_dc

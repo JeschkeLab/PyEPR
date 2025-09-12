@@ -102,7 +102,22 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
 
-def create_dataset_from_axes(data, axes, params: dict = None,axes_labels=None):
+def create_dataset_from_axes(data, axes, params: dict = {},axes_labels=None):
+    """
+    Create an xarray dataset from a numpy array and a list of axes.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        The data to be stored in the dataset.
+    axes : list
+        A list of numpy arrays containing the axes for each dimension of the data.
+    params : dict, optional
+        A dictionary containing any additional parameters to be stored in the dataset, by default None
+    axes_labels : list, optional
+        A list of labels for each axis, by default None
+    
+    """
     ndims = data.ndim
     if axes_labels is None:
         default_labels = ['X','Y','Z','T']
@@ -162,10 +177,36 @@ class EPRAccessor:
     def __init__(self, xarray_obj):
         self._obj = xarray_obj
 
-    def save(self, filename,type='netCDF'):
+    def save(self, filename, type='netCDF',overwrite=True):
+        """
+        Save the dataset to a hdf5 file
+
+        Parameters
+        ----------
+        filename : str
+            The name of the file to save the dataset
+        type : str, optional
+            The type of file to save, by default 'netCDF' (including .h5)
+        overwrite : bool, optional
+            Overwrite the file if it exists, by default True
+        """
+        if overwrite:
+            mode= "w"
+        else:
+            mode = "a"
+
+        #if filename doesn't have the extension .h5, add it
+        if not filename.endswith('.h5'):
+            filename = filename + '.h5'
+
+        if 'Scan' in self._obj.dims:
+            unlimited_dims = ['Scan']
+        else:
+            unlimited_dims = None
+
 
         if type == 'netCDF':
-            self._obj.to_netcdf(f"{filename}.h5",engine='h5netcdf',invalid_netcdf=True)
+            self._obj.to_netcdf(filename,engine='h5netcdf',invalid_netcdf=True,mode=mode,unlimited_dims=unlimited_dims)
 
     @property
     def correctphase(self):
@@ -224,7 +265,7 @@ class EPRAccessor:
         pulses = len([key for key in dataset_attrs.keys() if re.match(r"pulse\d+_name$", key)])
         det_events = len([key for key in dataset_attrs.keys() if re.match(r"det\d+_t$", key)])
         n_events = pulses + det_events
-        seq_param_types = ['seq_name','B','LO','reptime','shots','averages','det_window']
+        seq_param_types = ['seq_name','B','freq','reptime','shots','averages','det_window']
         seq_params = {}
 
         for param_type in seq_param_types:
@@ -242,7 +283,7 @@ class EPRAccessor:
 
         pulses_obj = []
         for i in range(n_events):
-            if f"pulse{i}_t" in dataset_attrs:
+            if f"pulse{i}_name" in dataset_attrs:
                 pulse_type = dataset_attrs[f"pulse{i}_name"]
                 key="pulse"
             elif f"det{i}_t" in dataset_attrs:
@@ -275,7 +316,7 @@ class EPRAccessor:
         return sequence
 
 
-    def merge(self,other):
+    def merge(self,other,ignore_errors=True):
         """
         Merge two datasets into one dataset.
 
@@ -293,13 +334,17 @@ class EPRAccessor:
             raise ValueError("Both datasets must be 1D")
 
         keys_check = [
-            'B','LO','reptime','shots','nAvgs','nPcyc','pcyc_name',
+            'B', 'freq', 'reptime', 'shots', 'nAvgs', 'nPcyc', 'pcyc_name',
         ]
 
         for key in keys_check:
             if key in dataarray1.attrs and key in dataarray2.attrs:
                 if dataarray1.attrs[key] != dataarray2.attrs[key]:
-                    raise ValueError(f"Datasets have different values for {key}, cannot merge")
+                    if ignore_errors:
+                        print(f"Datasets have different values for {key}, cannot merge")
+                        print(f"Dataset 1: {dataarray1.attrs[key]} \t Dataset 2: {dataarray2.attrs[key]}")
+                    else:
+                        raise ValueError(f"Datasets have different values for {key}, cannot merge")
             elif key in dataarray1.attrs:
                 print(f"Parameter {key} not found in dataset 2")
             elif key in dataarray2.attrs:

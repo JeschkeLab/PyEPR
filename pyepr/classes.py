@@ -12,6 +12,8 @@ from pyepr.utils import autoEPRDecoder, round_step
 from pathlib import Path
 import logging
 from pyepr.config import get_waveform_precision
+import yaml
+
 
 # =============================================================================
 
@@ -20,7 +22,13 @@ class Interface:
     """Represents the interface connection from autoEPR to the spectrometer.
     """
 
-    def __init__(self,log=None) -> None:
+    def __init__(self,config_file:dict=None,log=None) -> None:
+        if isinstance(config_file, (str,Path)):
+            with open(config_file, 'r') as f:
+                config_file = yaml.safe_load(f)
+        
+        self.config = config_file if isinstance(config_file, dict) else {}
+        
         self.pulses = {}
         self.savefolder = str(Path.home())
         self.savename = ""
@@ -29,6 +37,7 @@ class Interface:
         else:
             self.log = log
         self.resonator = None
+        self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
         pass
 
     def connect(self) -> None:
@@ -60,6 +69,41 @@ class Interface:
 
     def isrunning(self) -> bool:
         return False
+    
+    def rescale(self,scale: float) -> float:
+        """Rescales the scale factor to account for applifier non-linearity.
+
+        Parameters
+        ----------
+        scale : float
+            The scale factor to be rescaled.
+
+        Returns
+        -------
+        float
+            The rescaled value.
+        """
+
+        if self.amp_nonlinearity is None:
+            print("WARNING: No amplifier non-linearity defined. Using linear scaling.")
+            return scale
+        if isinstance(self.amp_nonlinearity, list): # Assume polyniomial coefficients 
+            coeff = copy.copy(self.amp_nonlinearity)
+            coeff[-1] -= scale  # Set the last coefficient to the negative of the scale factor
+            roots = np.roots(coeff) # Check if the coefficients are valid
+            real_roots = roots[np.isreal(roots)].real
+
+            if np.all(real_roots < 0):
+                new_scale = scale
+                print("Warning: All roots are negative, setting scale to orginal")
+            elif len(real_roots[(real_roots >= 0) & (real_roots <= 1)]) == 0:
+                new_scale = 1.0
+            else:
+                valid = real_roots[(real_roots >= 0) & (real_roots <= 1)]
+                new_scale = valid[0]
+
+            new_scale = np.clip(new_scale, 0, 1)
+            return new_scale
 
     def terminate(self) -> None:
         """
@@ -94,6 +138,8 @@ class Interface:
 
 
         while not condition:
+            
+            time.sleep(10) # TODO: Replace with half sequence time 
 
             if not self.isrunning():
                 if keep_running:
@@ -118,7 +164,7 @@ class Interface:
                 nAvgs = 1
             finally:
                 if nAvgs < 1:
-                    time.sleep(30)  # Replace with single scan time
+                    time.sleep(30)  # TODO: Replace with single scan time
                     continue
                 elif nAvgs <= last_scan:
                     time.sleep(30)
@@ -227,8 +273,22 @@ class Parameter:
 
         if isinstance(value, Parameter):
             self.value = value.value
-        else:
+            self.NUS = False # uniform sampling
+        elif np.isscalar(value):
             self.value = value
+            self.NUS = False # uniform sampling
+        elif isinstance(value, np.ndarray):
+            self.value = np.median(value)
+            axis = value - self.value
+            self.NUS = True # non-uniform sampling
+        elif value is None:
+            self.value = None
+            self.NUS = False # uniform sampling
+        else:
+            self.NUS = False # uniform sampling
+            self.value = 0
+
+
             
         self.unit = unit
         self.description = description
@@ -242,9 +302,9 @@ class Parameter:
         else:
             self.uuid = uuid.uuid1()
 
-        if "step" in kwargs:
+        if ("step" in kwargs) and not self.NUS:
             step = kwargs["step"]
-            dim = kwargs["dim"]
+            dim = int(kwargs["dim"])
             if "axis_id" in kwargs:
                 axis_id = kwargs["axis_id"]
             else:
@@ -257,6 +317,18 @@ class Parameter:
                 axis = np.zeros(dim)
             else:
                 axis = np.arange(start=start, stop= dim*step+start,step=step)
+                if axis.shape[0] != dim:
+                    print(f"Warning: The step size {step} does not match the dimension {dim}.")
+                    axis = axis[:dim]
+            self.add_axis(axis=axis,axis_id=axis_id)
+        elif ("step" in kwargs) and self.NUS:
+            raise ValueError("Step size can only be with a scalar value.")
+        elif self.NUS:
+            if "axis_id" in kwargs:
+                axis_id = kwargs["axis_id"]
+            else:
+                axis_id = 0
+            
             self.add_axis(axis=axis,axis_id=axis_id)
         
         waveform_precision = get_waveform_precision()

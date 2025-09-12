@@ -7,6 +7,8 @@ from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
 from scipy.optimize import minimize_scalar
 import logging
 import re
+import platform
+import subprocess
 
 try:
     xepr_path = os.popen("Xepr --apipath").read()[:-1]
@@ -56,10 +58,22 @@ class XeprAPILink:
         """
         Connect to the Xepr Spectrometer.
         """
+        self.log_xepr_version()
         self.find_Xepr()
         self.find_cur_exp()
         self.find_hidden()
         pass
+    
+    def log_xepr_version(self):
+        """Logs the Xepr and Linacq versions for debugging purposes."""
+        packages = ['xper','linacq']
+
+        for package in packages:
+            details = get_package_version_from_dnf(package)
+            if details is None:
+                hw_log.warning(f"Could not find {package} version")
+                continue
+            hw_log.info(f"{package} version: {details['version']}, release: {details['release']}, source: {details['source']}")
 
     def _set_Xepr_global(self, Xepr_inst):
         self.Xepr = Xepr_inst
@@ -195,13 +209,13 @@ class XeprAPILink:
         dataclass = self._xepr_retry(lambda: self.Xepr.XeprDataset())
         size = dataclass.size
         data_dim = len(size)
-        data = dataclass.O
+        data = self._xepr_retry(lambda: dataclass.O)
         params = {
             "nAvgs": self.get_param("recorder.NbScansDone"),
             "reptime": self.get_param("ftEPR.ShotRepTime"),
             "shots": self.get_param("ftEPR.ShotsPLoop"),
             "B": self.get_field(),
-            "LO": self.get_counterfreq(),
+            "freq": self.get_counterfreq(),
             }
 
         if sequence is None:
@@ -240,7 +254,7 @@ class XeprAPILink:
             return dset
 
 
-    def acquire_scan(self,sequence = None):
+    def acquire_scan(self,sequence = None,after_scan=None, restart_exp=True):
         """
         This script detects the end of the scan and acquires the data set. 
         This requires that the experiment is still running, or recently 
@@ -248,13 +262,25 @@ class XeprAPILink:
         """
         if self.is_exp_running():
             
+            if after_scan is not None:
+                while self.get_param("NbScansDone") < after_scan:
+                    time.sleep(5)
+            
             self.pause_exp()
+            time.sleep(1)
             while self.is_exp_running():
-                time.sleep(1)
-            dataset = self.acquire_dataset(sequence)
+                time.sleep(3)
+                
+            try:
+                dataset = self.acquire_dataset(sequence)
+            except ValueError:
+                self.Xepr.XeprCmds.aqExpSelect("Experiment")
+                time.sleep(0.5)
+                dataset = self.acquire_dataset(sequence)
 
-            self.rerun_exp()
-            time.sleep(0.5)
+            if restart_exp:
+                self.rerun_exp()
+                time.sleep(0.5)
             return dataset
         else:
             return self.acquire_dataset(sequence)
@@ -338,8 +364,8 @@ class XeprAPILink:
 
     def set_PhaseCycle(self, state=True):
         init_state = self.get_PhaseCycle()
+        hw_log.info(f"On-Board Phase Cycling set to {state}")
         if state != init_state:
-            hw_log.info(f"On-Board Phase Cycling set to {state}")
             self.set_param("PCycleOn", state)  
         return self.get_PhaseCycle()
 
@@ -526,6 +552,12 @@ class XeprAPILink:
             Field position in Gauss
         """
         return self.get_param('CenterField')
+    
+    def center_field(self):
+        """
+        Centers the field
+        """
+        self.cur_exp['AtCenter'].value = True
 
     def set_field(self, val: int, hold: bool = True) -> int:
         """Sets the magentic field.
@@ -543,6 +575,7 @@ class XeprAPILink:
             Field position in Gauss
         """
         self.set_param('CenterField', np.around(val,3))
+        self.center_field()
         time.sleep(2)  # Always wait 2s after a field change
         hw_log.info(f'Field position set to {val} G')
         if hold is True:
@@ -614,7 +647,7 @@ class XeprAPILink:
             if val > self.bridge_config["Max Freq"]:
                 raise RuntimeError("Set Frequency is too high!")
                 
-        if "Digital Source" in self.bridge_config.keys():
+        if "Digital Source" in self.bridge_config.keys() and self.bridge_config["Digital Source"]:
             if self.bridge_config["Digital Source"]:
                 self.set_hidden_param('FineFreq',val)
                 hw_log.info(f'Bridge Frequency set to {val}Fset')
@@ -800,6 +833,10 @@ class XeprAPILink:
             Video gain in dB
         """
         return self.get_param('VideoGain')
+    
+    def get_video_gain_step(self) -> int:
+
+        return self.cur_exp['VideoGain'].aqGetParFineSteps()
 
     def set_video_gain(self, value: int) -> int:
         """Set the video gain in dB
@@ -919,3 +956,44 @@ class XeprAPILink:
 
         return self.get_video_bandwidth()
 # =============================================================================
+
+
+def get_package_version_from_dnf(package_name):
+    """Get the version and release of a package installed via dnf.
+    
+    Parameters
+    ----------
+    package_name : str
+        The name of the package to check.
+    Returns
+    -------
+    dict or None
+        A dictionary with 'version' and 'release' keys if the package is found,
+        otherwise None.
+    
+    """
+    
+    if platform.system() != 'Linux':
+        return None
+    
+    try:
+        result = subprocess.run(['dnf', 'info', package_name], 
+                                capture_output=True, text=True, check=False)
+        if result.returncode != 0:
+            return None
+            
+        output = result.stdout
+        version_line = [line for line in output.split('\n') if 'Version' in line]
+        release_line = [line for line in output.split('\n') if 'Release' in line]
+        source_line = [line for line in output.split('\n') if 'Source' in line]
+
+        
+        if version_line and release_line and source_line:
+            version = version_line[0].split(':')[1].strip()
+            release = release_line[0].split(':')[1].strip()
+            source = source_line[0].split(':')[1].strip()
+            return {'version': version, 'release': release, 'source': source}
+        
+        return None
+    except (FileNotFoundError, subprocess.SubprocessError):
+        return None

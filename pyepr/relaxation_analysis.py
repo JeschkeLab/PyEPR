@@ -38,12 +38,13 @@ class CarrPurcellAnalysis():
             self.axis = dataset['step'] 
         else:
             self.axis = dataset['X']
-        
-        dataset = dataset.epr.correctphasefull
-        self.data = dataset.data.real
-        self.dataset = dataset
 
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
         data = self.data / np.max(self.data)
+
         self.noise = noiselevel(data)
         # if sequence is None and hasattr(dataset,'sequence'):
         #     self.seq = dataset.sequence
@@ -80,7 +81,11 @@ class CarrPurcellAnalysis():
         monoModel = dl.bg_strexp
         monoModel.name = 'Stretched exponential'
         doubleModel = dl.bg_sumstrexp
-        doubleModel.weight1.ub = 500
+        doubleModel.weight1.ub = 1
+        doubleModel.decay1.ub = 1e3
+        doubleModel.decay2.ub = 1e3
+        doubleModel.decay1.lb = 1e-2
+        doubleModel.decay2.lb = 1e-2
         doubleModel.name = "Sum of two stretched exponentials"
 
         testModels = []
@@ -136,15 +141,15 @@ class CarrPurcellAnalysis():
         if hasattr(self, "fit_result"):
             x = self.axis
             V = self.fit_result.evaluate(self.fit_model, x)*self.fit_result.scale
-            fitUncert = self.fit_result.propagate(self.fit_model, x)
-            VCi = fitUncert.ci(ci)*self.fit_result.scale
-            ub = VCi[:,1]
-            lb = VCi[:,0]
             # ub = self.fit_model(x,*self.fit_result.paramUncert.ci(ci)[:-1,1])*self.fit_result.paramUncert.ci(ci)[-1,1]
             # lb = self.fit_model(x,*self.fit_result.paramUncert.ci(ci)[:-1,0])*self.fit_result.paramUncert.ci(ci)[-1,0]
             axs.plot(self.axis, data, '.', label='data', color='0.6', ms=6)
             axs.plot(x, V, label='fit', color=primary_colors[0], lw=2)
             if ci is not None:
+                fitUncert = self.fit_result.propagate(self.fit_model, x)
+                VCi = fitUncert.ci(ci)*self.fit_result.scale
+                ub = VCi[:,1]
+                lb = VCi[:,0]
                 axs.fill_between(x, lb, ub, color=primary_colors[0], alpha=0.3, label=f"{ci}% CI")
 
             axs.legend()
@@ -175,11 +180,11 @@ class CarrPurcellAnalysis():
             # decay = self.func(self.axis, *self.fit_result[0]).data
             x = self.axis
             decay = self.fit_result.evaluate(self.fit_model, x)*self.fit_result.scale
-            if (decay[:int(n_points*0.50)].min() < level) and (decay[:int(n_points*0.25)].min() > level):
+            if (decay[:int(n_points*0.75)].min() < level) and (decay[:int(n_points*0.25)].min() > level):
                 return 0
             elif decay[:int(n_points*0.25)].min() < level:
                 return 1
-            elif decay[:int(n_points*0.50)].min() > level:
+            elif decay[:int(n_points*0.75)].min() > level:
                 return -1
         else:
             raise ValueError("No fit result found")
@@ -305,11 +310,12 @@ class HahnEchoRelaxationAnalysis():
         else:
             self.axis = dataset['X']
         
-        dataset = dataset.epr.correctphasefull
-        self.data = dataset.data.real
-        self.dataset = dataset
-
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
         data = self.data / np.max(self.data)
+
         self.noise = noiselevel(data)
 
         
@@ -330,7 +336,11 @@ class HahnEchoRelaxationAnalysis():
         monoModel = dl.bg_strexp
         monoModel.name = 'Stretched exponential'
         doubleModel = dl.bg_sumstrexp
-        doubleModel.weight1.ub = 200
+        doubleModel.weight1.ub = 1
+        doubleModel.decay1.ub = 1e3
+        doubleModel.decay2.ub = 1e3
+        doubleModel.decay1.lb = 1e-2
+        doubleModel.decay2.lb = 1e-2
         doubleModel.name = "Sum of two stretched exponentials"
 
         testModels = []
@@ -394,6 +404,10 @@ class HahnEchoRelaxationAnalysis():
             axs.plot(self.axis, data, '.', label='data', color='0.6', ms=6)
             axs.plot(x, V, label='fit', color=primary_colors[0], lw=2)
             if ci is not None:
+                fitUncert = self.fit_result.propagate(self.fit_model, x)
+                VCi = fitUncert.ci(ci)*self.fit_result.scale
+                ub = VCi[:,1]
+                lb = VCi[:,0]
                 axs.fill_between(x, lb, ub, color=primary_colors[0], alpha=0.3, label=f"{ci}% CI")
 
             axs.legend()
@@ -411,7 +425,7 @@ class HahnEchoRelaxationAnalysis():
         Parameters
         ----------
         level : float, optional
-            The level to check the decay, by default 0.05
+            The level to check the decay, by default 0.1
 
         Returns
         -------
@@ -424,11 +438,11 @@ class HahnEchoRelaxationAnalysis():
             # decay = self.func(self.axis, *self.fit_result[0]).data
             x = self.axis
             decay = self.fit_result.evaluate(self.fit_model, x)*self.fit_result.scale
-            if (decay[:int(n_points*0.50)].min() < level) and (decay[:int(n_points*0.25)].min() > level):
+            if (decay[:int(n_points*0.75)].min() < level) and (decay[:int(n_points*0.25)].min() > level):
                 return 0
             elif decay[:int(n_points*0.25)].min() < level:
                 return 1
-            elif decay[:int(n_points*0.50)].min() > level:
+            elif decay[:int(n_points*0.75)].min() > level:
                 return -1
         else:
             raise ValueError("No fit result found")
@@ -489,13 +503,14 @@ class ReptimeAnalysis():
         # if self.axis.max() > 1e4:
         #     self.axis /= 1e3 # ns -> us
         # self.data = dataset.data/np.max(dataset.data)
-        
-        if np.iscomplexobj(dataset.data):
-            self.data = dataset.epr.correctphase
-        else:
-            self.data = dataset
 
-        self.data.data /= np.max(self.data.data)
+        # Copy dataset to avoid modifying original
+        self.dataset = dataset.copy()
+        self.dataset = self.dataset.epr.correctphasefull
+        self.data = self.dataset.real.copy().values
+        self.data = self.data / np.max(self.data)
+        
+    
         self.seq = sequence
         pass
 
@@ -525,28 +540,31 @@ class ReptimeAnalysis():
 
         return self.fit_result
 
-    def plot(self, axs=None, fig=None):
+    def plot(self, axs=None, fig=None,lw=2,ms=6):
 
         if axs is None and fig is None:
             fig, axs = plt.subplots()
 
-        # if hasattr(self,'fit_result'):
-        #     # renormalise data to fit amplitude
-        #     data = self.data/self.fit_result[0][0]
-        # else:
-        data = self.data
+        if hasattr(self,'fit_result'):
+            # renormalise data to fit amplitude
+            fit_data = self.func(self.axis, *self.fit_result[0])
+            fit_scale = self.fit_result[0][0]
+            data = self.data/fit_scale
+            fit_data /= fit_scale
+        else:
+            data = self.data
 
-        axs.plot(self.axis/1e3, data, '.', label='data', color='0.6', ms=6)
+        axs.plot(self.axis/1e3, data, '.', label='data', color='0.6', ms=ms)
         
         if hasattr(self,'fit_result'):
-            axs.plot(self.axis/1e3, self.func(self.axis,*self.fit_result[0]), label='Fit', color=primary_colors[0], lw=2)
+            axs.plot(self.axis/1e3, fit_data, label='Fit', color=primary_colors[0], lw=lw)
             axs.set_xlim(*axs.get_xlim())
             axs.set_ylim(*axs.get_ylim())
             ylim = axs.get_ylim()
-            axs.vlines(self.fit_result[0][1]/1e3,*ylim,linestyles='dashed',label='T1 = {:.3g} ms'.format(self.fit_result[0][1]/1e3),colors=primary_colors[1])
+            axs.vlines(self.fit_result[0][1]/1e3,*ylim,linestyles='dashed',label='T1 = {:.3g} ms'.format(self.fit_result[0][1]/1e3),colors=primary_colors[1],lw=lw)
 
             if hasattr(self,'optimal'):
-                axs.vlines(self.optimal/1e3,*ylim,linestyles='dashed',label='Optimal = {:.3g} ms'.format(self.optimal/1e3),colors=primary_colors[2])
+                axs.vlines(self.optimal/1e3,*ylim,linestyles='dashed',label='Optimal = {:.3g} ms'.format(self.optimal/1e3),colors=primary_colors[2],lw=lw)
 
         axs.set_xlabel('Reptime / ms')
         axs.set_ylabel('Normalised signal')
@@ -556,7 +574,12 @@ class ReptimeAnalysis():
     def calc_optimal_reptime(self, recovery=0.9):
         # Calculates the x% recovery time
         if recovery is not None:
-            self.optimal = self.fit_result[0][1]*np.log(1/(1-recovery))
+            T1 = self.fit_result[0][1]
+            if self.fit_result[0].shape[0] == 3:
+                xi = self.fit_result[0][2]
+            else:
+                xi = 1
+            self.optimal = T1 * np.log(1/(1-recovery))**(1/xi)            
         else:
             t = self.axis
             optimal_vals = self.func(t,*self.fit_result[0])* 1/np.sqrt(t)
@@ -611,7 +634,7 @@ def detect_ESEEM(dataset,type='deuteron', threshold=1.5):
 
 cmap = ['#D95B6F','#42A399']
 
-def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
+def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap, labels =None):
     """
     Create a superimposed plot of relaxation data and fits.
 
@@ -638,6 +661,9 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         if arg.dataset.seq_name == 'T2RelaxationSequence':
             xscale = 2
             label='Hahn Echo'
+        elif arg.dataset.seq_name == 'RefocusedEcho1DSequence':
+            xscale = 2
+            label='1D Refocused Echo'
         elif arg.dataset.seq_name == 'CarrPurcellSequence':
             xscale = 4
             label='CP-2'
@@ -648,14 +674,17 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         else:
             xscale = 4
             label='CP-2'
+        if labels is not None:
+            label = labels[i]
         
         axs.plot(arg.axis*xscale, arg.data/arg.data.max(), '.', label=label,alpha=0.5,color=cmap[i],mec='none')
         if hasattr(arg, 'func'):
             print('The scipy fitting elements are being deprecated, please use DeerLab fitting')
             V = arg.func(arg.axis,*arg.fit_result[0])
-        else:
+            axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
+        elif hasattr(arg, 'fit_model'):
             V = arg.fit_model(arg.axis,*arg.fit_result.param[:-1])*arg.fit_result.scale
-        axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
+            axs.plot(arg.axis*xscale, V, '-',alpha=1,color=cmap[i], lw=2)
 
     axs.legend()
     axs.set_xlabel('Total Sequence Length / $\mu s$')
