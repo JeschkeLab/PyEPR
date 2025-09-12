@@ -1,6 +1,6 @@
 # PyEPR
 
-
+![PyPI - Version](https://img.shields.io/pypi/v/pyEPR-ESR)
 [![DOI](https://zenodo.org/badge/888368760.svg)](https://doi.org/10.5281/zenodo.17107010)
 
 
