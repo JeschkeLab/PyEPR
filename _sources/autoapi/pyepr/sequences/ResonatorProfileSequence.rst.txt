@@ -1,7 +1,7 @@
 pyepr.sequences.ResonatorProfileSequence
 ========================================
 
-.. py:class:: pyepr.sequences.ResonatorProfileSequence(*, B, LO, reptime, averages, shots, fwidth=0.3, dtp=2, **kwargs)
+.. py:class:: pyepr.sequences.ResonatorProfileSequence(*, B, freq, reptime, averages, shots, fwidth=0.3, dtp=2, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -21,8 +21,8 @@ pyepr.sequences.ResonatorProfileSequence
        **Bwidth: int or float**
            The width of the field sweep, in Gauss
 
-       **LO** : int or float
-           The LO frequency in GHz
+       **freq** : int or float
+           The freq frequency in GHz
 
        **reptime** : _type_
            The shot repetition time in us
@@ -37,8 +37,14 @@ pyepr.sequences.ResonatorProfileSequence
            The frequency width of the resonator profile in GHz, 
            by default 0.3GHz
 
+       **fstep: float**
+           The frequency step for the profile in GHz, by default 0.02GHz
+
        **dtp: float**
            The time step for the test pulse in ns, by default 2 ns
+
+       **step:**
+           The frequency step parameter in GHz, by default 0.02GHz
 
 
 
@@ -63,6 +69,9 @@ pyepr.sequences.ResonatorProfileSequence
    .. py:attribute:: fwidth
 
 
+   .. py:attribute:: fstep
+
+
    .. py:attribute:: dtp
 
 
@@ -72,5 +81,39 @@ pyepr.sequences.ResonatorProfileSequence
    .. py:method:: _build_sequence()
 
 
-   .. py:method:: simulate(Q=100, fc=None, nu1=75)
+   .. py:method:: simulate(Q=100, fc=None, nu1=75, damping=0.06)
+
+      
+      Simulates a resonator profile sequence as a damped oscillation.
+
+
+      :Parameters:
+
+          **Q** : int
+              The quality factor of the resonator, by default 100
+
+          **fc** : float
+              The center frequency of the resonator, by default None. If None the freq frequency is used.
+
+          **nu1** : float
+              The maximum amplitude of the resonator profile, by default 75 MHz. This is a linear frequency scale.
+
+          **damping** : float
+              The damping factor of the resonator, by default 0.06.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 

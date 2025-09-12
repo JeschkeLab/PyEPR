@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.XeprAPI_link.XeprAPILink - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.XeprAPI_link.XeprAPILink - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.hardware.XeprAPI_link.XeprAPILink<a class="headerlink" href="#pyepr-hardware-xeprapi-link-xeprapilink" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.XeprAPI_link.</span></span><span class="sig-name descname"><span class="pre">XeprAPILink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.XeprAPI_link.</span></span><span class="sig-name descname"><span class="pre">XeprAPILink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>config_file</strong> (<em>str</em>)</p>
@@ -298,6 +302,12 @@
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink.log_xepr_version">
+<span class="sig-name descname"><span class="pre">log_xepr_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.log_xepr_version" title="Link to this definition">¶</a></dt>
+<dd><p>Logs the Xepr and Linacq versions for debugging purposes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -405,7 +415,7 @@ experiment or once it has finished.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan">
-<span class="sig-name descname"><span class="pre">acquire_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">acquire_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after_scan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_exp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_scan" title="Link to this definition">¶</a></dt>
 <dd><p>This script detects the end of the scan and acquires the data set.
 This requires that the experiment is still running, or recently
 finished. Once it has been saved this will no longer work.</p>
@@ -626,6 +636,12 @@ mode=2:Read transient, mode=3:Start Transient</p>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink.center_field">
+<span class="sig-name descname"><span class="pre">center_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.center_field" title="Link to this definition">¶</a></dt>
+<dd><p>Centers the field</p>
 </dd></dl>
 
 <dl class="py method">
@@ -906,6 +922,16 @@ configuration file.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain_step">
+<span class="sig-name descname"><span class="pre">get_video_gain_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain_step" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain">
 <span class="sig-name descname"><span class="pre">set_video_gain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain" title="Link to this definition">¶</a></dt>
 <dd><p>Set the video gain in dB</p>
@@ -1076,7 +1102,7 @@ configuration file is already correct, nothing changes.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1110,6 +1136,7 @@ configuration file is already correct, nothing changes.</p>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink._tmp_dir"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink._tmp_dir</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.XeprCmds"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.XeprCmds</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.connect"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.connect()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.log_xepr_version"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.log_xepr_version()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink._set_Xepr_global"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink._set_Xepr_global()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink._get_Xepr_global"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink._get_Xepr_global()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink._xepr_retry"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink._xepr_retry()</span></code></a></li>
@@ -1157,6 +1184,7 @@ configuration file is already correct, nothing changes.</p>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.abort_exp"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.abort_exp()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.xepr_save"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.xepr_save()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_field"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_field()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.center_field"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.center_field()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_field"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.set_field()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_counterfreq"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_counterfreq()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_sweep_width"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.set_sweep_width()</span></code></a></li>
@@ -1171,6 +1199,7 @@ configuration file is already correct, nothing changes.</p>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_ELDOR_freq"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_ELDOR_freq()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_ELDOR_freq"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.set_ELDOR_freq()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain_step"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain_step()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.get_config_file"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.get_config_file()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.XeprAPI_link.XeprAPILink.set_config_file"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.XeprAPI_link.XeprAPILink.set_config_file()</span></code></a></li>
@@ -1191,7 +1220,7 @@ configuration file is already correct, nothing changes.</p>
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

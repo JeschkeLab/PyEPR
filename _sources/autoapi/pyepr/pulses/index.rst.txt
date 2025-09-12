@@ -18,7 +18,9 @@ Classes
    /autoapi/pyepr/pulses/FrequencySweptPulse
    /autoapi/pyepr/pulses/HSPulse
    /autoapi/pyepr/pulses/ChirpPulse
+   /autoapi/pyepr/pulses/WURSTPulse
    /autoapi/pyepr/pulses/SincPulse
+   /autoapi/pyepr/pulses/CPMGDetection
 
 .. autoapisummary::
 
@@ -30,7 +32,9 @@ Classes
    pyepr.pulses.FrequencySweptPulse
    pyepr.pulses.HSPulse
    pyepr.pulses.ChirpPulse
+   pyepr.pulses.WURSTPulse
    pyepr.pulses.SincPulse
+   pyepr.pulses.CPMGDetection
 
 
 Functions
@@ -38,11 +42,23 @@ Functions
 
 .. autoapisummary::
 
+   pyepr.pulses.compute_upulses_not_trajectory
+   pyepr.pulses.compute_upulses_trajectory
+   pyepr.pulses.compute_magnetization_not_trajectory
+   pyepr.pulses.compute_magnetization_trajectory
    pyepr.pulses.build_default_pulses
 
 
 Module Contents
 ---------------
+
+.. py:function:: compute_upulses_not_trajectory(dUs)
+
+.. py:function:: compute_upulses_trajectory(dUs)
+
+.. py:function:: compute_magnetization_not_trajectory(Upulses, density0, Mmag)
+
+.. py:function:: compute_magnetization_trajectory(Upulses, density0)
 
 .. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
 

@@ -113,3 +113,27 @@ pyepr.pulses.FrequencySweptPulse
       ..
           !! processed by numpydoc !!
 
+
+   .. py:method:: flip()
+
+      
+      Flips the sweep direction of the pulse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

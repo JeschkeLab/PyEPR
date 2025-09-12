@@ -1,0 +1,56 @@
+pyepr.pulses.CPMGDetection
+==========================
+
+.. py:class:: pyepr.pulses.CPMGDetection(*, tp, t=None, freq=0, n_echoes=1, echo_spacing=100, **kwargs)
+
+   Bases: :py:obj:`Detection`
+
+
+   CPMGDetection Implements a Carr-Purcell-Meiboom-Gill (CPMG) detection sequence.
+
+
+
+   A CPMG detection pulse.
+
+
+   :Parameters:
+
+       **tp** : float
+           The **total** time of each detection event. The detection event will
+           be symetrical about the centre time. 
+
+       **t** : float, optional
+           The **centre** time of the first detection event
+
+       **freq: float, optional**
+           The detection frequency, not all spectrometer support this 
+           functionality, by default 0 MHz
+
+       **n_echoes** : int, optional
+           Number of echoes in the CPMG sequence, by default 1
+
+       **echo_spacing** : float, optional
+           Spacing between echoes in ns, by default 100 ns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: n_echoes
+
+
+   .. py:attribute:: echo_spacing
+

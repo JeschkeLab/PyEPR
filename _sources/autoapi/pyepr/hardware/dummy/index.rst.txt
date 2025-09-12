@@ -19,10 +19,14 @@ Classes
 .. toctree::
    :hidden:
 
+   /autoapi/pyepr/hardware/dummy/dummySample
+   /autoapi/pyepr/hardware/dummy/dummyResonator
    /autoapi/pyepr/hardware/dummy/dummyInterface
 
 .. autoapisummary::
 
+   pyepr.hardware.dummy.dummySample
+   pyepr.hardware.dummy.dummyResonator
    pyepr.hardware.dummy.dummyInterface
 
 

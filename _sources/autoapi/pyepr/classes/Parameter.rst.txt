@@ -85,12 +85,18 @@ pyepr.classes.Parameter
 
 
    .. py:attribute:: unit
+      :value: ''
+
 
 
    .. py:attribute:: description
+      :value: ''
+
 
 
    .. py:attribute:: virtual
+      :value: False
+
 
 
    .. py:attribute:: axis

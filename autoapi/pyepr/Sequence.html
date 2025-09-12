@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+    <link href="../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.Sequence - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.Sequence - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.Sequence<a class="headerlink" href="#pyepr-sequence" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.Sequence">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">Sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">Sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence" title="Link to this definition">¶</a></dt>
 <dd><p>Represents an experimental pulse sequence.</p>
 <p>Represents an experimental pulse sequence.</p>
 <dl class="field-list simple">
@@ -268,7 +272,7 @@
 </dd>
 <dt><strong>B</strong><span class="classifier">float</span></dt><dd><p>The magnetic field for this sequence in Gauss.</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>The central frequency of this sequence. I.e. The frequnecy at which
+<dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>The central frequency of this sequence. I.e. The frequnecy at which
 a zero offset pulse is at.</p>
 </dd>
 <dt><strong>reptime</strong><span class="classifier">float</span></dt><dd><p>The shot repetition time in us.</p>
@@ -276,6 +280,8 @@ a zero offset pulse is at.</p>
 <dt><strong>averages</strong><span class="classifier">int</span></dt><dd><p>The number of scans to be accumulated.</p>
 </dd>
 <dt><strong>shots</strong><span class="classifier">itn</span></dt><dd><p>The number of shots per point.</p>
+</dd>
+<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>The now deprecated local oscillator frequency. freq should be used.</p>
 </dd>
 </dl>
 </dd>
@@ -287,7 +293,7 @@ a zero offset pulse is at.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.Sequence.num_pulses">
-<span class="sig-name descname"><span class="pre">num_pulses</span></span><a class="headerlink" href="#pyepr.Sequence.num_pulses" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">num_pulses</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyepr.Sequence.num_pulses" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -298,11 +304,6 @@ a zero offset pulse is at.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.Sequence.reduce_uuid">
 <span class="sig-name descname"><span class="pre">reduce_uuid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyepr.Sequence.reduce_uuid" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyepr.Sequence.LO">
-<span class="sig-name descname"><span class="pre">LO</span></span><a class="headerlink" href="#pyepr.Sequence.LO" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -358,6 +359,11 @@ a zero offset pulse is at.</p>
 <dt class="sig sig-object py" id="pyepr.Sequence._estimate_time">
 <span class="sig-name descname"><span class="pre">_estimate_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence._estimate_time" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the estimated experiment time in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -400,8 +406,20 @@ also be in the params list.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyepr.Sequence.seqtable_steps">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seqtable_steps</span></span><a class="headerlink" href="#pyepr.Sequence.seqtable_steps" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seqtable_steps</span></span><a class="headerlink" href="#pyepr.Sequence.seqtable_steps" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyepr.Sequence.shape">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#pyepr.Sequence.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Gives the shape of the sequence,excluding the number of shots.
+Return
+——
+list:</p>
+<blockquote>
+<div><p>[nAvgs, axes_dims, nPcyc]</p>
+</div></blockquote>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.Sequence.adjust_step">
@@ -481,17 +499,17 @@ This is to ensure that the waveform is generated correctly by the specific AWG</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.Sequence._from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dct</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence._from_dict" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dct</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence._from_dict" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.Sequence._from_json">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">JSONstring</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence._from_json" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">JSONstring</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence._from_json" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.Sequence.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence.load" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.Sequence.load" title="Link to this definition">¶</a></dt>
 <dd><p>Load an object from a JSON file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -530,7 +548,7 @@ This is to ensure that the waveform is generated correctly by the specific AWG</
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -562,7 +580,6 @@ This is to ensure that the waveform is generated correctly by the specific AWG</
 <li><a class="reference internal" href="#pyepr.Sequence.num_pulses"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.num_pulses</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.axes_uuid"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.axes_uuid</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.reduce_uuid"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.reduce_uuid</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.Sequence.LO"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.LO</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.averages"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.averages</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.shots"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.shots</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.name"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.name</span></code></a></li>
@@ -575,6 +592,7 @@ This is to ensure that the waveform is generated correctly by the specific AWG</
 <li><a class="reference internal" href="#pyepr.Sequence.evolution"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.evolution()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence._buildProgTable"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence._buildProgTable()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.seqtable_steps"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.seqtable_steps</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.Sequence.shape"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.shape</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.adjust_step"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.adjust_step()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence.shift_detfreq_to_zero"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence.shift_detfreq_to_zero()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.Sequence._checkRect"><code class="docutils literal notranslate"><span class="pre">pyepr.Sequence._checkRect()</span></code></a></li>
@@ -599,7 +617,7 @@ This is to ensure that the waveform is generated correctly by the specific AWG</
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

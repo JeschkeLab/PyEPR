@@ -1,13 +1,24 @@
 Release Notes
 =============
 
-Version 0.10.0 (2024-12-01):
+Version 1.0.0 (2025-09-12):
+++++++++++++++++++++++++++++
+- All references to `LO` have been changed to `freq` in the frequency object and related.
+- BRUKER SpinJet-II support added and now default. BRUKER non-AWG support is deprecated.
+- The Parameter class now better handles scalar and array values, including support for non-uniform sampling (NUS) and improved axis construction and validation, with warnings for mismatched step sizes. 
+- The Interface class now accepts a YAML configuration file, parses it, and extracts amplifier non-linearity parameters.
+- A new rescale method has been added to compensate for amplifier non-linearity using polynomial roots, improving experiment reliability. 
+- The EPRAccessor.save method now supports overwriting files and sets unlimited dimensions for scans, making dataset saving more flexible and robust. The merge method now allows ignoring errors when merging datasets with mismatched parameters.
+
+
+
+Version 0.10.0 (2024-12-18):
 ++++++++++++++++++++++++++++
 
 - Split of PyEPR into a separate package
   - autoDEER now uses PyEPR as a dependency
   - Some paths have been changed to reflect the new package structure
-- All sequences now have a simulate method that is used by the dummy interface.
+- All sequences now have a simulate method that is used by the dummy interface. The simulate methods in the dummy interface are now deprecated.
 - Move to Poetry for package management, and the default installation method
 - Expanded option for ResonatorProfileSequence to include different time steps
 

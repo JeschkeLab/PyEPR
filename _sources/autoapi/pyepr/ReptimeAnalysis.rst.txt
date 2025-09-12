@@ -36,13 +36,21 @@ pyepr.ReptimeAnalysis
    .. py:attribute:: axis
 
 
+   .. py:attribute:: dataset
+
+
+   .. py:attribute:: data
+
+
    .. py:attribute:: seq
+      :value: None
+
 
 
    .. py:method:: fit(type='SE', **kwargs)
 
 
-   .. py:method:: plot(axs=None, fig=None)
+   .. py:method:: plot(axs=None, fig=None, lw=2, ms=6)
 
 
    .. py:method:: calc_optimal_reptime(recovery=0.9)

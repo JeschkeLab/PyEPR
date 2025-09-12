@@ -1,0 +1,32 @@
+pyepr.hardware.PyEPR_control
+============================
+
+.. py:module:: pyepr.hardware.PyEPR_control
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.PyEPR_control.log
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/PyEPR_control/PyEPRControlInterface
+
+.. autoapisummary::
+
+   pyepr.hardware.PyEPR_control.PyEPRControlInterface
+
+
+Module Contents
+---------------
+
+.. py:data:: log
+

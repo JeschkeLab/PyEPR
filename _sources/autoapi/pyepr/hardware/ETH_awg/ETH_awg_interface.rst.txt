@@ -1,7 +1,7 @@
 pyepr.hardware.ETH_awg.ETH_awg_interface
 ========================================
 
-.. py:class:: pyepr.hardware.ETH_awg.ETH_awg_interface(awg_freq=1.5, dig_rate=2)
+.. py:class:: pyepr.hardware.ETH_awg.ETH_awg_interface(config_file, awg_freq=1.5, dig_rate=2)
 
    Bases: :py:obj:`pyepr.classes.Interface`
 
@@ -17,7 +17,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
        **awg_freq** : float
            The normal operating AWG frequency. 
-           Sequence.LO = AWG.LO + AWG.awg_freq 
+           Sequence.freq = AWG.LO + AWG.awg_freq 
 
        **dig_rate** : float
            The speed of the digitser in GSa/s
@@ -39,7 +39,13 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
        !! processed by numpydoc !!
 
 
-   .. py:attribute:: awg_freq
+   .. py:attribute:: spec_config
+
+
+   .. py:attribute:: bridge_config
+
+
+   .. py:attribute:: IF_freq
 
 
    .. py:attribute:: dig_rate
@@ -69,6 +75,9 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
    .. py:attribute:: IFgain
       :value: 2
 
+
+
+   .. py:attribute:: filter
 
 
    .. py:property:: savefolder
@@ -106,7 +115,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           !! processed by numpydoc !!
 
 
-   .. py:method:: acquire_dataset(verbosity=0)
+   .. py:method:: acquire_dataset(verbosity=0, **kwargs)
 
       
       Acquires the dataset.
@@ -156,6 +165,15 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
       ..
           !! processed by numpydoc !!
+
+
+   .. py:method:: _wait_for_scan(target_scan=None)
+
+
+   .. py:method:: get_buffer(verbosity=0, **kwargs)
+
+
+   .. py:method:: read_dataset(verbosity=0, savenow=False, **kwargs)
 
 
    .. py:method:: launch(sequence, savename, IFgain=None, *args, **kwargs)
@@ -269,7 +287,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
    .. py:method:: isrunning()
 
 
-   .. py:method:: tune_rectpulse(*, tp, LO, B, reptime, shots=400)
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400)
 
       
       Generates a rectangular pi and pi/2 pulse of the given length at 
@@ -281,7 +299,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           **tp** : float
               Pulse length of pi/2 pulse in ns
 
-          **LO** : float
+          **freq** : float
               Central frequency of this pulse in GHz
 
           **B** : float
@@ -317,7 +335,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune_pulse(pulse, mode, LO, B, reptime, shots=400)
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400)
 
       
       Tunes a single pulse a range of methods.
@@ -331,7 +349,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           **mode** : str
               The method to be used.
 
-          **LO** : float
+          **freq** : float
               The local oscilator frequency in GHz
 
           **B** : float
@@ -364,7 +382,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune(*, sequence=None, mode='amp_hahn', LO=None, gyro=None)
+   .. py:method:: tune(*, sequence=None, mode='amp_hahn', freq=None, gyro=None)
 
 
    .. py:method:: _build_exp_struct(sequence)
@@ -384,7 +402,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
       sequence changes with time.
 
       .. note::
-          This interface interprets any change in `LO` as being a 
+          This interface interprets any change in `freq` as being a 
           change in the IF frequency of all pulses and detections.
            I.e. the physcial LO **does not** change. 
 

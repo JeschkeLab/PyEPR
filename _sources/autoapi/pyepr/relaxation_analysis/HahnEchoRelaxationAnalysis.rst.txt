@@ -34,10 +34,10 @@ pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis
        !! processed by numpydoc !!
 
 
-   .. py:attribute:: data
-
-
    .. py:attribute:: dataset
+
+
+   .. py:attribute:: data
 
 
    .. py:attribute:: noise
@@ -115,7 +115,7 @@ pyepr.relaxation_analysis.HahnEchoRelaxationAnalysis
       :Parameters:
 
           **level** : float, optional
-              The level to check the decay, by default 0.05
+              The level to check the decay, by default 0.1
 
 
 

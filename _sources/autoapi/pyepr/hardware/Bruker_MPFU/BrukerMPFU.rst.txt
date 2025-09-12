@@ -53,6 +53,8 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
 
    .. py:attribute:: temp_dir
+      :value: b'.'
+
 
 
    .. py:attribute:: d0
@@ -84,6 +86,8 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
 
    .. py:attribute:: savefolder
+      :value: ''
+
 
 
    .. py:attribute:: setup_flag
@@ -124,7 +128,7 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
    .. py:method:: _launch_complex_thread(sequence, axID=1, tune=True)
 
 
-   .. py:method:: launch(sequence, savename, start=True, tune=True, MPFU_overwrite=None, update_pulsespel=True, reset_bg_data=True, reset_cur_exp=True, **kwargs)
+   .. py:method:: launch(sequence, savename, start=True, tune=True, MPFU_overwrite=None, update_pulsespel=True, reset_bg_data=True, reset_cur_exp=True, attenuator=0, **kwargs)
 
       
       Launches the experiment and initialises autosaving.
@@ -204,7 +208,7 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune(sequence, B0, LO)
+   .. py:method:: tune(sequence, B0, freq)
 
 
    .. py:method:: isrunning()
@@ -258,5 +262,5 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
           !! processed by numpydoc !!
 
 
-   .. py:method:: calc_d0_from_Hahn_Echo(B=None, LO=None)
+   .. py:method:: calc_d0_from_Hahn_Echo(B=None, freq=None)
 

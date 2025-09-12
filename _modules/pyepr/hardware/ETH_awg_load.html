@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.ETH_awg_load - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.ETH_awg_load - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,19 +250,19 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.hardware.ETH_awg_load</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sig</span>
-<span class="kn">from</span> <span class="nn">pyepr.classes</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">pyepr.dataset</span> <span class="kn">import</span> <span class="n">create_dataset_from_axes</span><span class="p">,</span> <span class="n">create_dataset_from_sequence</span>
-<span class="kn">from</span> <span class="nn">pyepr.pulses</span> <span class="kn">import</span> <span class="n">Pulse</span>
-<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
-<span class="kn">from</span> <span class="nn">deerlab</span> <span class="kn">import</span> <span class="n">correctphase</span>
-
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_dataset_from_axes</span><span class="p">,</span> <span class="n">create_dataset_from_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">correctphase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
 
 <div class="viewcode-block" id="uwb_load">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.uwb_load">[docs]</a>
-<span class="k">def</span> <span class="nf">uwb_load</span><span class="p">(</span><span class="n">matfile</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">uwb_load</span><span class="p">(</span><span class="n">matfile</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
              <span class="n">compress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;uwb_load This function is based upon the uwb_eval matlab function </span>
 <span class="sd">    developed by Andrin Doll. This is mostly a Python version of this software,</span>
@@ -280,7 +282,7 @@
     <span class="n">estr</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;expname&#39;</span><span class="p">]]</span>
     <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
     
-    <span class="k">def</span> <span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">nAvgs</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;nAvgs&quot;</span><span class="p">]</span>
             <span class="n">dta</span> <span class="o">=</span> <span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;dta&quot;</span><span class="p">]]</span>
@@ -319,7 +321,7 @@
 
     <span class="k">if</span> <span class="s2">&quot;postsigns&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TODO: check uwb_eval&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;This is not implemented yet&quot;</span><span class="p">)</span>
+        <span class="c1"># raise RuntimeError(&quot;This is not implemented yet&quot;)</span>
 
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]):</span>
         <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]]</span>
@@ -530,8 +532,8 @@
     <span class="c1"># during acquisition or reduction of phasecycles just above)</span>
     <span class="n">n_traces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">parvar_pts</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">dta_x</span><span class="p">)))</span>
 
-    <span class="k">if</span> <span class="s2">&quot;dig_max&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dig_max&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;dig_max&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="s2">&quot;dig_max&quot;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">11</span>
     
@@ -785,7 +787,7 @@
 
 <div class="viewcode-block" id="uwb_eval_match">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.uwb_eval_match">[docs]</a>
-<span class="k">def</span> <span class="nf">uwb_eval_match</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filter_pulse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;match&#39;</span><span class="p">,</span><span class="n">filter_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">corr_phase</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">uwb_eval_match</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filter_pulse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;match&#39;</span><span class="p">,</span><span class="n">filter_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">corr_phase</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -806,6 +808,9 @@
 <span class="sd">        The width of the filter to be used. This is only used if filter_type is &#39;cheby2&#39; or &#39;butter&#39;</span>
 <span class="sd">    verbosity : int, optional</span>
 <span class="sd">        The verbosity of the function. Default is 0.</span>
+<span class="sd">    corr_phase: bool, optional  </span>
+<span class="sd">        If True each echo is idenpendently phased, if false then it is globally phased.</span>
+<span class="sd">        If a vector is applied then this is used phase them. Default is False</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># imports Andrin Doll AWG datafiles using a matched filter</span>
@@ -813,25 +818,29 @@
     <span class="n">estr</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;expname&#39;</span><span class="p">]]</span>
     <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
 
-    <span class="k">def</span> <span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span><span class="n">scans</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span><span class="n">scans</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_dta&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">):</span>
             <span class="n">nAvgs</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;nAvgs&quot;</span><span class="p">]</span>
             <span class="n">dta</span> <span class="o">=</span> <span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;dta&quot;</span><span class="p">]]</span>
         <span class="k">elif</span> <span class="s2">&quot;dta_001&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">dta</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="n">scans</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nAvgs</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;avgs&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                     <span class="n">actname</span> <span class="o">=</span> <span class="s1">&#39;dta_</span><span class="si">%03u</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ii</span> 
                     <span class="k">if</span> <span class="n">actname</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                        <span class="n">dta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">matfile</span><span class="p">[</span><span class="n">actname</span><span class="p">])</span>
+                        <span class="n">single_scan</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">actname</span><span class="p">]</span>
                         <span class="c1"># Only keep it if the average is complete, unless it is </span>
                         <span class="c1"># the first</span>
-                        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dta</span><span class="p">[</span><span class="n">ii</span><span class="o">-</span><span class="mi">1</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                            <span class="n">dta</span> <span class="o">=</span> <span class="n">dta</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="k">elif</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dta</span><span class="p">[</span><span class="n">ii</span><span class="o">-</span><span class="mi">1</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">single_scan</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># incomplete scan</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">nAvgs</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ii</span><span class="p">:</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scan </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2"> is incomplete and will be skipped.&quot;</span><span class="p">)</span>
+                            <span class="k">continue</span>
+                        <span class="k">elif</span> <span class="nb">sum</span><span class="p">(</span><span class="n">single_scan</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="n">nAvgs</span> <span class="o">=</span> <span class="mi">0</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">nAvgs</span> <span class="o">=</span> <span class="n">ii</span>
+                            <span class="n">nAvgs</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">dta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_scan</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ii</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scans</span><span class="p">):</span>
                     <span class="n">actname</span> <span class="o">=</span> <span class="s1">&#39;dta_</span><span class="si">%03u</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ii</span> 
@@ -869,8 +878,8 @@
     <span class="c1"># Eliminate Phase cycles</span>
 
     <span class="k">if</span> <span class="s2">&quot;postsigns&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TODO: check uwb_eval&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;This is not implemented yet&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TODO: check uwb_eval, postsigns in estr&quot;</span><span class="p">)</span>
+        <span class="c1"># raise RuntimeError(&quot;This is not implemented yet&quot;)</span>
 
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]):</span>
         <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;signs&quot;</span><span class="p">]]</span>
@@ -925,12 +934,13 @@
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;ids&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">elim_pcyc</span> <span class="ow">and</span> <span class="n">cycled</span><span class="p">[</span><span class="n">ii</span><span class="p">]):</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="n">vecs</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;ids&quot;</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
+                <span class="n">vecs</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;postsigns&quot;</span><span class="p">][</span><span class="s2">&quot;ids&quot;</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)][</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">dta_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vecs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
 
                 <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="n">unique_axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vecs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">unique_axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">unique_axes</span><span class="p">)</span>
                     <span class="n">dta_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unique_axes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">dta_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
@@ -945,22 +955,18 @@
     <span class="k">elif</span> <span class="n">ii_dtax</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Uwb_eval cannot handle more than two dimensions&quot;</span><span class="p">)</span>
     
-    <span class="n">det_frq</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;det_frq&quot;</span><span class="p">]</span>
+    <span class="n">det_frq</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)][</span><span class="s2">&quot;det_frq&quot;</span><span class="p">]</span>
     <span class="n">det_frq_dim</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">fsmp</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">][</span><span class="s2">&quot;dig_rate&quot;</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">relevant_parvars</span><span class="p">)):</span>
-        <span class="n">act_par</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="n">relevant_parvars</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span>
-        <span class="n">frq_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">act_par</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]),</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">act_par</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">])):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;nu_&#39;</span> <span class="ow">in</span> <span class="n">word</span> <span class="k">for</span> <span class="n">word</span>
-                        <span class="ow">in</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;variables&quot;</span><span class="p">]):</span>
-                <span class="n">frq_change</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">act_par</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;parvars&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">relevant_parvars</span><span class="p">[</span><span class="n">ii</span><span class="p">])]</span>
+        <span class="n">frq_change</span> <span class="o">=</span>  <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;nu_&#39;</span> <span class="ow">in</span> <span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">act_par</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">frq_change</span><span class="p">):</span>  <span class="c1"># was there a frequency change</span>
+        <span class="k">if</span> <span class="n">frq_change</span><span class="p">:</span>  <span class="c1"># was there a frequency change</span>
             <span class="c1"># is the frequency change relevant</span>
-            <span class="k">if</span> <span class="s2">&quot;det_frq_id&quot;</span> <span class="ow">in</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">frq_pulse</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;det_frq_id&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;det_frq_id&quot;</span> <span class="ow">in</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)]:</span>
+                <span class="n">frq_pulse</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;det_event&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)][</span><span class="s2">&quot;det_frq_id&quot;</span><span class="p">]</span>
                 <span class="n">nu_init_change</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">nu_final_change</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">act_par</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">])):</span>
@@ -1055,18 +1061,18 @@
     <span class="c1"># during acquisition or reduction of phasecycles just above)</span>
     <span class="n">n_traces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">parvar_pts</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">dta_x</span><span class="p">)))</span>
 
-    <span class="k">if</span> <span class="s2">&quot;dig_max&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dig_max&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;dig_max&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">][</span><span class="s2">&quot;dig_max&quot;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">11</span>
+        <span class="n">trace_maxlev</span> <span class="o">=</span> <span class="n">n_traces</span> <span class="o">*</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;shots&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">15</span>
     
     <span class="n">max_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">dta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dig_level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">max_amp</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="s2">&quot;IFgain_levels&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">]:</span>
-                <span class="c1"># Check about eventual improvemnets by changing IF levels</span>
-                <span class="n">possible_levels</span> <span class="o">=</span> <span class="n">dig_level</span> <span class="o">*</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">][</span><span class="s2">&quot;IFgain_levels&quot;</span><span class="p">]</span> <span class="o">/</span> \
-                    <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">][</span><span class="s2">&quot;IFgain_levels&quot;</span><span class="p">][</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;IFgain&quot;</span><span class="p">]]</span>
+                <span class="c1"># Check about eventual improvemnets by changing IF levels:</span>
+                <span class="n">IF_gain_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">][</span><span class="s2">&quot;IFgain_levels&quot;</span><span class="p">])</span>
+                <span class="n">possible_levels</span> <span class="o">=</span> <span class="n">dig_level</span> <span class="o">*</span> <span class="n">IF_gain_levels</span> <span class="o">/</span> <span class="n">IF_gain_levels</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;IFgain&quot;</span><span class="p">])]</span>
 
                 <span class="n">possible_levels</span><span class="p">[</span><span class="n">possible_levels</span> <span class="o">&gt;</span> <span class="mf">0.75</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">best_lev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">possible_levels</span><span class="p">)</span>
@@ -1079,7 +1085,10 @@
                         <span class="sa">f</span><span class="s2">&quot;an IFgain setting of </span><span class="si">{</span><span class="n">best_idx</span><span class="si">}</span><span class="s2"> , where the maximum &quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;level will be on the order of </span><span class="si">{</span><span class="n">best_lev</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
                     
-    <span class="n">det_frqs_perc</span> <span class="o">=</span> <span class="n">calc_percieved_freq</span><span class="p">(</span><span class="n">fsmp</span><span class="p">,</span><span class="n">det_frq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">det_frq</span> <span class="o">&gt;</span> <span class="n">fsmp</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">det_frqs_perc</span> <span class="o">=</span> <span class="n">calc_percieved_freq</span><span class="p">(</span><span class="n">fsmp</span><span class="p">,</span><span class="n">det_frq</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">det_frqs_perc</span> <span class="o">=</span> <span class="n">det_frq</span>
     <span class="n">echo_len</span> <span class="o">=</span> <span class="n">dta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">fsmp</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">echo_len</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span><span class="n">echo_len</span><span class="p">,</span><span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1087,6 +1096,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">filter_pulse</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">filter_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;match&#39;</span><span class="p">):</span>
         <span class="c1"># If no filter pulse is given, use a rectangular pulse matching the length of the longest fixed pulse</span>
         <span class="n">tp</span> <span class="o">=</span> <span class="n">find_max_pulse_length</span><span class="p">(</span><span class="n">estr</span><span class="p">)</span>
+        <span class="n">tp</span> <span class="o">*=</span> <span class="mi">2</span>
         <span class="n">tp</span> <span class="o">*=</span> <span class="n">fsmp</span>
         <span class="n">AM</span><span class="p">,</span><span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="n">echo_len</span><span class="p">))</span>
         <span class="n">AM</span><span class="p">[</span><span class="n">echo_len</span><span class="o">//</span><span class="mi">2</span><span class="o">-</span><span class="n">tp</span><span class="o">//</span><span class="mi">2</span><span class="p">:</span><span class="n">echo_len</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="n">tp</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1105,7 +1115,7 @@
         <span class="k">if</span> <span class="n">filter_width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You must provide a filter width for the cheby2 or butter filter&#39;</span><span class="p">)</span>
         
-        <span class="n">filter_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dta</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">:</span> <span class="n">scipy_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">filter_width</span><span class="p">,</span><span class="n">det_frq</span><span class="p">,</span><span class="n">filter_type</span><span class="p">)</span>
+        <span class="n">filter_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dta</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">:</span> <span class="n">scipy_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">filter_width</span><span class="p">,</span><span class="n">det_frq</span><span class="p">,</span><span class="n">fsmp</span><span class="p">,</span><span class="n">filter_type</span><span class="p">)</span>
             
 
 
@@ -1129,15 +1139,23 @@
         <span class="n">dta_filt_dc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">filter_func</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dta_c</span><span class="p">,</span><span class="n">det_frqs_perc</span><span class="p">)</span>
 
     
+    <span class="n">echo_pos</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;echo_pos&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">echo_pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">peak_echo_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dta_filt_dc</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span><span class="n">dims</span><span class="p">)</span>
+        
+        <span class="n">echo_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dta_filt_dc</span><span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)])</span> <span class="o">+</span> <span class="n">peak_echo_idx</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">echo_pos</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="c1"># Find the maximum echo position independently for each trace</span>
+        <span class="n">echo_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dta_filt_dc</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">echo_pos</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dta_ev</span> <span class="o">=</span> <span class="n">dta_filt_dc</span><span class="p">[</span><span class="n">echo_pos</span><span class="p">,:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dta_ev</span> <span class="o">=</span> <span class="n">dta_filt_dc</span><span class="p">[</span><span class="n">echo_pos</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">echo_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 
-    <span class="n">peak_echo_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dta_filt_dc</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span><span class="n">dims</span><span class="p">)</span>
-    
-    <span class="n">echo_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dta_filt_dc</span><span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)])</span> <span class="o">+</span> <span class="n">peak_echo_idx</span><span class="p">]))</span>    
-    <span class="n">dta_ev</span> <span class="o">=</span> <span class="n">dta_filt_dc</span><span class="p">[</span><span class="n">echo_pos</span><span class="p">,:]</span>
-    
     <span class="k">if</span> <span class="n">corr_phase</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">dta_ang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">dta_ev</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">frq_change</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">frq_change</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">exp_dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">corr_phase</span> <span class="o">=</span> <span class="n">dta_ang</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">peak_echo_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1146,11 +1164,11 @@
             <span class="n">corr_phase</span> <span class="o">=</span> <span class="n">dta_ang</span><span class="p">[</span><span class="n">peak_echo_idx</span><span class="p">]</span>
 
         <span class="n">dta_ev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">corr_phase</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dta_ev</span><span class="p">)</span>
-
-
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">corr_phase</span><span class="p">):</span>
+        <span class="n">dta_ev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">corr_phase</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dta_ev</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">:</span> <span class="n">nAvgs</span><span class="p">,</span> <span class="s1">&#39;LO&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">]</span><span class="o">+</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> 
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">:</span> <span class="n">nAvgs</span><span class="p">,</span> <span class="s1">&#39;LO&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">]</span><span class="o">+</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">],</span>
                   <span class="s1">&#39;reptime&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;reptime&#39;</span><span class="p">],</span> <span class="s1">&#39;shots&#39;</span><span class="p">:</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;shots&#39;</span><span class="p">],</span> <span class="s1">&#39;diglevel&#39;</span><span class="p">:</span> <span class="n">dig_level</span><span class="p">}</span>
         <span class="n">axis</span> <span class="o">=</span> <span class="p">[];</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exp_dim</span><span class="p">):</span>
@@ -1159,16 +1177,18 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">axis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dta_x</span><span class="p">[</span><span class="n">i</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">create_dataset_from_axes</span><span class="p">(</span><span class="n">dta_ev</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">:</span> <span class="n">nAvgs</span><span class="p">,</span><span class="s1">&#39;diglevel&#39;</span><span class="p">:</span> <span class="n">dig_level</span><span class="p">}</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">create_dataset_from_sequence</span><span class="p">(</span><span class="n">dta_ev</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">:</span> <span class="n">nAvgs</span><span class="p">,</span> <span class="s1">&#39;diglevel&#39;</span><span class="p">:</span> <span class="n">dig_level</span><span class="p">}</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">create_dataset_from_sequence</span><span class="p">(</span><span class="n">dta_ev</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
 
+
 <div class="viewcode-block" id="find_max_pulse_length">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.find_max_pulse_length">[docs]</a>
-<span class="k">def</span> <span class="nf">find_max_pulse_length</span><span class="p">(</span><span class="n">estr</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_max_pulse_length</span><span class="p">(</span><span class="n">estr</span><span class="p">):</span>
     <span class="n">n_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">])</span>
     <span class="n">tps</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pulses</span><span class="p">):</span>
@@ -1179,20 +1199,20 @@
 
 <div class="viewcode-block" id="digitally_upconvert">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.digitally_upconvert">[docs]</a>
-<span class="k">def</span> <span class="nf">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="nb">complex</span><span class="p">,</span><span class="n">fc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="nb">complex</span><span class="p">,</span><span class="n">fc</span><span class="p">):</span>
     <span class="n">upconvert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">fc</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">complex</span> <span class="o">*</span> <span class="n">upconvert</span></div>
 
 
 <div class="viewcode-block" id="calc_percieved_freq">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.calc_percieved_freq">[docs]</a>
-<span class="k">def</span> <span class="nf">calc_percieved_freq</span><span class="p">(</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">fc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_percieved_freq</span><span class="p">(</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">fc</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fc</span> <span class="o">-</span> <span class="n">sampling_freq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">sampling_freq</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="match_filter_dc">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.match_filter_dc">[docs]</a>
-<span class="k">def</span> <span class="nf">match_filter_dc</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">t</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">offset_freq</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">match_filter_dc</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">t</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">offset_freq</span><span class="p">):</span>
     <span class="n">win_fc</span> <span class="o">=</span> <span class="n">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">win</span><span class="p">,</span><span class="n">offset_freq</span><span class="p">)</span>
     <span class="n">filtered</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">win_fc</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
     <span class="n">filtered_dc</span> <span class="o">=</span> <span class="n">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">filtered</span><span class="p">,</span><span class="o">-</span><span class="n">offset_freq</span><span class="p">)</span>
@@ -1201,11 +1221,11 @@
 
 <div class="viewcode-block" id="scipy_filter_dc">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.scipy_filter_dc">[docs]</a>
-<span class="k">def</span> <span class="nf">scipy_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;cheby2&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scipy_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="p">,</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;cheby2&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="s1">&#39;cheby2&#39;</span><span class="p">:</span>
-        <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">cheby2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
+        <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">cheby2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="s1">&#39;butter&#39;</span><span class="p">:</span>
-        <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">10</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
+        <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">10</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
     <span class="n">filtered</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">sosfilt</span><span class="p">(</span><span class="n">filter_sos</span><span class="p">,</span><span class="n">dta</span><span class="p">)</span>
     <span class="n">filtered_dc</span> <span class="o">=</span> <span class="n">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">filtered</span><span class="p">,</span><span class="o">-</span><span class="n">offset_freq</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered_dc</span></div>
@@ -1223,7 +1243,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1243,7 +1263,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

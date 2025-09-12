@@ -15,6 +15,7 @@ Submodules
    /autoapi/pyepr/hardware/Bruker_tools/index
    /autoapi/pyepr/hardware/ETH_awg/index
    /autoapi/pyepr/hardware/ETH_awg_load/index
+   /autoapi/pyepr/hardware/PyEPR_control/index
    /autoapi/pyepr/hardware/XeprAPI_link/index
    /autoapi/pyepr/hardware/dummy/index
    /autoapi/pyepr/hardware/dummy_xepr/index

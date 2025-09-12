@@ -1,0 +1,23 @@
+pyepr.hardware.dummy.dummyResonator
+===================================
+
+.. py:class:: pyepr.hardware.dummy.dummyResonator
+
+   .. py:attribute:: fc
+      :type:  float
+
+
+   .. py:attribute:: Q
+      :type:  float
+
+
+   .. py:attribute:: nu1
+      :type:  float
+
+
+   .. py:attribute:: noise_level
+      :type:  float
+
+
+   .. py:method:: mode(x)
+

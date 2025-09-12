@@ -1,0 +1,277 @@
+pyepr.hardware.PyEPR_control.PyEPRControlInterface
+==================================================
+
+.. py:class:: pyepr.hardware.PyEPR_control.PyEPRControlInterface(config_file_path)
+
+   Bases: :py:obj:`pyepr.classes.Interface`
+
+
+   Represents the interface for spectrometers built using PyEPR and connected with a local flask server.
+
+
+
+
+
+   :Parameters:
+
+       **config_file_path** : float
+           The file path for the spectrometer configuration file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: IFgain_options
+
+
+   .. py:attribute:: IFgain
+      :value: 2
+
+
+
+   .. py:attribute:: config_file
+
+
+   .. py:attribute:: server
+      :value: None
+
+
+
+   .. py:property:: savefolder
+
+
+   .. py:method:: connect(ip='localhost', port=5000)
+
+
+   .. py:method:: disconnect()
+
+
+   .. py:method:: acquire_dataset(verbosity=0, sum_scans=True, **kwargs)
+
+      
+      Acquires the dataset.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_buffer(verbosity=0, sum_scans=True, **kwargs)
+
+
+   .. py:method:: set_param(param, value)
+
+      
+      Set a parameter for the spectrometer.
+
+
+      :Parameters:
+
+          **param** : str
+              The parameter to set. Possible values are 'LO', 'temp', 'reptime', 'field', 'videoGain'.
+
+          **value** : float
+              The value to set the parameter to.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: terminate()
+
+      
+      Terminates the experiment immediately. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: launch(sequence, savename, IFgain=None, *args, **kwargs)
+
+      
+      Launches the experiment and initialises autosaving.
+
+
+      :Parameters:
+
+          **sequence** : Sequence
+              The sequence to be launched
+
+          **savename** : str
+              The savename for this measurement. A timestamp will be added to the value.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: _launch(sequence, savename, IFgain=0, reset_cur_exp=True, *args, **kwargs)
+
+
+   .. py:method:: isrunning()
+
+
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400)
+
+      
+      Generates a rectangular pi and pi/2 pulse of the given length at 
+      the given field position. This value is stored in the pulse cache. 
+
+
+      :Parameters:
+
+          **tp** : float
+              Pulse length of pi/2 pulse in ns
+
+          **freq** : float
+              Central frequency of this pulse in GHz
+
+          **B** : float
+              Magnetic B0 field position in Gauss
+
+          **reptime: float**
+              Shot repetion time in us.
+
+          **shots: int**
+              The number of shots
+
+
+
+      :Returns:
+
+          p90: RectPulse
+              A tuned rectangular pi/2 pulse of length tp
+
+          p180: RectPulse
+              A tuned rectangular pi pulse of length tp
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400)
+
+      
+      Tunes a single pulse a range of methods.
+
+
+      :Parameters:
+
+          **pulse** : Pulse
+              The Pulse object in need of tuning.
+
+          **mode** : str
+              The method to be used.
+
+          **freq** : float
+              The local oscilator frequency in GHz
+
+          **B** : float
+              Magnetic B0 field position in Gauss
+
+          **reptime** : us
+              Shot repetion time in us.
+
+          **shots: int**
+              The number of shots
+
+
+
+      :Returns:
+
+          Tunned Pulse: Pulse
+              The returned pulse object that is now tunned.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: tune(*, sequence=None, mode='amp_hahn', freq=None, gyro=None)
+

@@ -50,12 +50,18 @@ pyepr.hardware.xepr_experiments.MPFUtune
 
 
    .. py:attribute:: ps_length
+      :value: 16
+
 
 
    .. py:attribute:: d0
+      :value: 680
+
 
 
    .. py:attribute:: srt
+      :value: 6000000.0
+
 
 
    .. py:method:: _setup_echo(echo, tau1=400, tau2=400)

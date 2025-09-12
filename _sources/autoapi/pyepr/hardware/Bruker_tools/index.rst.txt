@@ -39,16 +39,23 @@ Functions
 
 .. autoapisummary::
 
+   pyepr.hardware.Bruker_tools.get_specjet_data
    pyepr.hardware.Bruker_tools.convert_progtable
    pyepr.hardware.Bruker_tools.calc_rel_positions
    pyepr.hardware.Bruker_tools.run_general
    pyepr.hardware.Bruker_tools.change_dimensions
-   pyepr.hardware.Bruker_tools._addAWGPulse
+   pyepr.hardware.Bruker_tools._add_AWG_line
+   pyepr.hardware.Bruker_tools.addAWGPulse
+   pyepr.hardware.Bruker_tools._addDefaultAWGPulse
+   pyepr.hardware.Bruker_tools._addCustomAWGPulse
    pyepr.hardware.Bruker_tools.get_arange
    pyepr.hardware.Bruker_tools.build_unique_progtable
    pyepr.hardware.Bruker_tools.check_variable
    pyepr.hardware.Bruker_tools.determine_TWT_split
    pyepr.hardware.Bruker_tools.write_pulsespel_file
+   pyepr.hardware.Bruker_tools.write_shape_file
+   pyepr.hardware.Bruker_tools.step_parameters
+   pyepr.hardware.Bruker_tools.get_specjet_data
 
 
 Module Contents
@@ -59,6 +66,24 @@ Module Contents
 .. py:data:: hw_log
 
 .. py:data:: header
+   :value: Multiline-String
+
+   .. raw:: html
+
+      <details><summary>Show Value</summary>
+
+   .. code-block:: python
+
+      """; -------------------------------------------------------------------------------
+      """
+
+   .. raw:: html
+
+      </details>
+
+
+
+.. py:function:: get_specjet_data(interface)
 
 .. py:data:: possible_delays
    :value: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15',...
@@ -205,7 +230,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: _addAWGPulse(sequence, pulse_num, id, pcyc_str, amp_var=None)
+.. py:function:: _add_AWG_line(elements, comment=None, indent=2, repeat=1)
+
+.. py:function:: addAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None, SpinJet_version=1, resonator=None)
+
+.. py:function:: _addDefaultAWGPulse(sequence, pulse_num, id, amp_var=None, SpinJet_version=1)
+
+.. py:function:: _addCustomAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None, SpinJet_version=1)
 
 .. py:function:: get_arange(array)
 
@@ -257,4 +288,51 @@ Module Contents
 
    ..
        !! processed by numpydoc !!
+
+.. py:function:: write_shape_file(pulse, name = '', phase_shift=0, number=None, AWG_rate=1.6)
+
+   
+   Write a Bruker shape file for a given pulse.
+
+
+   :Parameters:
+
+       **pulse** : Pulse
+           The pulse to be converted.
+
+       **name** : str, optional
+           The name of the pulse, by default ""
+
+       **phase_shift** : int, optional
+           The phase shift of the pulse in radians, by default 0
+
+       **number** : int, optional
+           The number of the pulse, by default None
+
+       **AWG_rate** : float, optional
+           The sample rate of the AWG in GSa/s, by default 1.6 GSa/s for SpinJet-I    
+
+
+
+   :Returns:
+
+       str
+           The string for the shape file.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: step_parameters(interface, reduced_seq, dim, variables)
+
+.. py:function:: get_specjet_data(interface, full_output=False, suppress_exceptions=False)
 

@@ -1,7 +1,7 @@
 pyepr.ReptimeScan
 =================
 
-.. py:class:: pyepr.ReptimeScan(*, B, LO, reptime, reptime_max, averages, shots, **kwargs)
+.. py:class:: pyepr.ReptimeScan(*, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs)
 
    Bases: :py:obj:`HahnEchoSequence`
 
@@ -17,20 +17,26 @@ pyepr.ReptimeScan
        **B** : int or float
            The B0 field, in Guass
 
-       **LO** : int or float
-           The LO frequency in GHz
+       **freq** : int or float
+           The freq frequency in GHz
 
        **reptime: float**
            The default reptime, this is used for tuning pulses etc...
-
-       **reptime_max** : np.ndarray
-           The maximum shot repetition time in us    
 
        **averages** : int
            The number of scans.
 
        **shots** : int
            The number of shots per point
+
+       **reptime_max** : float
+           The maximum shot repetition time in us
+
+       **start** : float
+           The minimum shot repetition time in us, by default 20 us
+
+       **dim** : int
+           The number of points in the reptime axis
 
 
 

@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.dummy.dummyInterface - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.dummy.dummyInterface - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.hardware.dummy.dummyInterface<a class="headerlink" href="#pyepr-hardware-dummy-dummyinterface" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.dummy.</span></span><span class="sig-name descname"><span class="pre">dummyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.dummy.</span></span><span class="sig-name descname"><span class="pre">dummyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../classes/Interface.html#pyepr.classes.Interface" title="pyepr.classes.Interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyepr.classes.Interface</span></code></a></p>
 <p>Represents the interface connection from autoEPR to the spectrometer.</p>
 <dl class="py attribute">
@@ -284,6 +288,26 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.SNR">
 <span class="sig-name descname"><span class="pre">SNR</span></span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.SNR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.phaseshift">
+<span class="sig-name descname"><span class="pre">phaseshift</span></span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.phaseshift" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.ESEEM">
+<span class="sig-name descname"><span class="pre">ESEEM</span></span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.ESEEM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.dummyResonator">
+<span class="sig-name descname"><span class="pre">dummyResonator</span></span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.dummyResonator" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.dummySample">
+<span class="sig-name descname"><span class="pre">dummySample</span></span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.dummySample" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -318,12 +342,12 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.tune_rectpulse">
-<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.tune_rectpulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.tune_rectpulse" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.dummy.dummyInterface.tune_pulse">
-<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.tune_pulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.dummy.dummyInterface.tune_pulse" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -362,7 +386,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -395,6 +419,10 @@
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.pulses"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.pulses</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.start_time"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.start_time</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.SNR"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.SNR</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.phaseshift"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.phaseshift</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.ESEEM"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.ESEEM</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.dummyResonator"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.dummyResonator</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.dummySample"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.dummySample</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.mode"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.mode</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.launch"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.launch()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.dummy.dummyInterface.acquire_dataset"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.dummy.dummyInterface.acquire_dataset()</span></code></a></li>
@@ -415,7 +443,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

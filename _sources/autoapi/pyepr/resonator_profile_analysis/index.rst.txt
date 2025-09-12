@@ -22,6 +22,7 @@ Functions
 
 .. autoapisummary::
 
+   pyepr.resonator_profile_analysis.phase_correct_respro
    pyepr.resonator_profile_analysis.ceil
    pyepr.resonator_profile_analysis.floor
    pyepr.resonator_profile_analysis.calc_overlap
@@ -31,6 +32,29 @@ Functions
 
 Module Contents
 ---------------
+
+.. py:function:: phase_correct_respro(dataset)
+
+   
+   Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 
 .. py:function:: ceil(number, decimals=0)
 

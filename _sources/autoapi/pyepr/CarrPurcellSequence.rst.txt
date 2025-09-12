@@ -1,7 +1,7 @@
 pyepr.CarrPurcellSequence
 =========================
 
-.. py:class:: pyepr.CarrPurcellSequence(*, B, LO, reptime, averages, shots, n, start=300, step=50, dim=100, **kwargs)
+.. py:class:: pyepr.CarrPurcellSequence(*, B, freq, reptime, averages, shots, n, start=300, step=50, dim=100, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -18,8 +18,8 @@ pyepr.CarrPurcellSequence
        **B** : int or float
            The B0 field, in Guass
 
-       **LO** : int or float
-           The LO frequency in GHz
+       **freq** : int or float
+           The freq frequency in GHz
 
        **reptime** : _type_
            The shot repetition time in us

@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.resonator_profile_analysis - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.resonator_profile_analysis - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,21 +250,58 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.resonator_profile_analysis</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.fft</span> <span class="k">as</span> <span class="nn">fft</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span><span class="p">,</span> <span class="n">splrep</span><span class="p">,</span> <span class="n">BSpline</span>
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">hilbert</span>
-<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">signal</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
-<span class="kn">import</span> <span class="nn">deerlab</span> <span class="k">as</span> <span class="nn">dl</span>
-<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">AutoMinorLocator</span><span class="p">,</span><span class="n">AutoLocator</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.fft</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fft</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">pchip_interpolate</span><span class="p">,</span> <span class="n">splrep</span><span class="p">,</span> <span class="n">BSpline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">hilbert</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">signal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoMinorLocator</span><span class="p">,</span><span class="n">AutoLocator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_dataset_from_axes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">primary_colors</span>
 
-<span class="k">class</span> <span class="nc">ResonatorProfileAnalysis</span><span class="p">:</span>
+<span class="c1"># def phase_correct_respro(data_array):</span>
+<span class="c1">#     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)</span>
+<span class="c1">#     index =  np.argmax(np.abs(Vre),axis=0)</span>
+<span class="c1">#     index = 0 # normalise to first point</span>
+<span class="c1">#     max_val = Vre[index,np.arange(Vre.shape[1])]</span>
+<span class="c1">#     scale = (max_val &gt;= 0)*2-1</span>
+<span class="c1">#     Vre = Vre*scale</span>
+<span class="c1">#     Vim = Vim*scale</span>
+<span class="c1">#     data_array.values = Vre + 1j*Vim</span>
+<span class="c1">#     return data_array</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span><span class="n">f_lims</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">36</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="phase_correct_respro">
+<a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.phase_correct_respro">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">phase_correct_respro</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Vre</span><span class="p">,</span> <span class="n">Vim</span><span class="p">,</span> <span class="n">ph</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">correctphase</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">new_data</span> <span class="o">=</span> <span class="n">Vre</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Vim</span>
+    <span class="n">first_points</span> <span class="o">=</span> <span class="n">Vre</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Vre</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+    <span class="n">first_angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">first_points</span><span class="p">)</span>
+    <span class="n">new_data</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">first_angles</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">new_data</span>
+    <span class="k">return</span> <span class="n">dataset</span></div>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ResonatorProfileAnalysis</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span><span class="n">f_lims</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">36</span><span class="p">),</span><span class="n">attentuator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">R_limit</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">p0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Analysis and calculation of resonator profiles.</span>
+
+<span class="sd">        Fitting fuction:</span>
+
+<span class="sd">        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k</span>
+
+<span class="sd">        where :math:`a` is the amplitude, :math:`f` is the nutation frequency,</span>
+<span class="sd">        :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.</span>
+<span class="sd">        The fit is performed for each frequency in the dataset. The fit is</span>
+<span class="sd">        performed using the `curve_fit` function from `scipy.optimize`.</span>
+
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -271,26 +310,55 @@
 <span class="sd">            and a &#39;pulse0_tp&#39; axis.</span>
 <span class="sd">        f_lims : tuple, optional</span>
 <span class="sd">            The frequency limits of the resonator profile, by default (33,35)</span>
+<span class="sd">        attenuator: int</span>
+<span class="sd">            The value of the main attentuator in dB, by default 0</span>
+<span class="sd">        R_limit: float, optional</span>
+<span class="sd">            The R^2 limit for extracting fits, by default 0.2</span>
+<span class="sd">        bounds : tuple, optional</span>
+<span class="sd">            The bounds for the fit in the form ([lower bounds],[upper bounds]), by default None. If not given the bounds are set to ([5e-3,10,0,-1,-5],[0.3,2000,2,1,5])</span>
+<span class="sd">        p0 : list, optional</span>
+<span class="sd">            The initial guess for the fit, by default None. If not given the guess is set to [50e-3,150,1,0]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">epr</span><span class="o">.</span><span class="n">correctphase</span>
-        
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">phase_correct_respro</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
+            
         <span class="k">if</span> <span class="s2">&quot;LO&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">LO</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">LO</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">LO</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">LO</span><span class="p">)</span>
         <span class="k">elif</span> <span class="s2">&quot;freq&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">freq</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">LO</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">LO</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;freq_axis&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">freq_axis</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">freq</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span><span class="p">,</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq_c</span><span class="o">.</span><span class="n">values</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">n_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">pulse0_tp</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f_lims</span> <span class="o">=</span> <span class="n">f_lims</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_process_fit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attenuator</span> <span class="o">=</span> <span class="n">attentuator</span>
+        <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">5e-3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">p0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p0</span> <span class="o">=</span> <span class="n">p0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50e-3</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process_fit</span><span class="p">(</span><span class="n">R_limit</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">process_nutations</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_nutations</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">noisedensity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="n">nfft</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">):</span>
+            <span class="n">nfft</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Uses a power series to extract the resonator profile.</span>
 
 <span class="sd">        Parameters</span>
@@ -337,32 +405,72 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof_frqs</span>
     
-    <span class="k">def</span> <span class="nf">_process_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R_limit</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">R_limit</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes the nutation data by fitting a cosine function to each</span>
+<span class="sd">        frequency in the dataset.</span>
+
+<span class="sd">        Function used for fitting:</span>
+<span class="sd">        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k</span>
+<span class="sd">        where :math:`a` is the amplitude, :math:`f` is the nutation frequency,</span>
+<span class="sd">        :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        R_limit : float, optional</span>
+<span class="sd">            The R^2 limit for extracting fits, by default 0.5</span>
+<span class="sd">        mask : np.ndarray, optional</span>
+<span class="sd">            A mask to apply to the dataset, by default None. If not given the whole dataset is used.</span>
+<span class="sd">            The mask is applied along the &#39;pulse0_tp&#39; axis, so it should be a 1D array</span>
+<span class="sd">        debug : bool, optional</span>
+<span class="sd">            If True all fits that are below the R_limit are plotted, by default False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">n_LO</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_LO</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_LO</span><span class="p">)</span>
 
-        <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">k</span><span class="p">:</span> <span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">+</span> <span class="n">k</span>
-        <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">5e-3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50e-3</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x0</span><span class="p">:</span> <span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">+</span> <span class="n">k</span>
 
         <span class="n">R2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
+        <span class="n">excluded</span> <span class="o">=</span> <span class="p">{}</span>
+        
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_LO</span><span class="p">):</span>
-            <span class="n">nutation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nutation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nutation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">nutation</span><span class="p">):</span>
+                <span class="n">nutation</span> <span class="o">=</span> <span class="n">nutation</span><span class="o">.</span><span class="n">real</span>
             <span class="n">nutation</span> <span class="o">=</span> <span class="n">nutation</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nutation</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nutation</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping frequency </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2"> GHz due to NaN values&quot;</span><span class="p">)</span>
+                <span class="n">excluded</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="c1"># If the nutation is NaN, set the profile and profile_ci to nan</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="k">continue</span>
+            
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">results</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">nutation</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span><span class="n">ftol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span><span class="n">p0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">nutation</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span><span class="n">ftol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span><span class="n">p0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p0</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">R2</span><span class="p">(</span><span class="n">nutation</span><span class="p">,</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="n">R_limit</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">1.96</span>
                 <span class="k">else</span><span class="p">:</span>
+                    <span class="n">excluded</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fit failed for frequency </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2"> GHz </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">excluded</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="c1"># If the fit fails, set the profile and profile_ci to nan</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             
@@ -370,11 +478,42 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span><span class="p">)]</span>
+
+        <span class="c1"># Adjust for attenuator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attenuator</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_ci</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attenuator</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">n_excluded</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">excluded</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n_excluded</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All fits were successful&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_excluded</span><span class="si">}</span><span class="s2"> fits were excluded due to low R^2 value&quot;</span><span class="p">)</span>            
+            <span class="n">n_columns</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_excluded</span><span class="o">/</span><span class="n">n_columns</span><span class="p">))</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_columns</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="n">n_rows</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="n">n_rows</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_excluded</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">excluded</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">nutation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:,</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">nutation</span><span class="p">):</span>
+                    <span class="n">nutation</span> <span class="o">=</span> <span class="n">nutation</span><span class="o">.</span><span class="n">real</span>
+                <span class="n">nutation</span> <span class="o">=</span> <span class="n">nutation</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nutation</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+                <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Excluded fit for </span><span class="si">{</span><span class="n">freq</span><span class="si">}</span><span class="s1"> GHz&#39;</span><span class="p">)</span>
+                <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nutation</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">excluded</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">excluded</span><span class="p">[</span><span class="n">key</span><span class="p">]),</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Excluded fit&#39;</span><span class="p">)</span>
+                <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time / ns&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fig</span>
+
         
 
 
 
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f_diff_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">multi_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">fc_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f_diff_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">multi_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">fc_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the resonator profile with a sum of lorentzians.</span>
 
 <span class="sd">        Parameters</span>
@@ -387,7 +526,7 @@
         <span class="n">frq_limits</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">fc_guess</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fc_guess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">f_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">f_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-        <span class="k">def</span> <span class="nf">fit_gauss1</span><span class="p">():</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_gauss1</span><span class="p">():</span>
             <span class="n">gauss_model</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">dd_gauss</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="n">fc_guess</span><span class="p">,</span> <span class="o">**</span><span class="n">frq_limits</span><span class="p">)</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">std</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -395,7 +534,7 @@
             <span class="n">result_gauss1</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gauss_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span><span class="n">reg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result_gauss1</span>
 
-        <span class="k">def</span> <span class="nf">fit_gauss2</span><span class="p">():</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_gauss2</span><span class="p">():</span>
             <span class="n">gauss_model</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">dd_gauss2</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">mean1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="mf">34.05</span><span class="p">,</span> <span class="o">**</span><span class="n">frq_limits</span><span class="p">)</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">std1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -405,7 +544,7 @@
             <span class="n">result_gauss2</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gauss_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span><span class="n">reg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result_gauss2</span>
             
-        <span class="k">def</span> <span class="nf">fit_gauss3</span><span class="p">():</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_gauss3</span><span class="p">():</span>
             <span class="n">gauss_model</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">dd_gauss3</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">mean1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="mf">34.05</span><span class="p">,</span> <span class="o">**</span><span class="n">frq_limits</span><span class="p">)</span>
             <span class="n">gauss_model</span><span class="o">.</span><span class="n">std1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">par0</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -417,11 +556,11 @@
             <span class="n">result_gauss3</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gauss_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span><span class="n">reg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result_gauss3</span>
 
-        <span class="k">def</span> <span class="nf">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
             <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">fc</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">fc</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">fc</span><span class="o">/</span><span class="n">q</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">y</span>
 
-        <span class="k">def</span> <span class="nf">fit_lorenz1</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_lorenz1</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
             <span class="n">lorenz</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">lorenz_fcn</span><span class="p">,</span> <span class="n">constants</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
             <span class="n">lorenz</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">par0</span> <span class="o">=</span> <span class="n">uni_means</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">lorenz</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">frq_limits</span><span class="p">)</span>
@@ -431,8 +570,8 @@
             <span class="n">result_lorenz1</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">lorenz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span><span class="n">reg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_kwargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result_lorenz1</span><span class="p">,</span> <span class="n">lorenz_fcn</span><span class="p">,</span> <span class="n">lorenz</span>
 
-        <span class="k">def</span> <span class="nf">fit_lorenz2</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">uni_amps</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">lorenz2_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">amp1</span><span class="p">,</span> <span class="n">amp2</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_lorenz2</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">uni_amps</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">lorenz2_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">amp1</span><span class="p">,</span> <span class="n">amp2</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">*</span><span class="n">amp1</span> <span class="o">+</span> <span class="n">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">*</span><span class="n">amp2</span>
 
             <span class="n">lorenz2</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">lorenz2_fcn</span><span class="p">,</span><span class="n">constants</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
@@ -449,8 +588,8 @@
             <span class="n">result_lorenz2</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">lorenz2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span><span class="n">reg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_kwargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result_lorenz2</span><span class="p">,</span> <span class="n">lorenz2_fcn</span><span class="p">,</span> <span class="n">lorenz2</span>
 
-        <span class="k">def</span> <span class="nf">fit_lorenz3</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">uni_amps</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">lorenz3_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">fc3</span><span class="p">,</span> <span class="n">q3</span><span class="p">,</span> <span class="n">amp1</span><span class="p">,</span> <span class="n">amp2</span><span class="p">,</span> <span class="n">amp3</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">fit_lorenz3</span><span class="p">(</span><span class="n">uni_means</span><span class="p">,</span><span class="n">uni_stds</span><span class="p">,</span><span class="n">uni_amps</span><span class="p">,</span><span class="n">fit_kwargs</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">lorenz3_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">fc3</span><span class="p">,</span> <span class="n">q3</span><span class="p">,</span> <span class="n">amp1</span><span class="p">,</span> <span class="n">amp2</span><span class="p">,</span> <span class="n">amp3</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">*</span><span class="n">amp1</span> <span class="o">+</span> <span class="n">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">*</span><span class="n">amp2</span> <span class="o">+</span> <span class="n">lorenz_fcn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fc3</span><span class="p">,</span> <span class="n">q3</span><span class="p">)</span><span class="o">*</span><span class="n">amp3</span>
             <span class="n">lorenz3</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">lorenz3_fcn</span><span class="p">,</span><span class="n">constants</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
             <span class="n">lorenz3</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">par0</span> <span class="o">=</span> <span class="n">uni_means</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -491,7 +630,7 @@
                 <span class="n">means</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">best_fit</span><span class="o">.</span><span class="n">mean</span><span class="p">])</span>
                 <span class="n">stds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">best_fit</span><span class="o">.</span><span class="n">std</span><span class="p">])</span>
 
-            <span class="k">def</span> <span class="nf">find_unique</span><span class="p">(</span><span class="n">means</span><span class="p">,</span><span class="n">amps</span><span class="p">,</span><span class="n">stds</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">find_unique</span><span class="p">(</span><span class="n">means</span><span class="p">,</span><span class="n">amps</span><span class="p">,</span><span class="n">stds</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
                 <span class="n">f1</span><span class="p">,</span><span class="n">f2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">means</span><span class="p">,</span><span class="n">means</span><span class="p">)</span>
                 <span class="n">gap</span> <span class="o">=</span> <span class="n">f1</span><span class="o">-</span><span class="n">f2</span>
                 <span class="n">gap</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">tril_indices</span><span class="p">(</span><span class="n">gap</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -574,7 +713,7 @@
 
         <span class="k">return</span> <span class="n">lorenz_fit</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldsweep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldsweep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;plot. </span>
 
 <span class="sd">        Parameters</span>
@@ -619,10 +758,10 @@
             <span class="n">axs1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency / GHz&quot;</span><span class="p">)</span>
         <span class="n">axs1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Nutation Frequency / MHz&quot;</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">Hz2length</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">Hz2length</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">length2Hz</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">length2Hz</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> 
 
         <span class="n">secax</span> <span class="o">=</span> <span class="n">axs1</span><span class="o">.</span><span class="n">secondary_yaxis</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">functions</span><span class="o">=</span><span class="p">(</span><span class="n">Hz2length</span><span class="p">,</span> <span class="n">length2Hz</span><span class="p">))</span>
@@ -633,30 +772,60 @@
             <span class="n">fsweep_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
             <span class="n">fsweep_data</span> <span class="o">/=</span> <span class="n">fsweep_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
             <span class="n">fsweep_data</span> <span class="o">=</span> <span class="n">fsweep_data</span> <span class="o">*</span> <span class="n">prof_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-            <span class="n">axs1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">+</span> <span class="n">fieldsweep</span><span class="o">.</span><span class="n">LO</span><span class="p">,</span> <span class="n">fsweep_data</span><span class="p">)</span>
+            <span class="n">axs1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">+</span> <span class="n">fieldsweep</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">fsweep_data</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">freq_axis</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">nu_max</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span><span class="n">Q</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span><span class="n">fc</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a dummy resonator profile for testing purposes.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        freq_axis : np.ndarray</span>
+<span class="sd">            The frequency axis of the resonator profile.</span>
+<span class="sd">        nu_max : float</span>
+<span class="sd">            The maximum nutation frequency.</span>
+<span class="sd">        Q : float</span>
+<span class="sd">            The quality factor of the resonator.</span>
+<span class="sd">        fc : float</span>
+<span class="sd">            The center frequency of the resonator.</span>
+<span class="sd">        </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tp_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+        <span class="n">nutations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">freq_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">tp_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">freq_axis</span><span class="p">):</span>
+            <span class="n">f_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">freq</span> <span class="o">-</span> <span class="n">fc</span><span class="p">)</span>
+            <span class="n">nu_local</span> <span class="o">=</span> <span class="n">nu_max</span> <span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">fc</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="n">f_offset</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Q</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">fc</span><span class="o">/</span><span class="n">Q</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">fc</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Q</span><span class="p">))</span>
+            <span class="n">nutations</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">nu_local</span><span class="o">*</span><span class="n">tp_axis</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">tp_axis</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+
+        <span class="n">extra_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;nShots&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;nReps&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">:</span><span class="mi">12220</span><span class="p">}</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_axes</span><span class="p">(</span><span class="n">nutations</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">[</span><span class="n">tp_axis</span><span class="p">,</span><span class="n">freq_axis</span><span class="p">],</span><span class="n">params</span><span class="o">=</span><span class="n">extra_params</span><span class="p">,</span> <span class="n">axes_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pulse0_tp&#39;</span><span class="p">,</span><span class="s1">&#39;LO&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">f_lims</span><span class="o">=</span><span class="p">(</span><span class="n">freq_axis</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">freq_axis</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+
+
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Spectral Position optimisation</span>
 
 <div class="viewcode-block" id="ceil">
 <a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.ceil">[docs]</a>
-<span class="k">def</span> <span class="nf">ceil</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ceil</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">order</span> <span class="o">=</span> <span class="n">decimals</span><span class="o">*-</span><span class="mi">1</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="n">order</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">order</span></div>
 
 
 <div class="viewcode-block" id="floor">
 <a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.floor">[docs]</a>
-<span class="k">def</span> <span class="nf">floor</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">order</span> <span class="o">=</span> <span class="n">decimals</span><span class="o">*-</span><span class="mi">1</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="n">order</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">order</span></div>
 
 
 <div class="viewcode-block" id="calc_overlap">
 <a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.calc_overlap">[docs]</a>
-<span class="k">def</span> <span class="nf">calc_overlap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">func1</span><span class="p">,</span> <span class="n">func2</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_overlap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">func1</span><span class="p">,</span> <span class="n">func2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calcuates the overlap between two functions.</span>
 
 <span class="sd">    Parameters</span>
@@ -685,14 +854,14 @@
 
 <div class="viewcode-block" id="BSpline_extra">
 <a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.BSpline_extra">[docs]</a>
-<span class="k">def</span> <span class="nf">BSpline_extra</span><span class="p">(</span><span class="n">tck_s</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">BSpline_extra</span><span class="p">(</span><span class="n">tck_s</span><span class="p">):</span>
     <span class="n">min_value</span> <span class="o">=</span> <span class="n">tck_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="n">tck_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
     <span class="n">n_points</span> <span class="o">=</span> <span class="n">tck_s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">n_points_10</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_points</span><span class="o">/</span><span class="mi">10</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">pointwise</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pointwise</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min_value</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tck_s</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="n">n_points_10</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
@@ -700,7 +869,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">BSpline</span><span class="p">(</span><span class="o">*</span><span class="n">tck_s</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">ufunclike</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ufunclike</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">pointwise</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">))))</span>
 
     <span class="k">return</span> <span class="n">ufunclike</span></div>
@@ -708,7 +877,7 @@
 
 <div class="viewcode-block" id="optimise_spectra_position">
 <a class="viewcode-back" href="../../autoapi/pyepr/resonator_profile_analysis/index.html#pyepr.optimise_spectra_position">[docs]</a>
-<span class="k">def</span> <span class="nf">optimise_spectra_position</span><span class="p">(</span><span class="n">resonator_profile</span><span class="p">,</span> <span class="n">fieldsweep</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimise_spectra_position</span><span class="p">(</span><span class="n">resonator_profile</span><span class="p">,</span> <span class="n">fieldsweep</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 
     <span class="c1"># band_width = resonator_profile.fc / resonator_profile.q</span>
     <span class="n">band_width</span><span class="o">=</span><span class="mf">0.5</span>
@@ -724,7 +893,7 @@
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower_field_lim</span><span class="p">,</span><span class="n">upper_field_lim</span><span class="p">,</span><span class="n">n_points</span><span class="p">)</span>
     <span class="c1"># smooth_condition = (dl.der_snr(fieldsweep.data)**2)*fieldsweep.data.shape[-1]</span>
     <span class="n">smooth_condition</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="n">edfs_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">+</span> <span class="n">fieldsweep</span><span class="o">.</span><span class="n">LO</span><span class="p">)</span>
+    <span class="n">edfs_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">+</span> <span class="n">fieldsweep</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
     <span class="n">edfs_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">fieldsweep</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">tck_s</span> <span class="o">=</span> <span class="n">splrep</span><span class="p">(</span><span class="n">edfs_x</span><span class="p">,</span> <span class="n">edfs_y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">smooth_condition</span><span class="p">)</span>
     <span class="n">xc</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">resonator_profile</span><span class="o">.</span><span class="n">model_func</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">BSpline_extra</span><span class="p">(</span><span class="n">tck_s</span><span class="p">)(</span><span class="n">x</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
@@ -746,7 +915,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -766,7 +935,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

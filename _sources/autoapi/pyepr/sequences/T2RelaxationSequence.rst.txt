@@ -1,7 +1,7 @@
 pyepr.sequences.T2RelaxationSequence
 ====================================
 
-.. py:class:: pyepr.sequences.T2RelaxationSequence(*, B, LO, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
+.. py:class:: pyepr.sequences.T2RelaxationSequence(*, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
 
    Bases: :py:obj:`HahnEchoSequence`
 
@@ -12,8 +12,8 @@ pyepr.sequences.T2RelaxationSequence
    ----------
    B : int or float
        The B0 field, in Guass
-   LO : int or float
-       The LO frequency in GHz
+   freq : int or float
+       The freq frequency in GHz
    reptime : _type_
        The shot repetition time in us
    averages : int
@@ -46,8 +46,8 @@ pyepr.sequences.T2RelaxationSequence
        **B** : int or float
            The B0 field, in Guass
 
-       **LO** : int or float
-           The LO frequency in GHz
+       **freq** : int or float
+           The freq frequency in GHz
 
        **reptime** : _type_
            The shot repetition time in us

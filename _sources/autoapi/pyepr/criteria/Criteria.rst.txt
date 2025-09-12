@@ -29,12 +29,16 @@ pyepr.criteria.Criteria
 
 
    .. py:attribute:: description
+      :value: ''
+
 
 
    .. py:attribute:: test
 
 
    .. py:attribute:: end_signal
+      :value: None
+
 
 
    .. py:method:: __add__(__o)

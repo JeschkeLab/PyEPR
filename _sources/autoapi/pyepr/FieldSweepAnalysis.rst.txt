@@ -61,7 +61,7 @@ pyepr.FieldSweepAnalysis
           !! processed by numpydoc !!
 
 
-   .. py:method:: calc_gyro(LO = None)
+   .. py:method:: calc_gyro(freq = None, **kwargs)
 
       
       Calculates the gyromagnetic ratio for a given frequency
@@ -96,12 +96,16 @@ pyepr.FieldSweepAnalysis
    .. py:method:: calc_noise_level(SNR_target=30)
 
 
-   .. py:method:: smooth(*args, **kwargs)
+   .. py:method:: smooth(smoothing_factor=0.01, *args, **kwargs)
 
       
       Generates a smoothed version of the data using a 1D smoothing spline.
 
 
+      :Parameters:
+
+          **smoothing_factor** : float, optional
+              The smoothing factor of the spline, by default 0.01. A value of 0 will interpolate the data and None will set the smoothing factor to the number of points.
 
 
 
@@ -127,7 +131,7 @@ pyepr.FieldSweepAnalysis
    .. py:method:: fit(spintype='N', **kwargs)
 
 
-   .. py:method:: plot(norm = True, axis = 'field', axs=None, fig=None)
+   .. py:method:: plot(norm = True, axis = 'field', bandwidth=False, axs=None, fig=None)
 
       
       Generate a field sweep plot
@@ -141,12 +145,59 @@ pyepr.FieldSweepAnalysis
           **axis** : str, optional
               plot field sweep on either the "field" axis or "freq" axis
 
+          **bandwidth** : bool, optional
+              If True, the bandwidth is calculated and displayed on the plot, by default False
+
+          **axs** : Matplotlib.Axes, optional
+              Matplotlib axes to plot on, by default None
+
+          **fig** : Matplotlib.Figure, optional
+              Matplotlib figure to plot on, by default None
+
 
 
       :Returns:
 
           Matplotlib.Figure
               matplotlib figure
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: calculate_bandwidth(level=20)
+
+      
+      Calculates the bandwidth of the field sweep data at a given level in dB
+
+
+      :Parameters:
+
+          **level** : int, optional
+              The level in dB to calculate the bandwidth, by default 20
+
+
+
+      :Returns:
+
+          float
+              The lower frequency
+
+          float
+              The upper frequency
+
+          float
+              The bandwidth
 
 
 

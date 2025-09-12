@@ -6,7 +6,38 @@ pyepr.dataset.EPRAccessor
    .. py:attribute:: _obj
 
 
-   .. py:method:: save(filename, type='netCDF')
+   .. py:method:: save(filename, type='netCDF', overwrite=True)
+
+      
+      Save the dataset to a hdf5 file
+
+
+      :Parameters:
+
+          **filename** : str
+              The name of the file to save the dataset
+
+          **type** : str, optional
+              The type of file to save, by default 'netCDF' (including .h5)
+
+          **overwrite** : bool, optional
+              Overwrite the file if it exists, by default True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:property:: correctphase
@@ -51,7 +82,7 @@ pyepr.dataset.EPRAccessor
    .. py:property:: sequence
 
 
-   .. py:method:: merge(other)
+   .. py:method:: merge(other, ignore_errors=True)
 
       
       Merge two datasets into one dataset.

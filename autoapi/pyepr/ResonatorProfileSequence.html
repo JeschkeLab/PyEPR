@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+    <link href="../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.ResonatorProfileSequence - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.ResonatorProfileSequence - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.ResonatorProfileSequence<a class="headerlink" href="#pyepr-resonatorprofilesequence" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.ResonatorProfileSequence">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">ResonatorProfileSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.ResonatorProfileSequence" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">ResonatorProfileSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.ResonatorProfileSequence" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></p>
 <p>Builds nutation based Resonator Profile sequence.</p>
 <p>Build a resonator profile nutation sequence using either
@@ -270,7 +274,7 @@ rectangular pulses or specified pulses.</p>
 </dd>
 <dt><strong>Bwidth: int or float</strong></dt><dd><p>The width of the field sweep, in Gauss</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">int or float</span></dt><dd><p>The LO frequency in GHz</p>
+<dt><strong>freq</strong><span class="classifier">int or float</span></dt><dd><p>The freq frequency in GHz</p>
 </dd>
 <dt><strong>reptime</strong><span class="classifier">_type_</span></dt><dd><p>The shot repetition time in us</p>
 </dd>
@@ -281,7 +285,11 @@ rectangular pulses or specified pulses.</p>
 <dt><strong>fwidth: float</strong></dt><dd><p>The frequency width of the resonator profile in GHz,
 by default 0.3GHz</p>
 </dd>
+<dt><strong>fstep: float</strong></dt><dd><p>The frequency step for the profile in GHz, by default 0.02GHz</p>
+</dd>
 <dt><strong>dtp: float</strong></dt><dd><p>The time step for the test pulse in ns, by default 2 ns</p>
+</dd>
+<dt><strong>step:</strong></dt><dd><p>The frequency step parameter in GHz, by default 0.02GHz</p>
 </dd>
 </dl>
 </dd>
@@ -294,6 +302,11 @@ by default 0.3GHz</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.ResonatorProfileSequence.fwidth">
 <span class="sig-name descname"><span class="pre">fwidth</span></span><a class="headerlink" href="#pyepr.ResonatorProfileSequence.fwidth" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.ResonatorProfileSequence.fstep">
+<span class="sig-name descname"><span class="pre">fstep</span></span><a class="headerlink" href="#pyepr.ResonatorProfileSequence.fstep" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -313,8 +326,23 @@ by default 0.3GHz</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.ResonatorProfileSequence.simulate">
-<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.ResonatorProfileSequence.simulate" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.06</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.ResonatorProfileSequence.simulate" title="Link to this definition">¶</a></dt>
+<dd><p>Simulates a resonator profile sequence as a damped oscillation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Q</strong><span class="classifier">int</span></dt><dd><p>The quality factor of the resonator, by default 100</p>
+</dd>
+<dt><strong>fc</strong><span class="classifier">float</span></dt><dd><p>The center frequency of the resonator, by default None. If None the freq frequency is used.</p>
+</dd>
+<dt><strong>nu1</strong><span class="classifier">float</span></dt><dd><p>The maximum amplitude of the resonator profile, by default 75 MHz. This is a linear frequency scale.</p>
+</dd>
+<dt><strong>damping</strong><span class="classifier">float</span></dt><dd><p>The damping factor of the resonator, by default 0.06.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -331,7 +359,7 @@ by default 0.3GHz</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -361,6 +389,7 @@ by default 0.3GHz</p>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence</span></code></a><ul>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence.gyro"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence.gyro</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence.fwidth"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence.fwidth</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.ResonatorProfileSequence.fstep"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence.fstep</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence.dtp"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence.dtp</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence.kwargs"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence.kwargs</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.ResonatorProfileSequence._build_sequence"><code class="docutils literal notranslate"><span class="pre">pyepr.ResonatorProfileSequence._build_sequence()</span></code></a></li>
@@ -378,7 +407,7 @@ by default 0.3GHz</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

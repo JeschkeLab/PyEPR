@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.xepr_experiments - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.xepr_experiments - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,15 +250,15 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.hardware.xepr_experiments</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">pyepr.tools</span> <span class="k">as</span> <span class="nn">tools</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize_scalar</span><span class="p">,</span> <span class="n">curve_fit</span>
-<span class="kn">from</span> <span class="nn">pyepr.hardware</span> <span class="kn">import</span> <span class="n">XeprAPILink</span>
-<span class="kn">from</span> <span class="nn">deerlab</span> <span class="kn">import</span> <span class="n">correctphase</span>
-<span class="kn">from</span> <span class="nn">numpy.polynomial</span> <span class="kn">import</span> <span class="n">Polynomial</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyepr.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span><span class="p">,</span> <span class="n">curve_fit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.hardware</span><span class="w"> </span><span class="kn">import</span> <span class="n">XeprAPILink</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">correctphase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
 
 <div class="viewcode-block" id="MODULE_DIR">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.MODULE_DIR">[docs]</a>
@@ -267,7 +269,7 @@
 
 <div class="viewcode-block" id="get_nutations">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.get_nutations">[docs]</a>
-<span class="k">def</span> <span class="nf">get_nutations</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">nu</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">ELDOR</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_nutations</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">nu</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">ELDOR</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">):</span>
 
     <span class="n">min_freq</span> <span class="o">=</span> <span class="n">nu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">max_freq</span> <span class="o">=</span> <span class="n">nu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -316,7 +318,7 @@
 
 <div class="viewcode-block" id="CP_run">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.CP_run">[docs]</a>
-<span class="k">def</span> <span class="nf">CP_run</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">CP_run</span><span class="p">(</span>
         <span class="n">api</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">num_pulses</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sweeps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
         <span class="n">srt</span> <span class="o">=</span> <span class="mf">6e6</span><span class="p">):</span>
 
@@ -338,7 +340,7 @@
 
 <div class="viewcode-block" id="DEER5p_run">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.DEER5p_run">[docs]</a>
-<span class="k">def</span> <span class="nf">DEER5p_run</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">DEER5p_run</span><span class="p">(</span>
         <span class="n">api</span><span class="p">,</span> <span class="n">ps_length</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">tau2</span><span class="p">,</span> <span class="n">sweeps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">deadtime</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
         <span class="n">num_points</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">):</span>
 
@@ -360,9 +362,9 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">DEER</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DEER</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">,</span> <span class="n">pump_frq</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">,</span> <span class="n">pump_frq</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">api</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d0</span> <span class="o">=</span> <span class="n">d0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">det_frq</span> <span class="o">=</span> <span class="n">det_frq</span>
@@ -375,7 +377,7 @@
 
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">run_5p</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_5p</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tau1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tau2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
             <span class="n">deadtime</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
             <span class="n">scans</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -409,7 +411,7 @@
             <span class="n">run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">run_4p</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_4p</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tau1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tau2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
             <span class="n">deadtime</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
             <span class="n">scans</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -443,7 +445,7 @@
             <span class="n">run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">run_CP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_CP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
                <span class="n">scans</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="n">ps_length</span> <span class="o">=</span> <span class="mi">32</span>
@@ -469,11 +471,11 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">MPFUtune</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MPFUtune</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tuning MPFU channels for optimal attenuation and phase</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="s2">&quot;Hahn&quot;</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">680</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="s2">&quot;Hahn&quot;</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">680</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -501,7 +503,7 @@
                 <span class="s2">&quot;Only Hahn and Refocused echo&#39;s are currently supported&quot;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_setup_echo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">echo</span><span class="p">,</span> <span class="n">tau1</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">tau2</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setup_echo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">echo</span><span class="p">,</span> <span class="n">tau1</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">tau2</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
         <span class="n">PulseSpel_file</span> <span class="o">=</span> <span class="s2">&quot;/PulseSpel/phase_set&quot;</span>
         <span class="n">run_general</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="p">,</span>
                     <span class="p">[</span><span class="n">PulseSpel_file</span><span class="p">],</span>
@@ -513,7 +515,7 @@
                     <span class="n">run</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">tune_phase</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune_phase</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Tunes the phase of a given channel to a given target using the</span>
 <span class="sd">        standard scipy optimisation scripts. </span>
@@ -567,7 +569,7 @@
         <span class="n">lb</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">ub</span> <span class="o">=</span> <span class="mf">100.0</span>
 
-        <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="c1"># x = x[0]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">phase_channel</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># Set phase to value</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hardware_wait</span><span class="p">)</span>
@@ -591,7 +593,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">phase_channel</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">result</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">tune_power</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune_power</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
             <span class="n">bounds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Tunes the attenuator of a given channel to a given target using the</span>
@@ -628,7 +630,7 @@
         <span class="n">lb</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ub</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">atten_channel</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># Set phase to value</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hardware_wait</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">run_exp</span><span class="p">()</span>
@@ -651,7 +653,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">atten_channel</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">result</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
              <span class="n">bounds</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Tunes both the power and attenuation for a collection of channels.</span>
 
@@ -680,7 +682,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">tune_power</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tune_phase</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">channels</span><span class="p">[</span><span class="n">channel</span><span class="p">],</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">calc_d0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_d0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">initial_d0</span> <span class="o">=</span> <span class="mi">500</span>
         <span class="n">PulseSpel_file</span> <span class="o">=</span> <span class="s2">&quot;/PulseSpel/phase_set&quot;</span>
         <span class="n">run_general</span><span class="p">(</span>
@@ -702,9 +704,9 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">ELDORtune</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ELDORtune</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">6e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tuning incoherent ELDOR channel for optimal power using nutation </span>
 <span class="sd">        experiments</span>
@@ -728,7 +730,7 @@
         
         <span class="k">pass</span>
     
-    <span class="k">def</span> <span class="nf">_setup_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau1</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">tau2</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setup_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau1</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">tau2</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
         <span class="n">PulseSpel_file</span> <span class="o">=</span> <span class="s2">&quot;/PulseSpel/param_opt&quot;</span>
         <span class="n">run_general</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="p">,</span>
                     <span class="p">[</span><span class="n">PulseSpel_file</span><span class="p">],</span>
@@ -740,18 +742,18 @@
                     <span class="n">run</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">run_exp</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_scan</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">data</span>
     
-    <span class="k">def</span> <span class="nf">find_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">correctphase</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">/=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="n">time</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">axes</span>
 
-        <span class="k">def</span> <span class="nf">test_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">decay</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">test_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">decay</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">A</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">freq</span> <span class="o">+</span> <span class="n">phase</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">decay</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span>
 
         <span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span>
@@ -763,14 +765,14 @@
             <span class="n">test_fun</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">popt</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 
         <span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">ub</span> <span class="o">=</span> <span class="mi">30</span>
         <span class="n">tol</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="n">maxiter</span> <span class="o">=</span> <span class="mi">10</span>
 
-        <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">set_attenuator</span><span class="p">(</span><span class="s2">&quot;ELDOR&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hardware_wait</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">run_exp</span><span class="p">()</span>
@@ -794,9 +796,9 @@
         
 <span class="c1"># =============================================================================</span>
 
-<span class="k">class</span> <span class="nc">PulseProfile</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PulseProfile</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">4e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">ps_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">srt</span><span class="o">=</span><span class="mf">4e6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tuning incoherent ELDOR channel for optimal power using nutation </span>
 <span class="sd">        experiments</span>
@@ -820,7 +822,7 @@
         
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_setup_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setup_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Setup the pulse profile experiment. </span>
 
@@ -841,7 +843,7 @@
                     <span class="n">run</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_freq_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gyro</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_freq_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gyro</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the frequency sweep for a pulse profile. </span>
 
@@ -894,7 +896,7 @@
 
 <div class="viewcode-block" id="CalibrateFreq">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/xepr_experiments/index.html#pyepr.hardware.xepr_experiments.CalibrateFreq">[docs]</a>
-<span class="k">def</span> <span class="nf">CalibrateFreq</span><span class="p">(</span><span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">deg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">CalibrateFreq</span><span class="p">(</span><span class="n">api</span><span class="p">:</span> <span class="n">XeprAPILink</span><span class="p">,</span> <span class="n">num_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">deg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the polynomial parameters for converting from frequency </span>
 <span class="sd">    (in GHz) to Xepr gunn diode stepper value. 0-4095.</span>
 
@@ -934,7 +936,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -954,7 +956,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.XeprAPI_link - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.XeprAPI_link - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,15 +250,17 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.hardware.XeprAPI_link</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">from</span> <span class="nn">pyepr.dataset</span> <span class="kn">import</span> <span class="n">create_dataset_from_axes</span><span class="p">,</span> <span class="n">create_dataset_from_sequence</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize_scalar</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_dataset_from_axes</span><span class="p">,</span> <span class="n">create_dataset_from_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 
 <span class="k">try</span><span class="p">:</span>
 <div class="viewcode-block" id="xepr_path">
@@ -264,7 +268,7 @@
     <span class="n">xepr_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s2">&quot;Xepr --apipath&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xepr_path</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">XeprAPI</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">XeprAPI</span>
 
 <span class="k">except</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Xepr &gt;2.9 needs to be installed on the computer&quot;</span><span class="p">)</span>
@@ -276,8 +280,8 @@
 <span class="c1"># ============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">XeprAPILink</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">XeprAPILink</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kc">None</span>
@@ -308,26 +312,38 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">Hybrid</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Connect to the Xepr Spectrometer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_xepr_version</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">find_Xepr</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">find_cur_exp</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">find_hidden</span><span class="p">()</span>
         <span class="k">pass</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_xepr_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Logs the Xepr and Linacq versions for debugging purposes.&quot;&quot;&quot;</span>
+        <span class="n">packages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;xper&#39;</span><span class="p">,</span><span class="s1">&#39;linacq&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_set_Xepr_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xepr_inst</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">packages</span><span class="p">:</span>
+            <span class="n">details</span> <span class="o">=</span> <span class="n">get_package_version_from_dnf</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">details</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">hw_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> version&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> version: </span><span class="si">{</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, release: </span><span class="si">{</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;release&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, source: </span><span class="si">{</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_Xepr_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xepr_inst</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span> <span class="o">=</span> <span class="n">Xepr_inst</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">XeprCmds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span>
 
-    <span class="k">def</span> <span class="nf">_get_Xepr_global</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_Xepr_global</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t find XEPR instance&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_xepr_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_xepr_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -338,30 +354,30 @@
         
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Failed to get Xepr parameter.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">_set_cur_exp_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_cur_exp_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
     
-    <span class="k">def</span> <span class="nf">_set_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
     
-    <span class="k">def</span> <span class="nf">set_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_set_cur_exp_param</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_hidden_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_hidden_param</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="c1"># self._xepr_retry(self._set_hidden_param, param_name, value)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">find_Xepr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_Xepr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">open_xepr_instances</span> <span class="o">=</span> <span class="n">XeprAPI</span><span class="o">.</span><span class="n">getXeprInstances</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_xepr_instances</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -395,10 +411,10 @@
             <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Already Connected to Xepr!&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Already Connected to Xepr!&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_set_cur_exp_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cur_exp_inst</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_cur_exp_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cur_exp_inst</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="o">=</span> <span class="n">cur_exp_inst</span>
 
-    <span class="k">def</span> <span class="nf">_get_cur_exp_global</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_cur_exp_global</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span>
         <span class="k">else</span><span class="p">:</span>
@@ -406,7 +422,7 @@
             <span class="n">hw_log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">find_cur_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_cur_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Try and finds the current experiment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -436,14 +452,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_cur_exp_global</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span>
 
-    <span class="k">def</span> <span class="nf">find_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprExperiment</span><span class="p">(</span><span class="s2">&quot;AcqHidden&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">is_exp_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_exp_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="o">.</span><span class="n">isRunning</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">acquire_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function acquire the dataset, this work both for a running </span>
 <span class="sd">        experiment or once it has finished.</span>
@@ -451,13 +467,13 @@
         <span class="n">dataclass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprDataset</span><span class="p">())</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">dataclass</span><span class="o">.</span><span class="n">size</span>
         <span class="n">data_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">dataclass</span><span class="o">.</span><span class="n">O</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xepr_retry</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dataclass</span><span class="o">.</span><span class="n">O</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;nAvgs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;recorder.NbScansDone&quot;</span><span class="p">),</span>
             <span class="s2">&quot;reptime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.ShotRepTime&quot;</span><span class="p">),</span>
             <span class="s2">&quot;shots&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.ShotsPLoop&quot;</span><span class="p">),</span>
             <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_field</span><span class="p">(),</span>
-            <span class="s2">&quot;LO&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_counterfreq</span><span class="p">(),</span>
+            <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_counterfreq</span><span class="p">(),</span>
             <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -496,7 +512,7 @@
             <span class="k">return</span> <span class="n">dset</span>
 
 
-    <span class="k">def</span> <span class="nf">acquire_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">after_scan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restart_exp</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This script detects the end of the scan and acquires the data set. </span>
 <span class="sd">        This requires that the experiment is still running, or recently </span>
@@ -504,18 +520,30 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exp_running</span><span class="p">():</span>
             
+            <span class="k">if</span> <span class="n">after_scan</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;NbScansDone&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">after_scan</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            
             <span class="bp">self</span><span class="o">.</span><span class="n">pause_exp</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exp_running</span><span class="p">():</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqExpSelect</span><span class="p">(</span><span class="s2">&quot;Experiment&quot;</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">rerun_exp</span><span class="p">()</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">restart_exp</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rerun_exp</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">dataset</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">acquire_scan_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This script acquires the scan after a specific number of scans</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -526,7 +554,7 @@
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">time_per_point</span> <span class="o">*</span> <span class="n">x_length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_scan</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">acquire_scan_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function acquires the dataset after a full 2D scan.</span>
 <span class="sd">        This is done by identifying the number of scan steps per sweep and </span>
@@ -550,7 +578,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_scan</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This can be used to change any pulse spell variable whilst the </span>
 <span class="sd">        experiment is running. These changes take effect at the beginning of </span>
@@ -572,10 +600,10 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Set pulse spell var </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;ftEpr.PlsSPELSetVar&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
 
-    <span class="k">def</span> <span class="nf">get_ReplaceMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_ReplaceMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEpr.ReplaceMode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;On&quot;</span>
 
-    <span class="k">def</span> <span class="nf">set_ReplaceMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_ReplaceMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">init_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ReplaceMode</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;On&#39;</span>
@@ -589,54 +617,54 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;ftEpr.ReplaceMode&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ReplaceMode</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_PhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;PCycleOn&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">init_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_PhaseCycle</span><span class="p">()</span>
+        <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;On-Board Phase Cycling set to </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">state</span> <span class="o">!=</span> <span class="n">init_state</span><span class="p">:</span>
-            <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;On-Board Phase Cycling set to </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;PCycleOn&quot;</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>  
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_PhaseCycle</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_exp_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_exp_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELPrgPaF&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_exp_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_exp_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_PulseSpel_exp</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELPrgPaF&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_exp_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_exp_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_PulseSpel_exp</span><span class="p">()</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set PulseSpel experiment file to </span><span class="si">{</span><span class="n">fullpath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgLoad</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_def_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_def_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELGlbPaF&quot;</span><span class="p">))</span> 
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_def_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_def_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELGlbPaF&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_def_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_def_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_PulseSpel_def</span><span class="p">()</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set PulseSpel definition file to </span><span class="si">{</span><span class="n">fullpath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgDefLoad</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_phase_cycling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_phase_cycling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELLISTSlct&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_phase_cycling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_phase_cycling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set PulseSpel phase cycle to </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELLISTSlct&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_PulseSpel_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_PulseSpel_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELEXPSlct&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set PulseSpel experiment to </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.PlsSPELEXPSlct&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">save_PulseSpel_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_PulseSpel_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Save as a temp file</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tmp_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -653,7 +681,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved Pulse Spel experiment to: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">save_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Save as a temp file</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tmp_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -670,10 +698,10 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved Pulse Spel definition to: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgDefSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_Acquisition_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_Acquisition_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s2">&quot;ftEPR.FTAcqModeSlct&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_Acquisition_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_Acquisition_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;mode=0: Run from tables, mode=1: Run from Pulse Spel,</span>
 <span class="sd">        mode=2:Read transient, mode=3:Start Transient&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -689,21 +717,21 @@
             <span class="k">return</span> <span class="mi">0</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acquistiton mode set to: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">compile_PulseSpel_prg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile_PulseSpel_prg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgShowPrg</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgCompile</span><span class="p">()</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;PulseSpel Exp file compiled&quot;</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">compile_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgShowDef</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span><span class="o">.</span><span class="n">XeprCmds</span><span class="o">.</span><span class="n">aqPgCompile</span><span class="p">()</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;PulseSpel Exp file compiled&quot;</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">run_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs the current experiment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -712,7 +740,7 @@
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># Required</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">pause_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pause_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pauses the current experiment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -720,7 +748,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Experiment Paused&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">rerun_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rerun_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Re-runs the current experiment. Only for use after a pause commands</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -728,7 +756,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Experiment rerun&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">stop_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stops the current experiment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -736,7 +764,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Experiment stopped&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">abort_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abort_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aborts the current experiment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -744,7 +772,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Experiment aborted&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">xepr_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">xepr_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">        Parameters</span>
@@ -773,7 +801,7 @@
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the magnetic field.</span>
 
 <span class="sd">        Returns</span>
@@ -782,8 +810,14 @@
 <span class="sd">            Field position in Gauss</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s1">&#39;CenterField&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">center_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Centers the field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">[</span><span class="s1">&#39;AtCenter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">hold</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">hold</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the magentic field.</span>
 
 <span class="sd">        Parameters</span>
@@ -799,6 +833,7 @@
 <span class="sd">            Field position in Gauss</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s1">&#39;CenterField&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center_field</span><span class="p">()</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Always wait 2s after a field change</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Field position set to </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1"> G&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hold</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
@@ -806,7 +841,7 @@
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_field</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_counterfreq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_counterfreq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the frequency counter value.</span>
 
 <span class="sd">        Note: There is no equivalent set command </span>
@@ -818,7 +853,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s1">&#39;FrequencyMon&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_sweep_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_sweep_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the field sweep width</span>
 
 <span class="sd">        Parameters</span>
@@ -835,7 +870,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Field sweep width set to </span><span class="si">{val:.6g}</span><span class="s1"> G&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sweep_width</span><span class="p">()</span>
     
-    <span class="k">def</span> <span class="nf">get_sweep_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sweep_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the field sweep width</span>
 
 <span class="sd">        Returns</span>
@@ -845,7 +880,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s1">&#39;SweepWidth&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pol</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pol</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">precision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the current bridge frequency. The stepper motor value is </span>
 <span class="sd">        calculated through a conversion. </span>
@@ -870,7 +905,7 @@
             <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_config</span><span class="p">[</span><span class="s2">&quot;Max Freq&quot;</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Set Frequency is too high!&quot;</span><span class="p">)</span>
                 
-        <span class="k">if</span> <span class="s2">&quot;Digital Source&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_config</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;Digital Source&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_config</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_config</span><span class="p">[</span><span class="s2">&quot;Digital Source&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_config</span><span class="p">[</span><span class="s2">&quot;Digital Source&quot;</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_hidden_param</span><span class="p">(</span><span class="s1">&#39;FineFreq&#39;</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
                 <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Bridge Frequency set to </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1">Fset&#39;</span><span class="p">)</span>
@@ -887,7 +922,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_hidden_param</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>
                 <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">50</span><span class="p">]</span>
 
-                <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">set_hidden_param</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_counterfreq</span><span class="p">()</span>
 
@@ -903,7 +938,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pol</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pol</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the current bridge frequency. The frequency is calculated</span>
 <span class="sd">        through a conversion. </span>
 
@@ -931,7 +966,7 @@
 
             <span class="k">return</span> <span class="n">inv_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;Frequency&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_spec_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_spec_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;get_spec_config Gets the name of the current spectrometer</span>
 <span class="sd">        configuration file.</span>
 
@@ -943,7 +978,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="s1">&#39;PlsPrgCalDbName&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_attenuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attenuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;Main&#39;</span><span class="p">:</span>
             <span class="n">atten_channel</span> <span class="o">=</span> <span class="s1">&#39;PowerAtten&#39;</span>
         <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;+&lt;x&gt;&#39;</span><span class="p">:</span>
@@ -962,7 +997,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="n">atten_channel</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_attenuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attenuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;Main&#39;</span><span class="p">:</span>
             <span class="n">atten_channel</span> <span class="o">=</span> <span class="s1">&#39;PowerAtten&#39;</span>
@@ -985,7 +1020,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attenuator</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;Main&#39;</span><span class="p">:</span>
             <span class="n">phase_channel</span> <span class="o">=</span> <span class="s1">&#39;PowerAtten&#39;</span>
         <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;+&lt;x&gt;&#39;</span><span class="p">:</span>
@@ -999,7 +1034,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="n">phase_channel</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;Main&#39;</span><span class="p">:</span>
             <span class="n">phase_channel</span> <span class="o">=</span> <span class="s1">&#39;SignalPhase&#39;</span>
         <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="s1">&#39;+&lt;x&gt;&#39;</span><span class="p">:</span>
@@ -1016,7 +1051,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attenuator</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_ELDOR_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_ELDOR_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the freuency of the ELDOR chnannel.</span>
 
 <span class="sd">        Returns:</span>
@@ -1025,7 +1060,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s1">&#39;FrequencyA&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_ELDOR_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_ELDOR_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Sets the freuency of the ELDOR chnannel.</span>
 
 <span class="sd">        Args:</span>
@@ -1047,7 +1082,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ELDOR frequency set to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ELDOR_freq</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_video_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_video_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the video gain in dB</span>
 
 <span class="sd">        Returns</span>
@@ -1056,8 +1091,12 @@
 <span class="sd">            Video gain in dB</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="s1">&#39;VideoGain&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_video_gain_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="nf">set_video_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">[</span><span class="s1">&#39;VideoGain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">aqGetParFineSteps</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_video_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the video gain in dB</span>
 
 <span class="sd">        Parameters</span>
@@ -1074,7 +1113,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Video gain set to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_video_gain</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the name of the spectrometer configuration file</span>
 
 <span class="sd">        Returns</span>
@@ -1084,7 +1123,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hidden_param</span><span class="p">(</span><span class="s1">&#39;PlsPrgCalDbName&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the spectrometer configuration file. If the current</span>
 <span class="sd">        configuration file is already correct, nothing changes.</span>
 <span class="sd">       </span>
@@ -1108,7 +1147,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_file</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_MW_amp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_MW_amp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the current setting of the microwave amplifier</span>
 
 <span class="sd">        Returns</span>
@@ -1123,7 +1162,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;MWGain&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">set_MW_amp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_MW_amp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the current setting of the microwave amplifier</span>
 
 <span class="sd">        Parameters</span>
@@ -1143,7 +1182,7 @@
         <span class="n">hw_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Microwave amplifier set to </span><span class="si">{value}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_MW_amp</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_video_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_video_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the detection video bandwidth.</span>
 
 <span class="sd">        Returns</span>
@@ -1153,7 +1192,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_video_bandwidth</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">set_video_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_video_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the detection video bandwidth.</span>
 
 <span class="sd">        Parameters</span>
@@ -1175,6 +1214,50 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_video_bandwidth</span><span class="p">()</span>
 <span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="get_package_version_from_dnf">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/XeprAPI_link/index.html#pyepr.hardware.XeprAPI_link.get_package_version_from_dnf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_package_version_from_dnf</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the version and release of a package installed via dnf.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    package_name : str</span>
+<span class="sd">        The name of the package to check.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict or None</span>
+<span class="sd">        A dictionary with &#39;version&#39; and &#39;release&#39; keys if the package is found,</span>
+<span class="sd">        otherwise None.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;dnf&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">],</span> 
+                                <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+            
+        <span class="n">output</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="n">version_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;Version&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
+        <span class="n">release_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;Release&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
+        <span class="n">source_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;Source&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
+
+        
+        <span class="k">if</span> <span class="n">version_line</span> <span class="ow">and</span> <span class="n">release_line</span> <span class="ow">and</span> <span class="n">source_line</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">version_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">release</span> <span class="o">=</span> <span class="n">release_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">source_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">,</span> <span class="s1">&#39;release&#39;</span><span class="p">:</span> <span class="n">release</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">}</span>
+        
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -1187,7 +1270,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1207,7 +1290,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

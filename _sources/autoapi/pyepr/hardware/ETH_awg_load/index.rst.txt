@@ -88,6 +88,10 @@ Module Contents
        **verbosity** : int, optional
            The verbosity of the function. Default is 0.
 
+       **corr_phase: bool, optional**
+           If True each echo is idenpendently phased, if false then it is globally phased.
+           If a vector is applied then this is used phase them. Default is False
+
 
 
 
@@ -112,5 +116,5 @@ Module Contents
 
 .. py:function:: match_filter_dc(pulse, t, win, offset_freq)
 
-.. py:function:: scipy_filter_dc(dta, t, filter_width, offset_freq, filter_type='cheby2')
+.. py:function:: scipy_filter_dc(dta, t, filter_width, offset_freq, sampling_freq, filter_type='cheby2')
 

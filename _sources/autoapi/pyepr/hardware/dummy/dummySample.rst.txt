@@ -1,0 +1,33 @@
+pyepr.hardware.dummy.dummySample
+================================
+
+.. py:class:: pyepr.hardware.dummy.dummySample
+
+   
+   This is a data class that holdes the information for a dummy sample allowing for the simulation of the experiment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: conc
+      :type:  float
+

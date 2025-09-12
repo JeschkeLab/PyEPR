@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.fieldsweep_analysis - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.fieldsweep_analysis - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,23 +250,23 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.fieldsweep_analysis</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
-<span class="kn">from</span> <span class="nn">pyepr.utils</span> <span class="kn">import</span> <span class="n">sop</span>
-<span class="kn">from</span> <span class="nn">pyepr.classes</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">eig</span>
-<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">bsr_array</span>
-<span class="kn">import</span> <span class="nn">deerlab</span> <span class="k">as</span> <span class="nn">dl</span>
-<span class="kn">from</span> <span class="nn">xarray</span> <span class="kn">import</span> <span class="n">DataArray</span>
-<span class="kn">from</span> <span class="nn">pyepr.colors</span> <span class="kn">import</span> <span class="n">primary_colors</span><span class="p">,</span> <span class="n">ReIm_colors</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">sop</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">bsr_array</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">primary_colors</span><span class="p">,</span> <span class="n">ReIm_colors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnivariateSpline</span>
 
 
 <div class="viewcode-block" id="create_Nmodel">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.create_Nmodel">[docs]</a>
-<span class="k">def</span> <span class="nf">create_Nmodel</span><span class="p">(</span><span class="n">mwFreq</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_Nmodel</span><span class="p">(</span><span class="n">mwFreq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the field sweep model for a Nitroxide spin system. </span>
 
 <span class="sd">    Parameters</span>
@@ -274,7 +276,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="k">def</span> <span class="nf">model_func</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">Boffset</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span><span class="n">gz</span><span class="p">,</span><span class="n">axy</span><span class="p">,</span><span class="n">az</span><span class="p">,</span><span class="n">GB</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_func</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">Boffset</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span><span class="n">gz</span><span class="p">,</span><span class="n">axy</span><span class="p">,</span><span class="n">az</span><span class="p">,</span><span class="n">GB</span><span class="p">):</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">gx</span>  <span class="o">=-</span><span class="mf">0.0025</span> <span class="o">*</span> <span class="n">az</span> <span class="o">+</span> <span class="mf">2.0175</span>
         <span class="n">system</span> <span class="o">=</span> <span class="n">SpinSystem</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gz</span><span class="p">],</span> <span class="p">[</span><span class="n">axy</span><span class="o">*</span><span class="mf">28.0328</span><span class="p">,</span><span class="n">axy</span><span class="o">*</span><span class="mf">28.0328</span><span class="p">,</span><span class="n">az</span><span class="o">*</span><span class="mf">28.0328</span><span class="p">])</span>
@@ -335,9 +337,9 @@
     <span class="k">return</span> <span class="n">mymodel</span></div>
 
         
-<span class="k">class</span> <span class="nc">FieldSweepAnalysis</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FieldSweepAnalysis</span><span class="p">():</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Analysis and calculation of FieldSweep Experiment. </span>
 
 <span class="sd">        Parameters</span>
@@ -359,12 +361,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">epr</span><span class="o">.</span><span class="n">correctphasefull</span>
 
-        <span class="k">if</span> <span class="s1">&#39;LO&#39;</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">LO</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;freq&#39;</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s1">&#39;LO&#39;</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">]</span>
         
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">find_max</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_max</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the maximum field</span>
 
 <span class="sd">        Returns</span>
@@ -379,7 +383,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_field</span>
 
-    <span class="k">def</span> <span class="nf">calc_gyro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LO</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_gyro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the gyromagnetic ratio for a given frequency</span>
 
 <span class="sd">        Parameters</span>
@@ -396,31 +400,42 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;max_field&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">find_max</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">LO</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;LO&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;LO&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LO&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: LO is deprecated, please use freq instead&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;freq&quot;</span><span class="p">):</span>
                 <span class="c1"># LO = self.LO.value</span>
-                <span class="n">LO</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LO</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;LO&quot;</span><span class="p">):</span>
+                <span class="c1"># LO = self.LO.value</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LO</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A LO frequency must eithe be in the dataset or specified as an argument&quot;</span><span class="p">)</span>
             
-        <span class="bp">self</span><span class="o">.</span><span class="n">LO</span> <span class="o">=</span> <span class="n">LO</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span> <span class="o">=</span> <span class="n">LO</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">max_field</span>
-        <span class="n">hf_x</span> <span class="o">=</span> <span class="n">LO</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">=</span> <span class="n">LO</span> <span class="o">+</span> <span class="n">hf_x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">=</span> <span class="n">LO</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span> <span class="o">=</span> <span class="n">freq</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">max_field</span>
+        <span class="n">hf_x</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">+</span> <span class="n">hf_x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gyro</span>
     
-    <span class="k">def</span> <span class="nf">calc_noise_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">SNR_target</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_noise_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">SNR_target</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
         <span class="n">SNR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">epr</span><span class="o">.</span><span class="n">correctphase</span><span class="o">.</span><span class="n">epr</span><span class="o">.</span><span class="n">SNR</span>
         <span class="n">SNRp1k</span> <span class="o">=</span> <span class="n">SNR</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">nPcyc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">nAvgs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shots</span> <span class="o">*</span><span class="mf">1e-3</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
         <span class="n">level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">((</span><span class="n">SNR_target</span><span class="o">/</span><span class="n">SNRp1k</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">nPcyc</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">50</span><span class="o">*</span> <span class="mf">1e-3</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
-            <span class="n">level</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="mf">0.1</span>
         <span class="k">return</span> <span class="n">level</span> 
     
-    <span class="k">def</span> <span class="nf">smooth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">smooth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">smoothing_factor</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a smoothed version of the data using a 1D smoothing spline.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        smoothing_factor : float, optional</span>
+<span class="sd">            The smoothing factor of the spline, by default 0.01. A value of 0 will interpolate the data and None will set the smoothing factor to the number of points.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -428,25 +443,24 @@
 <span class="sd">            The smoothed data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">smooth_spl</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">smooth_spl</span><span class="o">.</span><span class="n">set_smoothing_factor</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">smooth_spl</span><span class="o">.</span><span class="n">set_smoothing_factor</span><span class="p">(</span><span class="n">smoothing_factor</span><span class="p">)</span>
         <span class="n">smooth_spl_freq</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span><span class="n">ext</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">smooth_spl_freq</span><span class="o">.</span><span class="n">set_smoothing_factor</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">smooth_spl_freq</span><span class="o">.</span><span class="n">set_smoothing_factor</span><span class="p">(</span><span class="n">smoothing_factor</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">smooth_data</span> <span class="o">=</span> <span class="n">smooth_spl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">smooth_spl</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func_freq</span> <span class="o">=</span> <span class="n">smooth_spl_freq</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">smooth_data</span>
         
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spintype</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spintype</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">spintype</span> <span class="o">!=</span> <span class="s1">&#39;N&#39;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Currently the fit function only supports Nitroxide spins&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LO</span><span class="p">,</span><span class="n">Parameter</span><span class="p">):</span>
-            <span class="n">mymodel</span>  <span class="o">=</span> <span class="n">create_Nmodel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LO</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span><span class="n">Parameter</span><span class="p">):</span>
+            <span class="n">mymodel</span>  <span class="o">=</span> <span class="n">create_Nmodel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">mymodel</span>  <span class="o">=</span> <span class="n">create_Nmodel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LO</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
-        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">0.1</span>
+            <span class="n">mymodel</span>  <span class="o">=</span> <span class="n">create_Nmodel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">0.1</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
             <span class="n">Vexp</span> <span class="o">=</span> <span class="n">dl</span><span class="o">.</span><span class="n">correctphase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
@@ -455,10 +469,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">result</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">mymodel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">mymodel</span><span class="p">,</span><span class="n">x</span><span class="o">*</span><span class="mf">0.1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">func_freq</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">mymodel</span><span class="p">,(</span><span class="o">-</span><span class="n">x</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">LO</span><span class="p">)</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="mf">1e-1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func_freq</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">mymodel</span><span class="p">,(</span><span class="o">-</span><span class="n">x</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">gyro</span><span class="o">*</span><span class="mf">1e-1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a field sweep plot</span>
 
 <span class="sd">        Parameters</span>
@@ -467,6 +481,12 @@
 <span class="sd">            Nomarlisation of the plot to a maximum of 1, by default True</span>
 <span class="sd">        axis : str, optional</span>
 <span class="sd">            plot field sweep on either the &quot;field&quot; axis or &quot;freq&quot; axis</span>
+<span class="sd">        bandwidth : bool, optional</span>
+<span class="sd">            If True, the bandwidth is calculated and displayed on the plot, by default False</span>
+<span class="sd">        axs : Matplotlib.Axes, optional</span>
+<span class="sd">            Matplotlib axes to plot on, by default None</span>
+<span class="sd">        fig : Matplotlib.Figure, optional</span>
+<span class="sd">            Matplotlib figure to plot on, by default None</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -505,7 +525,7 @@
                 <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Re&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Im&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Re&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Re&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">axs</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency GHz&#39;</span><span class="p">)</span>
             <span class="n">axs</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalised Amplitude&#39;</span><span class="p">)</span>
 
@@ -531,11 +551,78 @@
                 <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;smooth&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">axs</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
+        <span class="k">if</span> <span class="n">bandwidth</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">30</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">bw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_bandwidth</span><span class="p">(</span><span class="n">level</span><span class="o">*-</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="n">norm_level</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">level</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">norm_level</span> <span class="o">*=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+            <span class="n">axs</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">norm_level</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">norm_level</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;&lt;-&gt;&quot;</span><span class="p">))</span>
+            <span class="n">axs</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm_level</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bw</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GHz&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+            <span class="c1"># draw an arrow from the left to the right of the bandwidth at the level and label it</span>
+
+
         <span class="k">return</span> <span class="n">fig</span>
 
-<span class="k">class</span> <span class="nc">SpinSystem</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the bandwidth of the field sweep data at a given level in dB</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">espins</span><span class="p">,</span> <span class="n">nspin</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span><span class="n">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : int, optional</span>
+<span class="sd">            The level in dB to calculate the bandwidth, by default 20</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The lower frequency</span>
+<span class="sd">        float</span>
+<span class="sd">            The upper frequency</span>
+<span class="sd">        float</span>
+<span class="sd">            The bandwidth</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;smooth_data&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smooth</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fs_x&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calc_gyro</span><span class="p">()</span>
+        
+        <span class="n">freq_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs_x</span><span class="p">)</span>
+        <span class="n">spectrum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smooth_data</span><span class="p">)</span>
+        
+        <span class="n">db_spectrum</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">spectrum</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">spectrum</span><span class="p">))</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">db_spectrum</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">level</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No data points above -20 dB threshold found.&quot;</span><span class="p">)</span>
+        
+        <span class="n">left_index</span><span class="p">,</span> <span class="n">right_index</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">left_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">left_cross</span> <span class="o">=</span> <span class="n">freq_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">freq_axis</span><span class="p">[</span><span class="n">left_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">freq_axis</span><span class="p">[</span><span class="n">left_index</span><span class="p">]</span>
+            <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">db_spectrum</span><span class="p">[</span><span class="n">left_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">db_spectrum</span><span class="p">[</span><span class="n">left_index</span><span class="p">]</span>
+            <span class="n">left_cross</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="p">[</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">],</span> <span class="p">[</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span>
+        
+        <span class="c1"># Interpolate right crossing.</span>
+        <span class="k">if</span> <span class="n">right_index</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_axis</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">right_cross</span> <span class="o">=</span> <span class="n">freq_axis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">freq_axis</span><span class="p">[</span><span class="n">right_index</span><span class="p">],</span> <span class="n">freq_axis</span><span class="p">[</span><span class="n">right_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">db_spectrum</span><span class="p">[</span><span class="n">right_index</span><span class="p">],</span> <span class="n">db_spectrum</span><span class="p">[</span><span class="n">right_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">right_cross</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="p">[</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">],</span> <span class="p">[</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span>
+        
+        <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">right_cross</span> <span class="o">-</span> <span class="n">left_cross</span>
+        <span class="k">return</span> <span class="n">left_cross</span><span class="p">,</span> <span class="n">right_cross</span><span class="p">,</span> <span class="n">bandwidth</span>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SpinSystem</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">espins</span><span class="p">,</span> <span class="n">nspin</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span><span class="n">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nspin</span><span class="p">)</span>
@@ -552,7 +639,7 @@
         
 <div class="viewcode-block" id="erot">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.erot">[docs]</a>
-<span class="k">def</span> <span class="nf">erot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">erot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Passive rotation matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -623,7 +710,7 @@
 
 <div class="viewcode-block" id="eyekron">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.eyekron">[docs]</a>
-<span class="k">def</span> <span class="nf">eyekron</span><span class="p">(</span><span class="n">M</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eyekron</span><span class="p">(</span><span class="n">M</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the Kronecker product of the identity matrix with a matrix M.</span>
 
@@ -639,7 +726,7 @@
 
 <div class="viewcode-block" id="kroneye">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.kroneye">[docs]</a>
-<span class="k">def</span> <span class="nf">kroneye</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kroneye</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the Kronecker product of a matrix with the identity matrix of the same size.</span>
 
@@ -655,7 +742,7 @@
 
 <div class="viewcode-block" id="ham">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.ham">[docs]</a>
-<span class="k">def</span> <span class="nf">ham</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">elspins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nucspins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ham</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">elspins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nucspins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Only using the hyperfine part at the moment as only section present in Nitroxides</span>
     <span class="n">SpinVec</span> <span class="o">=</span> <span class="n">SpinSystem</span><span class="o">.</span><span class="n">Spins</span>
     <span class="n">nStates</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">SpinSystem</span><span class="o">.</span><span class="n">nStates</span><span class="p">)</span>
@@ -706,7 +793,7 @@
 
 <div class="viewcode-block" id="ham_ez">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.ham_ez">[docs]</a>
-<span class="k">def</span> <span class="nf">ham_ez</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">espins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ham_ez</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">espins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">bmagn</span> <span class="o">=</span> <span class="mf">9.274010078300000e-24</span>
     <span class="n">planck</span> <span class="o">=</span> <span class="mf">6.626070150000000e-34</span>
     <span class="n">spins</span> <span class="o">=</span> <span class="n">SpinSystem</span><span class="o">.</span><span class="n">Spins</span><span class="p">;</span>
@@ -745,7 +832,7 @@
 
 <div class="viewcode-block" id="ham_nz">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.ham_nz">[docs]</a>
-<span class="k">def</span> <span class="nf">ham_nz</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nspins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ham_nz</span><span class="p">(</span><span class="n">SpinSystem</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nspins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">bmagn</span> <span class="o">=</span> <span class="mf">9.274010078300000e-24</span>
     <span class="n">nmagn</span> <span class="o">=</span> <span class="mf">5.050783746100000e-27</span>
 
@@ -791,7 +878,7 @@
 
 <div class="viewcode-block" id="resfields">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.resfields">[docs]</a>
-<span class="k">def</span> <span class="nf">resfields</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">Orientations</span><span class="p">,</span> <span class="n">mwFreq</span><span class="p">,</span> <span class="n">computeIntensities</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resfields</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">Orientations</span><span class="p">,</span> <span class="n">mwFreq</span><span class="p">,</span> <span class="n">computeIntensities</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
               <span class="n">RejectionRatio</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">Range</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1e8</span><span class="p">),</span><span class="n">Threshold</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">computeFreq2Field</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 
 
@@ -825,8 +912,14 @@
         <span class="n">B</span> <span class="o">=</span> <span class="o">-</span> <span class="n">kroneye</span><span class="p">(</span><span class="n">muzL</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span> <span class="o">+</span> <span class="n">eyekron</span><span class="p">(</span><span class="n">muzL</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">computeIntensities</span><span class="p">:</span>
-            <span class="p">[</span><span class="n">Fields</span><span class="p">,</span><span class="n">Vecs</span><span class="p">]</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">);</span>
-            <span class="n">idx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">Fields</span><span class="p">);</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="p">[</span><span class="n">Fields</span><span class="p">,</span><span class="n">Vecs</span><span class="p">]</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eigenvalue computation did not converge for orientation </span><span class="si">{</span><span class="n">iOri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">EigenFields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+                <span class="n">Intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+                <span class="k">continue</span>
+            <span class="n">idx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">Fields</span><span class="p">)</span>
             <span class="n">Fields</span> <span class="o">=</span> <span class="n">Fields</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
             <span class="n">Vecs</span> <span class="o">=</span> <span class="n">Vecs</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
 
@@ -837,8 +930,9 @@
         <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">np</span><span class="o">.</span><span class="n">less</span><span class="p">(</span><span class="n">Fields</span><span class="p">,</span> <span class="n">Range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">EigenFields</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
-            <span class="n">Intensities</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="n">EigenFields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+            <span class="n">Intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+            <span class="k">continue</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">EigenFields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Fields</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
             <span class="n">Vecs</span> <span class="o">=</span> <span class="n">Vecs</span><span class="p">[:,</span><span class="n">mask</span><span class="p">]</span>
@@ -872,9 +966,10 @@
             
         <span class="c1"># Combine factors</span>
         <span class="n">Intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Polarization</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">TransitionRate</span><span class="o">*</span><span class="n">dBdE</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">Threshold</span><span class="o">*</span><span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">();</span>
-        <span class="n">EigenFields</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">=</span> <span class="n">EigenFields</span><span class="p">[</span><span class="n">iOri</span><span class="p">][</span><span class="n">mask</span><span class="p">];</span>
-        <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">=</span> <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">][</span><span class="n">mask</span><span class="p">];</span>
+        <span class="k">if</span> <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">Threshold</span><span class="o">*</span><span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">();</span>
+            <span class="n">EigenFields</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">=</span> <span class="n">EigenFields</span><span class="p">[</span><span class="n">iOri</span><span class="p">][</span><span class="n">mask</span><span class="p">];</span>
+            <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">]</span> <span class="o">=</span> <span class="n">Intensities</span><span class="p">[</span><span class="n">iOri</span><span class="p">][</span><span class="n">mask</span><span class="p">];</span>
 
 
     <span class="k">return</span> <span class="n">EigenFields</span><span class="p">,</span> <span class="n">Intensities</span></div>
@@ -882,7 +977,7 @@
 
 <div class="viewcode-block" id="build_spectrum">
 <a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.fieldsweep_analysis.build_spectrum">[docs]</a>
-<span class="k">def</span> <span class="nf">build_spectrum</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">mwFreq</span><span class="p">,</span> <span class="n">Range</span><span class="p">,</span> <span class="n">knots</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span><span class="n">npoints</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">Guass_broadening</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_spectrum</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">mwFreq</span><span class="p">,</span> <span class="n">Range</span><span class="p">,</span> <span class="n">knots</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span><span class="n">npoints</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">Guass_broadening</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a field sweep spectrum</span>
 
 <span class="sd">    Parameters</span>
@@ -961,7 +1056,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -981,7 +1076,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

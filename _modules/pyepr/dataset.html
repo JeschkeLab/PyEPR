@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.dataset - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.dataset - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,25 +250,25 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.dataset</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">scipy.fft</span> <span class="k">as</span> <span class="nn">fft</span>
-<span class="kn">from</span> <span class="nn">pyepr</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">pyepr.pulses</span> <span class="kn">import</span> <span class="n">Detection</span>
-<span class="kn">from</span> <span class="nn">pyepr.classes</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">pyepr.sequences</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">import</span> <span class="nn">pyepr.pulses</span> <span class="k">as</span> <span class="nn">ad_pulses</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">deerlab</span> <span class="kn">import</span> <span class="n">correctphase</span>
-<span class="kn">from</span> <span class="nn">deerlab</span> <span class="kn">import</span> <span class="n">deerload</span>
-<span class="kn">import</span> <span class="nn">copy</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.fft</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fft</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Detection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.sequences</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ad_pulses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">correctphase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">deerload</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 
 <span class="c1"># =============================================================================</span>
 
 <div class="viewcode-block" id="get_all_axes">
-<a class="viewcode-back" href="../../autoapi/pyepr/dataset/index.html#pyepr.dataset.get_all_axes">[docs]</a>
-<span class="k">def</span> <span class="nf">get_all_axes</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.dataset.get_all_axes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_all_axes</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
     <span class="c1"># loop over all parameters and get the axis</span>
     <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">sequence</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
@@ -305,8 +307,8 @@
 
 
 <div class="viewcode-block" id="get_all_fixed_param">
-<a class="viewcode-back" href="../../autoapi/pyepr/dataset/index.html#pyepr.dataset.get_all_fixed_param">[docs]</a>
-<span class="k">def</span> <span class="nf">get_all_fixed_param</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.dataset.get_all_fixed_param">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_all_fixed_param</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
 
     <span class="n">fixed_param</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">sequence</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
@@ -348,8 +350,8 @@
 
 
 <div class="viewcode-block" id="create_dataset_from_sequence">
-<a class="viewcode-back" href="../../autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_sequence">[docs]</a>
-<span class="k">def</span> <span class="nf">create_dataset_from_sequence</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span><span class="n">extra_params</span><span class="o">=</span><span class="p">{}):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.dataset.create_dataset_from_sequence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_dataset_from_sequence</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span><span class="n">extra_params</span><span class="o">=</span><span class="p">{}):</span>
     <span class="n">ndims</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span>
     <span class="n">default_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">default_labels</span><span class="p">[:</span><span class="n">ndims</span><span class="p">]</span>
@@ -362,8 +364,23 @@
 
 
 <div class="viewcode-block" id="create_dataset_from_axes">
-<a class="viewcode-back" href="../../autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_axes">[docs]</a>
-<span class="k">def</span> <span class="nf">create_dataset_from_axes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">axes_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.dataset.create_dataset_from_axes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_dataset_from_axes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span><span class="n">axes_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an xarray dataset from a numpy array and a list of axes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        The data to be stored in the dataset.</span>
+<span class="sd">    axes : list</span>
+<span class="sd">        A list of numpy arrays containing the axes for each dimension of the data.</span>
+<span class="sd">    params : dict, optional</span>
+<span class="sd">        A dictionary containing any additional parameters to be stored in the dataset, by default None</span>
+<span class="sd">    axes_labels : list, optional</span>
+<span class="sd">        A list of labels for each axis, by default None</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ndims</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span>
     <span class="k">if</span> <span class="n">axes_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">default_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
@@ -381,8 +398,8 @@
 
 
 <div class="viewcode-block" id="create_dataset_from_bruker">
-<a class="viewcode-back" href="../../autoapi/pyepr/dataset/index.html#pyepr.dataset.create_dataset_from_bruker">[docs]</a>
-<span class="k">def</span> <span class="nf">create_dataset_from_bruker</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/index.html#pyepr.dataset.create_dataset_from_bruker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_dataset_from_bruker</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
     <span class="n">axes</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">deerload</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
@@ -422,18 +439,44 @@
 
 
 <span class="nd">@xr</span><span class="o">.</span><span class="n">register_dataarray_accessor</span><span class="p">(</span><span class="s2">&quot;epr&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">EPRAccessor</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EPRAccessor</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">xarray_obj</span>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;netCDF&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;netCDF&#39;</span><span class="p">,</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the dataset to a hdf5 file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The name of the file to save the dataset</span>
+<span class="sd">        type : str, optional</span>
+<span class="sd">            The type of file to save, by default &#39;netCDF&#39; (including .h5)</span>
+<span class="sd">        overwrite : bool, optional</span>
+<span class="sd">            Overwrite the file if it exists, by default True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">mode</span><span class="o">=</span> <span class="s2">&quot;w&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+        <span class="c1">#if filename doesn&#39;t have the extension .h5, add it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.h5&#39;</span><span class="p">):</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.h5&#39;</span>
+
+        <span class="k">if</span> <span class="s1">&#39;Scan&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">unlimited_dims</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Scan&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unlimited_dims</span> <span class="o">=</span> <span class="kc">None</span>
+
 
         <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;netCDF&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.h5&quot;</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;h5netcdf&#39;</span><span class="p">,</span><span class="n">invalid_netcdf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;h5netcdf&#39;</span><span class="p">,</span><span class="n">invalid_netcdf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span><span class="n">unlimited_dims</span><span class="o">=</span><span class="n">unlimited_dims</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">correctphase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correctphase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">new_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
                 <span class="n">corr_data</span> <span class="o">=</span> <span class="n">correctphase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -443,12 +486,12 @@
         <span class="k">return</span> <span class="n">new_obj</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">normalise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">normalise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">correctphasefull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correctphasefull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">new_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
                 <span class="n">Re</span><span class="p">,</span><span class="n">Im</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">correctphase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -458,13 +501,13 @@
         <span class="k">return</span> <span class="n">new_obj</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">SNR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">deerlab</span> <span class="kn">import</span> <span class="n">der_snr</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SNR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">der_snr</span>
         <span class="n">norm_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">der_snr</span><span class="p">(</span><span class="n">norm_data</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">new_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">)</span>
         <span class="n">new_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
         <span class="n">new_coords</span> <span class="o">=</span> <span class="p">{}</span>
@@ -476,20 +519,20 @@
         <span class="k">return</span> <span class="n">new_obj</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">MeasurementTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">MeasurementTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the total measurement time in seconds&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">reptime</span> <span class="o">*</span><span class="mf">1e-6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">shots</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">nAvgs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">nPcyc</span>
     
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dataset_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">attrs</span>
         <span class="n">dataset_coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">coords</span>
 
         <span class="n">pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataset_attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;pulse\d+_name$&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)])</span>
         <span class="n">det_events</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataset_attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;det\d+_t$&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)])</span>
         <span class="n">n_events</span> <span class="o">=</span> <span class="n">pulses</span> <span class="o">+</span> <span class="n">det_events</span>
-        <span class="n">seq_param_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;seq_name&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;LO&#39;</span><span class="p">,</span><span class="s1">&#39;reptime&#39;</span><span class="p">,</span><span class="s1">&#39;shots&#39;</span><span class="p">,</span><span class="s1">&#39;averages&#39;</span><span class="p">,</span><span class="s1">&#39;det_window&#39;</span><span class="p">]</span>
+        <span class="n">seq_param_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;seq_name&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;freq&#39;</span><span class="p">,</span><span class="s1">&#39;reptime&#39;</span><span class="p">,</span><span class="s1">&#39;shots&#39;</span><span class="p">,</span><span class="s1">&#39;averages&#39;</span><span class="p">,</span><span class="s1">&#39;det_window&#39;</span><span class="p">]</span>
         <span class="n">seq_params</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">param_type</span> <span class="ow">in</span> <span class="n">seq_param_types</span><span class="p">:</span>
@@ -507,7 +550,7 @@
 
         <span class="n">pulses_obj</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_events</span><span class="p">):</span>
-            <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;pulse</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_t&quot;</span> <span class="ow">in</span> <span class="n">dataset_attrs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;pulse</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_name&quot;</span> <span class="ow">in</span> <span class="n">dataset_attrs</span><span class="p">:</span>
                 <span class="n">pulse_type</span> <span class="o">=</span> <span class="n">dataset_attrs</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pulse</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_name&quot;</span><span class="p">]</span>
                 <span class="n">key</span><span class="o">=</span><span class="s2">&quot;pulse&quot;</span>
             <span class="k">elif</span> <span class="sa">f</span><span class="s2">&quot;det</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_t&quot;</span> <span class="ow">in</span> <span class="n">dataset_attrs</span><span class="p">:</span>
@@ -540,7 +583,7 @@
         <span class="k">return</span> <span class="n">sequence</span>
 
 
-    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">,</span><span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Merge two datasets into one dataset.</span>
 
@@ -558,13 +601,17 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both datasets must be 1D&quot;</span><span class="p">)</span>
 
         <span class="n">keys_check</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;LO&#39;</span><span class="p">,</span><span class="s1">&#39;reptime&#39;</span><span class="p">,</span><span class="s1">&#39;shots&#39;</span><span class="p">,</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">,</span><span class="s1">&#39;nPcyc&#39;</span><span class="p">,</span><span class="s1">&#39;pcyc_name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;freq&#39;</span><span class="p">,</span> <span class="s1">&#39;reptime&#39;</span><span class="p">,</span> <span class="s1">&#39;shots&#39;</span><span class="p">,</span> <span class="s1">&#39;nAvgs&#39;</span><span class="p">,</span> <span class="s1">&#39;nPcyc&#39;</span><span class="p">,</span> <span class="s1">&#39;pcyc_name&#39;</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_check</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataarray1</span><span class="o">.</span><span class="n">attrs</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataarray2</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">dataarray1</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dataarray2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datasets have different values for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">, cannot merge&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">ignore_errors</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datasets have different values for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">, cannot merge&quot;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset 1: </span><span class="si">{</span><span class="n">dataarray1</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> Dataset 2: </span><span class="si">{</span><span class="n">dataarray2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datasets have different values for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">, cannot merge&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataarray1</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found in dataset 2&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataarray2</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
@@ -607,7 +654,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -627,7 +674,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

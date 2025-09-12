@@ -1,7 +1,7 @@
 pyepr.sequences.TWTProfileSequence
 ==================================
 
-.. py:class:: pyepr.sequences.TWTProfileSequence(*, B, LO, reptime, averages=1, shots=100, **kwargs)
+.. py:class:: pyepr.sequences.TWTProfileSequence(*, B, freq, reptime, averages=1, shots=100, dtp=2, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -20,7 +20,7 @@ pyepr.sequences.TWTProfileSequence
        **B** : float
            The magnetic field for this sequence in Gauss.
 
-       **LO** : float
+       **freq** : float
            The central frequency of this sequence. I.e. The frequnecy at which
            a zero offset pulse is at. 
 
@@ -32,6 +32,9 @@ pyepr.sequences.TWTProfileSequence
 
        **shots** : itn
            The number of shots per point.
+
+       **LO** : float
+           The now deprecated local oscillator frequency. freq should be used.
 
 
 
@@ -48,6 +51,12 @@ pyepr.sequences.TWTProfileSequence
 
    ..
        !! processed by numpydoc !!
+
+
+   .. py:attribute:: kwargs
+
+
+   .. py:attribute:: dtp
 
 
    .. py:method:: _build_sequence()

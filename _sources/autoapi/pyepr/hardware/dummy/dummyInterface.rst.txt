@@ -6,8 +6,11 @@ pyepr.hardware.dummy.dummyInterface
    Bases: :py:obj:`pyepr.classes.Interface`
 
 
-   
    Represents the interface connection from autoEPR to the spectrometer.
+       
+
+
+
 
 
 
@@ -27,6 +30,7 @@ pyepr.hardware.dummy.dummyInterface
    ..
        !! processed by numpydoc !!
 
+
    .. py:attribute:: state
       :value: False
 
@@ -44,6 +48,18 @@ pyepr.hardware.dummy.dummyInterface
 
 
    .. py:attribute:: SNR
+
+
+   .. py:attribute:: phaseshift
+
+
+   .. py:attribute:: ESEEM
+
+
+   .. py:attribute:: dummyResonator
+
+
+   .. py:attribute:: dummySample
 
 
    .. py:attribute:: mode
@@ -104,10 +120,10 @@ pyepr.hardware.dummy.dummyInterface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune_rectpulse(*, tp, LO, B, reptime, **kwargs)
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, **kwargs)
 
 
-   .. py:method:: tune_pulse(pulse, mode, LO, B, reptime, shots=400)
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400)
 
 
    .. py:method:: isrunning()

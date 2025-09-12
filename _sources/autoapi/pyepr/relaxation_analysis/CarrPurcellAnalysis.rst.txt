@@ -34,10 +34,10 @@ pyepr.relaxation_analysis.CarrPurcellAnalysis
        !! processed by numpydoc !!
 
 
-   .. py:attribute:: data
-
-
    .. py:attribute:: dataset
+
+
+   .. py:attribute:: data
 
 
    .. py:attribute:: noise

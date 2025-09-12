@@ -31,12 +31,14 @@ Attributes
 
 .. autoapisummary::
 
+   pyepr.__version__
    pyepr.__copyright__
    pyepr.log
    pyepr.primary_colors
    pyepr.ReIm_colors
    pyepr.primary_colors
    pyepr.cmap
+   pyepr.primary_colors
    pyepr.primary_colors
 
 
@@ -46,35 +48,20 @@ Classes
 .. toctree::
    :hidden:
 
-   /autoapi/pyepr/Parameter
-   /autoapi/pyepr/Interface
-   /autoapi/pyepr/Parameter
-   /autoapi/pyepr/Pulse
-   /autoapi/pyepr/Detection
-   /autoapi/pyepr/Delay
-   /autoapi/pyepr/RectPulse
    /autoapi/pyepr/Sequence
    /autoapi/pyepr/HahnEchoSequence
+   /autoapi/pyepr/T1InversionRecoverySequence
    /autoapi/pyepr/T2RelaxationSequence
    /autoapi/pyepr/FieldSweepSequence
    /autoapi/pyepr/ReptimeScan
    /autoapi/pyepr/CarrPurcellSequence
    /autoapi/pyepr/ResonatorProfileSequence
    /autoapi/pyepr/TWTProfileSequence
-   /autoapi/pyepr/Parameter
-   /autoapi/pyepr/Pulse
-   /autoapi/pyepr/Detection
-   /autoapi/pyepr/Delay
-   /autoapi/pyepr/RectPulse
-   /autoapi/pyepr/GaussianPulse
-   /autoapi/pyepr/FrequencySweptPulse
-   /autoapi/pyepr/HSPulse
-   /autoapi/pyepr/ChirpPulse
-   /autoapi/pyepr/SincPulse
    /autoapi/pyepr/Criteria
    /autoapi/pyepr/TimeCriteria
    /autoapi/pyepr/SNRCriteria
-   /autoapi/pyepr/Parameter
+   /autoapi/pyepr/Sequence
+   /autoapi/pyepr/EPRAccessor
    /autoapi/pyepr/FieldSweepAnalysis
    /autoapi/pyepr/SpinSystem
    /autoapi/pyepr/Sequence
@@ -85,35 +72,20 @@ Classes
 
 .. autoapisummary::
 
-   pyepr.Parameter
-   pyepr.Interface
-   pyepr.Parameter
-   pyepr.Pulse
-   pyepr.Detection
-   pyepr.Delay
-   pyepr.RectPulse
    pyepr.Sequence
    pyepr.HahnEchoSequence
+   pyepr.T1InversionRecoverySequence
    pyepr.T2RelaxationSequence
    pyepr.FieldSweepSequence
    pyepr.ReptimeScan
    pyepr.CarrPurcellSequence
    pyepr.ResonatorProfileSequence
    pyepr.TWTProfileSequence
-   pyepr.Parameter
-   pyepr.Pulse
-   pyepr.Detection
-   pyepr.Delay
-   pyepr.RectPulse
-   pyepr.GaussianPulse
-   pyepr.FrequencySweptPulse
-   pyepr.HSPulse
-   pyepr.ChirpPulse
-   pyepr.SincPulse
    pyepr.Criteria
    pyepr.TimeCriteria
    pyepr.SNRCriteria
-   pyepr.Parameter
+   pyepr.Sequence
+   pyepr.EPRAccessor
    pyepr.FieldSweepAnalysis
    pyepr.SpinSystem
    pyepr.Sequence
@@ -128,6 +100,7 @@ Functions
 
 .. autoapisummary::
 
+   pyepr.eprload
    pyepr.build_table
    pyepr.sop
    pyepr.transpose_dict_of_list
@@ -147,10 +120,11 @@ Functions
    pyepr.create_Nmodel
    pyepr.build_table
    pyepr.autoEPRDecoder
-   pyepr.build_table
-   pyepr.sop
-   pyepr.autoEPRDecoder
-   pyepr.build_default_pulses
+   pyepr.get_all_axes
+   pyepr.get_all_fixed_param
+   pyepr.create_dataset_from_sequence
+   pyepr.create_dataset_from_axes
+   pyepr.create_dataset_from_bruker
    pyepr.get_waveform_precision
    pyepr.set_waveform_precision
    pyepr.sop
@@ -165,6 +139,8 @@ Functions
    pyepr.build_spectrum
    pyepr.detect_ESEEM
    pyepr.plot_1Drelax
+   pyepr.create_dataset_from_axes
+   pyepr.phase_correct_respro
    pyepr.ceil
    pyepr.floor
    pyepr.calc_overlap
@@ -175,9 +151,55 @@ Functions
 Package Contents
 ----------------
 
-.. py:data:: __copyright__
-   :value: '2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll'
+.. py:data:: __version__
 
+.. py:data:: __copyright__
+   :value: '2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll'
+
+
+.. py:function:: eprload(path, experiment = None, type = None, **kwargs)
+
+   
+   A general versions of eprload
+
+
+   :Parameters:
+
+       **path** : str
+           The file path of the data that should be loaded.
+
+       **experiment** : str, optional
+           _description_, by default None
+
+       **type** : str, optional
+           _description_, by default None
+
+
+
+   :Returns:
+
+       xarray.Dataarray
+           _description_
+
+
+
+
+   :Raises:
+
+       ValueError
+           _description_
+
+       RuntimeError
+           _description_
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 
 .. py:function:: build_table(source, params, params_widths)
 
@@ -598,32 +620,33 @@ Package Contents
 
 .. py:function:: autoEPRDecoder(dct)
 
-.. py:function:: build_table(source, params, params_widths)
+.. py:data:: log
 
-.. py:function:: sop(spins, comps)
+.. py:function:: get_all_axes(sequence)
+
+.. py:function:: get_all_fixed_param(sequence)
+
+.. py:function:: create_dataset_from_sequence(data, sequence, extra_params={})
+
+.. py:function:: create_dataset_from_axes(data, axes, params = {}, axes_labels=None)
 
    
-   Spin Operator Matricies.
+   Create an xarray dataset from a numpy array and a list of axes.
 
-   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
-
-   References:
-   +++++++++++
-   [1] Stefan Stoll, Arthur Schweiger
-   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-   J. Magn. Reson. 178(1), 42-55 (2006)
-
-   [2] Stefan Stoll, R. David Britt
-   General and efficient simulation of pulse EPR spectra
-   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
 
    :Parameters:
 
-       **spins** : list
-           A list of each spin and its spin qunatum number
+       **data** : np.ndarray
+           The data to be stored in the dataset.
 
-       **comps** : str
-           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
+       **axes** : list
+           A list of numpy arrays containing the axes for each dimension of the data.
+
+       **params** : dict, optional
+           A dictionary containing any additional parameters to be stored in the dataset, by default None
+
+       **axes_labels** : list, optional
+           A list of labels for each axis, by default None
 
 
 
@@ -641,11 +664,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: autoEPRDecoder(dct)
-
-.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
-
-.. py:data:: log
+.. py:function:: create_dataset_from_bruker(filepath)
 
 .. py:function:: get_waveform_precision()
 
@@ -905,7 +924,7 @@ Package Contents
    :value: ['#D95B6F', '#42A399']
 
 
-.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap)
+.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap, labels=None)
 
    
    Create a superimposed plot of relaxation data and fits.
@@ -924,6 +943,69 @@ Package Contents
 
        **cmap** : list, optional
            The color map to use, by default ad.cmap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: create_dataset_from_axes(data, axes, params = {}, axes_labels=None)
+
+   
+   Create an xarray dataset from a numpy array and a list of axes.
+
+
+   :Parameters:
+
+       **data** : np.ndarray
+           The data to be stored in the dataset.
+
+       **axes** : list
+           A list of numpy arrays containing the axes for each dimension of the data.
+
+       **params** : dict, optional
+           A dictionary containing any additional parameters to be stored in the dataset, by default None
+
+       **axes_labels** : list, optional
+           A list of labels for each axis, by default None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: primary_colors
+   :value: ['#D95B6F', '#42A399', '#E1AE38']
+
+
+.. py:function:: phase_correct_respro(dataset)
+
+   
+   Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real
+
+
 
 
 

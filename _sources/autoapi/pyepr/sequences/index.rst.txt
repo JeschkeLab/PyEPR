@@ -12,6 +12,7 @@ Classes
 
    /autoapi/pyepr/sequences/Sequence
    /autoapi/pyepr/sequences/HahnEchoSequence
+   /autoapi/pyepr/sequences/T1InversionRecoverySequence
    /autoapi/pyepr/sequences/T2RelaxationSequence
    /autoapi/pyepr/sequences/FieldSweepSequence
    /autoapi/pyepr/sequences/ReptimeScan
@@ -23,6 +24,7 @@ Classes
 
    pyepr.sequences.Sequence
    pyepr.sequences.HahnEchoSequence
+   pyepr.sequences.T1InversionRecoverySequence
    pyepr.sequences.T2RelaxationSequence
    pyepr.sequences.FieldSweepSequence
    pyepr.sequences.ReptimeScan

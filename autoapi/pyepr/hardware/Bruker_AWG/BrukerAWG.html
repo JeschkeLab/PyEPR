@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.Bruker_AWG.BrukerAWG - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.Bruker_AWG.BrukerAWG - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.hardware.Bruker_AWG.BrukerAWG<a class="headerlink" href="#pyepr-hardware-bruker-awg-brukerawg" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_AWG.</span></span><span class="sig-name descname"><span class="pre">BrukerAWG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_AWG.</span></span><span class="sig-name descname"><span class="pre">BrukerAWG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../classes/Interface.html#pyepr.classes.Interface" title="pyepr.classes.Interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyepr.classes.Interface</span></code></a></p>
 <p>Represents the interface for connecting to AWG based Bruker ELEXSYS-II
 Spectrometers.</p>
@@ -267,7 +271,7 @@ Spectrometers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>config_file</strong><span class="classifier">str</span></dt><dd><p>The path to a YAML configuration file.</p>
+<dt><strong>config_file</strong><span class="classifier">dict</span></dt><dd><p>The path to a YAML configuration file.</p>
 </dd>
 </dl>
 </dd>
@@ -278,7 +282,7 @@ Spectrometers.</p>
 </dl>
 </dd>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config_file</strong> (<em>str</em>)</p>
+<dd class="field-odd"><p><strong>config_file</strong> (<em>dict</em>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -298,7 +302,7 @@ Spectrometers.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir">
-<span class="sig-name descname"><span class="pre">temp_dir</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">temp_dir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'.'</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -338,7 +342,7 @@ Spectrometers.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder">
-<span class="sig-name descname"><span class="pre">savefolder</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">savefolder</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -363,7 +367,7 @@ Spectrometers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.acquire_dataset">
-<span class="sig-name descname"><span class="pre">acquire_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.acquire_dataset" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">acquire_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.acquire_dataset" title="Link to this definition">¶</a></dt>
 <dd><p>Acquires the dataset.</p>
 </dd></dl>
 
@@ -374,7 +378,7 @@ Spectrometers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.launch">
-<span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPFU_overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_pulsespel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_bg_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_cur_exp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.launch" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPFU_overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_pulsespel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_bg_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_cur_exp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">IFgain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.launch" title="Link to this definition">¶</a></dt>
 <dd><p>Launches the experiment and initialises autosaving.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -387,7 +391,7 @@ Spectrometers.</p>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>sequence</strong> (<a class="reference internal" href="../../Sequence.html#pyepr.Sequence" title="pyepr.Sequence"><em>Sequence</em></a>)</p></li>
+<li><p><strong>sequence</strong> (<em>pyepr.dataset.Sequence</em>)</p></li>
 <li><p><strong>savename</strong> (<em>str</em>)</p></li>
 </ul>
 </dd>
@@ -396,7 +400,7 @@ Spectrometers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse">
-<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse" title="Link to this definition">¶</a></dt>
 <dd><p>Generates a rectangular pi and pi/2 pulse of the given length at
 the given field position. This value is stored in the pulse cache.</p>
 <dl class="field-list simple">
@@ -404,7 +408,7 @@ the given field position. This value is stored in the pulse cache.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>tp</strong><span class="classifier">float</span></dt><dd><p>Pulse length in ns</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>Central frequency of this pulse in GHz</p>
+<dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>Central frequency of this pulse in GHz</p>
 </dd>
 <dt><strong>B</strong><span class="classifier">float</span></dt><dd><p>Magnetic B0 field position in Gauss</p>
 </dd>
@@ -427,7 +431,7 @@ the given field position. This value is stored in the pulse cache.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse">
-<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse" title="Link to this definition">¶</a></dt>
 <dd><p>Tunes a single pulse a range of methods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -436,13 +440,15 @@ the given field position. This value is stored in the pulse cache.</p>
 </dd>
 <dt><strong>mode</strong><span class="classifier">str</span></dt><dd><p>The method to be used.</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>The local oscilator frequency in GHz</p>
+<dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>The local oscilator frequency in GHz</p>
 </dd>
 <dt><strong>B</strong><span class="classifier">float</span></dt><dd><p>Magnetic B0 field position in Gauss</p>
 </dd>
 <dt><strong>reptime</strong><span class="classifier">us</span></dt><dd><p>Shot repetion time in us.</p>
 </dd>
 <dt><strong>shots: int</strong></dt><dd><p>The number of shots</p>
+</dd>
+<dt><strong>tp: float</strong></dt><dd><p>The length of the pi/2 pulse used for Hahn Echo, by default 12 ns. The pi pulse will be twice the length</p>
 </dd>
 </dl>
 </dd>
@@ -454,6 +460,11 @@ the given field position. This value is stored in the pulse cache.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.phasetune_pulse">
+<span class="sig-name descname"><span class="pre">phasetune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.phasetune_pulse" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.isrunning">
@@ -477,6 +488,29 @@ the given field position. This value is stored in the pulse cache.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.terminate_at">
+<span class="sig-name descname"><span class="pre">terminate_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_running</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.terminate_at" title="Link to this definition">¶</a></dt>
+<dd><p>Terminates the experiment upon a specific condition being
+satisified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>criterion</strong><span class="classifier">_type_</span></dt><dd><p>The criteria to be tested.</p>
+</dd>
+<dt><strong>test_interval</strong><span class="classifier">int, optional</span></dt><dd><p>How often should the criteria be tested in minutes, by default 10.</p>
+</dd>
+<dt><strong>keep_running</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, an error will not be raised if the experiment finishes before the criteria is met, by default True.</p>
+</dd>
+<dt><strong>verbosity</strong><span class="classifier">int, optional</span></dt><dd><p>The verbosity level, by default 0.</p>
+</dd>
+<dt><strong>autosave</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the data will be autosaved, by default True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0">
 <span class="sig-name descname"><span class="pre">calc_d0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0" title="Link to this definition">¶</a></dt>
 <dd><p>This creates an initial guess for d0. A better estimate can only be found after the field sweep.</p>
@@ -484,7 +518,7 @@ the given field position. This value is stored in the pulse cache.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo">
-<span class="sig-name descname"><span class="pre">calc_d0_from_Hahn_Echo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calc_d0_from_Hahn_Echo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -502,7 +536,7 @@ the given field position. This value is stored in the pulse cache.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -550,8 +584,10 @@ the given field position. This value is stored in the pulse cache.</p>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.launch"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.launch()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.tune_pulse()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.phasetune_pulse"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.phasetune_pulse()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.isrunning"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.isrunning()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.terminate"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.terminate()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.terminate_at"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.terminate_at()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.Bruker_AWG.BrukerAWG.calc_d0_from_Hahn_Echo()</span></code></a></li>
 </ul>
@@ -567,7 +603,7 @@ the given field position. This value is stored in the pulse cache.</p>
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

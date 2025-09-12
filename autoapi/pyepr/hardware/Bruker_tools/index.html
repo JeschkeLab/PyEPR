@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.Bruker_tools - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.Bruker_tools - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -308,19 +312,31 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.convert_progtable" title="pyepr.hardware.Bruker_tools.convert_progtable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_progtable</span></code></a>(progtable)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="pyepr.hardware.Bruker_tools.get_specjet_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_specjet_data</span></code></a>(interface[, full_output, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.convert_progtable" title="pyepr.hardware.Bruker_tools.convert_progtable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_progtable</span></code></a>(progtable)</p></td>
 <td><p>This function reformats the progtable to be compatible with the Bruker_tools.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.calc_rel_positions" title="pyepr.hardware.Bruker_tools.calc_rel_positions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_rel_positions</span></code></a>(sequence)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.calc_rel_positions" title="pyepr.hardware.Bruker_tools.calc_rel_positions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_rel_positions</span></code></a>(sequence)</p></td>
 <td><p>Calcuates the starting relative positions of all pulses in a sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.run_general" title="pyepr.hardware.Bruker_tools.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a>(api, ps_file, exp, settings, variables[, run])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.run_general" title="pyepr.hardware.Bruker_tools.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a>(api, ps_file, exp, settings, variables[, run])</p></td>
 <td><p>A function to run a general Pulse Spel experiment through autoDeer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.change_dimensions" title="pyepr.hardware.Bruker_tools.change_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_dimensions</span></code></a>(path, dim, new_length)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.change_dimensions" title="pyepr.hardware.Bruker_tools.change_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_dimensions</span></code></a>(path, dim, new_length)</p></td>
 <td><p>A function to rewrite a pulseSpel experiment file with a new dimension</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addAWGPulse" title="pyepr.hardware.Bruker_tools._addAWGPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_addAWGPulse</span></code></a>(sequence, pulse_num, id, pcyc_str[, amp_var])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools._add_AWG_line" title="pyepr.hardware.Bruker_tools._add_AWG_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_add_AWG_line</span></code></a>(elements[, comment, indent, repeat])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.addAWGPulse" title="pyepr.hardware.Bruker_tools.addAWGPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addAWGPulse</span></code></a>(sequence, pulse_num, id, last_awg_pulse_num)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addDefaultAWGPulse" title="pyepr.hardware.Bruker_tools._addDefaultAWGPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_addDefaultAWGPulse</span></code></a>(sequence, pulse_num, id[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addCustomAWGPulse" title="pyepr.hardware.Bruker_tools._addCustomAWGPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_addCustomAWGPulse</span></code></a>(sequence, pulse_num, id, ...[, ...])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.get_arange" title="pyepr.hardware.Bruker_tools.get_arange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arange</span></code></a>(array)</p></td>
@@ -337,6 +353,15 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.write_pulsespel_file" title="pyepr.hardware.Bruker_tools.write_pulsespel_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_pulsespel_file</span></code></a>(sequence, d0[, AWG, MPFU, MaxGate])</p></td>
 <td><p>Write the pulsespel file for a given sequence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.write_shape_file" title="pyepr.hardware.Bruker_tools.write_shape_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_shape_file</span></code></a>(pulse[, name, phase_shift, number, ...])</p></td>
+<td><p>Write a Bruker shape file for a given pulse.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.hardware.Bruker_tools.step_parameters" title="pyepr.hardware.Bruker_tools.step_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step_parameters</span></code></a>(interface, reduced_seq, dim, variables)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="pyepr.hardware.Bruker_tools.get_specjet_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_specjet_data</span></code></a>(interface[, full_output, ...])</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -356,7 +381,16 @@
 
 <dl class="py data">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools.header">
-<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">header</span></span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.header" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">header</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Multiline-String</span></em><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.header" title="Link to this definition">¶</a></dt>
+<dd><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;; -------------------------------------------------------------------------------</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</details></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools.get_specjet_data">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">get_specjet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#get_specjet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.get_specjet_data" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -460,8 +494,23 @@ experiments.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools._addAWGPulse">
-<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">_addAWGPulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pcyc_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#_addAWGPulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools._addAWGPulse" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools._add_AWG_line">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">_add_AWG_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#_add_AWG_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools._add_AWG_line" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools.addAWGPulse">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">addAWGPulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_awg_pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SpinJet_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resonator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#addAWGPulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.addAWGPulse" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools._addDefaultAWGPulse">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">_addDefaultAWGPulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SpinJet_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#_addDefaultAWGPulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools._addDefaultAWGPulse" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools._addCustomAWGPulse">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">_addCustomAWGPulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_awg_pulse_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SpinJet_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#_addCustomAWGPulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools._addCustomAWGPulse" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -517,6 +566,47 @@ experiments.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools.write_shape_file">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">write_shape_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AWG_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#write_shape_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.write_shape_file" title="Link to this definition">¶</a></dt>
+<dd><p>Write a Bruker shape file for a given pulse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pulse</strong><span class="classifier">Pulse</span></dt><dd><p>The pulse to be converted.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the pulse, by default “”</p>
+</dd>
+<dt><strong>phase_shift</strong><span class="classifier">int, optional</span></dt><dd><p>The phase shift of the pulse in radians, by default 0</p>
+</dd>
+<dt><strong>number</strong><span class="classifier">int, optional</span></dt><dd><p>The number of the pulse, by default None</p>
+</dd>
+<dt><strong>AWG_rate</strong><span class="classifier">float, optional</span></dt><dd><p>The sample rate of the AWG in GSa/s, by default 1.6 GSa/s for SpinJet-I</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The string for the shape file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyepr.hardware.Bruker_tools.step_parameters">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">step_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduced_seq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#step_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.hardware.Bruker_tools.step_parameters" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_tools.</span></span><span class="sig-name descname"><span class="pre">get_specjet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suppress_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pyepr/hardware/Bruker_tools.html#get_specjet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </section>
 </section>
 
@@ -531,7 +621,7 @@ experiments.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -565,6 +655,7 @@ experiments.</p>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.MODULE_DIR"><code class="docutils literal notranslate"><span class="pre">MODULE_DIR</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.hw_log"><code class="docutils literal notranslate"><span class="pre">hw_log</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.header"><code class="docutils literal notranslate"><span class="pre">header</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.get_specjet_data"><code class="docutils literal notranslate"><span class="pre">get_specjet_data()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.possible_delays"><code class="docutils literal notranslate"><span class="pre">possible_delays</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.possible_vars"><code class="docutils literal notranslate"><span class="pre">possible_vars</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.possible_pulses"><code class="docutils literal notranslate"><span class="pre">possible_pulses</span></code></a></li>
@@ -572,12 +663,18 @@ experiments.</p>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.calc_rel_positions"><code class="docutils literal notranslate"><span class="pre">calc_rel_positions()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.run_general"><code class="docutils literal notranslate"><span class="pre">run_general()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.change_dimensions"><code class="docutils literal notranslate"><span class="pre">change_dimensions()</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addAWGPulse"><code class="docutils literal notranslate"><span class="pre">_addAWGPulse()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools._add_AWG_line"><code class="docutils literal notranslate"><span class="pre">_add_AWG_line()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.addAWGPulse"><code class="docutils literal notranslate"><span class="pre">addAWGPulse()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addDefaultAWGPulse"><code class="docutils literal notranslate"><span class="pre">_addDefaultAWGPulse()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools._addCustomAWGPulse"><code class="docutils literal notranslate"><span class="pre">_addCustomAWGPulse()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.get_arange"><code class="docutils literal notranslate"><span class="pre">get_arange()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.build_unique_progtable"><code class="docutils literal notranslate"><span class="pre">build_unique_progtable()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.check_variable"><code class="docutils literal notranslate"><span class="pre">check_variable()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.determine_TWT_split"><code class="docutils literal notranslate"><span class="pre">determine_TWT_split()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.write_pulsespel_file"><code class="docutils literal notranslate"><span class="pre">write_pulsespel_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.write_shape_file"><code class="docutils literal notranslate"><span class="pre">write_shape_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.Bruker_tools.step_parameters"><code class="docutils literal notranslate"><span class="pre">step_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">get_specjet_data()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -591,7 +688,7 @@ experiments.</p>
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

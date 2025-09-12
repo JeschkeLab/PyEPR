@@ -42,9 +42,13 @@ pyepr.hardware.xepr_experiments.PulseProfile
 
 
    .. py:attribute:: d0
+      :value: 700
+
 
 
    .. py:attribute:: ps_length
+      :value: 16
+
 
 
    .. py:attribute:: hardware_wait
@@ -53,6 +57,8 @@ pyepr.hardware.xepr_experiments.PulseProfile
 
 
    .. py:attribute:: srt
+      :value: 4000000.0
+
 
 
    .. py:method:: _setup_exp(tau=400)

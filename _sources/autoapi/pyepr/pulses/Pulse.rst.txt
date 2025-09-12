@@ -38,6 +38,8 @@ pyepr.pulses.Pulse
 
 
    .. py:attribute:: name
+      :value: None
+
 
 
    .. py:attribute:: Progression
@@ -107,7 +109,32 @@ pyepr.pulses.Pulse
           !! processed by numpydoc !!
 
 
-   .. py:method:: build_shape(ax=None)
+   .. py:method:: build_shape(ax=None, full_output=False)
+
+      
+      Creates the time domain representation of the pulse shape, using the method `func`.
+
+
+      :Parameters:
+
+          **ax** : np.ndarray, optional
+              The axis to build the shape on. If None, uses the internal `ax` attribute.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: build_table()
@@ -242,6 +269,30 @@ pyepr.pulses.Pulse
 
 
    .. py:method:: _calc_fft(pad=10000)
+
+
+   .. py:method:: flip()
+
+      
+      Flips the sweep direction of the pulse. Has no meaning for monochromatic pulses.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:property:: amp_factor

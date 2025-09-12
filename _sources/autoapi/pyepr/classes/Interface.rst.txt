@@ -1,7 +1,7 @@
 pyepr.classes.Interface
 =======================
 
-.. py:class:: pyepr.classes.Interface(log=None)
+.. py:class:: pyepr.classes.Interface(config_file = None, log=None)
 
    
    Represents the interface connection from autoEPR to the spectrometer.
@@ -24,10 +24,15 @@ pyepr.classes.Interface
    ..
        !! processed by numpydoc !!
 
+   .. py:attribute:: config
+
+
    .. py:attribute:: pulses
 
 
    .. py:attribute:: savefolder
+      :value: ''
+
 
 
    .. py:attribute:: savename
@@ -38,6 +43,9 @@ pyepr.classes.Interface
    .. py:attribute:: resonator
       :value: None
 
+
+
+   .. py:attribute:: amp_nonlinearity
 
 
    .. py:method:: connect()
@@ -99,6 +107,38 @@ pyepr.classes.Interface
 
 
    .. py:method:: isrunning()
+
+
+   .. py:method:: rescale(scale)
+
+      
+      Rescales the scale factor to account for applifier non-linearity.
+
+
+      :Parameters:
+
+          **scale** : float
+              The scale factor to be rescaled.
+
+
+
+      :Returns:
+
+          float
+              The rescaled value.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: terminate()

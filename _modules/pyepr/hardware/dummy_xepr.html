@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.dummy_xepr - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.dummy_xepr - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,15 +260,15 @@
 <span class="sd">Features: The most relibable Bruker EPR spectromter in the world (possibly?)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">deerlab</span> <span class="k">as</span> <span class="nn">dl</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rand</span>
-<span class="kn">from</span> <span class="nn">.XeprAPI_link</span> <span class="kn">import</span> <span class="n">XeprAPILink</span><span class="p">,</span><span class="n">dataset</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.XeprAPI_link</span><span class="w"> </span><span class="kn">import</span> <span class="n">XeprAPILink</span><span class="p">,</span><span class="n">dataset</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <div class="viewcode-block" id="hw_log">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/dummy_xepr/index.html#pyepr.hardware.dummy_xepr.hw_log">[docs]</a>
@@ -290,55 +292,55 @@
  <span class="p">}</span> </div>
 
 
-<span class="k">class</span> <span class="nc">dummy_api</span><span class="p">(</span><span class="n">XeprAPILink</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_api</span><span class="p">(</span><span class="n">XeprAPILink</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tmp_dir</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hardware_meta</span> <span class="c1"># This will become more neuanced eventually. Currentlty this is sufficent.</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">find_Xepr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_Xepr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xepr</span> <span class="o">=</span> <span class="n">dummy_xepr</span><span class="p">()</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">is_exp_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_exp_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Since all experiments are instantaneous this has to be always false</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">acquire_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
     
-    <span class="k">def</span> <span class="nf">acquire_scan_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
     
-    <span class="k">def</span> <span class="nf">acquire_scan_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">acquire_scan_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">compile_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile_PulseSpel_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">compile_PulseSpel_prg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile_PulseSpel_prg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">set_PulseSpel_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_PulseSpel_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="c1"># This should be expanded into a dictionary that can then effect the simulation. In an ideal world</span>
         <span class="k">pass</span>
-    <span class="k">def</span> <span class="nf">run_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Experiment started&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">stop_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Experiment stopped&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
     
-    <span class="k">def</span> <span class="nf">abort_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abort_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hw_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Experiment aborted&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
     
 
-<span class="k">class</span> <span class="nc">dummy_cur_exp</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_cur_exp</span><span class="p">:</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># if experiment == &quot;DEER_quick&quot;:</span>
         <span class="c1">#     print(&quot;Experiment set to: DEER_quick&quot;)</span>
         <span class="c1">#     self.NbScansToDo = dummy_param(0,10000,int,112)</span>
@@ -377,7 +379,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SweepWidth</span> <span class="o">=</span> <span class="n">dummy_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
     
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This method returns a given parameter class for the name provided</span>
 
 <span class="sd">        :param name: The name of parameter needed</span>
@@ -390,7 +392,7 @@
             <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">getParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extracts a paremeter from the current exeperiment</span>
 
 <span class="sd">        :param name: The name of the parameter to be extracted</span>
@@ -400,15 +402,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">aqExpRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aqExpRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#Dummy function, for running the experiment</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dummy Experiment running&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
 
 
-<span class="k">class</span> <span class="nc">dummy_param</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_param</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">aqGetParMaxValue</span> <span class="o">=</span> <span class="nb">max</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">aqGetParMinValue</span> <span class="o">=</span> <span class="nb">min</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">par</span> 
@@ -416,33 +418,33 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aqGetParMinValue</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">aqGetParMaxValue</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
 
     <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">par</span>
 
-<span class="k">class</span> <span class="nc">dummy_xepr</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_xepr</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="o">=</span> <span class="n">dummy_cur_exp</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">dummy_hidden</span><span class="p">()</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">XeprExperiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">hidden</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">XeprExperiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">hidden</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">hidden</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># return dummy_cur_exp(&quot;DEER_quick&quot;)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span>
         <span class="k">elif</span> <span class="n">hidden</span> <span class="o">==</span> <span class="s2">&quot;AcqHidden&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span>
     
-    <span class="k">def</span> <span class="nf">XeprDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># Returns the current dataset</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">XeprDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># Returns the current dataset</span>
         
         <span class="n">cur_exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span>
         <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden</span>
         <span class="c1"># Generates simulated DEER data</span>
-        <span class="k">def</span> <span class="nf">generateDEER</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">generateDEER</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Modified from an example in DEERlab.</span>
 
@@ -458,31 +460,31 @@
             <span class="n">Vexp</span> <span class="o">=</span> <span class="n">K</span><span class="nd">@P</span> <span class="o">+</span> <span class="n">dl</span><span class="o">.</span><span class="n">whitegaussnoise</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># DEER signal with added noise</span>
             <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">Vexp</span>
 
-        <span class="k">def</span> <span class="nf">generateCarrPurcell</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">generateCarrPurcell</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="mi">256</span><span class="p">)</span>
             <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">t</span><span class="o">*</span><span class="mf">3e-3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">4.2</span><span class="p">))</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
             <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">.05</span><span class="p">,</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">])</span> 
             <span class="n">Vexp</span> <span class="o">=</span> <span class="n">V</span> <span class="o">+</span> <span class="n">noise</span>
             <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">Vexp</span>
 
-        <span class="k">def</span> <span class="nf">generate2D</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">generate2D</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">max_time</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">max_time</span><span class="p">,</span><span class="n">numpoints</span><span class="p">)</span>
             <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-            <span class="k">def</span> <span class="nf">fun_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">fun_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="mf">2.8e-3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">4.2</span><span class="p">))</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">y</span><span class="o">*</span><span class="mf">2.8e-3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">4.2</span><span class="p">))</span><span class="o">**</span><span class="mi">4</span><span class="p">))</span>
             <span class="n">Z</span> <span class="o">=</span> <span class="n">fun_2d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
             <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">.05</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">])</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">],</span><span class="n">Z</span><span class="o">+</span><span class="n">noise</span>
 
-        <span class="k">def</span> <span class="nf">generate_hahn_echo_transient</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">phase</span><span class="p">,</span><span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">generate_hahn_echo_transient</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">phase</span><span class="p">,</span><span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">gaussian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="p">(</span><span class="n">phase</span><span class="o">+</span><span class="n">phase_offset</span><span class="p">))</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">numpoints</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> 
             <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">V</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">numpoints</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">numpoints</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="n">phase</span><span class="p">)</span> <span class="o">+</span> <span class="n">noise</span>
             <span class="k">return</span> <span class="n">t</span><span class="p">,</span><span class="n">V</span>
 
-        <span class="k">def</span> <span class="nf">generate_phase_experiment</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">pg</span><span class="p">,</span><span class="n">phase</span><span class="p">,</span><span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">generate_phase_experiment</span><span class="p">(</span><span class="n">numpoints</span><span class="p">,</span><span class="n">pg</span><span class="p">,</span><span class="n">phase</span><span class="p">,</span><span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
             <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">numpoints</span><span class="p">)</span>
             <span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span> <span class="n">vals</span>
             <span class="n">t</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">numpoints</span><span class="p">)</span>
@@ -505,7 +507,7 @@
             <span class="n">t</span><span class="p">,</span><span class="n">V</span> <span class="o">=</span> <span class="n">generateCarrPurcell</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">4000</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">dummy_dataset</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">V</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cur_exp</span><span class="o">.</span><span class="n">PlsSPELEXPSlct</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Hahn Echo&#39;</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">phases</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="nb">range</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">phases</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="nb">range</span><span class="p">):</span>
                 <span class="n">m</span> <span class="o">=</span> <span class="mi">6</span><span class="o">/</span><span class="nb">range</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
                 <span class="k">return</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c</span>
@@ -528,40 +530,40 @@
             <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">dummy_dataset</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">noise</span><span class="p">)</span>        
         
-    <span class="k">class</span> <span class="nc">XeprCmds</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">XeprCmds</span><span class="p">:</span>
 
-        <span class="k">def</span> <span class="nf">aqPgShowPrg</span><span class="p">():</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgShowPrg</span><span class="p">():</span>
             <span class="c1"># Opens the Pulse Spel Panel, obvs does nothing</span>
             <span class="k">pass</span>
-        <span class="k">def</span> <span class="nf">aqPgCompile</span><span class="p">():</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgCompile</span><span class="p">():</span>
             <span class="c1"># Compiles Pulse Spel, obvs does nothing</span>
             <span class="k">pass</span>
 
-        <span class="k">def</span> <span class="nf">aqExpSelect</span><span class="p">(</span><span class="n">exp</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqExpSelect</span><span class="p">(</span><span class="n">exp</span><span class="p">):</span>
             <span class="c1"># Would normally select the experiment, dummy does nothing</span>
             <span class="k">pass</span>
 
-        <span class="k">def</span> <span class="nf">aqPgLoad</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgLoad</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
             <span class="c1"># Loads the pulse spel program, does nothing</span>
             <span class="k">pass</span>
         
-        <span class="k">def</span> <span class="nf">aqPgDefLoad</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgDefLoad</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
             <span class="c1"># Loas the pulse spel definitions file, does nothing</span>
             <span class="k">pass</span>
 
-        <span class="k">def</span> <span class="nf">aqPgDefSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgDefSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">pass</span>
 
-        <span class="k">def</span> <span class="nf">aqPgSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">aqPgSaveAs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">pass</span>
         
-        <span class="k">def</span> <span class="nf">vpSave</span><span class="p">(</span><span class="n">viewpoint</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span><span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span><span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">vpSave</span><span class="p">(</span><span class="n">viewpoint</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span><span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span><span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
             <span class="k">pass</span>
 
-<span class="k">class</span> <span class="nc">dummy_hidden</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_hidden</span><span class="p">:</span>
     <span class="c1"># This is a dummy version of the hidden class containing the extra current experiment features</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SignalPhase</span> <span class="o">=</span> <span class="n">dummy_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4095</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="n">rand</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4096</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">BrXPhase</span> <span class="o">=</span> <span class="n">dummy_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="n">rand</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">BrYPhase</span> <span class="o">=</span> <span class="n">dummy_param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="n">rand</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
@@ -576,7 +578,7 @@
         <span class="k">pass</span>
 
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This method returns a given parameter class for the name provided</span>
 
 <span class="sd">        :param name: The name of parameter needed</span>
@@ -589,7 +591,7 @@
             <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">getParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extracts a paremeter from the current exeperiment</span>
 
 <span class="sd">        :param name: The name of the parameter to be extracted</span>
@@ -599,9 +601,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">dummy_dataset</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">dummy_dataset</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">V</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">V</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">O</span> <span class="o">=</span> <span class="n">V</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -622,7 +624,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -642,7 +644,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

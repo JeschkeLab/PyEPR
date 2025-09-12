@@ -1,7 +1,7 @@
 pyepr.sequences.HahnEchoSequence
 ================================
 
-.. py:class:: pyepr.sequences.HahnEchoSequence(*, B, LO, reptime, averages, shots, **kwargs)
+.. py:class:: pyepr.sequences.HahnEchoSequence(*, B, freq, reptime, averages, shots, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -18,8 +18,8 @@ pyepr.sequences.HahnEchoSequence
        **B** : int or float
            The B0 field, in Guass
 
-       **LO** : int or float
-           The LO frequency in GHz
+       **freq** : int or float
+           The freq frequency in GHz
 
        **reptime** : _type_
            The shot repetition time in us

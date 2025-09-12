@@ -82,7 +82,7 @@ Module Contents
    :value: ['#D95B6F', '#42A399']
 
 
-.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap)
+.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap, labels=None)
 
    
    Create a superimposed plot of relaxation data and fits.

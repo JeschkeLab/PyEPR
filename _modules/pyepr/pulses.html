@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.pulses - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.pulses - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,28 +250,115 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.pulses</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyepr.classes</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">pyepr.utils</span> <span class="kn">import</span> <span class="n">build_table</span><span class="p">,</span> <span class="n">sop</span><span class="p">,</span> <span class="n">autoEPRDecoder</span>
-<span class="kn">from</span> <span class="nn">memoization</span> <span class="kn">import</span> <span class="n">cached</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
-<span class="kn">import</span> <span class="nn">numbers</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy.fft</span> <span class="k">as</span> <span class="nn">fft</span>
-<span class="kn">from</span> <span class="nn">pyepr</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">accumulate</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_table</span><span class="p">,</span> <span class="n">sop</span><span class="p">,</span> <span class="n">autoEPRDecoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">memoization</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.fft</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fft</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">accumulate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
 
-<span class="k">class</span> <span class="nc">Pulse</span><span class="p">:</span>
+<span class="c1">#@njit</span>
+<div class="viewcode-block" id="compute_upulses_not_trajectory">
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_upulses_not_trajectory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_not_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
+    <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dUs</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_offsets</span><span class="p">):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">dUs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span>
+        <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="k">return</span> <span class="n">Upulses</span></div>
+
+
+<span class="c1">#@njit</span>
+<div class="viewcode-block" id="compute_upulses_trajectory">
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_upulses_trajectory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
+    <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dUs</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">eye</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_offsets</span><span class="p">):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">eye</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">dUs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span>
+            <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="k">return</span> <span class="n">Upulses</span></div>
+
+
+<span class="c1">#@njit</span>
+<div class="viewcode-block" id="compute_magnetization_not_trajectory">
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_magnetization_not_trajectory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_not_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Mmag</span><span class="p">):</span>
+    <span class="n">n_offsets</span> <span class="o">=</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">Mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_offsets</span><span class="p">):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">density_i</span> <span class="o">=</span> <span class="n">density0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+       
+        <span class="c1"># Ensure density_i is contiguous</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">density_i</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
+            <span class="n">density_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">density_i</span><span class="p">)</span>
+       
+        <span class="c1"># Compute U_conj_T and ensure it&#39;s contiguous</span>
+        <span class="n">U_conj_T</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">U_conj_T</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
+            <span class="n">U_conj_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">U_conj_T</span><span class="p">)</span>
+        
+        <span class="c1"># Ensure U is contiguous</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">U</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+       
+        <span class="n">D</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">density_i</span> <span class="o">@</span> <span class="n">U_conj_T</span>
+        <span class="n">density</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span>
+
+        <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+        <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
+        <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="o">-</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="k">return</span> <span class="n">Mag</span> <span class="o">*</span> <span class="n">Mmag</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<span class="c1">#@njit</span>
+<div class="viewcode-block" id="compute_magnetization_trajectory">
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_magnetization_trajectory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">):</span>
+    <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">=</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">Mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_offsets</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">density0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">density</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span>
+
+            <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
+            <span class="n">Mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="o">-</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="k">return</span> <span class="n">Mag</span></div>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Pulse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a general experimental pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                  <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The class for a general pulse.</span>
 
@@ -320,7 +409,7 @@
         <span class="k">pass</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">BW</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;Bandwidth&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Bandwidth of pulse&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">):</span>
             <span class="n">BW</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span><span class="mi">0</span>
@@ -330,7 +419,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">BW</span>
     
-    <span class="k">def</span> <span class="nf">_addPhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">detections</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addPhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">detections</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Adds a phase cycle to the pulse sequence.</span>
 
@@ -346,7 +435,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">pcyc</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Phases&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">phases</span><span class="p">),</span> <span class="s2">&quot;DetSigns&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">detections</span><span class="p">)}</span>
             <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Builds the amplitude modulation (AM) and frequency modulation (FM) of a given function.</span>
 
@@ -366,23 +455,46 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FM</span>
     
     
-    <span class="k">def</span> <span class="nf">build_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the time domain representation of the pulse shape, using the method `func`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : np.ndarray, optional</span>
+<span class="sd">            The axis to build the shape on. If None, uses the internal `ax` attribute.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span>
+
         <span class="n">dt</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">pulse_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="n">dt</span><span class="p">))</span>
         <span class="n">total_points</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">remaining_points</span> <span class="o">=</span> <span class="n">total_points</span><span class="o">-</span><span class="n">pulse_points</span>
-        <span class="n">pulse_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pulse_points</span><span class="p">)</span>
-        <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">pulse_axis</span><span class="p">)</span>
-        <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">AM</span><span class="p">,(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">remaining_points</span><span class="o">/</span><span class="mi">2</span><span class="p">)),</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">remaining_points</span><span class="o">/</span><span class="mi">2</span><span class="p">))),</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span><span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">FM</span><span class="p">,(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">remaining_points</span><span class="o">/</span><span class="mi">2</span><span class="p">)),</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">remaining_points</span><span class="o">/</span><span class="mi">2</span><span class="p">))),</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span><span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">FM_arg</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">AM</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">FM_arg</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">FM_arg</span><span class="p">))</span>
- 
-        <span class="k">return</span> <span class="n">shape</span>
+        <span class="n">pad_points</span> <span class="o">=</span> <span class="n">total_points</span> <span class="o">-</span> <span class="n">pulse_points</span>
 
-    <span class="k">def</span> <span class="nf">build_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pulse_axis = np.zeros(pulse_points)</span>
+        <span class="n">pulse_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">pulse_points</span><span class="p">)</span>
+        <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">pulse_axis</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pad_points</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pre_pad_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">pad_points</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">post_pad_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">pad_points</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">AM</span><span class="p">,(</span><span class="n">pre_pad_points</span><span class="p">,</span><span class="n">post_pad_points</span><span class="p">),</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span><span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">FM</span><span class="p">,(</span><span class="n">pre_pad_points</span><span class="p">,</span><span class="n">post_pad_points</span><span class="p">),</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span><span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">full_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">total_points</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">full_axis</span> <span class="o">=</span> <span class="n">pulse_axis</span>
+        <span class="n">cum_phase</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">AM</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">cum_phase</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">cum_phase</span><span class="p">))</span>
+        
+        
+        <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">full_axis</span><span class="p">,</span> <span class="n">shape</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">shape</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Builds a table of variables, axes, and UUIDs for all non-static Parameters in the object.</span>
 
@@ -403,7 +515,7 @@
             <span class="k">return</span> <span class="n">progTable</span>
 
     
-    <span class="k">def</span> <span class="nf">is_static</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_static</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Check if all parameters in the pulse object are static.</span>
 
@@ -416,7 +528,7 @@
                     <span class="k">return</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">isDelayFocused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isDelayFocused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Does the pulse contain a specified time, `t`?</span>
 
@@ -427,7 +539,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
     
-    <span class="k">def</span> <span class="nf">isPulseFocused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isPulseFocused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Does the pulse contain a specified time, `t`?</span>
 
@@ -438,7 +550,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the time domain representation of this pulse.</span>
 
 <span class="sd">        Parameters</span>
@@ -464,7 +576,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude (A.U.)&quot;</span><span class="p">)</span>
         <span class="k">pass</span>
     
-    <span class="k">def</span> <span class="nf">_calc_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calc_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pad</span><span class="p">))</span>
         <span class="n">pulse_fft</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
@@ -474,14 +586,19 @@
 
         <span class="k">return</span> <span class="n">axis_fft</span><span class="p">,</span> <span class="n">pulse_fft</span>
     
+    <span class="k">def</span><span class="w"> </span><span class="nf">flip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Flips the sweep direction of the pulse. Has no meaning for monochromatic pulses.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">amp_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">amp_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The B1 amplitude factor (nutation frequency) for the pulse in GHz&quot;&quot;&quot;</span>
         <span class="n">amp_factor_value</span><span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;amp_factor&quot;</span><span class="p">,</span> <span class="n">amp_factor_value</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Amplitude factor for the pulse&quot;</span><span class="p">)</span>
+    
 
     <span class="c1"># @cached(thread_safe=False)</span>
-    <span class="k">def</span> <span class="nf">exciteprofile_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resonator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exciteprofile_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resonator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Excitation profile</span>
 
 <span class="sd">        Generates the exciatation profiles for this pulse.</span>
@@ -550,7 +667,7 @@
 
         <span class="k">if</span> <span class="n">resonator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">FM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FM</span>
-            <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">LO_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+            <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">freq_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
             <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">amp_factor</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">amp_factor</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">ISignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
             <span class="n">QSignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
@@ -582,8 +699,8 @@
         
         <span class="k">return</span> <span class="n">Mag</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">Mag</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">Mag</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span>
     
-    <span class="nd">@cached</span><span class="p">(</span><span class="n">thread_safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">exciteprofile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resonator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trajectory</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># @cached(thread_safe=False)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exciteprofile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resonator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trajectory</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Excitation profile</span>
 
 <span class="sd">        Generates the exciatation profiles for this pulse, using the two-level system model developed by Jeschke et al. [1].</span>
@@ -631,8 +748,16 @@
         
         <span class="k">if</span> <span class="n">resonator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">FM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FM</span>
-            <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">LO_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
-            <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">amp_factor</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">amp_factor</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">freq_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+                <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">amp_factor</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">amp_factor</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;init_freq&#39;</span><span class="p">):</span>
+                    <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">freq_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+                    <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">amp_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
+
             <span class="n">ISignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
             <span class="n">QSignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
 
@@ -669,35 +794,39 @@
         <span class="n">dUs</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">+</span> <span class="n">M</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">trajectory</span><span class="p">:</span>
-            <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">dUs</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dUs</span><span class="p">)):</span>
-                <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="nd">@x</span><span class="p">,</span> <span class="n">dUs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,ikl,ilm-&gt;ijm&#39;</span><span class="p">,</span> <span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-            <span class="n">density</span> <span class="o">=</span> <span class="n">density</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c1"># Upulses = np.empty((len(dUs), 2, 2), dtype=complex)</span>
+            <span class="c1"># for i in range(len(dUs)):</span>
+            <span class="c1">#     Upulses[i] = reduce(lambda x, y: y@x, dUs[i, :-1])</span>
+            <span class="c1"># density = np.einsum(&#39;ijk,ikl,ilm-&gt;ijm&#39;, Upulses, density0, Upulses.conj().transpose((0, 2, 1)))</span>
+            <span class="c1"># density = density.transpose((0, 2, 1))</span>
 
-            <span class="n">Mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">2</span> <span class="o">*</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>             <span class="c1"># 2 * (Sx[None, :, :] * density).sum(axis=(1, 2)).real</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>             <span class="c1"># 2 * (Sy[None, :, :] * density).sum(axis=(1, 2)).real</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># 2 * (Sz[None, :, :] * density).sum(axis=(1, 2)).real</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">Mag</span> <span class="o">*</span> <span class="n">Mmag</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>
+            <span class="c1"># Mag = np.zeros((len(offsets), 3))</span>
+            <span class="c1"># Mag[..., 0] =  2 * density[..., 0, 1].real             # 2 * (Sx[None, :, :] * density).sum(axis=(1, 2)).real</span>
+            <span class="c1"># Mag[..., 1] = -2 * density[..., 1, 0].imag             # 2 * (Sy[None, :, :] * density).sum(axis=(1, 2)).real</span>
+            <span class="c1"># Mag[..., 2] =  density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, :, :] * density).sum(axis=(1, 2)).real</span>
+            <span class="c1"># return np.squeeze(Mag * Mmag[:, None])</span>
+            <span class="n">Upulses</span> <span class="o">=</span> <span class="n">compute_upulses_not_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">)</span>
+            <span class="n">Mag</span> <span class="o">=</span> <span class="n">compute_magnetization_not_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Mmag</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">Mag</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">dUs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dUs</span><span class="p">)):</span>
-                <span class="n">Upulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">+</span>  <span class="nb">list</span><span class="p">((</span><span class="n">accumulate</span><span class="p">(</span><span class="n">dUs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span> <span class="o">@</span> <span class="n">x</span><span class="p">)))</span>
+            <span class="c1"># Upulses = np.empty((len(dUs), len(t), 2, 2), dtype=complex)</span>
+            <span class="c1"># for i in range(len(dUs)):</span>
+            <span class="c1">#     Upulses[i] = [np.eye(2)] +  list((accumulate(dUs[i, :-1], lambda x, y: y @ x)))</span>
 
-            <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;hijk,hkl,hilm-&gt;hijm&#39;</span><span class="p">,</span> <span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-            <span class="n">density</span> <span class="o">=</span> <span class="n">density</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="c1"># density = np.einsum(&#39;hijk,hkl,hilm-&gt;hijm&#39;, Upulses, density0, Upulses.conj().transpose((0, 1, 3, 2)))</span>
+            <span class="c1"># density = density.transpose((0, 1, 3, 2))</span>
 
-            <span class="n">Mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="c1"># 2 * (Sx[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="c1"># 2 * (Sy[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
-            <span class="n">Mag</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">density</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># 2 * (Sz[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
-
+            <span class="c1"># Mag = np.zeros((len(offsets), len(t), 3))</span>
+            <span class="c1"># Mag[..., 0] = 2 * density[..., 0, 1].real # 2 * (Sx[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
+            <span class="c1"># Mag[..., 1] = -2 * density[..., 1, 0].imag # 2 * (Sy[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
+            <span class="c1"># Mag[..., 2] = density[..., 0, 0] - density[..., 1, 1] # 2 * (Sz[None, None, :, :] * density).sum(axis=(2, 3)).real</span>
+            <span class="n">Upulses</span> <span class="o">=</span> <span class="n">compute_upulses_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">)</span>
+            <span class="n">Mag</span> <span class="o">=</span> <span class="n">compute_magnetization_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Mag</span>
 
 
 
-    <span class="k">def</span> <span class="nf">plot_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 
         <span class="n">ax</span><span class="p">,</span> <span class="n">ft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_fft</span><span class="p">(</span><span class="mf">1e4</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">ft</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Re&quot;</span><span class="p">)</span>
@@ -708,7 +837,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude (A.U.)&quot;</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_pcyc_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pcyc_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pcyc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pcyc_table</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span>
@@ -743,7 +872,7 @@
 
         <span class="k">return</span> <span class="n">pcyc_table</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Build header line</span>
         <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;autoDEER Pulse Definition&quot;</span> <span class="o">+</span> \
                  <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -828,7 +957,7 @@
 
         <span class="k">return</span> <span class="n">string</span>
 
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a deep-copy of the pulse. I.e. Every parameter object is</span>
 <span class="sd">        re-created at another memory space.</span>
 
@@ -895,7 +1024,7 @@
         <span class="k">return</span> <span class="n">new_pulse</span>
     
 
-    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">to_return</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Pulse&quot;</span><span class="p">,</span> <span class="s2">&quot;subclass&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))}</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -906,9 +1035,9 @@
 
         <span class="k">return</span> <span class="n">to_return</span>
     
-    <span class="k">def</span> <span class="nf">_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">class</span> <span class="nc">autoEPREncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span><span class="w"> </span><span class="nc">autoEPREncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
                         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -933,7 +1062,7 @@
         
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">autoEPREncoder</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the Pulse to a JSON file.</span>
 
 <span class="sd">        Parameters</span>
@@ -960,7 +1089,7 @@
            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_json</span><span class="p">())</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
         <span class="n">new_pulse</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;tp&quot;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">var</span><span class="p">):</span>
@@ -975,12 +1104,12 @@
         <span class="k">return</span> <span class="n">new_pulse</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">JSONstring</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">JSONstring</span><span class="p">):</span>
         <span class="n">dct</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">JSONstring</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">autoEPRDecoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
     
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a Pulse object from a JSON file.</span>
 
 <span class="sd">        Parameters</span>
@@ -1012,12 +1141,12 @@
 
 <span class="c1"># =============================================================================</span>
 
-<span class="k">class</span> <span class="nc">Detection</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Detection</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a detection pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A general detection pulse.</span>
 
 <span class="sd">        Parameters</span>
@@ -1042,14 +1171,14 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">Delay</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Delay</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    DEPRECATION WARNING: THIS WILL BE REMOVED SOON.</span>
 <span class="sd">    </span>
 <span class="sd">    Represents a inter-pulse delay pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         
         <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Start time of pulse&quot;</span><span class="p">)</span>
@@ -1062,12 +1191,12 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">RectPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RectPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a rectangular monochromatic pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
@@ -1088,18 +1217,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>
         <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
 
-<span class="k">class</span> <span class="nc">GaussianPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a Gaussian monochromatic pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">FWHM</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">FWHM</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;    Represents a Gaussian monochromatic pulse.</span>
 
 <span class="sd">        Parameters</span>
@@ -1117,19 +1246,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FWHM</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ax</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
 <span class="c1"># =============================================================================</span>
-<span class="k">class</span> <span class="nc">FrequencySweptPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FrequencySweptPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A general parent class for Frequency Swept Pulses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">flipangle</span><span class="o">=</span><span class="n">flipangle</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="n">pcyc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1154,29 +1283,36 @@
         
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">Qcrit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Qcrit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The critical Q factor for the pulse.&quot;&quot;&quot;</span>
         <span class="n">Qcrit</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span>
         <span class="n">Qcrit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">Qcrit</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;Qcrit&quot;</span><span class="p">,</span> <span class="n">Qcrit</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Critical Q factor for the pulse&quot;</span><span class="p">)</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The sweep rate of the pulse in GHz/ns&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This property must be implemented in the subclass&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">amp_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">amp_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The B1 amplitude factor (nutation frequency) for the pulse in GHz&quot;&quot;&quot;</span>
         <span class="n">amp_factor_value</span><span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Qcrit</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sweeprate</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;amp_factor&quot;</span><span class="p">,</span> <span class="n">amp_factor_value</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Amplitude factor for the pulse&quot;</span><span class="p">)</span>
     
+    <span class="k">def</span><span class="w"> </span><span class="nf">flip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Flips the sweep direction of the pulse&quot;&quot;&quot;</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">temp</span>
+        <span class="k">return</span> <span class="bp">self</span>
+        
 
-<span class="k">class</span> <span class="nc">HSPulse</span><span class="p">(</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HSPulse</span><span class="p">(</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a hyperboilc secant frequency-swept pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">order1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order2</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">order1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order2</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">FrequencySweptPulse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;HSPulse&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order1</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
             <span class="s2">&quot;order1&quot;</span><span class="p">,</span> <span class="n">order1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Order 1 of the HS Pulse&quot;</span><span class="p">)</span>
@@ -1188,7 +1324,7 @@
         <span class="k">pass</span>
 
 
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">value</span>
         <span class="n">order1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order1</span><span class="o">.</span><span class="n">value</span>
         <span class="n">order2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order2</span><span class="o">.</span><span class="n">value</span>
@@ -1224,25 +1360,25 @@
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">freq</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The sweep rate of the pulse in GHz/ns&quot;&quot;&quot;</span>
         <span class="n">sweeprate_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;sweeprate&quot;</span><span class="p">,</span> <span class="n">sweeprate_value</span><span class="p">,</span> <span class="s2">&quot;GHz/ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Sweep rate of the pulse&quot;</span><span class="p">)</span>
 
 <span class="c1"># =============================================================================</span>
 
-<span class="k">class</span> <span class="nc">ChirpPulse</span><span class="p">(</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChirpPulse</span><span class="p">(</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a linear frequency-swept pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">FrequencySweptPulse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ChirpPulse&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>
 
@@ -1252,16 +1388,65 @@
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The sweep rate of the pulse in GHz/ns&quot;&quot;&quot;</span>
         <span class="n">sweeprate_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;sweeprate&quot;</span><span class="p">,</span> <span class="n">sweeprate_value</span><span class="p">,</span> <span class="s2">&quot;GHz/ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Sweep rate of the pulse&quot;</span><span class="p">)</span>
 <span class="c1"># =============================================================================</span>
 
-<span class="k">class</span> <span class="nc">SincPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WURSTPulse</span><span class="p">(</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a WURST frequency-swept pulse.</span>
+
+<span class="sd">    Equations:</span>
+
+<span class="sd">    The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:</span>
+<span class="sd">    .. math::</span>
+<span class="sd">        AM(t) = 1 - \left|\sin\left(\frac{\pi}{tp} \cdot t\right)\right|^{order}</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        FM(t) = \frac{BW t}{tp} + init\_freq</span>
+<span class="sd">    where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`init_freq` is the initial frequency of the pulse, and :math:`order` is the order of the WURST pulse.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tp : int, optional</span>
+<span class="sd">        Pulse length in ns, by default 128</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">        The order of the WURST pulse, by default 32</span>
+<span class="sd">    **kwargs : dict, optional</span>
+<span class="sd">        Additional keyword arguments to pass to the default pulse class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">FrequencySweptPulse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ChirpPulse&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;Order&quot;</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;The order of the WURST pulse&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">ax</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span><span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The sweep rate of the pulse in GHz/ns&quot;&quot;&quot;</span>
+        <span class="n">sweeprate_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;sweeprate&quot;</span><span class="p">,</span> <span class="n">sweeprate_value</span><span class="p">,</span> <span class="s2">&quot;GHz/ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Sweep rate of the pulse&quot;</span><span class="p">)</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SincPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;    Represents a sinc shaped monochromatic pulse.</span>
 
 
@@ -1288,7 +1473,7 @@
         <span class="k">pass</span>
 
 
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">ax</span><span class="p">)</span>
@@ -1325,12 +1510,41 @@
 <span class="c1">#         AM = np.exp(-ax**2/(((self.tp.value/2)**2)/(-1*np.log(0.001))))</span>
 
 <span class="c1">#         return AM, FM</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CPMGDetection</span><span class="p">(</span><span class="n">Detection</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CPMGDetection Implements a Carr-Purcell-Meiboom-Gill (CPMG) detection sequence.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_echoes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">echo_spacing</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A CPMG detection pulse.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tp : float</span>
+<span class="sd">            The **total** time of each detection event. The detection event will</span>
+<span class="sd">            be symetrical about the centre time. </span>
+<span class="sd">        t : float, optional</span>
+<span class="sd">            The **centre** time of the first detection event</span>
+<span class="sd">        freq: float, optional</span>
+<span class="sd">            The detection frequency, not all spectrometer support this </span>
+<span class="sd">            functionality, by default 0 MHz</span>
+<span class="sd">        n_echoes : int, optional</span>
+<span class="sd">            Number of echoes in the CPMG sequence, by default 1</span>
+<span class="sd">        echo_spacing : float, optional</span>
+<span class="sd">            Spacing between echoes in ns, by default 100 ns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_echoes</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;n_echoes&quot;</span><span class="p">,</span> <span class="n">n_echoes</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Number of echoes in the CPMG sequence&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">echo_spacing</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;echo_spacing&quot;</span><span class="p">,</span> <span class="n">echo_spacing</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Spacing between echoes in the CPMG sequence&quot;</span><span class="p">)</span>
+
     
 <span class="c1"># =============================================================================</span>
 
 <div class="viewcode-block" id="build_default_pulses">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.build_default_pulses">[docs]</a>
-<span class="k">def</span> <span class="nf">build_default_pulses</span><span class="p">(</span><span class="n">AWG</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">SPFU</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">tp</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.build_default_pulses">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_default_pulses</span><span class="p">(</span><span class="n">AWG</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">SPFU</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">tp</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">SPFU</span><span class="p">:</span>
         <span class="n">tp_pi</span> <span class="o">=</span> <span class="n">tp</span><span class="o">*</span><span class="mi">2</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1373,7 +1587,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1393,7 +1607,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

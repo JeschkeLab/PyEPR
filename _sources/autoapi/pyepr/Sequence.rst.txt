@@ -1,7 +1,7 @@
 pyepr.Sequence
 ==============
 
-.. py:class:: pyepr.Sequence(*, name, B, LO, reptime, averages, shots, **kwargs)
+.. py:class:: pyepr.Sequence(*, name, B, reptime, averages, shots, LO=None, freq=None, **kwargs)
 
    Represents an experimental pulse sequence.
 
@@ -17,7 +17,7 @@ pyepr.Sequence
        **B** : float
            The magnetic field for this sequence in Gauss.
 
-       **LO** : float
+       **freq** : float
            The central frequency of this sequence. I.e. The frequnecy at which
            a zero offset pulse is at. 
 
@@ -29,6 +29,9 @@ pyepr.Sequence
 
        **shots** : itn
            The number of shots per point.
+
+       **LO** : float
+           The now deprecated local oscillator frequency. freq should be used.
 
 
 
@@ -53,6 +56,8 @@ pyepr.Sequence
 
 
    .. py:attribute:: num_pulses
+      :value: 0
+
 
 
    .. py:attribute:: axes_uuid
@@ -63,9 +68,6 @@ pyepr.Sequence
    .. py:attribute:: reduce_uuid
       :value: []
 
-
-
-   .. py:attribute:: LO
 
 
    .. py:attribute:: averages
@@ -186,6 +188,34 @@ pyepr.Sequence
 
 
    .. py:property:: seqtable_steps
+
+
+   .. py:property:: shape
+
+      
+      Gives the shape of the sequence,excluding the number of shots. 
+      Return
+      ------
+      list:
+          [nAvgs, axes_dims, nPcyc]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: adjust_step(waveform_precision)

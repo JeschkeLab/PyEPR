@@ -52,6 +52,30 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
           !! processed by numpydoc !!
 
 
+   .. py:method:: log_xepr_version()
+
+      
+      Logs the Xepr and Linacq versions for debugging purposes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
    .. py:method:: _set_Xepr_global(Xepr_inst)
 
 
@@ -143,7 +167,7 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
           !! processed by numpydoc !!
 
 
-   .. py:method:: acquire_scan(sequence=None)
+   .. py:method:: acquire_scan(sequence=None, after_scan=None, restart_exp=True)
 
       
       This script detects the end of the scan and acquires the data set. 
@@ -507,6 +531,30 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
           !! processed by numpydoc !!
 
 
+   .. py:method:: center_field()
+
+      
+      Centers the field
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
    .. py:method:: set_field(val, hold = True)
 
       
@@ -822,6 +870,9 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
 
       ..
           !! processed by numpydoc !!
+
+
+   .. py:method:: get_video_gain_step()
 
 
    .. py:method:: set_video_gain(value)

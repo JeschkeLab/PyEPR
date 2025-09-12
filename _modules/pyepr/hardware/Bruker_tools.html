@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.Bruker_tools - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.Bruker_tools - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,6 +206,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -248,16 +250,16 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyepr.hardware.Bruker_tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyepr.sequences</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">pyepr.pulses</span> <span class="kn">import</span> <span class="n">RectPulse</span><span class="p">,</span> <span class="n">Delay</span><span class="p">,</span> <span class="n">Detection</span>
-<span class="kn">from</span> <span class="nn">pyepr.utils</span> <span class="kn">import</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">val_in_ns</span><span class="p">,</span> <span class="n">val_in_us</span><span class="p">,</span> <span class="n">transpose_list_of_dicts</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">from</span> <span class="nn">pyepr</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.sequences</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectPulse</span><span class="p">,</span> <span class="n">Delay</span><span class="p">,</span> <span class="n">Detection</span><span class="p">,</span> <span class="n">ChirpPulse</span><span class="p">,</span> <span class="n">Pulse</span><span class="p">,</span> <span class="n">GaussianPulse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">val_in_ns</span><span class="p">,</span> <span class="n">val_in_us</span><span class="p">,</span> <span class="n">transpose_list_of_dicts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <div class="viewcode-block" id="MODULE_DIR">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.MODULE_DIR">[docs]</a>
@@ -277,17 +279,27 @@
      <span class="sa">f</span><span class="s2">&quot;Auto-generated PulseSpel </span><span class="se">{{}}</span><span class="s2"> file by autoDEER </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 <span class="n">header</span> <span class="o">+=</span> <span class="s2">&quot;; &quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_specjet_data</span><span class="p">(</span><span class="n">interface</span><span class="p">):</span>
+    <span class="n">n_points</span>  <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">aqGetParDimSize</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data1&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">array</span>
+
+
 <span class="c1"># =============================================================================</span>
 
-<span class="k">class</span> <span class="nc">PSPhaseCycle</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PSPhaseCycle</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">OnlyDet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">OnlyDet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">BPhaseCycles</span> <span class="o">=</span> <span class="p">[]</span>
         
         <span class="k">if</span> <span class="n">MPFU</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pulse_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MPFU</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pulse_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_main</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+            <span class="n">pulse_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_main</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">OnlyDet</span><span class="p">)</span>
         
         <span class="n">detect_dicts</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_detect</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">OnlyDet</span><span class="p">:</span>
@@ -300,7 +312,7 @@
 
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_MPFU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_MPFU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="p">):</span>
         <span class="n">BPhaseCycles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">pulse</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="o">==</span> <span class="n">Delay</span><span class="p">:</span>
@@ -319,7 +331,7 @@
         
         <span class="k">return</span> <span class="n">BPhaseCycles</span>
     
-    <span class="k">def</span> <span class="nf">_main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span><span class="n">OnlyDet</span><span class="p">):</span>
         <span class="n">num_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_vars</span><span class="p">)</span>
         <span class="n">num_cycles</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_dets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -329,7 +341,7 @@
             <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="nb">dict</span><span class="p">[</span><span class="s2">&quot;Pulse&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="nb">dict</span><span class="p">[</span><span class="s2">&quot;Cycle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pcyc</span><span class="p">[</span><span class="s2">&quot;Channels&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ELDOR&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">OnlyDet</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pcyc</span><span class="p">[</span><span class="s2">&quot;Channels&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ELDOR&quot;</span><span class="p">):</span>
                 <span class="nb">dict</span><span class="p">[</span><span class="s2">&quot;Cycle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ELDOR&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_cycles</span><span class="p">):</span>
@@ -348,7 +360,7 @@
 
         <span class="k">return</span> <span class="n">BPhaseCycles</span>
 
-    <span class="k">def</span> <span class="nf">_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
         <span class="n">num_cycles</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_dets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">BPhaseCycles</span> <span class="o">=</span> <span class="p">[]</span>
@@ -378,7 +390,7 @@
 
 
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">full_str</span> <span class="o">=</span> <span class="s2">&quot;begin lists </span><span class="se">\&quot;</span><span class="s2">auto</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">pcyc_hash</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cycle_dict</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BPhaseCycles</span><span class="p">):</span>
@@ -403,9 +415,9 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">PSparvar</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PSparvar</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="n">progTable</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">progTable</span>
         <span class="n">progTable_n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">progTable</span><span class="p">[</span><span class="s2">&quot;EventID&quot;</span><span class="p">])</span>
@@ -468,7 +480,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">parvar</span> <span class="o">=</span> <span class="n">parvar</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">checkPulseSpel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">checkPulseSpel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if parvar can be run in PulseSpel.\\</span>
 <span class="sd">        Criteria:</span>
 <span class="sd">            1) Only pulse/delay lengths changing</span>
@@ -502,7 +514,7 @@
 
 <div class="viewcode-block" id="convert_progtable">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.convert_progtable">[docs]</a>
-<span class="k">def</span> <span class="nf">convert_progtable</span><span class="p">(</span><span class="n">progtable</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_progtable</span><span class="p">(</span><span class="n">progtable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function reformats the progtable to be compatible with the Bruker_tools. </span>
 <span class="sd">    This is done by converting the axis of each moving pulse to be relative to the previous moving pulse.</span>
@@ -534,7 +546,7 @@
 
 <div class="viewcode-block" id="calc_rel_positions">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.calc_rel_positions">[docs]</a>
-<span class="k">def</span> <span class="nf">calc_rel_positions</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_rel_positions</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calcuates the starting relative positions of all pulses in a sequence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -549,9 +561,9 @@
 <span class="c1"># =============================================================================</span>
 
 
-<span class="k">class</span> <span class="nc">PulseSpel</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PulseSpel</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AWG</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AWG</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_sequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">convert_progtable</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">progTable</span><span class="p">)</span>
@@ -698,22 +710,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cmpl_def</span><span class="p">()</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_new_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_new_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var_hash</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span>
         <span class="k">return</span> <span class="nb">str</span>
     
-    <span class="k">def</span> <span class="nf">_new_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_new_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">possible_vars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var_hash</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span>
         <span class="k">return</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="nf">_new_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_new_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">possible_pulses</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var_hash</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span>
         <span class="k">return</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="n">fdef_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">.def&quot;</span>
         <span class="n">fexp_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">.exp&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fdef_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdef</span><span class="p">:</span>
@@ -729,15 +741,15 @@
 
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_addDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span> <span class="o">+=</span> <span class="nb">str</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_addExp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addExp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">+=</span> <span class="nb">str</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_ExpDefs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ExpDefs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;begin defs </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="nb">str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;dim s[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">] </span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -746,17 +758,17 @@
         <span class="nb">str</span> <span class="o">+=</span> <span class="s2">&quot;end defs </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="nb">str</span>
         
-    <span class="k">def</span> <span class="nf">_addScanLoop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addScanLoop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">=</span> <span class="s2">&quot;for k=1 to n</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">+=</span> <span class="s2">&quot;next k </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_addPhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addPhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pcyc</span> <span class="o">=</span> <span class="n">PSPhaseCycle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPFU</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pcyc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pcyc</span><span class="o">.</span><span class="n">pcyc_hash</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pcyc_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pcyc</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
     
-    <span class="k">def</span> <span class="nf">_addAWGPulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addAWGPulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="n">awg_id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="n">pulse</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="ow">is</span> <span class="n">RectPulse</span><span class="p">:</span>
@@ -769,7 +781,7 @@
                 <span class="n">amplitude</span> <span class="o">=</span> <span class="mi">0</span>
         
 
-        <span class="k">def</span> <span class="nf">add_AWG_line</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">add_AWG_line</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="n">indent</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">repeat</span><span class="p">):</span>
@@ -810,7 +822,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;awg</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span>
         
 
-    <span class="k">def</span> <span class="nf">_check_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Delay</span><span class="p">):</span>
@@ -820,17 +832,17 @@
             <span class="k">elif</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing scale in pulse </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_cmpl_Exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cmpl_Exp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;begin exp </span><span class="se">\&quot;</span><span class="si">{</span><span class="s1">&#39;auto&#39;</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> [INTG QUAD]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>\
              <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exp_file_str</span> <span class="o">+=</span> <span class="s2">&quot;end exp</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_cmpl_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cmpl_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;begin defs </span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span>\
              <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span> <span class="o">+=</span> <span class="s2">&quot;end defs</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">output_str</span> <span class="o">=</span> <span class="s2">&quot;DEF File </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;#&quot;</span><span class="o">*</span><span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">output_str</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_file_str</span>
         <span class="n">output_str</span> <span class="o">+=</span> <span class="s2">&quot;#&quot;</span><span class="o">*</span><span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -845,7 +857,7 @@
 
 <div class="viewcode-block" id="run_general">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.run_general">[docs]</a>
-<span class="k">def</span> <span class="nf">run_general</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_general</span><span class="p">(</span>
         <span class="n">api</span><span class="p">,</span> <span class="n">ps_file</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">exp</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A function to run a general Pulse Spel experiment through autoDeer.</span>
@@ -970,7 +982,7 @@
 
 <div class="viewcode-block" id="change_dimensions">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.change_dimensions">[docs]</a>
-<span class="k">def</span> <span class="nf">change_dimensions</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">new_length</span><span class="p">):</span>    
+<span class="k">def</span><span class="w"> </span><span class="nf">change_dimensions</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">new_length</span><span class="p">):</span>    
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A function to rewrite a pulseSpel experiment file with a new dimension</span>
 
 <span class="sd">    Parameters</span>
@@ -1015,40 +1027,76 @@
         <span class="n">file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_addAWGPulse">
-<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools._addAWGPulse">[docs]</a>
-<span class="k">def</span> <span class="nf">_addAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">pcyc_str</span><span class="p">,</span><span class="n">amp_var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="_add_AWG_line">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools._add_AWG_line">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_AWG_line</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="n">indent</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">repeat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span><span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ele</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                    <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ele</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2">  &quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ele</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elements</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2">  &quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elements</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  &quot;</span>
+    
+    <span class="k">if</span> <span class="n">comment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;;  &quot;</span> <span class="o">+</span> <span class="n">comment</span>
+    
+    <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">string</span></div>
+
+
+<div class="viewcode-block" id="addAWGPulse">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.addAWGPulse">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">addAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span><span class="n">last_awg_pulse_num</span><span class="p">,</span><span class="n">amp_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">SpinJet_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">resonator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">SpinJet_version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">default_pulses</span> <span class="o">=</span> <span class="p">[</span><span class="n">RectPulse</span><span class="p">,</span><span class="n">ChirpPulse</span><span class="p">,</span><span class="n">GaussianPulse</span><span class="p">]</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only SpinJet version 1 is currently supported&quot;</span><span class="p">)</span>
+    
+    <span class="n">pulse</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">resonator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="ow">in</span> <span class="n">default_pulses</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_addDefaultAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">amp_var</span><span class="p">,</span> <span class="n">SpinJet_version</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_addCustomAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">last_awg_pulse_num</span><span class="p">,</span> <span class="n">amp_var</span><span class="p">,</span> <span class="n">SpinJet_version</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="_addDefaultAWGPulse">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools._addDefaultAWGPulse">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_addDefaultAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span><span class="n">amp_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">SpinJet_version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">awg_id</span> <span class="o">=</span> <span class="nb">id</span>
     <span class="n">pulse</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="ow">is</span> <span class="n">RectPulse</span><span class="p">:</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">RectPulse</span><span class="p">):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
         <span class="n">init_freq</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
         <span class="n">final_freq</span> <span class="o">=</span> <span class="n">init_freq</span>
-        <span class="k">if</span> <span class="n">amp_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">ChirpPulse</span><span class="p">):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="c1">#5 on AWG1</span>
+        <span class="n">init_freq</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">final_freq</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">GaussianPulse</span><span class="p">):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+        <span class="n">init_freq</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">final_freq</span> <span class="o">=</span> <span class="n">init_freq</span>
+        
+    <span class="k">if</span> <span class="n">amp_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">amplitude</span> <span class="o">=</span> <span class="n">amp_var</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="s2">&quot;scale&quot;</span><span class="p">):</span>
+            <span class="n">amplitude</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="s2">&quot;scale&quot;</span><span class="p">):</span>
-                <span class="n">amplitude</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">amplitude</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">amplitude</span> <span class="o">=</span> <span class="mi">0</span>
         
-
-    <span class="k">def</span> <span class="nf">add_AWG_line</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="n">indent</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">repeat</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span><span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
-                    <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ele</span><span class="si">:</span><span class="s2">&lt;4</span><span class="si">}</span><span class="s2">  &quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elements</span><span class="si">:</span><span class="s2">&lt;4</span><span class="si">}</span><span class="s2">  &quot;</span>
-        
-        <span class="k">if</span> <span class="n">comment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;;  &quot;</span> <span class="o">+</span> <span class="n">comment</span>
-        
-        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">string</span>
-
     <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     
     <span class="c1"># phase = np.round(np.degrees(pulse.pcyc[&quot;Phases&quot;]))</span>
@@ -1057,26 +1105,66 @@
     <span class="n">num_cycles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
     
     <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;begin awg</span><span class="si">{</span><span class="n">awg_id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">string</span> <span class="o">+=</span> <span class="n">add_AWG_line</span><span class="p">(</span>
-        <span class="n">init_freq</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Initial Frequency [MHz]&quot;</span><span class="p">)</span>
-    <span class="n">string</span> <span class="o">+=</span> <span class="n">add_AWG_line</span><span class="p">(</span>
-        <span class="n">final_freq</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Final Frequency [MHz]&quot;</span><span class="p">)</span>
-    <span class="n">string</span> <span class="o">+=</span> <span class="n">add_AWG_line</span><span class="p">(</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="n">init_freq</span> <span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Initial Frequency [MHz]&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="n">final_freq</span> <span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Final Frequency [MHz]&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
         <span class="n">phase</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
-    <span class="n">string</span> <span class="o">+=</span> <span class="n">add_AWG_line</span><span class="p">(</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
         <span class="n">amplitude</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
-    <span class="n">string</span> <span class="o">+=</span> <span class="n">add_AWG_line</span><span class="p">(</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
         <span class="n">shape</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Shape&quot;</span><span class="p">)</span>
     <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;end awg</span><span class="si">{</span><span class="n">awg_id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="n">pcyc_str</span> <span class="o">+=</span> <span class="n">string</span>
+    <span class="k">return</span> <span class="n">string</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;awg</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[]</span></div>
 
-    <span class="k">return</span> <span class="n">pcyc_str</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;awg</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="_addCustomAWGPulse">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools._addCustomAWGPulse">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_addCustomAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">last_awg_pulse_num</span><span class="p">,</span> <span class="n">amp_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">SpinJet_version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">awg_pulse_min</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">awg_id</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="n">pulse</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span>
+    <span class="n">pulses_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pulses_idx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_cycles</span><span class="p">[:,</span><span class="n">sequence</span><span class="o">.</span><span class="n">pcyc_vars</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">pulse_num</span><span class="p">)]))</span>
+    <span class="n">num_cycles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">amp_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">amplitude</span> <span class="o">=</span> <span class="n">amp_var</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="s2">&quot;scale&quot;</span><span class="p">):</span>
+            <span class="n">amplitude</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">100</span> <span class="c1"># convert from 0-&gt;1 to %</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">amplitude</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">SpinJet_version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">phase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">phases</span><span class="p">):</span>
+            <span class="n">awg_pulse_num</span> <span class="o">=</span> <span class="n">last_awg_pulse_num</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="n">awg_pulse_min</span>
+            <span class="n">pulses_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">write_shape_file</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">phase_shift</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="n">awg_pulse_num</span><span class="p">))</span>
+            <span class="n">pulses_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">awg_pulse_num</span><span class="p">)</span>
+        
+    <span class="n">string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;begin awg</span><span class="si">{</span><span class="n">awg_id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Initial Frequency [MHz]&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Final Frequency [MHz]&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="n">amplitude</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">num_cycles</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="n">_add_AWG_line</span><span class="p">(</span>
+        <span class="n">pulses_idx</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Shape&quot;</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;end awg</span><span class="si">{</span><span class="n">awg_id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="n">string</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;awg</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pulses_shapes</span></div>
+
 
 
 <div class="viewcode-block" id="get_arange">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.get_arange">[docs]</a>
-<span class="k">def</span> <span class="nf">get_arange</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_arange</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The array must be 1D&quot;</span><span class="p">)</span>
 
@@ -1092,7 +1180,7 @@
 
 <div class="viewcode-block" id="build_unique_progtable">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.build_unique_progtable">[docs]</a>
-<span class="k">def</span> <span class="nf">build_unique_progtable</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_unique_progtable</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
     <span class="n">progtable</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">progTable</span>
     <span class="n">unique_axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">progtable</span><span class="p">[</span><span class="s2">&quot;axID&quot;</span><span class="p">])</span>
     <span class="n">u_progtable</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1202,7 +1290,7 @@
 
 <div class="viewcode-block" id="check_variable">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.check_variable">[docs]</a>
-<span class="k">def</span> <span class="nf">check_variable</span><span class="p">(</span><span class="n">var</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">uprog</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_variable</span><span class="p">(</span><span class="n">var</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">uprog</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">uprog</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">up</span> <span class="ow">in</span> <span class="n">uprog</span><span class="p">:</span>
@@ -1218,8 +1306,9 @@
     
 <div class="viewcode-block" id="determine_TWT_split">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.determine_TWT_split">[docs]</a>
-<span class="k">def</span> <span class="nf">determine_TWT_split</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">MaxGate</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">determine_TWT_split</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">MaxGate</span><span class="p">):</span>
     <span class="n">n_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">)</span>
+    
     <span class="n">uprogtable</span> <span class="o">=</span> <span class="n">build_unique_progtable</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
     <span class="n">TWT_gate_max</span> <span class="o">=</span> <span class="n">MaxGate</span> <span class="o">*</span><span class="mf">1e3</span>
 
@@ -1244,7 +1333,7 @@
     
 <div class="viewcode-block" id="write_pulsespel_file">
 <a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.write_pulsespel_file">[docs]</a>
-<span class="k">def</span> <span class="nf">write_pulsespel_file</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">d0</span><span class="p">,</span> <span class="n">AWG</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">MaxGate</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_pulsespel_file</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">d0</span><span class="p">,</span> <span class="n">AWG</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">MaxGate</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Write the pulsespel file for a given sequence. </span>
 
 <span class="sd">    Parameters</span>
@@ -1266,7 +1355,12 @@
 <span class="sd">        The string for the experiment file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="n">split_point</span> <span class="o">=</span> <span class="n">determine_TWT_split</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">MaxGate</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">evo_params</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="n">split_point</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">static_seq</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">split_point</span> <span class="o">=</span> <span class="n">determine_TWT_split</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">MaxGate</span><span class="o">=</span><span class="n">MaxGate</span><span class="p">)</span>
+        <span class="n">static_seq</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">uprogtable</span> <span class="o">=</span> <span class="n">build_unique_progtable</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
     <span class="n">possible_delays</span> <span class="o">=</span> <span class="p">[</span>
@@ -1277,9 +1371,8 @@
     <span class="n">loop_iterators</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span><span class="s2">&quot;j&quot;</span><span class="p">]</span>
     <span class="n">loop_dims</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">,</span><span class="s2">&quot;f&quot;</span><span class="p">]</span>
     <span class="n">letter_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">]</span>
-    <span class="n">possible_amps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;aa1&quot;</span><span class="p">,</span><span class="s2">&quot;aa2&quot;</span><span class="p">,</span><span class="s2">&quot;aa3&quot;</span><span class="p">,</span><span class="s2">&quot;aa4&quot;</span><span class="p">,</span><span class="s2">&quot;aa5&quot;</span><span class="p">,</span><span class="s2">&quot;aa6&quot;</span><span class="p">,</span><span class="s2">&quot;aa7&quot;</span><span class="p">,</span><span class="s2">&quot;aa8&quot;</span><span class="p">,</span><span class="s2">&quot;aa9&quot;</span><span class="p">,</span><span class="s2">&quot;aa10&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;ab1&quot;</span><span class="p">,</span><span class="s2">&quot;ab2&quot;</span><span class="p">,</span><span class="s2">&quot;ab3&quot;</span><span class="p">,</span><span class="s2">&quot;ab4&quot;</span><span class="p">,</span><span class="s2">&quot;ab5&quot;</span><span class="p">,</span><span class="s2">&quot;ab6&quot;</span><span class="p">,</span><span class="s2">&quot;ab7&quot;</span><span class="p">,</span><span class="s2">&quot;ab8&quot;</span><span class="p">,</span><span class="s2">&quot;ab9&quot;</span><span class="p">,</span><span class="s2">&quot;ab10&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;ac1&quot;</span><span class="p">,</span><span class="s2">&quot;ac2&quot;</span><span class="p">,</span><span class="s2">&quot;ac3&quot;</span><span class="p">,</span><span class="s2">&quot;ac4&quot;</span><span class="p">,</span><span class="s2">&quot;ac5&quot;</span><span class="p">,</span><span class="s2">&quot;ac6&quot;</span><span class="p">,</span><span class="s2">&quot;ac7&quot;</span><span class="p">,</span><span class="s2">&quot;ac8&quot;</span><span class="p">,</span><span class="s2">&quot;ac9&quot;</span><span class="p">,</span><span class="s2">&quot;ac10&quot;</span><span class="p">]</span>
+    <span class="n">possible_amps</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;aa</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">)]</span>
+    <span class="n">pulse_shapes</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">n_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">)</span>
     <span class="n">n_axes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">uprogtable</span><span class="p">)</span>
@@ -1296,8 +1389,10 @@
     
     <span class="n">axs_ids</span> <span class="o">=</span> <span class="p">[]</span>
 
-
-    <span class="n">scanhead</span> <span class="o">=</span> <span class="s2">&quot;begin exp </span><span class="se">\&quot;</span><span class="s2">auto</span><span class="se">\&quot;</span><span class="s2"> [INTG QUAD] </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">static_seq</span><span class="p">:</span>
+        <span class="n">scanhead</span> <span class="o">=</span> <span class="s2">&quot;begin exp </span><span class="se">\&quot;</span><span class="s2">auto</span><span class="se">\&quot;</span><span class="s2"> [TRANS QUAD] </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">scanhead</span> <span class="o">=</span> <span class="s2">&quot;begin exp </span><span class="se">\&quot;</span><span class="s2">auto</span><span class="se">\&quot;</span><span class="s2"> [INTG QUAD] </span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="n">foot</span> <span class="o">=</span> <span class="s2">&quot;end exp&quot;</span>
     <span class="n">def_file</span> <span class="o">=</span> <span class="s2">&quot;begin defs </span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="s2">&quot;begin defs </span><span class="se">\n</span><span class="s2"> dim s[&quot;</span>
@@ -1327,16 +1422,26 @@
             <span class="n">def_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">static_pulse_amp_hash</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">prev_pulse</span> <span class="o">=</span> <span class="n">pulse</span>
 
-    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">uprogtable</span><span class="p">:</span>
-        <span class="n">ax_ID</span> <span class="o">=</span> <span class="n">axis</span><span class="p">[</span><span class="s2">&quot;axID&quot;</span><span class="p">]</span>
-        <span class="n">axs_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax_ID</span><span class="p">)</span>
-        <span class="n">axis_start_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="n">axis_val_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">static_seq</span><span class="p">:</span>
+        <span class="c1"># find detection pulse in list of pulses</span>
+        <span class="n">det_pulse_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">pulse</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">Detection</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">det_pulse_idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No detection pulse found&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">det_pulse_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;More than one detection pulse found&quot;</span><span class="p">)</span>
+        <span class="n">det_pulse</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="n">det_pulse_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">dims</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">det_pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">,&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">uprogtable</span><span class="p">:</span>
+            <span class="n">ax_ID</span> <span class="o">=</span> <span class="n">axis</span><span class="p">[</span><span class="s2">&quot;axID&quot;</span><span class="p">]</span>
+            <span class="n">axs_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax_ID</span><span class="p">)</span>
+            <span class="n">axis_start_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">axis_val_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_delays</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 
-        <span class="n">def_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;step&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;reduce&#39;</span><span class="p">]:</span>
-            <span class="n">dims</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;dim&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+            <span class="n">def_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax_ID</span><span class="p">]</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;step&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;reduce&#39;</span><span class="p">]:</span>
+                <span class="n">dims</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">][</span><span class="s1">&#39;dim&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
 
     <span class="n">axs_ids</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">reduced_axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">uprogtable</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;axis&quot;</span><span class="p">][</span><span class="s2">&quot;reduce&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_axes</span><span class="p">)])</span>
@@ -1354,10 +1459,14 @@
 
 
     <span class="c1"># Setup averaging loop</span>
-    <span class="n">scanhead</span> <span class="o">+=</span> <span class="s2">&quot;for k=1 to m </span><span class="se">\n</span><span class="s2">totscans(m) </span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="n">def_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;m = </span><span class="si">{</span><span class="n">sequence</span><span class="o">.</span><span class="n">averages</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">static_seq</span><span class="p">:</span>
+        <span class="n">scanhead</span> <span class="o">+=</span> <span class="s2">&quot;for k=1 to m </span><span class="se">\n</span><span class="s2">totscans(m) </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">def_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;m = </span><span class="si">{</span><span class="n">sequence</span><span class="o">.</span><span class="n">averages</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="n">scanfoot</span> <span class="o">=</span> <span class="s2">&quot;scansdone(k) </span><span class="se">\n</span><span class="s2">next k </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">foot</span>
+        <span class="n">scanfoot</span> <span class="o">=</span> <span class="s2">&quot;scansdone(k) </span><span class="se">\n</span><span class="s2">next k </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">foot</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">scanfoot</span> <span class="o">=</span> <span class="n">foot</span>
+
     <span class="n">foot</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">head</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
@@ -1386,7 +1495,8 @@
 
         <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
             <span class="n">stop</span> <span class="o">=</span> <span class="s1">&#39;sx&#39;</span>
-            <span class="n">foot</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dx=dx+</span><span class="si">{</span><span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="n">foot</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">check_variable</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">uprog</span><span class="p">):</span>
+                <span class="n">foot</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dx=dx+</span><span class="si">{</span><span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="n">foot</span>
         <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
             <span class="n">stop</span> <span class="o">=</span> <span class="s1">&#39;sy&#39;</span>
             <span class="n">foot</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dy=dy+</span><span class="si">{</span><span class="n">axis_step_hash</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="n">foot</span>
@@ -1472,7 +1582,10 @@
                 <span class="k">continue</span>
             <span class="nb">id</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">amp_var</span> <span class="o">=</span> <span class="n">mv_pulse_amp_hash</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span> <span class="k">if</span> <span class="n">pulse_num</span> <span class="ow">in</span> <span class="n">mv_pulse_amp_hash</span> <span class="k">else</span> <span class="n">static_pulse_amp_hash</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span>
-            <span class="n">pcyc_str</span><span class="p">,</span> <span class="n">awg_id</span> <span class="o">=</span> <span class="n">_addAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">pcyc_str</span><span class="p">,</span><span class="n">amp_var</span><span class="p">)</span>
+            <span class="n">last_awg_pulse_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pulse_shapes</span><span class="p">)</span>
+            <span class="n">pulse_pcyc_str</span><span class="p">,</span> <span class="n">awg_id</span><span class="p">,</span><span class="n">pulse_shapes_tmp</span> <span class="o">=</span> <span class="n">addAWGPulse</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">pulse_num</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span><span class="n">last_awg_pulse_num</span><span class="p">,</span><span class="n">amp_var</span><span class="p">)</span>
+            <span class="n">pulse_shapes</span> <span class="o">+=</span> <span class="n">pulse_shapes_tmp</span>
+            <span class="n">pcyc_str</span> <span class="o">+=</span> <span class="n">pulse_pcyc_str</span>
             <span class="n">pcyc_hash</span><span class="p">[</span><span class="n">pulse_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">awg_id</span>
 
         <span class="n">pcyc</span> <span class="o">=</span> <span class="n">PSPhaseCycle</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">MPFU</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">OnlyDet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1493,8 +1606,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pulse_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">static_delay_hash</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
         
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="o">==</span> <span class="n">Detection</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="o">==</span> <span class="n">Detection</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">static_seq</span><span class="p">:</span>
             <span class="n">pulse_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;d0</span><span class="se">\n</span><span class="s2">acq [sg1]</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="o">==</span> <span class="n">Detection</span> <span class="ow">and</span> <span class="n">static_seq</span><span class="p">:</span>
+            <span class="n">pulse_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;d0</span><span class="se">\n</span><span class="s2">dig [sg1]</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">mv_pulse_hash</span><span class="p">:</span>
                 <span class="n">pulse_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mv_pulse_hash</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">pcyc_hash</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1516,8 +1631,113 @@
         <span class="n">exp_file</span> <span class="o">=</span> <span class="n">dims</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">pcyc_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span>  <span class="n">scanhead</span><span class="o">+</span> <span class="n">head</span> <span class="o">+</span> <span class="n">pulse_str</span> <span class="o">+</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">scanfoot</span>
         <span class="n">def_file</span> <span class="o">+=</span> <span class="s2">&quot;end defs&quot;</span>
 
-    <span class="k">return</span> <span class="n">def_file</span><span class="p">,</span> <span class="n">exp_file</span></div>
+    <span class="k">return</span> <span class="n">def_file</span><span class="p">,</span> <span class="n">exp_file</span><span class="p">,</span> <span class="n">pulse_shapes</span></div>
 
+
+<div class="viewcode-block" id="write_shape_file">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.write_shape_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_shape_file</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">phase_shift</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AWG_rate</span><span class="o">=</span><span class="mf">1.6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write a Bruker shape file for a given pulse.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pulse : Pulse</span>
+<span class="sd">        The pulse to be converted.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        The name of the pulse, by default &quot;&quot;</span>
+<span class="sd">    phase_shift : int, optional</span>
+<span class="sd">        The phase shift of the pulse in radians, by default 0</span>
+<span class="sd">    number : int, optional</span>
+<span class="sd">        The number of the pulse, by default None</span>
+<span class="sd">    AWG_rate : float, optional</span>
+<span class="sd">        The sample rate of the AWG in GSa/s, by default 1.6 GSa/s for SpinJet-I    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The string for the shape file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">number</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="mi">101</span>
+
+    <span class="n">pulse_tp</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="n">t_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">pulse_tp</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">pulse_tp</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pulse_tp</span><span class="o">*</span><span class="n">AWG_rate</span><span class="p">))</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">build_shape</span><span class="p">(</span><span class="n">t_axis</span><span class="p">)</span>
+    <span class="n">shape</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">phase_shift</span><span class="p">)</span>
+    <span class="n">shape_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;begin shape</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_axis</span><span class="p">)):</span>
+        <span class="n">shape_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="si">:</span><span class="s2"> .6f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="si">:</span><span class="s2"> .6f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">shape_file</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;end shape</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="n">shape_file</span></div>
+
+
+
+<div class="viewcode-block" id="step_parameters">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.step_parameters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">step_parameters</span><span class="p">(</span><span class="n">interface</span><span class="p">,</span> <span class="n">reduced_seq</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">variables</span><span class="p">):</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+        <span class="n">new_seq</span>  <span class="o">=</span><span class="n">reduced_seq</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Change all variables in the sequence</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only exp parameters are supported at the moment&#39;</span><span class="p">)</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">new_seq</span><span class="p">,</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> 
+            <span class="n">shift</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">get_axis</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">attr</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">shift</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">new_seq</span><span class="p">,</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">attr</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">new_seq</span><span class="p">,</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+        <span class="c1"># self.launch(new_seq,savename=&#39;test&#39;,tune=False, update_pulsespel=False)</span>
+
+        <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">set_field</span><span class="p">(</span><span class="n">new_seq</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">set_freq</span><span class="p">(</span><span class="n">new_seq</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">run_exp</span><span class="p">()</span>
+
+        <span class="k">while</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">is_exp_running</span><span class="p">():</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">single_scan_data</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">bg_data</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">single_scan_data</span><span class="o">.</span><span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_specjet_data">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/Bruker_tools/index.html#pyepr.hardware.Bruker_tools.get_specjet_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_specjet_data</span><span class="p">(</span><span class="n">interface</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">suppress_exceptions</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">n_points</span>  <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">aqGetParDimSize</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="s1">&#39;specJet.Data1&#39;</span> <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Failed to indentify the specJet model from the API&#39;</span><span class="p">)</span>
+
+    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">TimeBase</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.TimeBase&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">time_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">TimeBase</span><span class="o">*</span><span class="n">n_points</span><span class="p">,</span><span class="n">n_points</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">model</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span> <span class="n">interface</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">hidden</span><span class="p">[</span><span class="s1">&#39;specJet.Data1&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    
+    
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">array</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">0</span><span class="n">j</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">suppress_exceptions</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SpecJet returned array of all zeros&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;SpecJet returned array of all zeros&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">time_axis</span><span class="p">,</span> <span class="n">array</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span></div>
+
+    
 </pre></div>
         </article>
       </div>
@@ -1530,7 +1750,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1550,7 +1770,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

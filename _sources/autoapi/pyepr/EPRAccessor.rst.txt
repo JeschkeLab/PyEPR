@@ -1,0 +1,109 @@
+pyepr.EPRAccessor
+=================
+
+.. py:class:: pyepr.EPRAccessor(xarray_obj)
+
+   .. py:attribute:: _obj
+
+
+   .. py:method:: save(filename, type='netCDF', overwrite=True)
+
+      
+      Save the dataset to a hdf5 file
+
+
+      :Parameters:
+
+          **filename** : str
+              The name of the file to save the dataset
+
+          **type** : str, optional
+              The type of file to save, by default 'netCDF' (including .h5)
+
+          **overwrite** : bool, optional
+              Overwrite the file if it exists, by default True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: correctphase
+
+
+   .. py:property:: normalise
+
+
+   .. py:property:: correctphasefull
+
+
+   .. py:property:: SNR
+
+
+   .. py:property:: fft
+
+
+   .. py:property:: MeasurementTime
+
+      
+      Calculate the total measurement time in seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: sequence
+
+
+   .. py:method:: merge(other, ignore_errors=True)
+
+      
+      Merge two datasets into one dataset.
+
+      Handles the following cases:
+      1. Both datasets have the same parameters but different axes and are 1D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

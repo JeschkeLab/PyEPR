@@ -4,6 +4,14 @@ pyepr.hardware.Bruker_AWG
 .. py:module:: pyepr.hardware.Bruker_AWG
 
 
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.Bruker_AWG.hw_log
+
+
 Classes
 -------
 
@@ -22,14 +30,13 @@ Functions
 
 .. autoapisummary::
 
-   pyepr.hardware.Bruker_AWG.get_specjet_data
    pyepr.hardware.Bruker_AWG.test_if_MPFU_compatability
 
 
 Module Contents
 ---------------
 
-.. py:function:: get_specjet_data(interface)
+.. py:data:: hw_log
 
 .. py:function:: test_if_MPFU_compatability(seq)
 

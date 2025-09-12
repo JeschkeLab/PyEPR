@@ -3,11 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.ETH_awg.ETH_awg_interface - PyEPR 0.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>pyepr.hardware.ETH_awg.ETH_awg_interface - PyEPR 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
@@ -169,7 +171,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +199,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 0.10 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -207,6 +209,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -258,7 +262,7 @@
 <h1>pyepr.hardware.ETH_awg.ETH_awg_interface<a class="headerlink" href="#pyepr-hardware-eth-awg-eth-awg-interface" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.ETH_awg.</span></span><span class="sig-name descname"><span class="pre">ETH_awg_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">awg_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dig_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.ETH_awg.</span></span><span class="sig-name descname"><span class="pre">ETH_awg_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">awg_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dig_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../classes/Interface.html#pyepr.classes.Interface" title="pyepr.classes.Interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyepr.classes.Interface</span></code></a></p>
 <p>Represents the interface for connecting to Andrin Doll style spectrometers.</p>
 <p>An interface for connecting to a Andrin Doll style spectrometer,
@@ -267,16 +271,29 @@ commonly in use at ETH Zürich.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>awg_freq</strong><span class="classifier">float</span></dt><dd><p>The normal operating AWG frequency.
-Sequence.LO = AWG.LO + AWG.awg_freq</p>
+Sequence.freq = AWG.LO + AWG.awg_freq</p>
 </dd>
 <dt><strong>dig_rate</strong><span class="classifier">float</span></dt><dd><p>The speed of the digitser in GSa/s</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>config_file</strong> (<em>dict</em>)</p>
+</dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.awg_freq">
-<span class="sig-name descname"><span class="pre">awg_freq</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.awg_freq" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.spec_config">
+<span class="sig-name descname"><span class="pre">spec_config</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.spec_config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.bridge_config">
+<span class="sig-name descname"><span class="pre">bridge_config</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.bridge_config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.IF_freq">
+<span class="sig-name descname"><span class="pre">IF_freq</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.IF_freq" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -314,9 +331,14 @@ Sequence.LO = AWG.LO + AWG.awg_freq</p>
 <span class="sig-name descname"><span class="pre">IFgain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.filter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">savefolder</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">savefolder</span></span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -339,7 +361,7 @@ known name.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset">
-<span class="sig-name descname"><span class="pre">acquire_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">acquire_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset" title="Link to this definition">¶</a></dt>
 <dd><p>Acquires the dataset.</p>
 </dd></dl>
 
@@ -356,6 +378,21 @@ known name.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface._wait_for_scan">
+<span class="sig-name descname"><span class="pre">_wait_for_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_scan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface._wait_for_scan" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.get_buffer">
+<span class="sig-name descname"><span class="pre">get_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.get_buffer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.read_dataset">
+<span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savenow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.read_dataset" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.launch">
@@ -458,7 +495,7 @@ that takes control.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.tune_rectpulse">
-<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_rectpulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_rectpulse" title="Link to this definition">¶</a></dt>
 <dd><p>Generates a rectangular pi and pi/2 pulse of the given length at
 the given field position. This value is stored in the pulse cache.</p>
 <dl class="field-list simple">
@@ -466,7 +503,7 @@ the given field position. This value is stored in the pulse cache.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>tp</strong><span class="classifier">float</span></dt><dd><p>Pulse length of pi/2 pulse in ns</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>Central frequency of this pulse in GHz</p>
+<dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>Central frequency of this pulse in GHz</p>
 </dd>
 <dt><strong>B</strong><span class="classifier">float</span></dt><dd><p>Magnetic B0 field position in Gauss</p>
 </dd>
@@ -489,7 +526,7 @@ the given field position. This value is stored in the pulse cache.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.tune_pulse">
-<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_pulse" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune_pulse" title="Link to this definition">¶</a></dt>
 <dd><p>Tunes a single pulse a range of methods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -498,7 +535,7 @@ the given field position. This value is stored in the pulse cache.</p>
 </dd>
 <dt><strong>mode</strong><span class="classifier">str</span></dt><dd><p>The method to be used.</p>
 </dd>
-<dt><strong>LO</strong><span class="classifier">float</span></dt><dd><p>The local oscilator frequency in GHz</p>
+<dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>The local oscilator frequency in GHz</p>
 </dd>
 <dt><strong>B</strong><span class="classifier">float</span></dt><dd><p>Magnetic B0 field position in Gauss</p>
 </dd>
@@ -519,7 +556,7 @@ the given field position. This value is stored in the pulse cache.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.ETH_awg.ETH_awg_interface.tune">
-<span class="sig-name descname"><span class="pre">tune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amp_hahn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LO</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amp_hahn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.tune" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -560,7 +597,7 @@ progressive elements. It is this object that controls how the
 sequence changes with time.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This interface interprets any change in <cite>LO</cite> as being a
+<p>This interface interprets any change in <cite>freq</cite> as being a
 change in the IF frequency of all pulses and detections.</p>
 <blockquote>
 <div><p>I.e. the physcial LO <strong>does not</strong> change.</p>
@@ -608,7 +645,7 @@ change in the IF frequency of all pulses and detections.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2021-2024, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -636,7 +673,9 @@ change in the IF frequency of all pulses and detections.</p>
             <ul>
 <li><a class="reference internal" href="#">pyepr.hardware.ETH_awg.ETH_awg_interface</a><ul>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface</span></code></a><ul>
-<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.awg_freq"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.awg_freq</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.spec_config"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.spec_config</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.bridge_config"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.bridge_config</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.IF_freq"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.IF_freq</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.dig_rate"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.dig_rate</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.pulses"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.pulses</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.cur_exp"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.cur_exp</span></code></a></li>
@@ -644,10 +683,14 @@ change in the IF frequency of all pulses and detections.</p>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.bg_thread"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.bg_thread</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain_options"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain_options</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.IFgain</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.filter"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.filter</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.savefolder</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.connect"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.connect()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset_from_matlab"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.acquire_dataset_from_matlab()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface._wait_for_scan"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface._wait_for_scan()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.get_buffer"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.get_buffer()</span></code></a></li>
+<li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.read_dataset"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.read_dataset()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.launch"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.launch()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.launch_withIFGain"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.launch_withIFGain()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.hardware.ETH_awg.ETH_awg_interface.launch_normal"><code class="docutils literal notranslate"><span class="pre">pyepr.hardware.ETH_awg.ETH_awg_interface.launch_normal()</span></code></a></li>
@@ -674,7 +717,7 @@ change in the IF frequency of all pulses and detections.</p>
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=ac14934e"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
