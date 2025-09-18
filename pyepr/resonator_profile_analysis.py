@@ -40,7 +40,7 @@ class ResonatorProfileAnalysis:
 
         Fitting fuction:
 
-        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
+        .. math:: \\nu(t) = a \\cos(2\\pi f (t - x_0)) e^{-(t - x_0)/\\tau} + k
 
         where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
         :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
@@ -64,6 +64,15 @@ class ResonatorProfileAnalysis:
         p0 : list, optional
             The initial guess for the fit, by default None. If not given the guess is set to [50e-3,150,1,0]
         """
+        # Rotate the dataset so that first axis is 'pulse0_tp' and second is 'LO'
+        
+
+        tp_dim = dataset.coords['pulse0_tp'].dims[0]
+        B_dim  = dataset.coords['B'].dims[0]
+        if tp_dim != dataset.dims[0]:
+            dataset = dataset.transpose(tp_dim,B_dim, transpose_coords=True)
+
+
 
         if np.iscomplexobj(dataset):
             self.dataset = phase_correct_respro(dataset)
@@ -155,7 +164,7 @@ class ResonatorProfileAnalysis:
         frequency in the dataset.
 
         Function used for fitting:
-        .. math:: \\nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
+        .. math:: \\nu(t) = a \\cos(2\\pi f (t - x_0)) e^{-(t - x_0)/\\tau} + k
         where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
         :math:`\\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
 

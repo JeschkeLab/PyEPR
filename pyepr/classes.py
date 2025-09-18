@@ -153,7 +153,8 @@ class Interface:
             data = self.acquire_dataset()
             if autosave:
                 self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
-                data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                # data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                data.epr.save(os.path.join(self.savefolder,self.savename))
 
             try:
                 # nAvgs = data.num_scans.value
