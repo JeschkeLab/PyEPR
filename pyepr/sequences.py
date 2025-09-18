@@ -78,11 +78,11 @@ class Sequence:
                 "The shot repetition time")
         
         self.averages = Parameter(
-            "averages", averages, "None",
+            "averages", int(averages), "None",
             "The number of averages to perform.")
         
         self.shots = Parameter(
-            "shots", shots, "None",
+            "shots", int(shots), "None",
             "The number of shots per scan.")
 
         if "det_window" in kwargs:
@@ -363,7 +363,15 @@ class Sequence:
         else:
             axes_dim = [1]
 
-        return [nAvgs]+  axes_dim +[nPcyc]
+        # Flip the axes dim so it is Z,Y,X...
+        axes_dim = axes_dim[::-1]
+
+        shape = [nAvgs]+  axes_dim +[nPcyc]
+
+        # Force list output to all be int
+        shape = np.array(shape).astype(int).tolist()
+
+        return shape
 
 
 
@@ -714,7 +722,7 @@ class HahnEchoSequence(Sequence):
         if hasattr(self, "det_event"):
             self.addPulse(self.det_event.copy(t=2*tau))
         else:
-            self.addPulse(Detection(t=2*tau, tp=self.det_window.value))
+            self.addPulse(Detection(t=2*tau, tp=512))
 
 # =============================================================================
 
@@ -922,7 +930,7 @@ class ReptimeScan(HahnEchoSequence):
         step = np.around(step,decimals=-1)
         step = np.around(step,decimals=-1)
         reptime = Parameter(
-            "reptime", reptime, start = min_reptime-reptime, step=step, dim=100, unit="us",
+            "reptime", reptime, start = min_reptime-reptime, step=step, dim=dim, unit="us",
             description = "The shot repetition time")
         
         super().__init__(
@@ -1196,7 +1204,7 @@ class ResonatorProfileSequence(Sequence):
             t=tau1+tau2, tp=32, freq=0, flipangle=np.pi
             ))
 
-        self.addPulse(Detection(t=tau1+2*tau2, tp=64))
+        self.addPulse(Detection(t=tau1+2*tau2, tp=512))
 
 
         self.pulses[0].scale.value = 1
