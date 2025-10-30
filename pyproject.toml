@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyEPR-ESR"
-version = "1.0"
+version = "1.0.1"
 description = ""
 authors = ["Hugo Karas <hkaras@ethz.ch>", "Gunnar Jeschke <gjeschke@eth.ch>", "Stefan Stoll <stst@uw.edu>"]
 readme = "README.md"
