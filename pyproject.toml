@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyEPR-ESR"
-version = "1.0.1"
+version = "1.0.2"
 description = ""
 authors = ["Hugo Karas <hkaras@ethz.ch>", "Gunnar Jeschke <gjeschke@eth.ch>", "Stefan Stoll <stst@uw.edu>"]
 readme = "README.md"
@@ -19,6 +19,7 @@ h5netcdf = "^1.4.0"
 toml = "^0.10.2"
 deerlab = "^1.1.4"
 numba = ">=0.60.0"
+psutil = "^7.1.3"
 
 
 [tool.poetry.group.dev.dependencies]

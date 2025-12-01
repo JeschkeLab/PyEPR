@@ -9,10 +9,6 @@ import tempfile
 import time
 from scipy.optimize import minimize_scalar, curve_fit
 import numpy as np
-import threading
-import concurrent.futures
-from PyQt6.QtCore import QThreadPool
-from autodeer.gui import Worker
 import os
 from pathlib import Path
 import datetime
@@ -70,7 +66,7 @@ class BrukerAWG(Interface):
         self.bg_data = None
         self.cur_exp = None
         self.tuning = False
-        self.pool = QThreadPool()
+        self.pool = None # QThreadPool
         self.savename = ''
         self.savefolder = str(Path.home())
         self.setup_flag=False
@@ -146,13 +142,6 @@ class BrukerAWG(Interface):
         self.terminate()
 
         variables = uProgTable_py['variables']
-        # print("Creating Thread")
-        # # thread = threading.Thread(target=step_parameters,args=[self,reduced_seq,py_ax_dim,variables])
-        # # self.bg_thread = self.pool.submit(step_parameters, self,reduced_seq,py_ax_dim,variables)
-        # self.bg_thread = Worker(step_parameters, self,reduced_seq,py_ax_dim,variables)
-        # self.pool.start(self.bg_thread)
-        # print("Started Thread")
-
         step_parameters(self,reduced_seq,py_ax_dim,variables)
         # thread.start()
 
