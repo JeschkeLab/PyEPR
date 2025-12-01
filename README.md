@@ -34,7 +34,7 @@ It is recommended to install PyEPR in a virtual environment, from source.
 - xarray
 - h5netcdf
 - toml
-- numba
+- psutil
 
 ## Requirements
 PyEPR is generally compatible with Windows, Mac and Linux and requires Python 3.11 or 3.12. 
@@ -42,7 +42,7 @@ Support for new Python versions will only be added once they become stable, and 
 The specific hardware implementation may add additional limitations for example, when using XeprAPI a modern Linux OS is required.
 
 ## Citing PyEPR
-At the moment, no paper is associated with PyEPR. Once published, it will be linked here. It is kindly requested that in the meantime the appropriate DOI number is cited. The associated Zotero entry is available [here](missing).
+At the moment, no paper is associated with PyEPR. Once published, it will be linked here. It is kindly requested that in the meantime the appropriate DOI number is cited. The associated Zotero entry is available [here](https://doi.org/10.5281/zenodo.17107010).
 
 Citing academic software is important as it helps to ensure the long-term sustainability of the software, and allows the developers to track the impact of their work and secure future funding. It also helps to provide credit to the developers for their hard work.
 
