@@ -34,7 +34,7 @@ It is recommended to install PyEPR in a virtual environment, from source.
 - xarray
 - h5netcdf
 - toml
-- numba
+- psutil
 
 ## Requirements
 PyEPR is generally compatible with Windows, Mac and Linux and requires Python 3.11 or 3.12. 
