@@ -1,0 +1,38 @@
+name: Test Build Docs
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install --with doc
+        
+      - name: Build documentation
+        run: poetry run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
+      - name: Upload build log
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: sphinx-build-log
+          path: sphinx_build.log
+          
