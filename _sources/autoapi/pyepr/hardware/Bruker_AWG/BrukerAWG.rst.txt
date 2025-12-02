@@ -16,7 +16,7 @@ pyepr.hardware.Bruker_AWG.BrukerAWG
 
    :Parameters:
 
-       **config_file** : dict
+       **config_file** : str
            The path to a YAML configuration file.
 
    :Attributes:

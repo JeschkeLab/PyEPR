@@ -8,12 +8,17 @@
     <link href="../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.T2RelaxationSequence - PyEPR 1.0.2 documentation</title>
+        <title>pyepr.T2RelaxationSequence - PyEPR 1.0.2-New_Documentation-66e471f documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
     
@@ -171,7 +176,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0.2-New_Documentation-66e471f documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +204,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0.2-New_Documentation-66e471f documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -210,12 +215,20 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_loading.html">Loading and Analysing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_sequencer.html">Pulse Sequencer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_hardware.html">Interfacing with Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html">PyEPR Example Scripts</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../releasenotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licence.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/PyEPR">Github</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/autoDEER">autoDEER</a></li>
 </ul>
@@ -263,8 +276,9 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.T2RelaxationSequence">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">T2RelaxationSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.T2RelaxationSequence" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoSequence</span></code></p>
-<p>Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases</p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoRelaxationSequence</span></code></p>
+<p>Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
+A Hahn Echo where the interpulse delay increases.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <dl class="simple">
@@ -278,9 +292,9 @@
 </dd>
 <dt>shots<span class="classifier">int</span></dt><dd><p>The number of shots per point</p>
 </dd>
-<dt>start<span class="classifier">float</span></dt><dd><p>The minimum interpulse delay in ns, by default 300 ns</p>
+<dt>start<span class="classifier">float</span></dt><dd><p>The minimum interpulse delay in ns, by default 500 ns</p>
 </dd>
-<dt>step<span class="classifier">float</span></dt><dd><p>The step size of the interpulse delay in ns, by default 50 ns</p>
+<dt>step<span class="classifier">float</span></dt><dd><p>The step size of the interpulse delay in ns, by default 40 ns</p>
 </dd>
 <dt>dim<span class="classifier">int</span></dt><dd><p>The number of points in the X axis</p>
 </dd>
@@ -314,21 +328,6 @@ specified pulses. By default no progression is added to this sequence.</p>
 </dl>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyepr.T2RelaxationSequence.tau">
-<span class="sig-name descname"><span class="pre">tau</span></span><a class="headerlink" href="#pyepr.T2RelaxationSequence.tau" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyepr.T2RelaxationSequence.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'T2RelaxationSequence'</span></em><a class="headerlink" href="#pyepr.T2RelaxationSequence.name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyepr.T2RelaxationSequence.simulate">
-<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ESEEM_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.T2RelaxationSequence.simulate" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </section>
 </dd></dl>
 
@@ -372,12 +371,7 @@ specified pulses. By default no progression is added to this sequence.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">pyepr.T2RelaxationSequence</a><ul>
-<li><a class="reference internal" href="#pyepr.T2RelaxationSequence"><code class="docutils literal notranslate"><span class="pre">pyepr.T2RelaxationSequence</span></code></a><ul>
-<li><a class="reference internal" href="#pyepr.T2RelaxationSequence.tau"><code class="docutils literal notranslate"><span class="pre">pyepr.T2RelaxationSequence.tau</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.T2RelaxationSequence.name"><code class="docutils literal notranslate"><span class="pre">pyepr.T2RelaxationSequence.name</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.T2RelaxationSequence.simulate"><code class="docutils literal notranslate"><span class="pre">pyepr.T2RelaxationSequence.simulate()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#pyepr.T2RelaxationSequence"><code class="docutils literal notranslate"><span class="pre">pyepr.T2RelaxationSequence</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -389,11 +383,12 @@ specified pulses. By default no progression is added to this sequence.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=1ed6394b"></script>
+</div><script src="../../_static/documentation_options.js?v=1eb48bbf"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

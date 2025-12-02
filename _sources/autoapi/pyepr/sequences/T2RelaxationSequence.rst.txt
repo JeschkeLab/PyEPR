@@ -3,10 +3,11 @@ pyepr.sequences.T2RelaxationSequence
 
 .. py:class:: pyepr.sequences.T2RelaxationSequence(*, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
 
-   Bases: :py:obj:`HahnEchoSequence`
+   Bases: :py:obj:`HahnEchoRelaxationSequence`
 
 
-   Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases
+   Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
+   A Hahn Echo where the interpulse delay increases.
 
    Parameters
    ----------
@@ -21,9 +22,9 @@ pyepr.sequences.T2RelaxationSequence
    shots : int
        The number of shots per point
    start : float
-       The minimum interpulse delay in ns, by default 300 ns
+       The minimum interpulse delay in ns, by default 500 ns
    step : float
-       The step size of the interpulse delay in ns, by default 50 ns
+       The step size of the interpulse delay in ns, by default 40 ns
    dim : int
        The number of points in the X axis
 
@@ -73,15 +74,4 @@ pyepr.sequences.T2RelaxationSequence
 
    ..
        !! processed by numpydoc !!
-
-
-   .. py:attribute:: tau
-
-
-   .. py:attribute:: name
-      :value: 'T2RelaxationSequence'
-
-
-
-   .. py:method:: simulate(ESEEM_depth=0.1, Tm=1000.0)
 
