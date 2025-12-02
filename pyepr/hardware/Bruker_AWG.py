@@ -29,7 +29,7 @@ class BrukerAWG(Interface):
     Spectrometers.
     """
 
-    def __init__(self, config_file:dict) -> None:
+    def __init__(self, config_file) -> None:
         """An interface for connecting to AWG based Bruker ELEXSYS-II 
         Spectrometers.
 
@@ -44,7 +44,7 @@ class BrukerAWG(Interface):
 
         Parameters
         ----------
-        config_file : dict
+        config_file : str
             The path to a YAML configuration file.
         
         Attributes
