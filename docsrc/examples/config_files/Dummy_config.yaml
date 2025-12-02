@@ -1,0 +1,20 @@
+Spectrometer:
+  Type: Complete Spectrometer
+  Manufacturer: Dummy
+  Model: DummyV1
+  Local Name: Dummy
+
+  AWG: True
+
+  Bridge:
+    Min Freq: 33 #GHz
+    Max Freq: 35 #GHz
+    Sample Freq: 8 #GSa/s
+    Det Freq: 2 #GSa/s
+    Det Res: 12  #bit
+  
+  Dummy:
+    speedup: 1000 # Default: 100
+    SNR: 150
+    ESEEM_depth: 0.15
+    noise_level: 0.005

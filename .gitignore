@@ -105,6 +105,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.venv*
 
 # Spyder project settings
 .spyderproject
@@ -125,3 +126,7 @@ dmypy.json
 .pyre/
 
 .DS_Store
+
+poetry.lock
+
+docsrc/auto_examples/

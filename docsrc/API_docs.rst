@@ -19,6 +19,7 @@ Analysis Modules
 .. autoapisummary::
 
    pyepr.FieldSweepAnalysis
+   pyepr.HahnEchoRelaxationAnalysis
    pyepr.ResonatorProfileAnalysis
    pyepr.CarrPurcellAnalysis
    pyepr.ReptimeAnalysis
@@ -29,7 +30,7 @@ Sequences
 .. autoapisummary::
 
    pyepr.sequences.HahnEchoSequence
-   pyepr.sequences.T2RelaxationSequence
+   pyepr.sequences.HahnEchoRelaxationSequence
    pyepr.sequences.FieldSweepSequence
    pyepr.sequences.ReptimeScan
    pyepr.sequences.CarrPurcellSequence
@@ -44,7 +45,6 @@ Pulses
 
    pyepr.pulses.Pulse
    pyepr.pulses.Detection
-   pyepr.pulses.Delay
    pyepr.pulses.RectPulse
    pyepr.pulses.GaussianPulse
    pyepr.pulses.HSPulse
