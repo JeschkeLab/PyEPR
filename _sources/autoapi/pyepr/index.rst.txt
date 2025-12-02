@@ -48,6 +48,10 @@ Classes
 .. toctree::
    :hidden:
 
+   /autoapi/pyepr/Pulse
+   /autoapi/pyepr/Detection
+   /autoapi/pyepr/Delay
+   /autoapi/pyepr/RectPulse
    /autoapi/pyepr/Sequence
    /autoapi/pyepr/HahnEchoSequence
    /autoapi/pyepr/T1InversionRecoverySequence
@@ -57,9 +61,21 @@ Classes
    /autoapi/pyepr/CarrPurcellSequence
    /autoapi/pyepr/ResonatorProfileSequence
    /autoapi/pyepr/TWTProfileSequence
+   /autoapi/pyepr/Pulse
+   /autoapi/pyepr/Detection
+   /autoapi/pyepr/Delay
+   /autoapi/pyepr/RectPulse
+   /autoapi/pyepr/GaussianPulse
+   /autoapi/pyepr/FrequencySweptPulse
+   /autoapi/pyepr/HSPulse
+   /autoapi/pyepr/ChirpPulse
+   /autoapi/pyepr/WURSTPulse
+   /autoapi/pyepr/SincPulse
+   /autoapi/pyepr/CPMGDetection
    /autoapi/pyepr/Criteria
    /autoapi/pyepr/TimeCriteria
    /autoapi/pyepr/SNRCriteria
+   /autoapi/pyepr/Detection
    /autoapi/pyepr/Sequence
    /autoapi/pyepr/EPRAccessor
    /autoapi/pyepr/FieldSweepAnalysis
@@ -72,6 +88,10 @@ Classes
 
 .. autoapisummary::
 
+   pyepr.Pulse
+   pyepr.Detection
+   pyepr.Delay
+   pyepr.RectPulse
    pyepr.Sequence
    pyepr.HahnEchoSequence
    pyepr.T1InversionRecoverySequence
@@ -81,9 +101,21 @@ Classes
    pyepr.CarrPurcellSequence
    pyepr.ResonatorProfileSequence
    pyepr.TWTProfileSequence
+   pyepr.Pulse
+   pyepr.Detection
+   pyepr.Delay
+   pyepr.RectPulse
+   pyepr.GaussianPulse
+   pyepr.FrequencySweptPulse
+   pyepr.HSPulse
+   pyepr.ChirpPulse
+   pyepr.WURSTPulse
+   pyepr.SincPulse
+   pyepr.CPMGDetection
    pyepr.Criteria
    pyepr.TimeCriteria
    pyepr.SNRCriteria
+   pyepr.Detection
    pyepr.Sequence
    pyepr.EPRAccessor
    pyepr.FieldSweepAnalysis
@@ -120,6 +152,14 @@ Functions
    pyepr.create_Nmodel
    pyepr.build_table
    pyepr.autoEPRDecoder
+   pyepr.build_table
+   pyepr.sop
+   pyepr.autoEPRDecoder
+   pyepr.compute_upulses_not_trajectory
+   pyepr.compute_upulses_trajectory
+   pyepr.compute_magnetization_not_trajectory
+   pyepr.compute_magnetization_trajectory
+   pyepr.build_default_pulses
    pyepr.get_all_axes
    pyepr.get_all_fixed_param
    pyepr.create_dataset_from_sequence
@@ -619,6 +659,61 @@ Package Contents
 .. py:function:: build_table(source, params, params_widths)
 
 .. py:function:: autoEPRDecoder(dct)
+
+.. py:function:: build_table(source, params, params_widths)
+
+.. py:function:: sop(spins, comps)
+
+   
+   Spin Operator Matricies.
+
+   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
+
+   References:
+   +++++++++++
+   [1] Stefan Stoll, Arthur Schweiger
+   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
+   J. Magn. Reson. 178(1), 42-55 (2006)
+
+   [2] Stefan Stoll, R. David Britt
+   General and efficient simulation of pulse EPR spectra
+   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
+
+   :Parameters:
+
+       **spins** : list
+           A list of each spin and its spin qunatum number
+
+       **comps** : str
+           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: autoEPRDecoder(dct)
+
+.. py:function:: compute_upulses_not_trajectory(dUs)
+
+.. py:function:: compute_upulses_trajectory(dUs)
+
+.. py:function:: compute_magnetization_not_trajectory(Upulses, density0, Mmag)
+
+.. py:function:: compute_magnetization_trajectory(Upulses, density0)
+
+.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
 
 .. py:data:: log
 

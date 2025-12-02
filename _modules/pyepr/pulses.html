@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.pulses - PyEPR 1.0 documentation</title>
+        <title>pyepr.pulses - PyEPR 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -269,7 +269,7 @@
 
 <span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_upulses_not_trajectory">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_upulses_not_trajectory">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_upulses_not_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_not_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
     <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dUs</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -283,7 +283,7 @@
 
 <span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_upulses_trajectory">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_upulses_trajectory">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_upulses_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
     <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dUs</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">Upulses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -299,7 +299,7 @@
 
 <span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_magnetization_not_trajectory">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_magnetization_not_trajectory">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_magnetization_not_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_not_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Mmag</span><span class="p">):</span>
     <span class="n">n_offsets</span> <span class="o">=</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -334,7 +334,7 @@
 
 <span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_magnetization_trajectory">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.compute_magnetization_trajectory">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_magnetization_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">):</span>
     <span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">=</span> <span class="n">Upulses</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_offsets</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -1543,7 +1543,7 @@
 <span class="c1"># =============================================================================</span>
 
 <div class="viewcode-block" id="build_default_pulses">
-<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.pulses.build_default_pulses">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.build_default_pulses">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_default_pulses</span><span class="p">(</span><span class="n">AWG</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">SPFU</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">tp</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">SPFU</span><span class="p">:</span>
         <span class="n">tp_pi</span> <span class="o">=</span> <span class="n">tp</span><span class="o">*</span><span class="mi">2</span>
@@ -1607,7 +1607,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+</div><script src="../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

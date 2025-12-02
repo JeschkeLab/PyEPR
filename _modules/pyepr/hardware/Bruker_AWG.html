@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.Bruker_AWG - PyEPR 1.0 documentation</title>
+        <title>pyepr.hardware.Bruker_AWG - PyEPR 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 1.0 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -261,10 +261,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span><span class="p">,</span> <span class="n">curve_fit</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6.QtCore</span><span class="w"> </span><span class="kn">import</span> <span class="n">QThreadPool</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">autodeer.gui</span><span class="w"> </span><span class="kn">import</span> <span class="n">Worker</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
@@ -325,7 +321,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bg_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tuning</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">QThreadPool</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># QThreadPool</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">savename</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">savefolder</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setup_flag</span><span class="o">=</span><span class="kc">False</span>
@@ -401,13 +397,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
 
         <span class="n">variables</span> <span class="o">=</span> <span class="n">uProgTable_py</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">]</span>
-        <span class="c1"># print(&quot;Creating Thread&quot;)</span>
-        <span class="c1"># # thread = threading.Thread(target=step_parameters,args=[self,reduced_seq,py_ax_dim,variables])</span>
-        <span class="c1"># # self.bg_thread = self.pool.submit(step_parameters, self,reduced_seq,py_ax_dim,variables)</span>
-        <span class="c1"># self.bg_thread = Worker(step_parameters, self,reduced_seq,py_ax_dim,variables)</span>
-        <span class="c1"># self.pool.start(self.bg_thread)</span>
-        <span class="c1"># print(&quot;Started Thread&quot;)</span>
-
         <span class="n">step_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">reduced_seq</span><span class="p">,</span><span class="n">py_ax_dim</span><span class="p">,</span><span class="n">variables</span><span class="p">)</span>
         <span class="c1"># thread.start()</span>
 
@@ -1111,7 +1100,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+</div><script src="../../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

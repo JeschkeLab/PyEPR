@@ -1,0 +1,96 @@
+pyepr.WURSTPulse
+================
+
+.. py:class:: pyepr.WURSTPulse(*, tp=128, order=32, **kwargs)
+
+   Bases: :py:obj:`FrequencySweptPulse`
+
+
+       Represents a WURST frequency-swept pulse.
+
+       Equations:
+
+       The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:
+       .. math::
+           AM(t) = 1 - \left|\sin\left(
+   rac{\pi}{tp} \cdot t
+   ight)
+   ight|^{order}
+       
+       .. math::
+           FM(t) = 
+   rac{BW t}{tp} + init\_freq
+       where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`init_freq` is the initial frequency of the pulse, and :math:`order` is the order of the WURST pulse.
+
+       Parameters
+       ----------
+       tp : int, optional
+           Pulse length in ns, by default 128
+       order : int, optional
+           The order of the WURST pulse, by default 32
+       **kwargs : dict, optional
+           Additional keyword arguments to pass to the default pulse class.
+
+       
+
+
+   The class for a general pulse.
+
+
+   :Parameters:
+
+       **tp** : float
+           The pulse length in ns.
+
+       **scale** : float
+           The arbitary experimental pulse amplitude, 0-1.
+
+       **t** : float, optional
+           The pulse start time in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: order
+
+
+   .. py:method:: func(ax)
+
+
+   .. py:property:: sweeprate
+
+      
+      The sweep rate of the pulse in GHz/ns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

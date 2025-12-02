@@ -78,6 +78,8 @@ pyepr.hardware.Bruker_AWG.BrukerAWG
 
 
    .. py:attribute:: pool
+      :value: None
+
 
 
    .. py:attribute:: savename
