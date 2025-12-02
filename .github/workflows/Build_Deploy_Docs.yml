@@ -28,6 +28,7 @@ jobs:
         run: poetry run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
       - name: Upload build log
         uses: actions/upload-artifact@v4.6.2
+        if: always()
         with:
           name: sphinx-build-log
           path: sphinx_build.log
