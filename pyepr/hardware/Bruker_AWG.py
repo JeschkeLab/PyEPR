@@ -71,7 +71,7 @@ class BrukerAWG(Interface):
         self.savefolder = str(Path.home())
         self.setup_flag=False
 
-        super().__init__()
+        super().__init__(config_file)
 
 
     def connect(self, d0=None) -> None:
