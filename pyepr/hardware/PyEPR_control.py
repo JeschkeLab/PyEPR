@@ -192,7 +192,13 @@ class PyEPRControlInterface(Interface):
         log.debug(response.json()['message'])
         return True
         
-
+    def status(self):
+        try:
+            response = requests.get(self.server + "/status", timeout=10)
+        except Exception as e:
+            print(f"Error updating status: {e}")
+        return pickle.loads(response['status'].encode('latin1'))
+    
     def launch(self, sequence: Sequence , savename: str, IFgain=None, *args,**kwargs):
         self.savefolder = self.savefolder
         # increase the detection length to a minimum 1024ns
@@ -317,7 +323,7 @@ class PyEPRControlInterface(Interface):
         amp_tune.pulses[1].tp.value = tp * 2
         amp_tune.pulses[1].scale = scale
 
-        amp_tune.pulses[2].tp.value = 512
+        amp_tune.pulses[2].tp.value = 256
 
         amp_tune.evolution([scale])
         
@@ -382,7 +388,7 @@ class PyEPRControlInterface(Interface):
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
             c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
+            c_frq = 0.5*(pulse.init_freq.value + pulse.final_freq.value) + freq
 
         # Find rect pulses
         if mode == "amp_hahn":
@@ -391,7 +397,7 @@ class PyEPRControlInterface(Interface):
             elif pulse.flipangle.value == np.pi/2:
                 tp = pulse.tp.value
 
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime, IFgain=IFgain)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime, IFgain=IFgain,shots=shots)
             amp_tune =HahnEchoSequence(
                 B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
@@ -423,26 +429,32 @@ class PyEPRControlInterface(Interface):
 
         elif mode == "amp_nut":
             
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=16, B=B, freq=c_frq, reptime=reptime, IFgain=IFgain)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=16, B=(B/freq*c_frq), freq=c_frq, reptime=reptime, IFgain=IFgain,shots=shots)
             nut_tune = Sequence(
-                name="nut_tune", B=(B/freq*c_frq), freq=freq, reptime=reptime,
+                name="nut_tune", B=(B/freq*c_frq), freq=c_frq, reptime=reptime,
                 averages=1,shots=shots
             )
-            nut_tune.addPulse(pulse.copy(
-                t=0, pcyc={"phases":[0],"dets":[1]}, scale=0))
+            f_shift = freq - c_frq
+            test_pulse = pulse.copy(
+                t=0, pcyc={"phases":[0],"dets":[1]}, scale=0)
+            if hasattr(test_pulse,"freq"):
+                test_pulse.freq.value = pulse.freq.value + f_shift
+            elif hasattr(test_pulse, "init_freq") & hasattr(pulse, "final_freq"):
+                test_pulse = pulse.init_freq.value + f_shift
+                test_pulse = pulse.final_freq.value - f_shift
+            nut_tune.addPulse(test_pulse)
             nut_tune.addPulse(
-                pi2_pulse.copy(t=2e3,
-                               pcyc={"phases":[0, np.pi],"dets":[1, -1]},
-                               freq=c_frq-freq))
+                pi2_pulse.copy(t=2000,
+                                pcyc={"phases":[0],"dets":[1]},
+                                freq=0))
             nut_tune.addPulse(
-                pi_pulse.copy(t=2.5e3, pcyc={"phases":[0],"dets":[1]},
-                              freq=c_frq-freq))
-            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-freq))
+                pi_pulse.copy(t=2500, pcyc={"phases":[0],"dets":[1]},
+                                freq=0))
+            nut_tune.addPulse(Detection(t=3000, tp=256, freq=c_frq-freq))
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
             nut_tune.evolution([scale])
-
 
             # nut_tune.addPulsesProg(
             #     pulses=[0],
@@ -476,6 +488,7 @@ class PyEPRControlInterface(Interface):
 
         else:
             raise ValueError(f"Mode {mode} not recognised. Available modes are: 'amp_hahn', 'amp_nut'")
+        
     def tune(self,*, sequence=None, mode="amp_hahn", freq=None, gyro=None):
 
         if mode == "rect_tune":
