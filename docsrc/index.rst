@@ -15,16 +15,17 @@ PyEPR's Key Features
 
 - Fully python based, open-source and free to use
 - Intuitive object-oriented pulse sequencer
-- Pre-defined common EPR experiments (CW, Hahn Echo, Inversion Recovery, Carr-Purcell, DEER, etc.)
+- Pre-defined common EPR experiments (CW, Hahn Echo, Inversion Recovery, Carr-Purcell, etc.)
 - Easy to define custom experiments
 - Pre-defined common pulse shapes (rectangular, Gaussian, sech/tanh, etc.)
 - Easy to define custom pulse shapes
 - Hardware abstraction layer for interfacing with different spectrometers
 - BRUKER PulseSpel compiler from PyEPR sequences
 
-.. warning:: 
-    PyEPR is an actively developed software package, that is still very much a work in process. Please consider this to be a beta release.
-      
+.. image:: _static/Hardware_Interface_Diagram.svg
+    :align: center
+    :width: 90%
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -39,8 +40,10 @@ PyEPR's Key Features
     :caption: About
 
     ./releasenotes.rst
-    ./contributing.rst
+    citation.rst
+    licence.rst
     Github <https://github.com/JeschkeLab/PyEPR>
     autoDEER <https://github.com/JeschkeLab/autoDEER>
+    
 
 

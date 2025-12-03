@@ -1,0 +1,22 @@
+Spectrometer:
+  Type: Complete Spectrometer
+  Manufacturer: Bruker
+  Model: E580
+  Local Name: Bruker E580
+
+  AWG: True
+
+
+  Bridge:
+    Min Freq: 33 #GHz
+    Max Freq: 35 #GHz
+    Digital Source: False # Analogue or Digital Source (for Q-band standalone)
+    d0: 650 #ns
+    Sample Freq: 1 # GSa/s
+    DutyCycle: 3 # Max amplifier duty cycle %
+    Pulse dt: 2  #ns
+    Det dt: 0.5  #ns
+    Det res: 8  #bit
+    Video BW: 125 #MHz on VAMP-III this changes the time base
+    On Board Pcyc: False # Use on-board phase cycling generally
+    On Board Pcyc (EDFS): True  # Use on-board phase cycling for EDFS experiments

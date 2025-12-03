@@ -1,6 +1,10 @@
-name: Build and Deploy Docs
+name: Test Build Docs
 
 on:
+  push:
+    branches:
+      - develop
+      - main
   workflow_dispatch:
 
 jobs:
@@ -33,8 +37,3 @@ jobs:
           name: sphinx-build-log
           path: sphinx_build.log
           
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docsrc/_build/html

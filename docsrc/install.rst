@@ -20,5 +20,23 @@ or with poetry:
 To install PyEPR from source, clone the repository and run the following command:
 
 .. code-block:: bash
+    
+    git clone https://github.com/JeschkeLab/PyEPR
 
     pip install .
+
+Requirements
+++++++++++++
+
+PyEPR requires:
+    - Python >= 3.11 < 3.13
+    - Numpy 
+    - Scipy
+    - Matplotlib
+    - pyyaml
+    - xarray
+    - h5netcdf
+    - toml
+    - deerlab (https://github.com/JeschkeLab/DeerLab)
+    - numba
+    - psutil
