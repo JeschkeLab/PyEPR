@@ -27,7 +27,7 @@ class Interface:
             with open(config_file, 'r') as f:
                 config_file = yaml.safe_load(f)
         
-        self.config = config_file if isinstance(config_file, dict) else {}
+        self.config = config_file if isinstance(config_file, dict) else {"Spectrometer":{"Bridge":{}}}
         
         self.pulses = {}
         self.savefolder = str(Path.home())

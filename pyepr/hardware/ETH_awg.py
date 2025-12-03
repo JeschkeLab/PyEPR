@@ -570,7 +570,7 @@ class ETH_awg_interface(Interface):
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
             c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
+            c_frq = 0.5*(pulse.init_freq.value + pulse.final_freq.value) + freq
 
         # Find rect pulses
         if mode == "amp_hahn":
