@@ -964,20 +964,41 @@ class GaussianPulse(Pulse):
     Represents a Gaussian monochromatic pulse.
     """
 
-    def __init__(self, *, tp=32,FWHM=16, freq=0, **kwargs) -> None:
-        """    Represents a Gaussian monochromatic pulse.
+    def __init__(self, *, tp=32,FWHM=None, freq=0, **kwargs) -> None:
+        """
+        By default, the FWHM is set to tp/(2*np.sqrt(2*np.log(2))).
 
+        
         Parameters
         ----------
         tp : float
-            Pulse length in ns, by default 128
+            Pulse length in ns, by default 32
         FWHM : float,
-            The full width at half maximum of the pulse
+            The full width at half maximum of the pulse. Defaults to tp/(2*np.sqrt(2*np.log(2))).
         freq : float, optional
             The frequency of the pulse, by default 0
+        
+        
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            GuassPulse = epr.GaussianPulse(tp=32)
+            GuassPulse.plot(pad=0)
+            plt.annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
+            plt.annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
         """
         Pulse.__init__(self, tp=tp,name='GaussianPulse', **kwargs)
         self.freq = Parameter("Freq", freq, "GHz", "Frequency of the Pulse")
+
+        if FWHM is None:
+            FWHM = tp / (2 * np.sqrt(2 * np.log(2)))
+
         self.FWHM = Parameter("FWHM", FWHM, "ns", "Full Width at Half Maximum of the Pulse")
         self._buildFMAM(self.func)
         pass
@@ -988,6 +1009,9 @@ class GaussianPulse(Pulse):
         AM = np.exp(-ax**2 / (2 * sigma**2))
         FM = np.zeros(nx) + self.freq.value
         return AM, FM
+    
+    def plot(self, pad=1000):
+        return super().plot(pad)
 # =============================================================================
 class FrequencySweptPulse(Pulse):
     """
