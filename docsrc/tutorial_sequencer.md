@@ -31,16 +31,16 @@ These pulses will eventually need a scale (amplitude), before the sequence can b
 A Detection window is also created
 ```python
 p90 = epr.RectPulse(tp=16,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     flipangle=np.pi/2, # Flip angle in degrees
                     pcyc = {"phases":[0, np.pi], "dets":[1,-1]}
                     )
 p180 = epr.RectPulse(tp=32,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     flipangle=np.pi, # Flip angle in degrees
                     )
 det = epr.Detetction(tp=32,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     )
 ```                  
 We now need a time axis for our sequence and to add them to the sequence object.
@@ -49,8 +49,8 @@ When a pulse is copied into the sequence using the `add_pulse` method, parameter
 t = epr.Parameter(name='Interpulse Delay',
                   value=400, # Initial interpulse delay in ns
                   step=8,  # Step size in ns
-                  dim=1024  # Number of points,
-                  unit='ns'  # Unit of the parameter
+                  dim=1024,  # Number of points,
+                  unit='ns',  # Unit of the parameter
                   description='Interpulse delay between the pi/2 and pi pulse'
                   )
 
@@ -81,7 +81,7 @@ HE_Seq = epr.HahnEchoRelaxationSequence(
     shots = 20, # Number of shots per point
     start = 400, # Initial interpulse delay in ns
     step = 8,  # Step size in ns
-    dim = 1024  # Number of points
+    dim = 1024,  # Number of points
     pi2_pulse = p90,  # The 90 degree pulse
     pi_pulse = p180  # The 180 degree pulse
 )

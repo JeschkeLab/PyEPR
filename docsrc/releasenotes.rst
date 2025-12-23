@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.0.3 (2025-12-02):
+++++++++++++++++++++++++++++
+- Fixed Version Detection Bug
+- Fixed Dependency issues
+- Improved Documentation
+
+
 Version 1.0.0 (2025-09-12):
 ++++++++++++++++++++++++++++
 - All references to `LO` have been changed to `freq` in the frequency object and related.
