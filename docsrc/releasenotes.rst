@@ -3,6 +3,8 @@ Release Notes
 
 Version 1.0.3 (2025-12-02):
 ++++++++++++++++++++++++++++
+- Added `AmplifierLinearityAnalysis` class for characterizing amplifier non-linearity.
+- Added right based arithmatic.
 - Fixed Version Detection Bug
 - Fixed Dependency issues
 - Improved Documentation
