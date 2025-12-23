@@ -75,6 +75,17 @@ class BrukerAWG(Interface):
 
 
     def connect(self, d0=None) -> None:
+        """
+        Connects to the spectrometer through the XeprAPI. Automatically sets
+        up the spectrometer for pulse experiments.
+
+        Parameters
+        ----------
+        d0: float, optional
+            The d0 value to be used. If None, the d0 will be calculated
+            upon connection. By default None.
+        
+        """
 
         self.api.connect()
 
@@ -84,6 +95,18 @@ class BrukerAWG(Interface):
         return super().connect()
 
     def setup(self,d0=None):
+        """
+        Sets up the spectrometer for pulse experiments.
+        The video bandwidth is read from the configuration file, and the timebase
+        is set accordingly.
+
+        Parameters
+        ----------
+        d0: float, optional
+            The d0 value to be used. If None, the d0 will be calculated
+            upon connection. By default None.
+        
+        """
 
         self.api.hidden['BrPlsMode'].value = True
         self.api.hidden['OpMode'].value = 'Operate'

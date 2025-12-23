@@ -2,7 +2,7 @@ import numpy as np
 import scipy.signal as sig
 from pyepr.classes import Parameter
 from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
-from pyepr.pulses import Pulse
+import pyepr.pulses as pulses
 from scipy.integrate import cumulative_trapezoid
 from deerlab import correctphase
 from warnings import warn
@@ -543,7 +543,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         The scans to be loaded.
     mask : list, optional
         The mask to be used.
-    filter_pulse : ad.Pulse, optional
+    filter_pulse : epr.Pulse, optional
         The pulse to be used as a matched filter. If None, the maximum pulse width will be used. This is only used if filter_type is 'match'
     filter_type : str, optional
         The type of filter to be used. Options are 'match', 'cheby2' and 'butter. Default is 'match'
@@ -849,12 +849,12 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
 
         filter_func = lambda dta, det_frq: match_filter_dc(dta,t,complex_shape,det_frq)
     
-    elif isinstance(filter_pulse,Pulse):
+    elif isinstance(filter_pulse,pulses.Pulse):
         complex_shape = filter_pulse.build_shape(t)
         filter_func = lambda dta, det_frq: match_filter_dc(dta,t,complex_shape,det_frq)
 
 
-    elif (filter_type.lower() == 'cheby2') or (filter_type.lower() == 'butter'):
+    elif filter_type.lower() in ['cheby2','butter','boxcar']:
         if filter_width is None:
             raise ValueError('You must provide a filter width for the cheby2 or butter filter')
         
