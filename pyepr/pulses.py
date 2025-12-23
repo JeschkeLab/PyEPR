@@ -341,7 +341,7 @@ class Pulse:
 
         This function is ported from EasySpin 
         (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and
+        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
         Andrin Doll[3].
 
         References:
@@ -610,7 +610,7 @@ class Pulse:
 
     def __str__(self):
         # Build header line
-        header = "#" * 79 + "\n" + "autoDEER Pulse Definition" + \
+        header = "#" * 79 + "\n" + "PyEPR Pulse Definition" + \
                  "\n" + "#" * 79 + "\n"
         
         # Build Overviews
@@ -685,7 +685,7 @@ class Pulse:
 
         # Build Footer
         footer = "#" * 79 + "\n" +\
-            f"Built by autoDEER Version: {__version__}" + "\n" + "#" * 79
+            f"Built by PyEPR Version: {__version__}" + "\n" + "#" * 79
 
         # Combine All
         string = header + overview_params + param_table + prog_table +\

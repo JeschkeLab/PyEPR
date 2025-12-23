@@ -107,17 +107,24 @@ class BrukerAWG(Interface):
             upon connection. By default None.
         
         """
+        # Check if needs to switch to pulse mode, only if needed as slow
+        if not self.api.hidden['BrPlsMode'].value:
+            hw_log.info('Switching to Pulse Mode')
+            temp_mw_amp = self.api.get_MW_amp()
+            
+            self.api.hidden['BrPlsMode'].value = True # Turns the mw (video) amplifier on
+            time.sleep(3) # Wait for bridge to actually switch to pulse mode
+            self.api.set_MW_amp(temp_mw_amp)
 
-        self.api.hidden['BrPlsMode'].value = True
         self.api.hidden['OpMode'].value = 'Operate'
         # self.api.hidden['RefArm'].value = 'On'
-
         # TODO add detection of VAMP-III model
         video_bw = self.bridge_config.get('Video BW')
         # self.api.cur_exp['VideoBW'].value = 20
 
         self.time_base = 1/(video_bw*2e-3)
         self.api.hidden['specJet.TimeBase'].value = self.time_base
+        
 
 
         if d0 is None:
@@ -305,13 +312,14 @@ class BrukerAWG(Interface):
 
     
     def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400):
-        """Generates a rectangular pi and pi/2 pulse of the given length at 
-        the given field position. This value is stored in the pulse cache. 
+        """
+        Generates a rectangular pi/2 and pi pulse at the given frequency and field.
+        The pulses are of equal amplitude ($t_p$ for pi/2 and $2*t_p$ for pi) and are tuned using a Hahn echo sequence.
 
         Parameters
         ----------
         tp : float
-            Pulse length in ns
+            $pi/2$ Pulse length in ns
         freq : float
             Central frequency of this pulse in GHz
         B : float
@@ -326,7 +334,7 @@ class BrukerAWG(Interface):
         p90: RectPulse
             A tuned rectangular pi/2 pulse of length tp
         p180: RectPulse
-            A tuned rectangular pi pulse of length tp
+            A tuned rectangular pi pulse of length 2*tp
         """
         time.sleep(5)
         amp_tune =HahnEchoSequence(
@@ -358,7 +366,7 @@ class BrukerAWG(Interface):
             data = np.abs(dataset.data)
             scale_amp = np.around(dataset.pulse0_scale[data.argmax()].data,2)
             if scale_amp > 0.95:
-                raise RuntimeError("Not enough power avaliable.")
+                raise RuntimeError("Not enough power available.")
             
             if scale_amp == 0:
                 warnings.warn("Pulse tuned with a scale of zero!")

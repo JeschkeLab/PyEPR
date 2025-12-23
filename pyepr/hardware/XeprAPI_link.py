@@ -23,12 +23,25 @@ hw_log = logging.getLogger('interface.Xepr')
 
 
 class XeprAPILink:
-    def __init__(self, config_file: str = None) -> None:
+    def __init__(self, config_file: str = None, **kwargs) -> None:
+        """
+        This class links to the Bruker Xepr API to control the spectrometer.
+        Parameters
+        ----------
+        config_file : str, optional
+            Path to a PyEPR spectrometer configuration file, by default None
+        kwargs : dict, optional
+            Additional keyword arguments:
+            - retry_attempts : int
+                Number of times to retry getting a Xepr parameter before 
+                raising an exception. Default is 50.
+        """
         self.Xepr = None
         self.cur_exp = None
         self.hidden = None
         self._tmp_dir = None
         self.XeprCmds = None
+        self.retry_attempts = kwargs.get('retry_attempts', 50)
         if config_file is not None:
             with open(config_file, mode='r') as file:
                 config = yaml.safe_load(file)
@@ -66,7 +79,7 @@ class XeprAPILink:
     
     def log_xepr_version(self):
         """Logs the Xepr and Linacq versions for debugging purposes."""
-        packages = ['xper','linacq']
+        packages = ['xepr','linacq']
 
         for package in packages:
             details = get_package_version_from_dnf(package)
@@ -87,7 +100,7 @@ class XeprAPILink:
 
     def _xepr_retry(self, func, *args, **kwargs):
 
-        for i in range(0, 50):
+        for i in range(0, self.retry_attempts):
             try:
                 return func(*args, **kwargs)
             except Exception as e:
