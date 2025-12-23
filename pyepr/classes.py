@@ -37,7 +37,10 @@ class Interface:
         else:
             self.log = log
         self.resonator = None
-        self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        if self.config != {}:
+            self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        else:
+            self.amp_nonlinearity = None
         pass
 
     def connect(self) -> None:
