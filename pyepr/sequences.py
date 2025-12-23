@@ -646,7 +646,7 @@ class HahnEchoSequence(Sequence):
         Parameters
         ----------
         B : int or float
-            The B0 field, in Guass
+            The B0 field, in Gauss
         freq : int or float
             The freq frequency in GHz
         reptime : _type_
@@ -763,7 +763,7 @@ class HahnEchoRelaxationSequence(HahnEchoSequence):
     Parameters
     ----------
     B : int or float
-        The B0 field, in Guass
+        The B0 field, in Gauss
     freq : int or float
         The freq frequency in GHz
     reptime : _type_
@@ -814,7 +814,7 @@ class T2RelaxationSequence(HahnEchoRelaxationSequence):
     Parameters
     ----------
     B : int or float
-        The B0 field, in Guass
+        The B0 field, in Gauss
     freq : int or float
         The freq frequency in GHz
     reptime : _type_
@@ -854,7 +854,7 @@ class FieldSweepSequence(HahnEchoSequence):
         Parameters
         ----------
         B : int or float
-            The B0 field, in Guass
+            The B0 field, in Gauss
         Bwidth: int or float
             The width of the field sweep, in Gauss
         freq : int or float
@@ -926,7 +926,7 @@ class ReptimeScan(HahnEchoSequence):
         Parameters
         ----------
         B : int or float
-            The B0 field, in Guass
+            The B0 field, in Gauss
         freq : int or float
             The freq frequency in GHz
         reptime: float
@@ -1004,7 +1004,7 @@ class CarrPurcellSequence(Sequence):
         Parameters
         ----------
         B : int or float
-            The B0 field, in Guass
+            The B0 field, in Gauss
         freq : int or float
             The freq frequency in GHz
         reptime : _type_
@@ -1138,7 +1138,7 @@ class ResonatorProfileSequence(Sequence):
         Parameters
         ----------
         B : int or float
-            The B0 field, in Guass
+            The B0 field, in Gauss
         Bwidth: int or float
             The width of the field sweep, in Gauss
         freq : int or float
@@ -1208,7 +1208,7 @@ class ResonatorProfileSequence(Sequence):
         self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
         self.B = Parameter(
             "B",((center_freq)/self.gyro), start=-fwidth/self.gyro, step=fstep/self.gyro, dim=dim,
-            unit="Guass",link=self.freq,description="B0 Field" )
+            unit="Gauss",link=self.freq,description="B0 Field" )
         
         self.addPulse(RectPulse(  # Hard pulse
             t=0, tp=tp, freq=0, flipangle="Hard"

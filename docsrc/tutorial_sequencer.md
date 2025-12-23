@@ -1,6 +1,6 @@
 # Pulse Sequencer
 
-PyEPR provides an intuitive object-oriented pulse programmer allowing the user to design pulsesequences in a hardware-agnostic manner. Additionally, several common EPR experiments are pre-defined and can be easily instantiated and modified.
+PyEPR provides an intuitive object-oriented pulse programmer allowing the user to design pulse sequences in a hardware-agnostic manner. Additionally, several common EPR experiments are pre-defined and can be easily instantiated and modified.
 
 PyEPR uses ns, GHz and G as the default time, frequency and field units. Very occasionally, other units such as µs or MHz are used, in which case it will be explicitly mentioned.
 
@@ -39,12 +39,12 @@ p180 = epr.RectPulse(tp=32,
                     freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     flipangle=np.pi, # Flip angle in degrees
                     )
-det = epr.Detetction(tp=32,
+det = epr.Detection(tp=32,
                     freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     )
 ```                  
 We now need a time axis for our sequence and to add them to the sequence object.
-When a pulse is copied into the sequence using the `add_pulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
+When a pulse is copied into the sequence using the `addPulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
 ```python
 t = epr.Parameter(name='Interpulse Delay',
                   value=400, # Initial interpulse delay in ns
@@ -55,9 +55,9 @@ t = epr.Parameter(name='Interpulse Delay',
                   )
 
 # Adding the pulses to the sequence
-seq.add_pulse(p90.copy(t=0))
-seq.add_pulse(p180.copy(t=t))
-seq.add_pulse(det.copy(t=2*t))  
+seq.addPulse(p90.copy(t=0))
+seq.addPulse(p180.copy(t=t))
+seq.addPulse(det.copy(t=2*t))  
 
 # Defining the evolution
 seq.evolution([t])
