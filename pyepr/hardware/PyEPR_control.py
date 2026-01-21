@@ -197,7 +197,7 @@ class PyEPRControlInterface(Interface):
             response = requests.get(self.server + "/status", timeout=10)
         except Exception as e:
             print(f"Error updating status: {e}")
-        return pickle.loads(response['status'].encode('latin1'))
+        return pickle.loads(response.json()['status'].encode('latin1'))
     
     def launch(self, sequence: Sequence , savename: str, IFgain=None, *args,**kwargs):
         self.savefolder = self.savefolder
@@ -288,7 +288,7 @@ class PyEPRControlInterface(Interface):
 
         return response.json()['isrunning']
 
-    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,IFgain=None):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,tau=500,IFgain=None):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -314,7 +314,7 @@ class PyEPRControlInterface(Interface):
         """
 
         amp_tune =HahnEchoSequence(
-            B=B, freq=freq, reptime=reptime, averages=1, shots=shots
+            B=B, freq=freq, reptime=reptime, averages=1, shots=shots, tau=tau
         )
 
         scale = Parameter("scale",0.01,dim=45,step=0.02)
@@ -323,15 +323,22 @@ class PyEPRControlInterface(Interface):
         amp_tune.pulses[1].tp.value = tp * 2
         amp_tune.pulses[1].scale = scale
 
-        amp_tune.pulses[2].tp.value = 256
+        amp_tune.pulses[2].tp.value = 512
 
         amp_tune.evolution([scale])
         
         self.launch(amp_tune, "autoDEER_amptune",IFgain=IFgain)
-
+        time.sleep(15)
         while self.isrunning():
             time.sleep(2)
         dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
+        # Check if zero's in data
+        if np.any(dataset.data == 0):
+            warnings.warn("Zero values found in dataset. This may indicate an error in acquisition.")
+            time.sleep(5)
+            while self.isrunning():
+                time.sleep(2)
+            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
         dataset = dataset.epr.correctphase
 
         data = np.abs(dataset.data)
@@ -342,6 +349,7 @@ class PyEPRControlInterface(Interface):
         
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
+            print("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
             scale=scale, freq=0)
         
@@ -450,7 +458,7 @@ class PyEPRControlInterface(Interface):
             nut_tune.addPulse(
                 pi_pulse.copy(t=2500, pcyc={"phases":[0],"dets":[1]},
                                 freq=0))
-            nut_tune.addPulse(Detection(t=3000, tp=256, freq=c_frq-freq))
+            nut_tune.addPulse(Detection(t=3000, tp=512, freq=c_frq-freq))
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
@@ -463,7 +471,7 @@ class PyEPRControlInterface(Interface):
             #     axis= np.arange(0,0.9,0.02)
             # )
             self.launch(nut_tune, "autoDEER_amptune", IFgain=IFgain)
-
+            time.sleep(10)
             while self.isrunning():
                 time.sleep(10)
             dataset = self.acquire_dataset()
