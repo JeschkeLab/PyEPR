@@ -755,9 +755,10 @@ class T1InversionRecoverySequence(Sequence):
     """
 # =============================================================================
 
-class T2RelaxationSequence(HahnEchoSequence):
+
+class HahnEchoRelaxationSequence(HahnEchoSequence):
     """
-    Represents a T2 relaxation sequence. A Hahn Echo where the interpulse delay increases
+    Represents a Hahn Echo relaxation sequence for measureing Tm. A Hahn Echo where the interpulse delay increases
     
     Parameters
     ----------
@@ -805,6 +806,40 @@ class T2RelaxationSequence(HahnEchoSequence):
             data *= _gen_ESEEM(xaxis, 7.842, ESEEM_depth)
         return xaxis, data
 
+class T2RelaxationSequence(HahnEchoRelaxationSequence):
+    """
+    Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
+    A Hahn Echo where the interpulse delay increases.
+    
+    Parameters
+    ----------
+    B : int or float
+        The B0 field, in Guass
+    freq : int or float
+        The freq frequency in GHz
+    reptime : _type_
+        The shot repetition time in us
+    averages : int
+        The number of scans.
+    shots : int
+        The number of shots per point
+    start : float
+        The minimum interpulse delay in ns, by default 500 ns
+    step : float
+        The step size of the interpulse delay in ns, by default 40 ns
+    dim : int
+        The number of points in the X axis
+
+    Optional Parameters
+    -------------------
+    pi2_pulse : Pulse
+        An autoEPR Pulse object describing the excitation pi/2 pulse. If
+        not specified a RectPulse will be created instead. 
+    pi_pulse : Pulse
+        An autoEPR Pulse object describing the refocusing pi pulses. If
+        not specified a RectPulse will be created instead. 
+    """
+    pass
 
 # =============================================================================
 

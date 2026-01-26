@@ -21,13 +21,16 @@ release = __version__
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ['sphinx.ext.viewcode',
+              'sphinx_design',
+              'myst_parser',
               'sphinx.ext.intersphinx',
               'autoapi.extension',
               'sphinx_toolbox.collapse',
               'sphinx_toolbox.code',
               'sphinx_copybutton',
               'numpydoc',
-              'sphinx_favicon']
+              'sphinx_favicon',
+              'sphinx_gallery.gen_gallery']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -44,6 +47,10 @@ autoapi_python_class_content= "both"
 autoapi_python_use_implicit_namespaces = True
 autoapi_own_page_level = 'class'
 
+sphinx_gallery_conf = {
+     'examples_dirs': 'examples',   # path to your example scripts
+     'gallery_dirs': 'auto_examples',  # path to where to save gallery generated output
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

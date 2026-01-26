@@ -10,25 +10,22 @@ PyEPR is a Python package for designing for building and running automated Elect
 The package has been designed to support a wide range of EPR spectrometers, both commercial and home-built.
 
 
-autoDEER is a spectrometer independent Python package developed to enable push-button
-fully automated DEER. The program is built around a well established and tested optimised algorithum. 
-It can be either interfaced using the user friendly GUI or via Python code. Additionally, the backend "autoEPR" can 
-be used to build new projects. 
-
-
-autoDEER's Key Features
+PyEPR's Key Features
 -----------------------
 
-- Fully Automated Push Button DEER
-- Integrated Fitting
-- Spectrometer Independence
-- Intuitive Graphical User Interface
-- High Quality PDF Report Generator
-- and much more...
+- Fully python based, open-source and free to use
+- Intuitive object-oriented pulse sequencer
+- Pre-defined common EPR experiments (CW, Hahn Echo, Inversion Recovery, Carr-Purcell, etc.)
+- Easy to define custom experiments
+- Pre-defined common pulse shapes (rectangular, Gaussian, sech/tanh, etc.)
+- Easy to define custom pulse shapes
+- Hardware abstraction layer for interfacing with different spectrometers
+- BRUKER PulseSpel compiler from PyEPR sequences
 
-.. warning:: 
-    PyEPR is an actively developed software package, that is still very much a work in process. Please consider this to be a beta release.
-      
+.. image:: _static/Hardware_Interface_Diagram.svg
+    :align: center
+    :width: 90%
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -43,8 +40,10 @@ autoDEER's Key Features
     :caption: About
 
     ./releasenotes.rst
-    ./contributing.rst
+    citation.rst
+    licence.rst
     Github <https://github.com/JeschkeLab/PyEPR>
     autoDEER <https://github.com/JeschkeLab/autoDEER>
+    
 
 

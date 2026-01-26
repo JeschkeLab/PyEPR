@@ -634,7 +634,7 @@ def detect_ESEEM(dataset,type='deuteron', threshold=1.5):
 
 cmap = ['#D95B6F','#42A399']
 
-def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
+def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap, labels =None):
     """
     Create a superimposed plot of relaxation data and fits.
 
@@ -674,6 +674,8 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap):
         else:
             xscale = 4
             label='CP-2'
+        if labels is not None:
+            label = labels[i]
         
         axs.plot(arg.axis*xscale, arg.data/arg.data.max(), '.', label=label,alpha=0.5,color=cmap[i],mec='none')
         if hasattr(arg, 'func'):

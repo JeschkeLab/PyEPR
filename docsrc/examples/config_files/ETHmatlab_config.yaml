@@ -1,0 +1,16 @@
+Spectrometer:
+  Type: Complete Spectrometer
+  Manufacturer: ETH
+  Model: Matlab
+  Local Name: F243_AWG
+
+  AWG: True
+
+  Bridge:
+    Min Freq: 33 #GHz
+    Max Freq: 36 #GHz
+    Sample Freq: 8 # GSa/s
+    Det Freq: 2 #GSa/s
+    Det Res: 12  #bit
+
+  Waveform Precision: 1 #ns

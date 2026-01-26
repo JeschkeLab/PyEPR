@@ -9,10 +9,6 @@ import tempfile
 import time
 from scipy.optimize import minimize_scalar, curve_fit
 import numpy as np
-import threading
-import concurrent.futures
-from PyQt6.QtCore import QThreadPool
-from autodeer.gui import Worker
 import os
 from pathlib import Path
 import datetime
@@ -33,7 +29,7 @@ class BrukerAWG(Interface):
     Spectrometers.
     """
 
-    def __init__(self, config_file:dict) -> None:
+    def __init__(self, config_file) -> None:
         """An interface for connecting to AWG based Bruker ELEXSYS-II 
         Spectrometers.
 
@@ -48,7 +44,7 @@ class BrukerAWG(Interface):
 
         Parameters
         ----------
-        config_file : dict
+        config_file : str
             The path to a YAML configuration file.
         
         Attributes
@@ -70,12 +66,12 @@ class BrukerAWG(Interface):
         self.bg_data = None
         self.cur_exp = None
         self.tuning = False
-        self.pool = QThreadPool()
+        self.pool = None # QThreadPool
         self.savename = ''
         self.savefolder = str(Path.home())
         self.setup_flag=False
 
-        super().__init__()
+        super().__init__(config_file)
 
 
     def connect(self, d0=None) -> None:
@@ -146,13 +142,6 @@ class BrukerAWG(Interface):
         self.terminate()
 
         variables = uProgTable_py['variables']
-        # print("Creating Thread")
-        # # thread = threading.Thread(target=step_parameters,args=[self,reduced_seq,py_ax_dim,variables])
-        # # self.bg_thread = self.pool.submit(step_parameters, self,reduced_seq,py_ax_dim,variables)
-        # self.bg_thread = Worker(step_parameters, self,reduced_seq,py_ax_dim,variables)
-        # self.pool.start(self.bg_thread)
-        # print("Started Thread")
-
         step_parameters(self,reduced_seq,py_ax_dim,variables)
         # thread.start()
 
