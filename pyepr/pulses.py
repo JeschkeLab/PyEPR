@@ -1108,15 +1108,22 @@ class ChirpPulse(FrequencySweptPulse):
     Represents a linear frequency-swept pulse.
     """
 
-    def __init__(self, *, tp=128, **kwargs) -> None:
+    def __init__(self, *, tp=128,rise_time=10, **kwargs) -> None:
         FrequencySweptPulse.__init__(self, tp=tp,name='ChirpPulse', **kwargs)
+        self.rise_time = Parameter("rise_time", rise_time, "ns", "The rise time of the pulse")
 
         self._buildFMAM(self.func)
         pass
 
     def func(self, ax):
         nx = ax.shape[0]
+        # Use a quarter sine wave for the rise and fall
+        rise_pts = int(self.rise_time.value/(ax[1]-ax[0]))
+        if rise_pts > nx/2:
+            rise_pts = int(nx/2)
         AM = np.ones(nx)
+        AM[0:rise_pts] = np.sin((np.pi/2)*(ax[0:rise_pts]/self.rise_time.value))**2
+        AM[-rise_pts:] = np.sin((np.pi/2)*((self.tp.value-ax[-rise_pts:])/self.rise_time.value))**2
 
         FM = np.linspace(
             self.init_freq.value, self.final_freq.value, nx)
