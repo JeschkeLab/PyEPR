@@ -23,6 +23,14 @@ class Interface:
     """
 
     def __init__(self,config_file:dict=None,log=None) -> None:
+        """
+        Parameters
+        ----------
+        config_file : dict or str or Path, optional
+            The configuration file or dict for the spectrometer interface, by default None. If None, a default configuration will be used.
+        log : logging.Logger, optional  
+            The logger to be used, by default None. If None, a default logger will be created.
+        """
         if isinstance(config_file, (str,Path)):
             with open(config_file, 'r') as f:
                 config_file = yaml.safe_load(f)
