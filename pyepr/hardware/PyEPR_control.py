@@ -33,7 +33,7 @@ class PyEPRControlInterface(Interface):
         
         
         super().__init__()
-        self.IFgain_options = np.array([0,20]) #np.array([0, 20, 40])
+        self.IFgain_options = np.array([0,20,40]) #np.array([0, 20, 40])
         self.IFgain = 1 #2
 
         self.config_file = config_file_path
