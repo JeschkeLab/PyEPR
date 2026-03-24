@@ -11,6 +11,8 @@ import sys
 from pyepr import __version__, __copyright__
 sys.path.insert(0, os.path.abspath('..'))
 
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
 
 project = 'PyEPR'
 copyright = __copyright__
@@ -30,7 +32,10 @@ extensions = ['sphinx.ext.viewcode',
               'sphinx_copybutton',
               'numpydoc',
               'sphinx_favicon',
-              'sphinx_gallery.gen_gallery']
+              'sphinx_gallery.gen_gallery',
+              'matplotlib.sphinxext.plot_directive',
+              'sphinx.ext.imgmath'
+]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -40,6 +45,10 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 autoapi_dirs = ['../pyepr']
 autodoc_typehints = "description"
 autoapi_template_dir = "_templates/autoapi"
+
+plot_include_source = True
+plot_html_show_source_code = False
+plot_formats = [('png', 100)]
 
 autoapi_keep_files = True
 autoapi_add_toctree_entry = False

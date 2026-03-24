@@ -11,7 +11,7 @@ import logging
 # PyEPR imports
 from pyepr.classes import  Interface, Parameter
 from pyepr.pulses import  Delay, Detection
-from pyepr.sequences import Sequence, HahnEchoSequence
+from pyepr.sequences import Sequence, HahnEchoSequence, FieldSweepSequence
 
 
 log = logging.getLogger("interface")
@@ -33,11 +33,12 @@ class PyEPRControlInterface(Interface):
         
         
         super().__init__()
-        self.IFgain_options = np.array([0, 20, 40])
-        self.IFgain = 2
+        self.IFgain_options = np.array([0,20,40]) #np.array([0, 20, 40])
+        self.IFgain = 1 #2
 
         self.config_file = config_file_path
         self.server = None
+        self.cur_exp = None
 
     @property
     def savefolder(self):
@@ -88,12 +89,21 @@ class PyEPRControlInterface(Interface):
         return True
 
     def acquire_dataset(self,verbosity=0,sum_scans=True, **kwargs):
+
+        if isinstance(self.cur_exp, FieldSweepSequence):
+            kwargs['filter_type'] = kwargs.pop('filter_type', 'boxcar')
+            kwargs['filter_width'] = kwargs.pop('filter_width', 250)
+            
+        else:
+            kwargs['filter_type'] = kwargs.get('filter_type', 'cheby')
+            kwargs['filter_width'] = kwargs.get('filter_width', 100)
         
         for i in range(60):
             args = kwargs.copy()
-            args['downconvert'] = True
+            if 'downconvert' not in args:
+                args['downconvert'] = True
             
-            response = requests.get(self.server + '/get_data', json={'downconvert': True})
+            response = requests.get(self.server + '/get_data', json=args)
             if 'error' in response.json():
                 if verbosity > 0:
                     log.warning(response.json()['error'])
@@ -101,7 +111,9 @@ class PyEPRControlInterface(Interface):
                 continue
             elif 'data' in response.json():
                 break
-            time.sleep(2)
+            else:
+                log.error(f"Unexpected response: {response.json()}")
+                time.sleep(2)
         
         if 'data' in response.json():
             data = pickle.loads(response.json()['data'].encode('latin1')) #xr.datarray
@@ -110,12 +122,15 @@ class PyEPRControlInterface(Interface):
             else:
                 return data
         else:
+            log.error(f"No data found in response. {response.json()}")
+
             raise RuntimeError("No data returned from server")
         
     def get_buffer(self,verbosity=0,sum_scans=True, **kwargs):
         for i in range(60):
             args = kwargs.copy()
-            args['downconvert'] = False
+            if 'downconvert' not in args:
+                args['downconvert'] = False
 
             response = requests.get(self.server + '/get_databuffer', json=args)
             if 'error' in response.json():
@@ -135,6 +150,25 @@ class PyEPRControlInterface(Interface):
                 return data
         else:
             raise RuntimeError("No data returned from server")
+        
+    def status(self):
+        """Returns the status of the spectrometer.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the status of the spectrometer.
+        """
+        response = requests.get(self.server + '/status')
+        if 'error' in response.json():
+            raise RuntimeError(response.json()['error'])
+        else:
+            # Depickle
+            status = response.json()
+            data = pickle.loads(status['status'].encode('latin1'))
+            return data
+        
+
         
     def set_param(self, param: str, value: float):
         """Set a parameter for the spectrometer.
@@ -158,14 +192,20 @@ class PyEPRControlInterface(Interface):
         log.debug(response.json()['message'])
         return True
         
-
+    def status(self):
+        try:
+            response = requests.get(self.server + "/status", timeout=10)
+        except Exception as e:
+            print(f"Error updating status: {e}")
+        return pickle.loads(response.json()['status'].encode('latin1'))
+    
     def launch(self, sequence: Sequence , savename: str, IFgain=None, *args,**kwargs):
-
+        self.savefolder = self.savefolder
         # increase the detection length to a minimum 1024ns
         for pulse in sequence.pulses:
             if isinstance(pulse, Detection):
-                if pulse.tp.value < 128:
-                    pulse.tp.value = 128
+                if pulse.tp.value < 256:
+                    pulse.tp.value = 256
         
         if (IFgain is None) or (IFgain is True):
             test_IF = True
@@ -248,7 +288,7 @@ class PyEPRControlInterface(Interface):
 
         return response.json()['isrunning']
 
-    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,tau=500,IFgain=None):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -274,22 +314,31 @@ class PyEPRControlInterface(Interface):
         """
 
         amp_tune =HahnEchoSequence(
-            B=B, freq=freq, reptime=reptime, averages=1, shots=shots
+            B=B, freq=freq, reptime=reptime, averages=1, shots=shots, tau=tau
         )
 
-        scale = Parameter("scale",0,dim=45,step=0.02)
+        scale = Parameter("scale",0.01,dim=45,step=0.02)
         amp_tune.pulses[0].tp.value = tp
         amp_tune.pulses[0].scale = scale
         amp_tune.pulses[1].tp.value = tp * 2
         amp_tune.pulses[1].scale = scale
 
+        amp_tune.pulses[2].tp.value = 512
+
         amp_tune.evolution([scale])
         
-        self.launch(amp_tune, "autoDEER_amptune")
-
+        self.launch(amp_tune, "autoDEER_amptune",IFgain=IFgain)
+        time.sleep(15)
         while self.isrunning():
-            time.sleep(10)
-        dataset = self.acquire_dataset()
+            time.sleep(2)
+        dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
+        # Check if zero's in data
+        if np.any(dataset.data == 0):
+            warnings.warn("Zero values found in dataset. This may indicate an error in acquisition.")
+            time.sleep(5)
+            while self.isrunning():
+                time.sleep(2)
+            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
         dataset = dataset.epr.correctphase
 
         data = np.abs(dataset.data)
@@ -300,16 +349,17 @@ class PyEPRControlInterface(Interface):
         
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
+            print("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
-            scale=scale, freq=amp_tune.freq)
+            scale=scale, freq=0)
         
         p180 = amp_tune.pulses[1].copy(
-            scale=scale, freq=amp_tune.freq)
+            scale=scale, freq=0)
 
         return p90, p180
 
     
-    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400, IFgain=None):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -346,7 +396,7 @@ class PyEPRControlInterface(Interface):
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
             c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
+            c_frq = 0.5*(pulse.init_freq.value + pulse.final_freq.value) + freq
 
         # Find rect pulses
         if mode == "amp_hahn":
@@ -355,7 +405,7 @@ class PyEPRControlInterface(Interface):
             elif pulse.flipangle.value == np.pi/2:
                 tp = pulse.tp.value
 
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime)
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=tp, B=B, freq=c_frq, reptime=reptime, IFgain=IFgain,shots=shots)
             amp_tune =HahnEchoSequence(
                 B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
@@ -367,7 +417,7 @@ class PyEPRControlInterface(Interface):
 
             amp_tune.evolution([scale])
 
-            self.launch(amp_tune, "autoDEER_amptune")
+            self.launch(amp_tune, "autoDEER_amptune", IFgain=IFgain)
 
             while self.isrunning():
                 time.sleep(10)
@@ -386,26 +436,33 @@ class PyEPRControlInterface(Interface):
             return pulse
 
         elif mode == "amp_nut":
-            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=12, B=B, freq=c_frq, reptime=reptime)
+            
+            pi2_pulse, pi_pulse = self.tune_rectpulse(tp=16, B=(B/freq*c_frq), freq=c_frq, reptime=reptime, IFgain=IFgain,shots=shots)
             nut_tune = Sequence(
-                name="nut_tune", B=(B/freq*c_frq), freq=freq, reptime=reptime,
+                name="nut_tune", B=(B/freq*c_frq), freq=c_frq, reptime=reptime,
                 averages=1,shots=shots
             )
-            nut_tune.addPulse(pulse.copy(
-                t=0, pcyc={"phases":[0],"dets":[1]}, scale=0))
+            f_shift = freq - c_frq
+            test_pulse = pulse.copy(
+                t=0, pcyc={"phases":[0],"dets":[1]}, scale=0)
+            if hasattr(test_pulse,"freq"):
+                test_pulse.freq.value = pulse.freq.value + f_shift
+            elif hasattr(test_pulse, "init_freq") & hasattr(pulse, "final_freq"):
+                test_pulse = pulse.init_freq.value + f_shift
+                test_pulse = pulse.final_freq.value - f_shift
+            nut_tune.addPulse(test_pulse)
             nut_tune.addPulse(
-                pi2_pulse.copy(t=2e3,
-                               pcyc={"phases":[0, np.pi],"dets":[1, -1]},
-                               freq=c_frq-freq))
+                pi2_pulse.copy(t=2000,
+                                pcyc={"phases":[0],"dets":[1]},
+                                freq=0))
             nut_tune.addPulse(
-                pi_pulse.copy(t=2.5e3, pcyc={"phases":[0],"dets":[1]},
-                              freq=c_frq-freq))
-            nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-freq))
+                pi_pulse.copy(t=2500, pcyc={"phases":[0],"dets":[1]},
+                                freq=0))
+            nut_tune.addPulse(Detection(t=3000, tp=512, freq=c_frq-freq))
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
             nut_tune.evolution([scale])
-
 
             # nut_tune.addPulsesProg(
             #     pulses=[0],
@@ -413,8 +470,8 @@ class PyEPRControlInterface(Interface):
             #     axis_id = 0,
             #     axis= np.arange(0,0.9,0.02)
             # )
-            self.launch(nut_tune, "autoDEER_amptune")
-
+            self.launch(nut_tune, "autoDEER_amptune", IFgain=IFgain)
+            time.sleep(10)
             while self.isrunning():
                 time.sleep(10)
             dataset = self.acquire_dataset()
@@ -436,7 +493,10 @@ class PyEPRControlInterface(Interface):
             pulse.scale = Parameter('scale',new_amp,unit=None,description='The amplitude of the pulse 0-1')
         
             return pulse
-    
+
+        else:
+            raise ValueError(f"Mode {mode} not recognised. Available modes are: 'amp_hahn', 'amp_nut'")
+        
     def tune(self,*, sequence=None, mode="amp_hahn", freq=None, gyro=None):
 
         if mode == "rect_tune":
@@ -527,3 +587,31 @@ class PyEPRControlInterface(Interface):
 
             return sequence
   
+    def get_config(self):
+        """Returns the current configuration of the spectrometer."""
+        try:
+            response = requests.get(f"{self.server}/get_config")
+            if response.status_code == 200:
+                config_pkl = response.json()['config']
+                config = pickle.loads(config_pkl.encode('latin1'))
+                return config
+        except Exception as e:
+            print(f"Error getting config: {e}")
+            return None
+            
+    def set_config(self, config):
+        """Sets the configuration of the spectrometer.
+
+        Parameters
+        ----------
+        config : dict
+            The configuration to set.
+        """
+        try:
+            config_pkl = pickle.dumps(config)
+            response = requests.post(f"{self.server}/set_config", data=config_pkl)
+            if response.status_code == 200:
+                return True
+        except Exception as e:
+            print(f"Error setting config: {e}")
+            return False

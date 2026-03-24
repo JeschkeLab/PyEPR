@@ -23,11 +23,19 @@ class Interface:
     """
 
     def __init__(self,config_file:dict=None,log=None) -> None:
+        """
+        Parameters
+        ----------
+        config_file : dict or str or Path, optional
+            The configuration file or dict for the spectrometer interface, by default None. If None, a default configuration will be used.
+        log : logging.Logger, optional  
+            The logger to be used, by default None. If None, a default logger will be created.
+        """
         if isinstance(config_file, (str,Path)):
             with open(config_file, 'r') as f:
                 config_file = yaml.safe_load(f)
         
-        self.config = config_file if isinstance(config_file, dict) else {}
+        self.config = config_file if isinstance(config_file, dict) else {"Spectrometer":{"Bridge":{}}}
         
         self.pulses = {}
         self.savefolder = str(Path.home())
@@ -156,7 +164,8 @@ class Interface:
             data = self.acquire_dataset()
             if autosave:
                 self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
-                data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                # data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                data.epr.save(os.path.join(self.savefolder,self.savename))
 
             try:
                 # nAvgs = data.num_scans.value

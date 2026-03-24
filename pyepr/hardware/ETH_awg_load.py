@@ -26,7 +26,11 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
 
     # Extract Data
     estr = matfile[matfile['expname']]
-    conf = matfile['conf'] 
+    if 'settings' in matfile.keys():
+        conf = matfile['settings']['conf'] 
+    else:
+        conf = matfile['conf']
+
     
     def extract_data(matfile):
         if "dta" in matfile.keys():
@@ -559,7 +563,10 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # imports Andrin Doll AWG datafiles using a matched filter
 
     estr = matfile[matfile['expname']]
-    conf = matfile['conf'] 
+    if 'settings' in matfile.keys():
+        conf = matfile['settings']['conf'] 
+    else:
+        conf = matfile['conf']
 
     def extract_data(matfile,scans):
         if "dta" in matfile.keys() and not kwargs.get('ignore_dta',False):
