@@ -143,7 +143,7 @@ def create_dataset_from_bruker(filepath):
     labels = []
     for i in range(ndims):
         ax_label = default_labels[i]
-        axis_string = params['DESC'][f'{ax_label}UNI']
+        axis_string = params['DESC'].get(f'{ax_label}UNI',"")
         if "'" in axis_string:
             axis_string = axis_string.replace("'", "")
         if axis_string == 'G':
@@ -162,11 +162,12 @@ def create_dataset_from_bruker(filepath):
     
     coords = {labels[i]:(default_labels[i],a) for i,a in enumerate(axes)}
     attr = {}
-    attr['LO'] = float(params['SPL']['MWFQ'])  / 1e9
-    attr['B'] = float(params['SPL']['B0VL']) * 1e4
-    attr['reptime'] = float(params['DSL']['ftEpr']['ShotRepTime'].replace('us',''))
-    attr['nAvgs'] = int(params['DSL']['recorder']['NbScansAcc'])
-    attr['shots'] = int(params['DSL']['ftEpr']['ShotsPLoop'])
+    if 'DSL' in params:
+        attr['LO'] = float(params['SPL']['MWFQ'])  / 1e9
+        attr['B'] = float(params['SPL']['B0VL']) * 1e4
+        attr['reptime'] = float(params['DSL']['ftEpr']['ShotRepTime'].replace('us',''))
+        attr['nAvgs'] = int(params['DSL']['recorder']['NbScansAcc'])
+        attr['shots'] = int(params['DSL']['ftEpr']['ShotsPLoop'])
     attr.update({'autoDEER_Version':__version__})
 
     return xr.DataArray(data, dims=dims, coords=coords, attrs=attr)
@@ -183,7 +184,7 @@ class EPRAccessor:
 
         Parameters
         ----------
-        filename : str
+        filename : str, file-like object
             The name of the file to save the dataset
         type : str, optional
             The type of file to save, by default 'netCDF' (including .h5)
@@ -196,7 +197,7 @@ class EPRAccessor:
             mode = "a"
 
         #if filename doesn't have the extension .h5, add it
-        if not filename.endswith('.h5'):
+        if isinstance(filename,str) and not filename.endswith('.h5'):
             filename = filename + '.h5'
 
         if 'Scan' in self._obj.dims:
