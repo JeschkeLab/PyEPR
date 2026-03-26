@@ -2,8 +2,8 @@ import os
 import deerlab as dl
 import numpy as np
 import logging
-from pyepr.dataset import create_dataset_from_bruker
-from pyepr.hardware.ETH_awg_load import uwb_load, uwb_eval_match
+from pyepr.dataset import create_dataset_from_bruker, downconvert_dataset
+from pyepr.hardware.ETH_awg_load import uwb_load, uwb_eval_match, ETHUWB_xarray_load
 from scipy.io import loadmat
 from scipy.io.matlab import MatReadError
 import xarray as xr
@@ -12,7 +12,7 @@ log = logging.getLogger('autoDEER.Tools')
 
 
 def eprload(
-        path: str, experiment: str = None, type: str = None,
+        path: str, experiment: str = None, type: str = None,downconvert=True,
         **kwargs):
     """ A general versions of eprload
 
@@ -54,7 +54,7 @@ def eprload(
             type = 'TXT'
 
         elif file_extension == '.mat':
-            log.debug('File detecetd as Matlab')
+            log.debug('File detected as Matlab')
             type = 'MAT'
         
         else:
@@ -64,10 +64,10 @@ def eprload(
                 " set type manually \n Valid file types: '.DSC','.DTA','.h5',"
                 "'.hdf5','.csv','.txt','.mat'")
     
-    if type == 'BRUKER':
+    if type.upper() == 'BRUKER':
         return create_dataset_from_bruker(path)
 
-    elif type == 'TXT':
+    elif type.upper() == 'TXT':
         if 'full_output' in kwargs:
             full_output = kwargs['full_output']
             del kwargs['full_output']
@@ -76,7 +76,22 @@ def eprload(
         data = np.loadtxt(path, *kwargs)
         return data
 
-    elif type == 'MAT':
+    elif type.upper() == 'MAT':
+        try:
+            Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
+        except Exception as e:
+            raise MatReadError("Error opening MatFile")
+        
+        dataset = ETHUWB_xarray_load(Matfile,kwargs.get('sum_scans',True))
+        
+        if downconvert and 'tx' in dataset.dims:
+            datasetDC = downconvert_dataset(dataset,**kwargs)
+            return datasetDC
+        else:
+            return dataset
+
+
+    elif type.upper() == 'MAT_OLD':
         try:
             Matfile = loadmat(path, simplify_cells=True, squeeze_me=True)
         except Exception as e:
@@ -97,8 +112,14 @@ def eprload(
 
         return uwb_output
     
-    elif type == 'HDF5':
-        return xr.load_dataarray(path,engine='h5netcdf',invalid_netcdf=True)
+    elif type.upper() == 'HDF5':
+        dataset=  xr.load_dataarray(path,engine='h5netcdf',invalid_netcdf=True)
+
+        if downconvert and 'tx' in dataset.dims:
+            datasetDC = downconvert_dataset(dataset,**kwargs)
+            return datasetDC
+        else:
+            return dataset
 
 
 def progress_bar(progress, post=""):

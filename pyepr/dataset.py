@@ -102,7 +102,8 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
 
-def create_dataset_from_axes(data, axes, params: dict = {},axes_labels=None):
+def create_dataset_from_axes(data, axes, params: dict = {},extra_coords:dict = None,
+                             axes_labels=None):
     """
     Create an xarray dataset from a numpy array and a list of axes.
 
@@ -129,7 +130,9 @@ def create_dataset_from_axes(data, axes, params: dict = {},axes_labels=None):
     if not isinstance(axes, list):
         axes = [axes]
     coords = {default_labels.pop(0):a for a in axes}
-    params.update({'autoDEER_Version':__version__})
+    if extra_coords is not None:
+        coords.update(extra_coords)
+    params.update({'PyEPR_Version':__version__})
 
     return xr.DataArray(data, dims=dims, coords=coords, attrs=params)
 
@@ -376,3 +379,108 @@ class EPRAccessor:
         
         
 
+def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampling_rate=None,**kwargs):
+    """
+    Downconvert a dataset to baseband using a filter	
+    Parameters
+    ----------
+    dataset : xr.DataArray
+        The dataset to downconvert
+    filter_type : str, optional
+        The type of filter to use, by default 'boxcar'. Other options are 'cheby' and a Pulse object
+    filter_width : float, optional 
+        The width of the filter in MHz or ns depending on filter tyre, by default 20 ns for boxcar and 50 MHz for cheby.
+    IF : float, optional
+        The intermediate frequency to use, by default 0.15
+    reduce : bool, optional
+        If True, the dataset is reduced to a single point, by default True
+    **kwargs : dict
+        Extra arguments to pass to the filter function
+    
+    Returns
+    -------
+    xr.DataArray
+        The downconverted dataset
+    """
+
+    if IF is None:
+        if 'IF_freq' in dataset.attrs:
+            IF = dataset.attrs.get('IF_freq') # GHz
+        elif 'if_freq' in dataset.attrs:
+            IF = dataset.attrs.get('if_freq') # GHz
+        elif 'IFfreq' in dataset.attrs:
+            IF = dataset.attrs.get('IFfreq') # GHz
+        else:
+            raise ValueError('IFfreq not found in dataset attributes, please provide IF value')
+
+    if sampling_rate is None:
+        if 'det_rate' in dataset.attrs:
+            sampling_rate = dataset.attrs.get('det_rate') # GHz
+        elif 'sampling_rate' in dataset.attrs:
+            sampling_rate = dataset.attrs.get('sampling_rate') # GHz
+        else:
+            raise ValueError('sampling_rate not found in dataset attributes, please provide sampling_rate value')
+    if filter_type is None:
+        dc_first=True
+    elif filter_type not in ['boxcar','cheby']:
+        filter_type = 'cheby'
+        filter_width = 50
+        
+    
+    if filter_type == 'boxcar':
+        filter_width = kwargs.get('filter_width',20)
+        funct = lambda data: np.convolve(data,np.ones(filter_width),mode='same')
+        dc_first=True
+    elif isinstance(filter_type, ad_pulses.Pulse): # match filter to a epr Pulse
+        raise NotImplementedError('Match filter to a pulse not implemented yet')
+    elif filter_type == 'cheby':
+        from scipy.signal import cheby1,sosfiltfilt
+        filter_width = kwargs.get('filter_width',50) # MHz
+        filter_width /= 1e3
+
+        Wn = np.array([IF-filter_width,IF+filter_width])
+        Wn[Wn<=0] = 0.001
+        order = 5
+        
+        a = cheby1(order,0.5,Wn,'bandpass',analog=False,fs=sampling_rate,output='sos')
+        funct = lambda data: sosfiltfilt(a,data)
+        dc_first=False
+    elif filter_type is None:
+        dc_first=True
+
+    else:
+        raise ValueError('Filter not recognised')
+    
+    if dc_first:
+        data_array_dc = dataset*np.exp(-1j*2*np.pi*IF*dataset.tx/sampling_rate)
+        if filter_type is None:
+            return data_array_dc
+        data_array_dc.data = np.apply_along_axis(funct,-1,data_array_dc.data)
+    else:
+        data_array_dc = xr.apply_ufunc(funct,dataset)
+        data_array_dc = data_array_dc*np.exp(-1j*2*np.pi*IF*data_array_dc.tx/sampling_rate)
+        
+    # if data_array_dc.ndim == 3:
+    #     max_echo_pos = np.unravel_index(np.argmax(np.abs(data_array_dc.data[0,0,20:-20])),data_array_dc.shape[-1])[0] + 20
+    # else:
+    #     max_echo_pos = np.unravel_index(np.argmax(np.abs(data_array_dc.data[0,20:-20])),data_array_dc.shape[-1])[0] + 20
+    if reduce:
+        if 'max_echo_pos' in kwargs:
+            max_echo_pos = kwargs['max_echo_pos']
+        else:
+            max_echo_pos = np.unravel_index(np.abs(data_array_dc).argmax(),data_array_dc.shape)[-1]
+        return data_array_dc[...,max_echo_pos]
+    else:
+        return data_array_dc
+
+def find_peak(dataset, freq,freq_axis=None,search_range=4):
+    if freq/1e3 < freq_axis.min() or freq/1e3 > freq_axis.max():
+        return "N/A", "N/A"
+
+    if freq_axis is None:
+        freq_axis = dataset.offset_frequency.values
+    n_points = dataset.shape[0]
+    loc = np.argmin(np.abs(freq_axis-freq/1e3))
+    loc = loc-search_range + dataset.values[loc-search_range:loc+search_range].argmax()
+    peak = dataset[loc].values
+    return loc,peak

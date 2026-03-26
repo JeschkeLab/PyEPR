@@ -24,7 +24,6 @@ def compute_upulses_not_trajectory(dUs):
         Upulses[i] = U
     return Upulses
 
-#@njit
 def compute_upulses_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
