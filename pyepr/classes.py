@@ -287,7 +287,7 @@ class Parameter:
             self.value = value
             self.NUS = False # uniform sampling
         elif isinstance(value, np.ndarray):
-            self.value = np.median(value)
+            self.value = value[0]
             axis = value - self.value
             self.NUS = True # non-uniform sampling
         elif value is None:
@@ -391,17 +391,22 @@ class Parameter:
             current_step =old_axis[1] - old_axis[0]
             # test if uniformally sampled
             if not np.allclose(np.diff(self.axis[i]["axis"]), current_step):
-                raise ValueError("This only works for uniformaly sampled data at the moment")
-            new_step = round_step(current_step, waveform_precision)
-
-            if new_step == 0:
-                new_step = waveform_precision
-            
-            if keep_dim:
-                dim = old_axis.shape[0]
-                new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][0]+new_step*dim, new_step)
+                tolerance = 1e-9
+                new_axis = copy.deepcopy(old_axis)
+                remainders = np.abs(new_axis % waveform_precision)
+                not_multiples = ~(np.isclose(remainders, 0, atol=1e-9) | np.isclose(remainders, waveform_precision, atol=1e-9))
+                new_axis[not_multiples] = np.round(new_axis[not_multiples] / waveform_precision) * waveform_precision
             else:
-                new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][-1]+new_step, new_step)
+                new_step = round_step(current_step, waveform_precision)
+
+                if new_step == 0:
+                    new_step = waveform_precision
+                
+                if keep_dim:
+                    dim = old_axis.shape[0]
+                    new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][0]+new_step*dim, new_step)
+                else:
+                    new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][-1]+new_step, new_step)
             self.axis[i]["axis"] = new_axis
         
         if isinstance(self.value, numbers.Number):
