@@ -253,7 +253,7 @@ class PyEPRControlInterface(Interface):
             self._launch(sequence,savename,IFgain, *args,**kwargs)
 
         else:
-            raise ValueError(f"IFgain must be of type [None, bool, int, float]. {IFgain} is not valid.")
+            raise ValueError(f"IFgain must be of type [None, bool, int, float]. Type {type(IFgain)}_{IFgain} is not valid.")
 
     def _launch(self, sequence: Sequence , savename: str, IFgain=0,reset_cur_exp=True,*args,**kwargs):
 
@@ -359,7 +359,7 @@ class PyEPRControlInterface(Interface):
         return p90, p180
 
     
-    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400, IFgain=None):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400, IFgain=None,tau=500):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -409,7 +409,7 @@ class PyEPRControlInterface(Interface):
             amp_tune =HahnEchoSequence(
                 B=B, freq=freq, 
                 reptime=reptime, averages=1, shots=shots,
-                pi2_pulse = pulse, pi_pulse=pi_pulse
+                pi2_pulse = pulse, pi_pulse=pi_pulse,tau=tau
             )
 
             scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
@@ -456,7 +456,7 @@ class PyEPRControlInterface(Interface):
                                 pcyc={"phases":[0],"dets":[1]},
                                 freq=0))
             nut_tune.addPulse(
-                pi_pulse.copy(t=2500, pcyc={"phases":[0],"dets":[1]},
+                pi_pulse.copy(t=2000+tau, pcyc={"phases":[0],"dets":[1]},
                                 freq=0))
             nut_tune.addPulse(Detection(t=3000, tp=512, freq=c_frq-freq))
 
