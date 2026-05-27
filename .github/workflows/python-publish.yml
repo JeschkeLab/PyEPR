@@ -11,6 +11,8 @@ name: Upload Python Package
 on:
   release:
     types: [published]
+  workflow_dispatch:
+
 
 permissions:
   contents: read
@@ -86,7 +88,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: release-dists
         path: dist/
     - name: Publish distribution 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
