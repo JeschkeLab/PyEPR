@@ -472,13 +472,27 @@ class Pulse:
             offsets = np.linspace(-2*BW, 2*BW, 100) + c_freq
         else:
             offsets = freqs
-        
-        ISignal = np.real(self.complex) * self.amp_factor.value
-        QSignal = np.imag(self.complex) * self.amp_factor.value
+
+        if self.scale is None or self.scale.value is None:
+            scale=None
+            amp_factor = self.amp_factor.value
+        elif (self.scale.unit is not None) and (self.scale.unit.lower() in ['ghz','mhz']):
+            scale = 1.0
+            if self.scale.unit.lower() == 'mhz':
+                amp_factor = self.scale.value/1000
+            else:
+                amp_factor = self.scale.value
+        elif self.scale is not None:
+            scale = self.scale.value
+            amp_factor = self.amp_factor.value
+        else:
+            scale=None
+            amp_factor = self.amp_factor.value
         
         if resonator is not None:
+            # Apply resonator correction to the pulse AM function
             FM = self.FM
-            if self.scale is None or self.scale.value is None:
+            if scale is None:
                 amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
                 amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             else:
@@ -490,6 +504,12 @@ class Pulse:
 
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
+        
+        else:
+            # No resonator correction so use a constant amplitude
+            ISignal = np.real(self.complex) * amp_factor # In GHz
+            QSignal = np.imag(self.complex) * amp_factor # In GHz
+
 
         t= self.ax
         M0=[0, 0, 1]
@@ -1026,8 +1046,12 @@ class FrequencySweptPulse(Pulse):
             elif "final_freq" in kwargs:
                 self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
                 self.init_freq = Parameter("init_freq", self.final_freq.value - BW, "GHz", "Initial frequency of pulse")
+            elif "freq" in kwargs:
+                # Assumes symmetric sweep about central frequency
+                self.init_freq = Parameter("init_freq", kwargs["freq"] - BW/2, "GHz", "Initial frequency of pulse")
+                self.final_freq = Parameter("final_freq", kwargs["freq"] + BW/2, "GHz", "Final frequency of pulse")
             else:
-                raise ValueError("Bandwidth must be combined with either an initial or final frequency")
+                raise ValueError("Bandwidth must be combined with either an initial, final or center frequency")
         elif ("init_freq" in kwargs) & ("final_freq" in kwargs):
             self.init_freq = Parameter("init_freq", kwargs["init_freq"], "GHz", "Initial frequency of pulse")
             self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
@@ -1096,7 +1120,7 @@ class HSPulse(FrequencySweptPulse):
         #     beta**beta_exp2 * (ax[cut:-1]/tp)**order2)
 
         # FM = BW * cumulative_trapezoid(AM**2,ax,initial=0) /\
-        #      np.trapz(AM**2,ax) + self.init_freq.value
+        #      np.trapezoid(AM**2,ax) + self.init_freq.value
         sech = lambda x: 1/np.cosh(x) 
         cut = round(nx/2)
         AM = np.zeros_like(ti)
@@ -1118,6 +1142,8 @@ class HSPulse(FrequencySweptPulse):
         """ The sweep rate of the pulse in GHz/ns"""
         sweeprate_value = self.beta.value * self.bandwidth.value / (2*self.tp.value)
         return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
+    
+        
 
 # =============================================================================
 
@@ -1147,6 +1173,7 @@ class ChirpPulse(FrequencySweptPulse):
             self.init_freq.value, self.final_freq.value, nx)
 
         return AM, FM
+
     
     @property
     def sweeprate(self):

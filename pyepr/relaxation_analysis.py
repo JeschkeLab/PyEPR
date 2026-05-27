@@ -10,7 +10,7 @@ from scipy.linalg import svd
 from pyepr.colors import primary_colors
 # ===========================================================================
 
-
+# T2-type relaxation analysis classes
 class CarrPurcellAnalysis():
 
     def __init__(self, dataset, sequence: Sequence = None) -> None:
@@ -485,7 +485,9 @@ class HahnEchoRelaxationAnalysis():
             return V[0]
         else:
             return V
-        
+
+# T1-type relaxation analysis classes
+
 class ReptimeAnalysis():
 
     def __init__(self, dataset, sequence: Sequence = None) -> None:

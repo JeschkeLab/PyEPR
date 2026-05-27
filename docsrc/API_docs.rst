@@ -36,6 +36,7 @@ Sequences
    pyepr.sequences.CarrPurcellSequence
    pyepr.sequences.ResonatorProfileSequence
    pyepr.sequences.TWTProfileSequence
+   pyepr.sequences.T1InversionRecoverySequence
 
 Pulses
 ~~~~~~
@@ -90,6 +91,7 @@ I/O
     pyepr.dataset.create_dataset_from_sequence
     pyepr.dataset.create_dataset_from_axes
     pyepr.dataset.create_dataset_from_bruker
+    pyepr.dataset.downconvert_dataset
 
 Utilities
 ~~~~~~~~~
