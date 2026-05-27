@@ -27,6 +27,8 @@ Functions
    pyepr.dataset.create_dataset_from_sequence
    pyepr.dataset.create_dataset_from_axes
    pyepr.dataset.create_dataset_from_bruker
+   pyepr.dataset.downconvert_dataset
+   pyepr.dataset.find_peak
 
 
 Module Contents
@@ -38,7 +40,7 @@ Module Contents
 
 .. py:function:: create_dataset_from_sequence(data, sequence, extra_params={})
 
-.. py:function:: create_dataset_from_axes(data, axes, params = {}, axes_labels=None)
+.. py:function:: create_dataset_from_axes(data, axes, params = {}, extra_coords = None, axes_labels=None)
 
    
    Create an xarray dataset from a numpy array and a list of axes.
@@ -75,4 +77,47 @@ Module Contents
        !! processed by numpydoc !!
 
 .. py:function:: create_dataset_from_bruker(filepath)
+
+.. py:function:: downconvert_dataset(dataset, filter_type='boxcar', IF=None, reduce=True, sampling_rate=None, **kwargs)
+
+   
+   Downconvert a dataset to baseband using a filter    
+   Parameters
+   ----------
+   dataset : xr.DataArray
+       The dataset to downconvert
+   filter_type : str, optional
+       The type of filter to use, by default 'boxcar'. Other options are 'cheby' and a Pulse object
+   filter_width : float, optional 
+       The width of the filter in MHz or ns depending on filter tyre, by default 20 ns for boxcar and 50 MHz for cheby.
+   IF : float, optional
+       The intermediate frequency to use, by default 0.15
+   reduce : bool, optional
+       If True, the dataset is reduced to a single point, by default True
+   **kwargs : dict
+       Extra arguments to pass to the filter function
+
+
+
+
+
+   :Returns:
+
+       xr.DataArray
+           The downconverted dataset
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: find_peak(dataset, freq, freq_axis=None, search_range=4)
 

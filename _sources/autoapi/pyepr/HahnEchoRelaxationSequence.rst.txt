@@ -11,7 +11,7 @@ pyepr.HahnEchoRelaxationSequence
    Parameters
    ----------
    B : int or float
-       The B0 field, in Guass
+       The B0 field, in Gauss
    freq : int or float
        The freq frequency in GHz
    reptime : _type_
@@ -44,7 +44,7 @@ pyepr.HahnEchoRelaxationSequence
    :Parameters:
 
        **B** : int or float
-           The B0 field, in Guass
+           The B0 field, in Gauss
 
        **freq** : int or float
            The freq frequency in GHz

@@ -1,33 +1,36 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
     <link href="../../../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
-    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
+        <link rel="prefetch" href="../../../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../../../_static/pyepr_logo_dark.svg" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.Bruker_AWG.BrukerAWG - PyEPR 1.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>pyepr.hardware.Bruker_AWG.BrukerAWG - PyEPR 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -154,14 +157,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -171,17 +170,15 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">PyEPR 1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -189,8 +186,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -198,13 +194,12 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
-  
   <div class="sidebar-logo-container">
     <img class="sidebar-logo only-light" src="../../../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
     <img class="sidebar-logo only-dark" src="../../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -215,7 +210,7 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorial_loading.html">Loading and Analysing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorial_sequencer.html">Pulse Sequencer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorial_hardware.html">Interfacing with Hardware</a></li>
@@ -257,8 +252,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -266,8 +260,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -275,7 +268,7 @@
 <h1>pyepr.hardware.Bruker_AWG.BrukerAWG<a class="headerlink" href="#pyepr-hardware-bruker-awg-brukerawg" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_AWG.</span></span><span class="sig-name descname"><span class="pre">BrukerAWG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyepr.hardware.Bruker_AWG.</span></span><span class="sig-name descname"><span class="pre">BrukerAWG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../classes/Interface.html#pyepr.classes.Interface" title="pyepr.classes.Interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyepr.classes.Interface</span></code></a></p>
 <p>Represents the interface for connecting to AWG based Bruker ELEXSYS-II
 Spectrometers.</p>
@@ -312,7 +305,7 @@ Spectrometers.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir">
-<span class="sig-name descname"><span class="pre">temp_dir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'.'</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">temp_dir</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'.'</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.temp_dir" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -322,50 +315,59 @@ Spectrometers.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.bg_thread">
-<span class="sig-name descname"><span class="pre">bg_thread</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_thread" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bg_thread</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_thread" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.bg_data">
-<span class="sig-name descname"><span class="pre">bg_data</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_data" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bg_data</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.bg_data" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.cur_exp">
-<span class="sig-name descname"><span class="pre">cur_exp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.cur_exp" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cur_exp</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.cur_exp" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.tuning">
-<span class="sig-name descname"><span class="pre">tuning</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tuning" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tuning</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tuning" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.pool">
-<span class="sig-name descname"><span class="pre">pool</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.pool" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pool</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.pool" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.savename">
-<span class="sig-name descname"><span class="pre">savename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savename" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">savename</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savename" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder">
-<span class="sig-name descname"><span class="pre">savefolder</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">savefolder</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.savefolder" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.setup_flag">
-<span class="sig-name descname"><span class="pre">setup_flag</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.setup_flag" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setup_flag</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.setup_flag" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.connect">
 <span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.connect" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd><p>Connects to the spectrometer through the XeprAPI. Automatically sets
+up the spectrometer for pulse experiments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>d0: float, optional</strong></dt><dd><p>The d0 value to be used. If None, the d0 will be calculated
+upon connection. By default None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -373,7 +375,19 @@ Spectrometers.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.setup">
 <span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.setup" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets up the spectrometer for pulse experiments.
+The video bandwidth is read from the configuration file, and the timebase
+is set accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>d0: float, optional</strong></dt><dd><p>The d0 value to be used. If None, the d0 will be calculated
+upon connection. By default None.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.acquire_dataset">
@@ -411,12 +425,12 @@ Spectrometers.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse">
 <span class="sig-name descname"><span class="pre">tune_rectpulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reptime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyepr.hardware.Bruker_AWG.BrukerAWG.tune_rectpulse" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a rectangular pi and pi/2 pulse of the given length at
-the given field position. This value is stored in the pulse cache.</p>
+<dd><p>Generates a rectangular pi/2 and pi pulse at the given frequency and field.
+The pulses are of equal amplitude ($t_p$ for pi/2 and $2*t_p$ for pi) and are tuned using a Hahn echo sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>tp</strong><span class="classifier">float</span></dt><dd><p>Pulse length in ns</p>
+<dt><strong>tp</strong><span class="classifier">float</span></dt><dd><p>$pi/2$ Pulse length in ns</p>
 </dd>
 <dt><strong>freq</strong><span class="classifier">float</span></dt><dd><p>Central frequency of this pulse in GHz</p>
 </dd>
@@ -432,7 +446,7 @@ the given field position. This value is stored in the pulse cache.</p>
 <dd class="field-even"><dl class="simple">
 <dt>p90: RectPulse</dt><dd><p>A tuned rectangular pi/2 pulse of length tp</p>
 </dd>
-<dt>p180: RectPulse</dt><dd><p>A tuned rectangular pi pulse of length tp</p>
+<dt>p180: RectPulse</dt><dd><p>A tuned rectangular pi pulse of length 2*tp</p>
 </dd>
 </dl>
 </dd>
@@ -613,12 +627,13 @@ satisified.</p>
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1ed6394b"></script>
-    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

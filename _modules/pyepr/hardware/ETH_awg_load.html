@@ -1,30 +1,33 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
+        <link rel="prefetch" href="../../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../../_static/pyepr_logo_dark.svg" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.ETH_awg_load - PyEPR 1.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>pyepr.hardware.ETH_awg_load - PyEPR 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -151,14 +154,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,17 +167,15 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +183,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -195,13 +191,12 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
-  
   <div class="sidebar-logo-container">
     <img class="sidebar-logo only-light" src="../../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -212,7 +207,7 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_loading.html">Loading and Analysing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_sequencer.html">Pulse Sequencer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_hardware.html">Interfacing with Hardware</a></li>
@@ -248,8 +243,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -257,8 +251,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -267,7 +260,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_dataset_from_axes</span><span class="p">,</span> <span class="n">create_dataset_from_sequence</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pulses</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">deerlab</span><span class="w"> </span><span class="kn">import</span> <span class="n">correctphase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
@@ -293,7 +286,11 @@
 
     <span class="c1"># Extract Data</span>
     <span class="n">estr</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;expname&#39;</span><span class="p">]]</span>
-    <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="s1">&#39;settings&#39;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;settings&#39;</span><span class="p">][</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span>
+
     
     <span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -813,7 +810,7 @@
 <span class="sd">        The scans to be loaded.</span>
 <span class="sd">    mask : list, optional</span>
 <span class="sd">        The mask to be used.</span>
-<span class="sd">    filter_pulse : ad.Pulse, optional</span>
+<span class="sd">    filter_pulse : epr.Pulse, optional</span>
 <span class="sd">        The pulse to be used as a matched filter. If None, the maximum pulse width will be used. This is only used if filter_type is &#39;match&#39;</span>
 <span class="sd">    filter_type : str, optional</span>
 <span class="sd">        The type of filter to be used. Options are &#39;match&#39;, &#39;cheby2&#39; and &#39;butter. Default is &#39;match&#39;</span>
@@ -829,7 +826,10 @@
     <span class="c1"># imports Andrin Doll AWG datafiles using a matched filter</span>
 
     <span class="n">estr</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;expname&#39;</span><span class="p">]]</span>
-    <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="s1">&#39;settings&#39;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;settings&#39;</span><span class="p">][</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span><span class="n">scans</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_dta&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">):</span>
@@ -1119,12 +1119,12 @@
 
         <span class="n">filter_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dta</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">:</span> <span class="n">match_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">complex_shape</span><span class="p">,</span><span class="n">det_frq</span><span class="p">)</span>
     
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_pulse</span><span class="p">,</span><span class="n">Pulse</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_pulse</span><span class="p">,</span><span class="n">pulses</span><span class="o">.</span><span class="n">Pulse</span><span class="p">):</span>
         <span class="n">complex_shape</span> <span class="o">=</span> <span class="n">filter_pulse</span><span class="o">.</span><span class="n">build_shape</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="n">filter_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dta</span><span class="p">,</span> <span class="n">det_frq</span><span class="p">:</span> <span class="n">match_filter_dc</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">complex_shape</span><span class="p">,</span><span class="n">det_frq</span><span class="p">)</span>
 
 
-    <span class="k">elif</span> <span class="p">(</span><span class="n">filter_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;cheby2&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">filter_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;butter&#39;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">filter_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cheby2&#39;</span><span class="p">,</span><span class="s1">&#39;butter&#39;</span><span class="p">,</span><span class="s1">&#39;boxcar&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">filter_width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You must provide a filter width for the cheby2 or butter filter&#39;</span><span class="p">)</span>
         
@@ -1239,10 +1239,210 @@
         <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">cheby2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="s1">&#39;butter&#39;</span><span class="p">:</span>
         <span class="n">filter_sos</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">10</span><span class="p">,(</span><span class="n">offset_freq</span><span class="o">-</span><span class="n">filter_width</span><span class="p">,</span><span class="n">offset_freq</span><span class="o">+</span><span class="n">filter_width</span><span class="p">),</span><span class="n">fs</span><span class="o">=</span><span class="n">sampling_freq</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="s1">&#39;boxcar&#39;</span><span class="p">:</span>
+        <span class="c1"># A boxcar is just a moving average, so we can implement it with a convolution</span>
+        <span class="n">boxcar_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">filter_width</span><span class="o">*</span><span class="n">sampling_freq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">boxcar_len</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">boxcar_len</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">boxcar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">boxcar_len</span><span class="p">)</span><span class="o">/</span><span class="n">boxcar_len</span>
+        <span class="n">filtered</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="n">boxcar</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+        <span class="n">filtered_dc</span> <span class="o">=</span> <span class="n">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">filtered</span><span class="p">,</span><span class="o">-</span><span class="n">offset_freq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filtered_dc</span>
+
     <span class="n">filtered</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">sosfilt</span><span class="p">(</span><span class="n">filter_sos</span><span class="p">,</span><span class="n">dta</span><span class="p">)</span>
     <span class="n">filtered_dc</span> <span class="o">=</span> <span class="n">digitally_upconvert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">filtered</span><span class="p">,</span><span class="o">-</span><span class="n">offset_freq</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered_dc</span></div>
 
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># ETH UWB data to xarray</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="extract_data">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.extract_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span><span class="n">estr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;dta&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">nAvgs</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;nAvgs&quot;</span><span class="p">]</span>
+        <span class="n">dta</span> <span class="o">=</span> <span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;dta&quot;</span><span class="p">]]</span>
+
+    <span class="k">elif</span> <span class="s2">&quot;dta_001&quot;</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">dta</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nAvgs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">estr</span><span class="p">[</span><span class="s2">&quot;avgs&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">actname</span> <span class="o">=</span> <span class="s1">&#39;dta_</span><span class="si">%03u</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ii</span> 
+            <span class="k">if</span> <span class="n">actname</span> <span class="ow">in</span> <span class="n">matfile</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">single_scan</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">actname</span><span class="p">]</span>
+                <span class="c1"># Only keep it if the average is complete, unless it is </span>
+                <span class="c1"># the first</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">single_scan</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># incomplete scan</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nAvgs</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ii</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scan </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2"> is incomplete and will be skipped.&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">single_scan</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">nAvgs</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">nAvgs</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">dta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_scan</span><span class="p">)</span>
+    <span class="n">dta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dta</span><span class="p">)</span>
+    <span class="n">dta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">dta</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dta</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">dta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">dta</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dta</span><span class="p">,</span> <span class="n">nAvgs</span></div>
+
+
+
+<div class="viewcode-block" id="get_metadata">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.get_metadata">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_metadata</span><span class="p">(</span><span class="n">estr</span><span class="p">,</span><span class="n">conf</span><span class="p">):</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;averages&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;avgs&#39;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;reptime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;reptime&#39;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;shots&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;shots&#39;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s1">&#39;events&#39;</span><span class="p">]):</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_pulse_metadata</span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;dig_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="s1">&#39;dig_rate&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">metadata</span></div>
+
+
+<div class="viewcode-block" id="detect_pulse_type">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.detect_pulse_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_pulse_type</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;det_len&#39;</span> <span class="ow">in</span> <span class="n">pulse</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pulses</span><span class="o">.</span><span class="n">Detection</span>
+    <span class="k">if</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;chirp&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;nu_final&#39;</span> <span class="ow">in</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">pulses</span><span class="o">.</span><span class="n">ChirpPulse</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pulses</span><span class="o">.</span><span class="n">RectPulse</span></div>
+
+        
+<div class="viewcode-block" id="get_pulse_metadata">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.get_pulse_metadata">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pulse_metadata</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">pulse_type</span> <span class="o">=</span> <span class="n">detect_pulse_type</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span>
+    <span class="n">fixed_params</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">pulse_type</span><span class="p">,</span> <span class="n">pulses</span><span class="o">.</span><span class="n">Detection</span><span class="p">):</span>
+        <span class="n">type_str</span><span class="o">=</span><span class="s2">&quot;det&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">type_str</span><span class="o">=</span><span class="s2">&quot;pulse&quot;</span>
+
+    <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">pulse_type</span><span class="p">,</span><span class="n">pulses</span><span class="o">.</span><span class="n">Detection</span><span class="p">):</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_tp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;det_len&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_tp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;tp&#39;</span><span class="p">]</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">pulse_type</span><span class="p">,</span><span class="n">pulses</span><span class="o">.</span><span class="n">Detection</span><span class="p">):</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;det_frq&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">pulse_type</span><span class="p">,</span> <span class="n">pulses</span><span class="o">.</span><span class="n">FrequencySweptPulse</span><span class="p">):</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_init_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;nu_init&#39;</span><span class="p">]</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_final_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;nu_final&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># Monochromatic pulse</span>
+        <span class="n">fixed_params</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_str</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s1">&#39;pulsedef&#39;</span><span class="p">][</span><span class="s1">&#39;nu_init&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fixed_params</span></div>
+
+
+<div class="viewcode-block" id="get_dig_level">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.get_dig_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dig_level</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">metadata</span><span class="p">,</span><span class="n">conf</span><span class="p">):</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">dig_max</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="s1">&#39;dig_max&#39;</span><span class="p">]</span>
+    <span class="n">acqs</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;shots&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">]</span><span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;nPcyc&#39;</span><span class="p">]</span>
+    <span class="n">dig_pc</span> <span class="o">=</span> <span class="n">max_val</span><span class="o">/</span><span class="p">(</span><span class="n">dig_max</span><span class="o">*</span><span class="n">acqs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dig_pc</span></div>
+
+
+<div class="viewcode-block" id="get_nPcyc">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.get_nPcyc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_nPcyc</span><span class="p">(</span><span class="n">estr</span><span class="p">):</span>
+    <span class="n">nPcyc</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s1">&#39;parvars&#39;</span><span class="p">],</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;parvars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">estr</span><span class="p">[</span><span class="s1">&#39;parvars&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">parvar</span> <span class="ow">in</span> <span class="n">estr</span><span class="p">[</span><span class="s1">&#39;parvars&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s1">&#39;reduce&#39;</span> <span class="ow">in</span> <span class="n">parvar</span> <span class="ow">and</span> <span class="n">parvar</span><span class="p">[</span><span class="s1">&#39;reduce&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">nPcyc</span> <span class="o">*=</span> <span class="n">parvar</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">return</span> <span class="n">nPcyc</span></div>
+
+
+<div class="viewcode-block" id="default_labels">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.default_labels">[docs]</a>
+<span class="n">default_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="get_coords">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.get_coords">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_coords</span><span class="p">(</span><span class="n">parvars</span><span class="p">):</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">i</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parvars</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">parvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">parvars</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">parvar</span> <span class="ow">in</span> <span class="n">parvars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;reduce&#39;</span> <span class="ow">in</span> <span class="n">parvar</span> <span class="ow">and</span> <span class="n">parvar</span><span class="p">[</span><span class="s1">&#39;reduce&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">parvar</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span>
+                <span class="n">event</span><span class="p">,</span><span class="n">var</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="n">event_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            
+                <span class="n">coord_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;pulse</span><span class="si">{</span><span class="n">event_num</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coord_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">coord_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parvar</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">coords</span><span class="p">[</span><span class="n">coord_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">default_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">coord_axis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">coords</span>       </div>
+
+
+<div class="viewcode-block" id="ETHUWB_xarray_load">
+<a class="viewcode-back" href="../../../autoapi/pyepr/hardware/ETH_awg_load/index.html#pyepr.hardware.ETH_awg_load.ETHUWB_xarray_load">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ETHUWB_xarray_load</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">sum_scans</span><span class="o">=</span><span class="kc">True</span><span class="p">,):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads data from an Andrin Doll ETH UWB EPR spectrometer</span>
+<span class="sd">    and converts it into an xarray.Dataset format compatible with PyEPR.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    matfile : dict</span>
+<span class="sd">        The data file to be loaded. </span>
+<span class="sd">    sum_scans : bool, optional</span>
+<span class="sd">        Whether to sum all scans or not. Default is True.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output : xarray.Dataset</span>
+<span class="sd">        The data in the xarray format.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes and Limitations</span>
+<span class="sd">    ---------------------------</span>
+<span class="sd">    </span>
+<span class="sd">    - This function currently only supports experiments with reduced phase cycles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">estr</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;expname&#39;</span><span class="p">]]</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">]</span>
+
+    <span class="n">data</span><span class="p">,</span><span class="n">nAvgs</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span><span class="n">estr</span><span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">get_metadata</span><span class="p">(</span><span class="n">estr</span><span class="p">,</span><span class="n">conf</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;nPcyc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_nPcyc</span><span class="p">(</span><span class="n">estr</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;nAvgs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nAvgs</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;dig_pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_dig_level</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">metadata</span><span class="p">,</span><span class="n">conf</span><span class="p">)</span>
+    <span class="n">data_shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># [nAvgs, ..., tx]</span>
+    <span class="n">axes_labels</span> <span class="o">=</span> <span class="n">default_labels</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;tx&#39;</span><span class="p">]</span>
+    <span class="n">base_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data_shape</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">sum_scans</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Add scan axis label</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scan&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">axes_labels</span>
+        <span class="n">base_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nAvgs</span><span class="p">)]</span> <span class="o">+</span> <span class="n">base_axes</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_axes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">base_axes</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                                        <span class="n">extra_coords</span><span class="o">=</span><span class="n">get_coords</span><span class="p">(</span><span class="n">estr</span><span class="p">[</span><span class="s1">&#39;parvars&#39;</span><span class="p">]),</span>
+                                        <span class="n">axes_labels</span><span class="o">=</span><span class="n">axes_labels</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataset</span></div>
 
 </pre></div>
         </article>
@@ -1276,12 +1476,13 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1ed6394b"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

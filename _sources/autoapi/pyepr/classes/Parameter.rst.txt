@@ -163,7 +163,13 @@ pyepr.classes.Parameter
    .. py:method:: __add__(__o)
 
 
+   .. py:method:: __radd__(__o)
+
+
    .. py:method:: __sub__(__o)
+
+
+   .. py:method:: __rsub__(__o)
 
 
    .. py:method:: __mul__(__o)

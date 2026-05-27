@@ -27,6 +27,4 @@ Module Contents
 
 
 .. py:data:: branch
-   :value: ''
-
 

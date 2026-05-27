@@ -328,8 +328,7 @@ pyepr.pulses.Pulse
 
       This function is ported from EasySpin 
       (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-      and based upon the method from Gunnar Jeschke, Stefan Pribitzer and
-      Andrin Doll[3].
+      and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
 
       References:
       +++++++++++

@@ -1,30 +1,33 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
+        <link rel="prefetch" href="../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../_static/pyepr_logo_dark.svg" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.pulses - PyEPR 1.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>pyepr.pulses - PyEPR 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -151,14 +154,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,17 +167,15 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +183,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -195,13 +191,12 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
-  
   <div class="sidebar-logo-container">
     <img class="sidebar-logo only-light" src="../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -212,7 +207,7 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_loading.html">Loading and Analysing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_sequencer.html">Pulse Sequencer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_hardware.html">Interfacing with Hardware</a></li>
@@ -248,8 +243,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -257,8 +251,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -278,9 +271,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">accumulate</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
 
-<span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_upulses_not_trajectory">
 <a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_upulses_not_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_not_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
@@ -294,7 +285,6 @@
     <span class="k">return</span> <span class="n">Upulses</span></div>
 
 
-<span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_upulses_trajectory">
 <a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_upulses_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_upulses_trajectory</span><span class="p">(</span><span class="n">dUs</span><span class="p">):</span>
@@ -310,7 +300,6 @@
     <span class="k">return</span> <span class="n">Upulses</span></div>
 
 
-<span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_magnetization_not_trajectory">
 <a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_magnetization_not_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_not_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">,</span> <span class="n">Mmag</span><span class="p">):</span>
@@ -345,7 +334,6 @@
     <span class="k">return</span> <span class="n">Mag</span> <span class="o">*</span> <span class="n">Mmag</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span></div>
 
 
-<span class="c1">#@njit</span>
 <div class="viewcode-block" id="compute_magnetization_trajectory">
 <a class="viewcode-back" href="../../autoapi/pyepr/pulses/index.html#pyepr.compute_magnetization_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_magnetization_trajectory</span><span class="p">(</span><span class="n">Upulses</span><span class="p">,</span> <span class="n">density0</span><span class="p">):</span>
@@ -606,7 +594,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">amp_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The B1 amplitude factor (nutation frequency) for the pulse in GHz&quot;&quot;&quot;</span>
-        <span class="n">amp_factor_value</span><span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">))</span>
+        <span class="n">amp_factor_value</span><span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;amp_factor&quot;</span><span class="p">,</span> <span class="n">amp_factor_value</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Amplitude factor for the pulse&quot;</span><span class="p">)</span>
     
 
@@ -618,8 +606,7 @@
 
 <span class="sd">        This function is ported from EasySpin </span>
 <span class="sd">        (https://easyspin.org/easyspin/documentation/sop.html) [1-2],</span>
-<span class="sd">        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and</span>
-<span class="sd">        Andrin Doll[3].</span>
+<span class="sd">        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].</span>
 
 <span class="sd">        References:</span>
 <span class="sd">        +++++++++++</span>
@@ -755,13 +742,27 @@
             <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">BW</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">BW</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">c_freq</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">offsets</span> <span class="o">=</span> <span class="n">freqs</span>
-        
-        <span class="n">ISignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">QSignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scale</span><span class="o">=</span><span class="kc">None</span>
+            <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ghz&#39;</span><span class="p">,</span><span class="s1">&#39;mhz&#39;</span><span class="p">]):</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;mhz&#39;</span><span class="p">:</span>
+                <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="mi">1000</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span><span class="o">=</span><span class="kc">None</span>
+            <span class="n">amp_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span>
         
         <span class="k">if</span> <span class="n">resonator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Apply resonator correction to the pulse AM function</span>
             <span class="n">FM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FM</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">FM</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="o">-</span><span class="n">resonator</span><span class="o">.</span><span class="n">freq_c</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
                 <span class="n">amp_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">amp_factor</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">amp_factor</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">amp_factor</span><span class="o">.</span><span class="n">value</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -773,6 +774,12 @@
 
             <span class="n">ISignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
             <span class="n">QSignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># No resonator correction so use a constant amplitude</span>
+            <span class="n">ISignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span> <span class="c1"># In GHz</span>
+            <span class="n">QSignal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span> <span class="o">*</span> <span class="n">amp_factor</span> <span class="c1"># In GHz</span>
+
 
         <span class="n">t</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span>
         <span class="n">M0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -887,7 +894,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Build header line</span>
-        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;autoDEER Pulse Definition&quot;</span> <span class="o">+</span> \
+        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;PyEPR Pulse Definition&quot;</span> <span class="o">+</span> \
                  <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         
         <span class="c1"># Build Overviews</span>
@@ -962,7 +969,7 @@
 
         <span class="c1"># Build Footer</span>
         <span class="n">footer</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>\
-            <span class="sa">f</span><span class="s2">&quot;Built by autoDEER Version: </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span>
+            <span class="sa">f</span><span class="s2">&quot;Built by PyEPR Version: </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">79</span>
 
         <span class="c1"># Combine All</span>
         <span class="n">string</span> <span class="o">=</span> <span class="n">header</span> <span class="o">+</span> <span class="n">overview_params</span> <span class="o">+</span> <span class="n">param_table</span> <span class="o">+</span> <span class="n">prog_table</span> <span class="o">+</span>\
@@ -1241,20 +1248,41 @@
 <span class="sd">    Represents a Gaussian monochromatic pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">FWHM</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;    Represents a Gaussian monochromatic pulse.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">FWHM</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        By default, the FWHM is set to tp/(2*np.sqrt(2*np.log(2))).</span>
 
+<span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        tp : float</span>
-<span class="sd">            Pulse length in ns, by default 128</span>
+<span class="sd">            Pulse length in ns, by default 32</span>
 <span class="sd">        FWHM : float,</span>
-<span class="sd">            The full width at half maximum of the pulse</span>
+<span class="sd">            The full width at half maximum of the pulse. Defaults to tp/(2*np.sqrt(2*np.log(2))).</span>
 <span class="sd">        freq : float, optional</span>
 <span class="sd">            The frequency of the pulse, by default 0</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :include-source:</span>
+
+<span class="sd">            import pyepr as epr</span>
+<span class="sd">            import matplotlib.pyplot as plt</span>
+
+<span class="sd">            GuassPulse = epr.GaussianPulse(tp=32)</span>
+<span class="sd">            GuassPulse.plot(pad=0)</span>
+<span class="sd">            plt.annotate(&#39;&#39;, xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color=&#39;C1&#39;,arrowprops=dict(arrowstyle=&#39;&lt;|-|&gt;&#39;, color=&#39;C1&#39;,lw=2))</span>
+<span class="sd">            plt.annotate(&#39;FWHM&#39;, xy=(0, 0.51), xytext=(0, 0.51), color=&#39;C1&#39;, ha=&#39;center&#39;, fontsize=12)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Pulse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;GaussianPulse&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;Freq&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Frequency of the Pulse&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">FWHM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">FWHM</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">FWHM</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;FWHM&quot;</span><span class="p">,</span> <span class="n">FWHM</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Full Width at Half Maximum of the Pulse&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">pass</span>
@@ -1265,6 +1293,9 @@
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ax</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pad</span><span class="p">)</span>
 <span class="c1"># =============================================================================</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FrequencySweptPulse</span><span class="p">(</span><span class="n">Pulse</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1285,8 +1316,12 @@
             <span class="k">elif</span> <span class="s2">&quot;final_freq&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;final_freq&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;final_freq&quot;</span><span class="p">],</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Final frequency of pulse&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;init_freq&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">BW</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial frequency of pulse&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;freq&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Assumes symmetric sweep about central frequency</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;init_freq&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">BW</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial frequency of pulse&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;final_freq&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">BW</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Final frequency of pulse&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bandwidth must be combined with either an initial or final frequency&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bandwidth must be combined with either an initial, final or center frequency&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;init_freq&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="s2">&quot;final_freq&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;init_freq&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;init_freq&quot;</span><span class="p">],</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial frequency of pulse&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;final_freq&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;final_freq&quot;</span><span class="p">],</span> <span class="s2">&quot;GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;Final frequency of pulse&quot;</span><span class="p">)</span>
@@ -1355,7 +1390,7 @@
         <span class="c1">#     beta**beta_exp2 * (ax[cut:-1]/tp)**order2)</span>
 
         <span class="c1"># FM = BW * cumulative_trapezoid(AM**2,ax,initial=0) /\</span>
-        <span class="c1">#      np.trapz(AM**2,ax) + self.init_freq.value</span>
+        <span class="c1">#      np.trapezoid(AM**2,ax) + self.init_freq.value</span>
         <span class="n">sech</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
         <span class="n">cut</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
@@ -1377,6 +1412,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The sweep rate of the pulse in GHz/ns&quot;&quot;&quot;</span>
         <span class="n">sweeprate_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;sweeprate&quot;</span><span class="p">,</span> <span class="n">sweeprate_value</span><span class="p">,</span> <span class="s2">&quot;GHz/ns&quot;</span><span class="p">,</span> <span class="s2">&quot;Sweep rate of the pulse&quot;</span><span class="p">)</span>
+    
+        
 
 <span class="c1"># =============================================================================</span>
 
@@ -1385,20 +1422,28 @@
 <span class="sd">    Represents a linear frequency-swept pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span><span class="n">rise_time</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">FrequencySweptPulse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ChirpPulse&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rise_time</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;rise_time&quot;</span><span class="p">,</span> <span class="n">rise_time</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;The rise time of the pulse&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildFMAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">nx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Use a quarter sine wave for the rise and fall</span>
+        <span class="n">rise_pts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rise_time</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">rise_pts</span> <span class="o">&gt;</span> <span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span>
+            <span class="n">rise_pts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>
+        <span class="n">AM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rise_pts</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rise_pts</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rise_time</span><span class="o">.</span><span class="n">value</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">AM</span><span class="p">[</span><span class="o">-</span><span class="n">rise_pts</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span><span class="o">-</span><span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="n">rise_pts</span><span class="p">:])</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rise_time</span><span class="o">.</span><span class="n">value</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
 
         <span class="n">FM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">AM</span><span class="p">,</span> <span class="n">FM</span>
+
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sweeprate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1620,12 +1665,13 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=1ed6394b"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

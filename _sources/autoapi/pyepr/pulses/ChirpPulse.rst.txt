@@ -1,7 +1,7 @@
 pyepr.pulses.ChirpPulse
 =======================
 
-.. py:class:: pyepr.pulses.ChirpPulse(*, tp=128, **kwargs)
+.. py:class:: pyepr.pulses.ChirpPulse(*, tp=128, rise_time=10, **kwargs)
 
    Bases: :py:obj:`FrequencySweptPulse`
 
@@ -38,6 +38,9 @@ pyepr.pulses.ChirpPulse
 
    ..
        !! processed by numpydoc !!
+
+
+   .. py:attribute:: rise_time
 
 
    .. py:method:: func(ax)

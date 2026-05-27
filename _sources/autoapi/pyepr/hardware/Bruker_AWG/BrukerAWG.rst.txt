@@ -99,8 +99,63 @@ pyepr.hardware.Bruker_AWG.BrukerAWG
 
    .. py:method:: connect(d0=None)
 
+      
+      Connects to the spectrometer through the XeprAPI. Automatically sets
+      up the spectrometer for pulse experiments.
+
+
+      :Parameters:
+
+          **d0: float, optional**
+              The d0 value to be used. If None, the d0 will be calculated
+              upon connection. By default None.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
 
    .. py:method:: setup(d0=None)
+
+      
+      Sets up the spectrometer for pulse experiments.
+      The video bandwidth is read from the configuration file, and the timebase
+      is set accordingly.
+
+
+      :Parameters:
+
+          **d0: float, optional**
+              The d0 value to be used. If None, the d0 will be calculated
+              upon connection. By default None.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: acquire_dataset(**kwargs)
@@ -164,14 +219,14 @@ pyepr.hardware.Bruker_AWG.BrukerAWG
    .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400)
 
       
-      Generates a rectangular pi and pi/2 pulse of the given length at 
-      the given field position. This value is stored in the pulse cache. 
+      Generates a rectangular pi/2 and pi pulse at the given frequency and field.
+      The pulses are of equal amplitude ($t_p$ for pi/2 and $2*t_p$ for pi) and are tuned using a Hahn echo sequence.
 
 
       :Parameters:
 
           **tp** : float
-              Pulse length in ns
+              $pi/2$ Pulse length in ns
 
           **freq** : float
               Central frequency of this pulse in GHz
@@ -193,7 +248,7 @@ pyepr.hardware.Bruker_AWG.BrukerAWG
               A tuned rectangular pi/2 pulse of length tp
 
           p180: RectPulse
-              A tuned rectangular pi pulse of length tp
+              A tuned rectangular pi pulse of length 2*tp
 
 
 

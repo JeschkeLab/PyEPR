@@ -4,6 +4,14 @@ pyepr.hardware.ETH_awg_load
 .. py:module:: pyepr.hardware.ETH_awg_load
 
 
+Attributes
+----------
+
+.. autoapisummary::
+
+   pyepr.hardware.ETH_awg_load.default_labels
+
+
 Functions
 ---------
 
@@ -16,6 +24,14 @@ Functions
    pyepr.hardware.ETH_awg_load.calc_percieved_freq
    pyepr.hardware.ETH_awg_load.match_filter_dc
    pyepr.hardware.ETH_awg_load.scipy_filter_dc
+   pyepr.hardware.ETH_awg_load.extract_data
+   pyepr.hardware.ETH_awg_load.get_metadata
+   pyepr.hardware.ETH_awg_load.detect_pulse_type
+   pyepr.hardware.ETH_awg_load.get_pulse_metadata
+   pyepr.hardware.ETH_awg_load.get_dig_level
+   pyepr.hardware.ETH_awg_load.get_nPcyc
+   pyepr.hardware.ETH_awg_load.get_coords
+   pyepr.hardware.ETH_awg_load.ETHUWB_xarray_load
 
 
 Module Contents
@@ -76,7 +92,7 @@ Module Contents
        **mask** : list, optional
            The mask to be used.
 
-       **filter_pulse** : ad.Pulse, optional
+       **filter_pulse** : epr.Pulse, optional
            The pulse to be used as a matched filter. If None, the maximum pulse width will be used. This is only used if filter_type is 'match'
 
        **filter_type** : str, optional
@@ -117,4 +133,62 @@ Module Contents
 .. py:function:: match_filter_dc(pulse, t, win, offset_freq)
 
 .. py:function:: scipy_filter_dc(dta, t, filter_width, offset_freq, sampling_freq, filter_type='cheby2')
+
+.. py:function:: extract_data(matfile, estr)
+
+.. py:function:: get_metadata(estr, conf)
+
+.. py:function:: detect_pulse_type(pulse)
+
+.. py:function:: get_pulse_metadata(pulse, i)
+
+.. py:function:: get_dig_level(data, metadata, conf)
+
+.. py:function:: get_nPcyc(estr)
+
+.. py:data:: default_labels
+   :value: ['X', 'Y', 'Z', 'T']
+
+
+.. py:function:: get_coords(parvars)
+
+.. py:function:: ETHUWB_xarray_load(matfile, sum_scans=True)
+
+   
+   This function reads data from an Andrin Doll ETH UWB EPR spectrometer
+   and converts it into an xarray.Dataset format compatible with PyEPR.
+
+
+   :Parameters:
+
+       **matfile** : dict
+           The data file to be loaded. 
+
+       **sum_scans** : bool, optional
+           Whether to sum all scans or not. Default is True.
+
+       **Returns**
+           ..
+
+       **-------**
+           ..
+
+       **output** : xarray.Dataset
+           The data in the xarray format.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

@@ -1,33 +1,36 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../../_static/favicon_16x16.png" sizes="16x16" rel="icon" type="image/png">
     <link href="../../_static/favicon_32x32.png" sizes="32x32" rel="icon" type="image/png">
-    <link href="../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+    <link href="../../_static/icon.svg" rel="icon" type="image/svg+xml"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
+        <link rel="prefetch" href="../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../_static/pyepr_logo_dark.svg" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr - PyEPR 1.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>pyepr - PyEPR 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -154,14 +157,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -171,17 +170,15 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">PyEPR 1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -189,8 +186,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -198,13 +194,12 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
-  
   <div class="sidebar-logo-container">
     <img class="sidebar-logo only-light" src="../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
     <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -215,7 +210,7 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_loading.html">Loading and Analysing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_sequencer.html">Pulse Sequencer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial_hardware.html">Interfacing with Hardware</a></li>
@@ -257,8 +252,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -266,8 +260,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -308,22 +301,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.log" title="pyepr.log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id16" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.ReIm_colors" title="pyepr.ReIm_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReIm_colors</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id16" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.cmap" title="pyepr.cmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cmap</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id16" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#id16" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id15" title="pyepr.primary_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_colors</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -337,47 +330,59 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="Pulse.html#pyepr.Pulse" title="pyepr.Pulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pulse</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Parameter.html#pyepr.Parameter" title="pyepr.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p></td>
+<td><p>Represents a sequence or pulse parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Interface.html#pyepr.Interface" title="pyepr.Interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Interface</span></code></a></p></td>
+<td><p>Represents the interface connection from autoEPR to the spectrometer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Parameter.html#pyepr.Parameter" title="pyepr.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p></td>
+<td><p>Represents a sequence or pulse parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Pulse.html#pyepr.Pulse" title="pyepr.Pulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pulse</span></code></a></p></td>
 <td><p>Represents a general experimental pulse.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Detection.html#pyepr.Detection" title="pyepr.Detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Detection</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Detection.html#pyepr.Detection" title="pyepr.Detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Detection</span></code></a></p></td>
 <td><p>Represents a detection pulse.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Delay.html#pyepr.Delay" title="pyepr.Delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Delay</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Delay.html#pyepr.Delay" title="pyepr.Delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Delay</span></code></a></p></td>
 <td><p>DEPRECATION WARNING: THIS WILL BE REMOVED SOON.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="RectPulse.html#pyepr.RectPulse" title="pyepr.RectPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RectPulse</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="RectPulse.html#pyepr.RectPulse" title="pyepr.RectPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RectPulse</span></code></a></p></td>
 <td><p>Represents a rectangular monochromatic pulse.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Sequence.html#pyepr.Sequence" title="pyepr.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Sequence.html#pyepr.Sequence" title="pyepr.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
 <td><p>Represents an experimental pulse sequence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="HahnEchoSequence.html#pyepr.HahnEchoSequence" title="pyepr.HahnEchoSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoSequence</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="HahnEchoSequence.html#pyepr.HahnEchoSequence" title="pyepr.HahnEchoSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoSequence</span></code></a></p></td>
 <td><p>Represents a Hahn-Echo sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="T1InversionRecoverySequence.html#pyepr.T1InversionRecoverySequence" title="pyepr.T1InversionRecoverySequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T1InversionRecoverySequence</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="T1InversionRecoverySequence.html#pyepr.T1InversionRecoverySequence" title="pyepr.T1InversionRecoverySequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T1InversionRecoverySequence</span></code></a></p></td>
 <td><p>Represents a T1 Inversion Recovery Sequence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="HahnEchoRelaxationSequence.html#pyepr.HahnEchoRelaxationSequence" title="pyepr.HahnEchoRelaxationSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoRelaxationSequence</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="HahnEchoRelaxationSequence.html#pyepr.HahnEchoRelaxationSequence" title="pyepr.HahnEchoRelaxationSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HahnEchoRelaxationSequence</span></code></a></p></td>
 <td><p>Represents a Hahn Echo relaxation sequence for measureing Tm. A Hahn Echo where the interpulse delay increases</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="T2RelaxationSequence.html#pyepr.T2RelaxationSequence" title="pyepr.T2RelaxationSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T2RelaxationSequence</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="T2RelaxationSequence.html#pyepr.T2RelaxationSequence" title="pyepr.T2RelaxationSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T2RelaxationSequence</span></code></a></p></td>
 <td><p>Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="FieldSweepSequence.html#pyepr.FieldSweepSequence" title="pyepr.FieldSweepSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FieldSweepSequence</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="FieldSweepSequence.html#pyepr.FieldSweepSequence" title="pyepr.FieldSweepSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FieldSweepSequence</span></code></a></p></td>
 <td><p>Represents a Field Sweep (EDFS) sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ReptimeScan.html#pyepr.ReptimeScan" title="pyepr.ReptimeScan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReptimeScan</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ReptimeScan.html#pyepr.ReptimeScan" title="pyepr.ReptimeScan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReptimeScan</span></code></a></p></td>
 <td><p>Represents a reptime scan of a Hahn Echo Sequence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="CarrPurcellSequence.html#pyepr.CarrPurcellSequence" title="pyepr.CarrPurcellSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CarrPurcellSequence</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="CarrPurcellSequence.html#pyepr.CarrPurcellSequence" title="pyepr.CarrPurcellSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CarrPurcellSequence</span></code></a></p></td>
 <td><p>Represents a Carr-Purcell sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence" title="pyepr.ResonatorProfileSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResonatorProfileSequence</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ResonatorProfileSequence.html#pyepr.ResonatorProfileSequence" title="pyepr.ResonatorProfileSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResonatorProfileSequence</span></code></a></p></td>
 <td><p>Builds nutation based Resonator Profile sequence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="TWTProfileSequence.html#pyepr.TWTProfileSequence" title="pyepr.TWTProfileSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TWTProfileSequence</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="TWTProfileSequence.html#pyepr.TWTProfileSequence" title="pyepr.TWTProfileSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TWTProfileSequence</span></code></a></p></td>
 <td><p>Builds TWT based Resonator Profile sequence.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Parameter.html#pyepr.Parameter" title="pyepr.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p></td>
+<td><p>Represents a sequence or pulse parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Pulse.html#pyepr.Pulse" title="pyepr.Pulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pulse</span></code></a></p></td>
 <td><p>Represents a general experimental pulse.</p></td>
@@ -421,14 +426,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="SNRCriteria.html#pyepr.SNRCriteria" title="pyepr.SNRCriteria"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SNRCriteria</span></code></a></p></td>
 <td><p>A class for defining criteria for terminating experiments. This should</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Detection.html#pyepr.Detection" title="pyepr.Detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Detection</span></code></a></p></td>
-<td><p>Represents a detection pulse.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Sequence.html#pyepr.Sequence" title="pyepr.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
-<td><p>Represents an experimental pulse sequence.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="EPRAccessor.html#pyepr.EPRAccessor" title="pyepr.EPRAccessor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EPRAccessor</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Parameter.html#pyepr.Parameter" title="pyepr.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p></td>
+<td><p>Represents a sequence or pulse parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="FieldSweepAnalysis.html#pyepr.FieldSweepAnalysis" title="pyepr.FieldSweepAnalysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FieldSweepAnalysis</span></code></a></p></td>
 <td><p>Analysis and calculation of FieldSweep Experiment.</p></td>
@@ -451,6 +450,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="ResonatorProfileAnalysis.html#pyepr.ResonatorProfileAnalysis" title="pyepr.ResonatorProfileAnalysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResonatorProfileAnalysis</span></code></a></p></td>
 <td><p>Analysis and calculation of resonator profiles.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="AmplifierLinearityAnalysis.html#pyepr.AmplifierLinearityAnalysis" title="pyepr.AmplifierLinearityAnalysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AmplifierLinearityAnalysis</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -460,7 +462,7 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.eprload" title="pyepr.eprload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eprload</span></code></a>(path[, experiment, type])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.eprload" title="pyepr.eprload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eprload</span></code></a>(path[, experiment, type, downconvert])</p></td>
 <td><p>A general versions of eprload</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#id6" title="pyepr.build_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_table</span></code></a>(source, params, params_widths)</p></td>
@@ -482,7 +484,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyepr.gcd" title="pyepr.gcd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gcd</span></code></a>(values)</p></td>
-<td><p>Generates the greatest common dividor on a  list of floats</p></td>
+<td><p>Generates the greatest common divisor on a list of floats</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#id1" title="pyepr.val_in_us"><code class="xref py py-obj docutils literal notranslate"><span class="pre">val_in_us</span></code></a>(Param[, axis])</p></td>
 <td><p>Returns the value or axis of a parameter in microseconds</p></td>
@@ -544,65 +546,47 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#pyepr.build_default_pulses" title="pyepr.build_default_pulses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_default_pulses</span></code></a>([AWG, SPFU, tp])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.get_all_axes" title="pyepr.get_all_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_axes</span></code></a>(sequence)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.get_waveform_precision" title="pyepr.get_waveform_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_waveform_precision</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.get_all_fixed_param" title="pyepr.get_all_fixed_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_fixed_param</span></code></a>(sequence)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.set_waveform_precision" title="pyepr.set_waveform_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_waveform_precision</span></code></a>(precision)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.create_dataset_from_sequence" title="pyepr.create_dataset_from_sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dataset_from_sequence</span></code></a>(data, sequence[, ...])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id14" title="pyepr.create_dataset_from_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dataset_from_axes</span></code></a>(data, axes[, params, axes_labels])</p></td>
-<td><p>Create an xarray dataset from a numpy array and a list of axes.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.create_dataset_from_bruker" title="pyepr.create_dataset_from_bruker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dataset_from_bruker</span></code></a>(filepath)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.get_waveform_precision" title="pyepr.get_waveform_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_waveform_precision</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.set_waveform_precision" title="pyepr.set_waveform_precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_waveform_precision</span></code></a>(precision)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id10" title="pyepr.sop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sop</span></code></a>(spins, comps)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id10" title="pyepr.sop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sop</span></code></a>(spins, comps)</p></td>
 <td><p>Spin Operator Matricies.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#id12" title="pyepr.create_Nmodel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_Nmodel</span></code></a>(mwFreq)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#id12" title="pyepr.create_Nmodel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_Nmodel</span></code></a>(mwFreq)</p></td>
 <td><p>Create the field sweep model for a Nitroxide spin system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.erot" title="pyepr.erot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erot</span></code></a>(*args)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.erot" title="pyepr.erot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erot</span></code></a>(*args)</p></td>
 <td><p>Passive rotation matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.eyekron" title="pyepr.eyekron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eyekron</span></code></a>(M)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.eyekron" title="pyepr.eyekron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eyekron</span></code></a>(M)</p></td>
 <td><p>Calculates the Kronecker product of the identity matrix with a matrix M.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.kroneye" title="pyepr.kroneye"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kroneye</span></code></a>(M)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.kroneye" title="pyepr.kroneye"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kroneye</span></code></a>(M)</p></td>
 <td><p>Computes the Kronecker product of a matrix with the identity matrix of the same size.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.ham" title="pyepr.ham"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham</span></code></a>(SpinSystem[, elspins, nucspins])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.ham" title="pyepr.ham"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham</span></code></a>(SpinSystem[, elspins, nucspins])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.ham_ez" title="pyepr.ham_ez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham_ez</span></code></a>(SpinSystem[, B, espins])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.ham_ez" title="pyepr.ham_ez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham_ez</span></code></a>(SpinSystem[, B, espins])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.ham_nz" title="pyepr.ham_nz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham_nz</span></code></a>(SpinSystem[, B, nspins])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.ham_nz" title="pyepr.ham_nz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ham_nz</span></code></a>(SpinSystem[, B, nspins])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.resfields" title="pyepr.resfields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resfields</span></code></a>(system, Orientations, mwFreq[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.resfields" title="pyepr.resfields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resfields</span></code></a>(system, Orientations, mwFreq[, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.build_spectrum" title="pyepr.build_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_spectrum</span></code></a>(system, mwFreq, Range[, knots, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.build_spectrum" title="pyepr.build_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_spectrum</span></code></a>(system, mwFreq, Range[, knots, ...])</p></td>
 <td><p>Build a field sweep spectrum</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.detect_ESEEM" title="pyepr.detect_ESEEM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect_ESEEM</span></code></a>(dataset[, type, threshold])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.detect_ESEEM" title="pyepr.detect_ESEEM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect_ESEEM</span></code></a>(dataset[, type, threshold])</p></td>
 <td><p>Detect if the dataset is an ESEEM experiment.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.plot_1Drelax" title="pyepr.plot_1Drelax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_1Drelax</span></code></a>(*args[, fig, axs, cmap, labels])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyepr.plot_1Drelax" title="pyepr.plot_1Drelax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_1Drelax</span></code></a>(*args[, fig, axs, cmap, labels])</p></td>
 <td><p>Create a superimposed plot of relaxation data and fits.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id14" title="pyepr.create_dataset_from_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dataset_from_axes</span></code></a>(data, axes[, params, axes_labels])</p></td>
-<td><p>Create an xarray dataset from a numpy array and a list of axes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyepr.phase_correct_respro" title="pyepr.phase_correct_respro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_correct_respro</span></code></a>(dataset)</p></td>
 <td><p>Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real</p></td>
@@ -635,12 +619,12 @@
 
 <dl class="py data">
 <dt class="sig sig-object py" id="pyepr.__copyright__">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">__copyright__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2021-2025,</span> <span class="pre">Hugo</span> <span class="pre">Karas,</span> <span class="pre">Gunnar</span> <span class="pre">Jeschke,</span> <span class="pre">Stefan</span> <span class="pre">Stoll'</span></em><a class="reference internal" href="../../_modules/pyepr/_version.html#__copyright__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.__copyright__" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">__copyright__</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2021-2025,</span> <span class="pre">Hugo</span> <span class="pre">Karas,</span> <span class="pre">Gunnar</span> <span class="pre">Jeschke,</span> <span class="pre">Stefan</span> <span class="pre">Stoll'</span></span><a class="reference internal" href="../../_modules/pyepr/_version.html#__copyright__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.__copyright__" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyepr.eprload">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">eprload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/tools.html#eprload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.eprload" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">eprload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downconvert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/tools.html#eprload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.eprload" title="Link to this definition">¶</a></dt>
 <dd><p>A general versions of eprload</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -733,7 +717,7 @@ Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyepr.gcd">
 <span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/utils.html#gcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.gcd" title="Link to this definition">¶</a></dt>
-<dd><p>Generates the greatest common dividor on a  list of floats</p>
+<dd><p>Generates the greatest common divisor on a list of floats</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1009,54 +993,6 @@ Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pyepr.get_all_axes">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">get_all_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#get_all_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.get_all_axes" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyepr.get_all_fixed_param">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">get_all_fixed_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#get_all_fixed_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.get_all_fixed_param" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyepr.create_dataset_from_sequence">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">create_dataset_from_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#create_dataset_from_sequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.create_dataset_from_sequence" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sequence</strong> (<a class="reference internal" href="sequences/Sequence.html#pyepr.sequences.Sequence" title="pyepr.sequences.Sequence"><em>pyepr.sequences.Sequence</em></a>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyepr.create_dataset_from_axes">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">create_dataset_from_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#create_dataset_from_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.create_dataset_from_axes" title="Link to this definition">¶</a></dt>
-<dd><p>Create an xarray dataset from a numpy array and a list of axes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>The data to be stored in the dataset.</p>
-</dd>
-<dt><strong>axes</strong><span class="classifier">list</span></dt><dd><p>A list of numpy arrays containing the axes for each dimension of the data.</p>
-</dd>
-<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>A dictionary containing any additional parameters to be stored in the dataset, by default None</p>
-</dd>
-<dt><strong>axes_labels</strong><span class="classifier">list, optional</span></dt><dd><p>A list of labels for each axis, by default None</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>params</strong> (<em>dict</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyepr.create_dataset_from_bruker">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">create_dataset_from_bruker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#create_dataset_from_bruker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.create_dataset_from_bruker" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="pyepr.get_waveform_precision">
 <span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">get_waveform_precision</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/config.html#get_waveform_precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.get_waveform_precision" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1094,12 +1030,12 @@ Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="pyepr.primary_colors">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></em><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.primary_colors" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></span><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.primary_colors" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="pyepr.ReIm_colors">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">ReIm_colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D61B00',</span> <span class="pre">'#00BBD6']</span></em><a class="reference internal" href="../../_modules/pyepr/colors.html#ReIm_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.ReIm_colors" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">ReIm_colors</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D61B00',</span> <span class="pre">'#00BBD6']</span></span><a class="reference internal" href="../../_modules/pyepr/colors.html#ReIm_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.ReIm_colors" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1201,7 +1137,7 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></em><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></span><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1230,7 +1166,7 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="pyepr.cmap">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">cmap</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399']</span></em><a class="reference internal" href="../../_modules/pyepr/relaxation_analysis.html#cmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.cmap" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">cmap</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399']</span></span><a class="reference internal" href="../../_modules/pyepr/relaxation_analysis.html#cmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyepr.cmap" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1253,32 +1189,9 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">create_dataset_from_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyepr/dataset.html#create_dataset_from_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition">¶</a></dt>
-<dd><p>Create an xarray dataset from a numpy array and a list of axes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>The data to be stored in the dataset.</p>
-</dd>
-<dt><strong>axes</strong><span class="classifier">list</span></dt><dd><p>A list of numpy arrays containing the axes for each dimension of the data.</p>
-</dd>
-<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>A dictionary containing any additional parameters to be stored in the dataset, by default None</p>
-</dd>
-<dt><strong>axes_labels</strong><span class="classifier">list, optional</span></dt><dd><p>A list of labels for each axis, by default None</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>params</strong> (<em>dict</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py data">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></em><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id14">
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></span><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1332,8 +1245,8 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 <dd></dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></em><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id15">
+<span class="sig-prename descclassname"><span class="pre">pyepr.</span></span><span class="sig-name descname"><span class="pre">primary_colors</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['#D95B6F',</span> <span class="pre">'#42A399',</span> <span class="pre">'#E1AE38']</span></span><a class="reference internal" href="../../_modules/pyepr/colors.html#primary_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -1413,11 +1326,6 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 <li><a class="reference internal" href="#pyepr.compute_magnetization_trajectory"><code class="docutils literal notranslate"><span class="pre">compute_magnetization_trajectory()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.build_default_pulses"><code class="docutils literal notranslate"><span class="pre">build_default_pulses()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.log"><code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.get_all_axes"><code class="docutils literal notranslate"><span class="pre">get_all_axes()</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.get_all_fixed_param"><code class="docutils literal notranslate"><span class="pre">get_all_fixed_param()</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.create_dataset_from_sequence"><code class="docutils literal notranslate"><span class="pre">create_dataset_from_sequence()</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.create_dataset_from_axes"><code class="docutils literal notranslate"><span class="pre">create_dataset_from_axes()</span></code></a></li>
-<li><a class="reference internal" href="#pyepr.create_dataset_from_bruker"><code class="docutils literal notranslate"><span class="pre">create_dataset_from_bruker()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.get_waveform_precision"><code class="docutils literal notranslate"><span class="pre">get_waveform_precision()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.set_waveform_precision"><code class="docutils literal notranslate"><span class="pre">set_waveform_precision()</span></code></a></li>
 <li><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">sop()</span></code></a></li>
@@ -1436,15 +1344,14 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
 <li><a class="reference internal" href="#pyepr.detect_ESEEM"><code class="docutils literal notranslate"><span class="pre">detect_ESEEM()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.cmap"><code class="docutils literal notranslate"><span class="pre">cmap</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.plot_1Drelax"><code class="docutils literal notranslate"><span class="pre">plot_1Drelax()</span></code></a></li>
-<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">create_dataset_from_axes()</span></code></a></li>
-<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">primary_colors</span></code></a></li>
+<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">primary_colors</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.phase_correct_respro"><code class="docutils literal notranslate"><span class="pre">phase_correct_respro()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.ceil"><code class="docutils literal notranslate"><span class="pre">ceil()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.floor"><code class="docutils literal notranslate"><span class="pre">floor()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.calc_overlap"><code class="docutils literal notranslate"><span class="pre">calc_overlap()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.BSpline_extra"><code class="docutils literal notranslate"><span class="pre">BSpline_extra()</span></code></a></li>
 <li><a class="reference internal" href="#pyepr.optimise_spectra_position"><code class="docutils literal notranslate"><span class="pre">optimise_spectra_position()</span></code></a></li>
-<li><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">primary_colors</span></code></a></li>
+<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">primary_colors</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1458,12 +1365,13 @@ np.ndarray: The Kronecker product of the identity matrix with M.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=1ed6394b"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

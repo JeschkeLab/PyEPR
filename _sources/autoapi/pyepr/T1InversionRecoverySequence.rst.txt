@@ -1,7 +1,7 @@
 pyepr.T1InversionRecoverySequence
 =================================
 
-.. py:class:: pyepr.T1InversionRecoverySequence(*, name, B, reptime, averages, shots, LO=None, freq=None, **kwargs)
+.. py:class:: pyepr.T1InversionRecoverySequence(*, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -9,12 +9,12 @@ pyepr.T1InversionRecoverySequence
    Represents a T1 Inversion Recovery Sequence. 
 
    Sequence:
-   [\pi -      au - \pi/2 -    au - echo]
+   [\pi - t - \pi/2 -  au - \pi -      au - echo]
 
    Parameters
    ----------
    B : int or float
-       The B0 field, in Guass
+       The B0 field, in Gauss
    LO : int or float
        The LO frequency in GHz
    reptime : _type_
@@ -29,6 +29,8 @@ pyepr.T1InversionRecoverySequence
        The step size of the interpulse delay in ns, by default 50 ns
    dim : int
        The number of points in the X axis
+   tau: float
+       The Hahn echo interpulse delay in ns, by default 500 ns
 
    Optional Parameters
    -------------------
@@ -82,4 +84,34 @@ pyepr.T1InversionRecoverySequence
 
    ..
        !! processed by numpydoc !!
+
+
+   .. py:attribute:: tau
+
+
+   .. py:attribute:: t
+
+
+   .. py:method:: simulate(T1=10000.0)
+
+      
+      Simulates the T1 recovery as a simple exponential recovery.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 

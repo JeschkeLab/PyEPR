@@ -1,0 +1,215 @@
+pyepr.Interface
+===============
+
+.. py:class:: pyepr.Interface(config_file = None, log=None)
+
+   Represents the interface connection from autoEPR to the spectrometer.
+       
+
+
+
+
+
+   :Parameters:
+
+       **config_file** : dict or str or Path, optional
+           The configuration file or dict for the spectrometer interface, by default None. If None, a default configuration will be used.
+
+       **log** : logging.Logger, optional
+           The logger to be used, by default None. If None, a default logger will be created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. py:attribute:: config
+
+
+   .. py:attribute:: pulses
+
+
+   .. py:attribute:: savefolder
+      :value: ''
+
+
+
+   .. py:attribute:: savename
+      :value: ''
+
+
+
+   .. py:attribute:: resonator
+      :value: None
+
+
+
+   .. py:method:: connect()
+
+
+   .. py:method:: acquire_dataset(data)
+
+      
+      Acquires the dataset.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: launch(sequence, savename)
+
+      
+      Launches the experiment and initialises autosaving.
+
+
+      :Parameters:
+
+          **sequence** : Sequence
+              The sequence to be launched
+
+          **savename** : str
+              The savename for this measurement. A timestamp will be added to the value.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: isrunning()
+
+
+   .. py:method:: rescale(scale)
+
+      
+      Rescales the scale factor to account for applifier non-linearity.
+
+
+      :Parameters:
+
+          **scale** : float
+              The scale factor to be rescaled.
+
+
+
+      :Returns:
+
+          float
+              The rescaled value.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: terminate()
+
+      
+      Terminates the experiment immediately. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: terminate_at(criterion, test_interval=2, keep_running=True, verbosity=0, autosave=True)
+
+      
+      Terminates the experiment upon a specific condition being
+      satisified. 
+
+
+      :Parameters:
+
+          **criterion** : _type_
+              The criteria to be tested.
+
+          **test_interval** : int, optional
+              How often should the criteria be tested in minutes, by default 10.
+
+          **keep_running** : bool, optional
+              If True, an error will not be raised if the experiment finishes before the criteria is met, by default True.
+
+          **verbosity** : int, optional
+              The verbosity level, by default 0. 
+
+          **autosave** : bool, optional
+              If True, the data will be autosaved, by default True.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+

@@ -1,6 +1,19 @@
 Release Notes
 =============
 
+Version 1.1 (2026-05-27):
+++++++++++++++++++++++++++++
+- Added `AmplifierLinearityAnalysis` class for characterizing amplifier non-linearity.
+- Added `T1InversionRecovery` sequence.
+- Added rise time to linear chirp pulses.
+- Added right based arithmatic.
+- Fixed Version Detection Bug
+- Fixed Dependency issues
+- Improved Documentation
+- Removed Numba dependency
+
+
+
 Version 1.0.0 (2025-09-12):
 ++++++++++++++++++++++++++++
 - All references to `LO` have been changed to `freq` in the frequency object and related.

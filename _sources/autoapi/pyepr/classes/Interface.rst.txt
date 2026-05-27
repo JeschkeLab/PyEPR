@@ -3,10 +3,20 @@ pyepr.classes.Interface
 
 .. py:class:: pyepr.classes.Interface(config_file = None, log=None)
 
-   
    Represents the interface connection from autoEPR to the spectrometer.
+       
 
 
+
+
+
+   :Parameters:
+
+       **config_file** : dict or str or Path, optional
+           The configuration file or dict for the spectrometer interface, by default None. If None, a default configuration will be used.
+
+       **log** : logging.Logger, optional
+           The logger to be used, by default None. If None, a default logger will be created.
 
 
 
@@ -23,6 +33,7 @@ pyepr.classes.Interface
 
    ..
        !! processed by numpydoc !!
+
 
    .. py:attribute:: config
 
@@ -43,9 +54,6 @@ pyepr.classes.Interface
    .. py:attribute:: resonator
       :value: None
 
-
-
-   .. py:attribute:: amp_nonlinearity
 
 
    .. py:method:: connect()

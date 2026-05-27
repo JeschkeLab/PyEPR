@@ -11,10 +11,12 @@ Classes
    :hidden:
 
    /autoapi/pyepr/resonator_profile_analysis/ResonatorProfileAnalysis
+   /autoapi/pyepr/resonator_profile_analysis/AmplifierLinearityAnalysis
 
 .. autoapisummary::
 
    pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
+   pyepr.resonator_profile_analysis.AmplifierLinearityAnalysis
 
 
 Functions

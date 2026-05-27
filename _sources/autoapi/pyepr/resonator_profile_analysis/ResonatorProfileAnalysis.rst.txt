@@ -9,7 +9,7 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
 
    Fitting fuction:
 
-   .. math:: \nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/      au} + k
+   .. math:: \nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
 
    where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
    :math:`\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
@@ -114,14 +114,14 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
           !! processed by numpydoc !!
 
 
-   .. py:method:: _process_fit(R_limit=0.5, mask=None, debug=False)
+   .. py:method:: _process_fit(R_limit=0.5, mask=None, debug=False, **kwargs)
 
       
       Processes the nutation data by fitting a cosine function to each
       frequency in the dataset.
 
       Function used for fitting:
-      .. math:: \nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/      au} + k
+      .. math:: \nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
       where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
       :math:`\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
 

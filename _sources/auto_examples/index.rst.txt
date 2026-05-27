@@ -5,6 +5,10 @@ PyEPR Example Scripts
 
 Work in Progress: This gallery is under construction and will be expanded with more examples in the future.
 
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
 
 .. raw:: html
 

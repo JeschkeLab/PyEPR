@@ -1,0 +1,42 @@
+pyepr.resonator_profile_analysis.AmplifierLinearityAnalysis
+===========================================================
+
+.. py:class:: pyepr.resonator_profile_analysis.AmplifierLinearityAnalysis(dataset, attenuator=0)
+
+   .. py:attribute:: dataset
+
+
+   .. py:attribute:: attenuator
+      :value: 0
+
+
+
+   .. py:method:: _process_fit(R_limit=0.5, mask=None)
+
+
+   .. py:method:: fit(order=5)
+
+      
+      5th order polynomial fit to the profile 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: plot(axs=None, fig=None)
+

@@ -38,7 +38,7 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
 
    .. py:attribute:: IFgain
-      :value: 2
+      :value: 1
 
 
 
@@ -46,6 +46,11 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
 
    .. py:attribute:: server
+      :value: None
+
+
+
+   .. py:attribute:: cur_exp
       :value: None
 
 
@@ -84,6 +89,34 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
 
    .. py:method:: get_buffer(verbosity=0, sum_scans=True, **kwargs)
+
+
+   .. py:method:: status()
+
+      
+      Returns the status of the spectrometer.
+
+
+
+
+
+      :Returns:
+
+          dict
+              A dictionary containing the status of the spectrometer.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: set_param(param, value)
@@ -178,7 +211,7 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
    .. py:method:: isrunning()
 
 
-   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400)
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, tau=500, IFgain=None)
 
       
       Generates a rectangular pi and pi/2 pulse of the given length at 
@@ -226,7 +259,7 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400)
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400, IFgain=None, tau=500)
 
       
       Tunes a single pulse a range of methods.
@@ -274,4 +307,56 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
 
    .. py:method:: tune(*, sequence=None, mode='amp_hahn', freq=None, gyro=None)
+
+
+   .. py:method:: get_config()
+
+      
+      Returns the current configuration of the spectrometer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: set_config(config)
+
+      
+      Sets the configuration of the spectrometer.
+
+
+      :Parameters:
+
+          **config** : dict
+              The configuration to set.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 

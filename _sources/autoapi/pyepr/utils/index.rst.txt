@@ -122,7 +122,7 @@ Module Contents
 .. py:function:: gcd(values)
 
    
-   Generates the greatest common dividor on a  list of floats
+   Generates the greatest common divisor on a list of floats
 
 
    :Parameters:

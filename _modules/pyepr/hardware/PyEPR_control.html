@@ -1,30 +1,33 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
+        <link rel="prefetch" href="../../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../../_static/pyepr_logo_dark.svg" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>pyepr.hardware.PyEPR_control - PyEPR 1.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>pyepr.hardware.PyEPR_control - PyEPR 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-toolbox-code.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -151,14 +154,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,17 +167,15 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">PyEPR 1.0.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">PyEPR 1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +183,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -195,13 +191,12 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
-  
   <div class="sidebar-logo-container">
     <img class="sidebar-logo only-light" src="../../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
     <img class="sidebar-logo only-dark" src="../../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">PyEPR 1.0.2 documentation</span>
+  <span class="sidebar-brand-text">PyEPR 1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -212,7 +207,7 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial.html">Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_loading.html">Loading and Analysing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_sequencer.html">Pulse Sequencer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorial_hardware.html">Interfacing with Hardware</a></li>
@@ -248,8 +243,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -257,8 +251,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -276,7 +269,7 @@
 <span class="c1"># PyEPR imports</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.classes</span><span class="w"> </span><span class="kn">import</span>  <span class="n">Interface</span><span class="p">,</span> <span class="n">Parameter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.pulses</span><span class="w"> </span><span class="kn">import</span>  <span class="n">Delay</span><span class="p">,</span> <span class="n">Detection</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.sequences</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">HahnEchoSequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.sequences</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">HahnEchoSequence</span><span class="p">,</span> <span class="n">FieldSweepSequence</span>
 
 
 <div class="viewcode-block" id="log">
@@ -301,11 +294,12 @@
         
         
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">IFgain_options</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">IFgain</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IFgain_options</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span> <span class="c1">#np.array([0, 20, 40])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IFgain</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">#2</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">config_file_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">savefolder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -356,12 +350,21 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">acquire_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">sum_scans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cur_exp</span><span class="p">,</span> <span class="n">FieldSweepSequence</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;filter_type&#39;</span><span class="p">,</span> <span class="s1">&#39;boxcar&#39;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filter_width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;filter_width&#39;</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filter_type&#39;</span><span class="p">,</span> <span class="s1">&#39;cheby&#39;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filter_width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filter_width&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
         
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;downconvert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="s1">&#39;downconvert&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;downconvert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s1">&#39;/get_data&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;downconvert&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s1">&#39;/get_data&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
             <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
@@ -369,7 +372,9 @@
                 <span class="k">continue</span>
             <span class="k">elif</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
                 <span class="k">break</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected response: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">))</span> <span class="c1">#xr.datarray</span>
@@ -378,12 +383,15 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data found in response. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No data returned from server&quot;</span><span class="p">)</span>
         
     <span class="k">def</span><span class="w"> </span><span class="nf">get_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">sum_scans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;downconvert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="s1">&#39;downconvert&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;downconvert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s1">&#39;/get_databuffer&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
             <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
@@ -403,6 +411,25 @@
                 <span class="k">return</span> <span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No data returned from server&quot;</span><span class="p">)</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the status of the spectrometer.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing the status of the spectrometer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s1">&#39;/status&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Depickle</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span>
+        
+
         
     <span class="k">def</span><span class="w"> </span><span class="nf">set_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a parameter for the spectrometer.</span>
@@ -426,14 +453,20 @@
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;message&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="kc">True</span>
         
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s2">&quot;/status&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error updating status: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">))</span>
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">launch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span> <span class="p">,</span> <span class="n">savename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">savefolder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">savefolder</span>
         <span class="c1"># increase the detection length to a minimum 1024ns</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">Detection</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">128</span><span class="p">:</span>
-                    <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">128</span>
+                <span class="k">if</span> <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">256</span><span class="p">:</span>
+                    <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">256</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="n">IFgain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">IFgain</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">):</span>
             <span class="n">test_IF</span> <span class="o">=</span> <span class="kc">True</span>
@@ -481,7 +514,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_launch</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span><span class="n">savename</span><span class="p">,</span><span class="n">IFgain</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IFgain must be of type [None, bool, int, float]. </span><span class="si">{</span><span class="n">IFgain</span><span class="si">}</span><span class="s2"> is not valid.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IFgain must be of type [None, bool, int, float]. Type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">IFgain</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">IFgain</span><span class="si">}</span><span class="s2"> is not valid.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_launch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">Sequence</span> <span class="p">,</span> <span class="n">savename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">reset_cur_exp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
@@ -516,7 +549,7 @@
 
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;isrunning&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">tune_rectpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="p">,</span><span class="n">tp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">reptime</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune_rectpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="p">,</span><span class="n">tp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">reptime</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span><span class="n">IFgain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a rectangular pi and pi/2 pulse of the given length at </span>
 <span class="sd">        the given field position. This value is stored in the pulse cache. </span>
 
@@ -542,22 +575,31 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">amp_tune</span> <span class="o">=</span><span class="n">HahnEchoSequence</span><span class="p">(</span>
-            <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span> <span class="n">averages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span>
+            <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span> <span class="n">averages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span>
         <span class="p">)</span>
 
-        <span class="n">scale</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
         <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">tp</span>
         <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
         <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">*</span> <span class="mi">2</span>
         <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
 
+        <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">512</span>
+
         <span class="n">amp_tune</span><span class="o">.</span><span class="n">evolution</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">amp_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">amp_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">,</span><span class="n">IFgain</span><span class="o">=</span><span class="n">IFgain</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">isrunning</span><span class="p">():</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">downconvert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;boxcar&#39;</span><span class="p">,</span><span class="n">filter_width</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+        <span class="c1"># Check if zero&#39;s in data</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Zero values found in dataset. This may indicate an error in acquisition.&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">isrunning</span><span class="p">():</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">(</span><span class="n">downconvert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">filter_type</span><span class="o">=</span><span class="s1">&#39;boxcar&#39;</span><span class="p">,</span><span class="n">filter_width</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">epr</span><span class="o">.</span><span class="n">correctphase</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -568,16 +610,17 @@
         
         <span class="k">if</span> <span class="n">scale</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Pulse tuned with a scale of zero!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pulse tuned with a scale of zero!&quot;</span><span class="p">)</span>
         <span class="n">p90</span> <span class="o">=</span> <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">amp_tune</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         
         <span class="n">p180</span> <span class="o">=</span> <span class="n">amp_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">amp_tune</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">p90</span><span class="p">,</span> <span class="n">p180</span>
 
     
-    <span class="k">def</span><span class="w"> </span><span class="nf">tune_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">B</span> <span class="p">,</span> <span class="n">reptime</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">B</span> <span class="p">,</span> <span class="n">reptime</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Tunes a single pulse a range of methods.</span>
 
 <span class="sd">        Parameters</span>
@@ -614,7 +657,7 @@
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">&quot;final_freq&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">&quot;BW&quot;</span><span class="p">):</span>
             <span class="n">c_frq</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">pulse</span><span class="o">.</span><span class="n">BW</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">freq</span>
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">&quot;init_freq&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">&quot;final_freq&quot;</span><span class="p">):</span>
-            <span class="n">c_frq</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="n">freq</span>
+            <span class="n">c_frq</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="n">freq</span>
 
         <span class="c1"># Find rect pulses</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;amp_hahn&quot;</span><span class="p">:</span>
@@ -623,11 +666,11 @@
             <span class="k">elif</span> <span class="n">pulse</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span>
                 <span class="n">tp</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">value</span>
 
-            <span class="n">pi2_pulse</span><span class="p">,</span> <span class="n">pi_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune_rectpulse</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">)</span>
+            <span class="n">pi2_pulse</span><span class="p">,</span> <span class="n">pi_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune_rectpulse</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="n">IFgain</span><span class="p">,</span><span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
             <span class="n">amp_tune</span> <span class="o">=</span><span class="n">HahnEchoSequence</span><span class="p">(</span>
                 <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> 
                 <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span> <span class="n">averages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                <span class="n">pi2_pulse</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">pi_pulse</span><span class="o">=</span><span class="n">pi_pulse</span>
+                <span class="n">pi2_pulse</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">pi_pulse</span><span class="o">=</span><span class="n">pi_pulse</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span>
             <span class="p">)</span>
 
             <span class="n">scale</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The amplitude of the pulse 0-1&#39;</span><span class="p">)</span>
@@ -635,7 +678,7 @@
 
             <span class="n">amp_tune</span><span class="o">.</span><span class="n">evolution</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">amp_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">amp_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="n">IFgain</span><span class="p">)</span>
 
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">isrunning</span><span class="p">():</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -654,26 +697,33 @@
             <span class="k">return</span> <span class="n">pulse</span>
 
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;amp_nut&quot;</span><span class="p">:</span>
-            <span class="n">pi2_pulse</span><span class="p">,</span> <span class="n">pi_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune_rectpulse</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">)</span>
+            
+            <span class="n">pi2_pulse</span><span class="p">,</span> <span class="n">pi_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune_rectpulse</span><span class="p">(</span><span class="n">tp</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="o">/</span><span class="n">freq</span><span class="o">*</span><span class="n">c_frq</span><span class="p">),</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="n">IFgain</span><span class="p">,</span><span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
             <span class="n">nut_tune</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;nut_tune&quot;</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="o">/</span><span class="n">freq</span><span class="o">*</span><span class="n">c_frq</span><span class="p">),</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;nut_tune&quot;</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="o">/</span><span class="n">freq</span><span class="o">*</span><span class="n">c_frq</span><span class="p">),</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="p">,</span> <span class="n">reptime</span><span class="o">=</span><span class="n">reptime</span><span class="p">,</span>
                 <span class="n">averages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">shots</span><span class="o">=</span><span class="n">shots</span>
             <span class="p">)</span>
-            <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-                <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">]},</span> <span class="n">scale</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">f_shift</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="n">c_frq</span>
+            <span class="n">test_pulse</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">]},</span> <span class="n">scale</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">test_pulse</span><span class="p">,</span><span class="s2">&quot;freq&quot;</span><span class="p">):</span>
+                <span class="n">test_pulse</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">f_shift</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">test_pulse</span><span class="p">,</span> <span class="s2">&quot;init_freq&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">&quot;final_freq&quot;</span><span class="p">):</span>
+                <span class="n">test_pulse</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">f_shift</span>
+                <span class="n">test_pulse</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">f_shift</span>
+            <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span><span class="n">test_pulse</span><span class="p">)</span>
             <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span>
-                <span class="n">pi2_pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">2e3</span><span class="p">,</span>
-                               <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]},</span>
-                               <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="o">-</span><span class="n">freq</span><span class="p">))</span>
+                <span class="n">pi2_pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+                                <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">]},</span>
+                                <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
             <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span>
-                <span class="n">pi_pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">2.5e3</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">]},</span>
-                              <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="o">-</span><span class="n">freq</span><span class="p">))</span>
-            <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span><span class="n">Detection</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">3e3</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="o">-</span><span class="n">freq</span><span class="p">))</span>
+                <span class="n">pi_pulse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">2000</span><span class="o">+</span><span class="n">tau</span><span class="p">,</span> <span class="n">pcyc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phases&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;dets&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">]},</span>
+                                <span class="n">freq</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">nut_tune</span><span class="o">.</span><span class="n">addPulse</span><span class="p">(</span><span class="n">Detection</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">c_frq</span><span class="o">-</span><span class="n">freq</span><span class="p">))</span>
 
             <span class="n">scale</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The amplitude of the pulse 0-1&#39;</span><span class="p">)</span>
             <span class="n">nut_tune</span><span class="o">.</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
             <span class="n">nut_tune</span><span class="o">.</span><span class="n">evolution</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
-
 
             <span class="c1"># nut_tune.addPulsesProg(</span>
             <span class="c1">#     pulses=[0],</span>
@@ -681,8 +731,8 @@
             <span class="c1">#     axis_id = 0,</span>
             <span class="c1">#     axis= np.arange(0,0.9,0.02)</span>
             <span class="c1"># )</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">nut_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">)</span>
-
+            <span class="bp">self</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">nut_tune</span><span class="p">,</span> <span class="s2">&quot;autoDEER_amptune&quot;</span><span class="p">,</span> <span class="n">IFgain</span><span class="o">=</span><span class="n">IFgain</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">isrunning</span><span class="p">():</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_dataset</span><span class="p">()</span>
@@ -704,7 +754,10 @@
             <span class="n">pulse</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span><span class="n">new_amp</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The amplitude of the pulse 0-1&#39;</span><span class="p">)</span>
         
             <span class="k">return</span> <span class="n">pulse</span>
-    
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> not recognised. Available modes are: &#39;amp_hahn&#39;, &#39;amp_nut&#39;&quot;</span><span class="p">)</span>
+        
     <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="p">,</span> <span class="n">sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;amp_hahn&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gyro</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;rect_tune&quot;</span><span class="p">:</span>
@@ -795,6 +848,34 @@
 
             <span class="k">return</span> <span class="n">sequence</span>
   
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the current configuration of the spectrometer.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="si">}</span><span class="s2">/get_config&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">config_pkl</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">config_pkl</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">config</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting config: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+            
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the configuration of the spectrometer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        config : dict</span>
+<span class="sd">            The configuration to set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config_pkl</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="si">}</span><span class="s2">/set_config&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">config_pkl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error setting config: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
         </article>
       </div>
@@ -827,12 +908,13 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1ed6394b"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

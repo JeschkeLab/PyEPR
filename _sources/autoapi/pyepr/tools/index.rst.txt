@@ -27,7 +27,7 @@ Module Contents
 
 .. py:data:: log
 
-.. py:function:: eprload(path, experiment = None, type = None, **kwargs)
+.. py:function:: eprload(path, experiment = None, type = None, downconvert=True, **kwargs)
 
    
    A general versions of eprload

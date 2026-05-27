@@ -1,7 +1,39 @@
 pyepr.hardware.XeprAPI_link.XeprAPILink
 =======================================
 
-.. py:class:: pyepr.hardware.XeprAPI_link.XeprAPILink(config_file = None)
+.. py:class:: pyepr.hardware.XeprAPI_link.XeprAPILink(config_file = None, **kwargs)
+
+   
+
+   This class links to the Bruker Xepr API to control the spectrometer.
+   Parameters
+   ----------
+   config_file : str, optional
+       Path to a PyEPR spectrometer configuration file, by default None
+   kwargs : dict, optional
+       Additional keyword arguments:
+       - retry_attempts : int
+           Number of times to retry getting a Xepr parameter before 
+           raising an exception. Default is 50.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
 
    .. py:attribute:: Xepr
       :value: None
@@ -26,6 +58,9 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
    .. py:attribute:: XeprCmds
       :value: None
 
+
+
+   .. py:attribute:: retry_attempts
 
 
    .. py:method:: connect()

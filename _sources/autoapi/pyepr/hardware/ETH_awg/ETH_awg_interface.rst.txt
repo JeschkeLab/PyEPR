@@ -287,7 +287,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
    .. py:method:: isrunning()
 
 
-   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400)
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, step=0.02, dim=45)
 
       
       Generates a rectangular pi and pi/2 pulse of the given length at 
@@ -297,7 +297,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
       :Parameters:
 
           **tp** : float
-              Pulse length of pi/2 pulse in ns
+              $pi/2$ Pulse length in ns
 
           **freq** : float
               Central frequency of this pulse in GHz
@@ -311,6 +311,12 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           **shots: int**
               The number of shots
 
+          **step: float**
+              The step size for the amplitude tuning, default 0.02
+
+          **dim: int**
+              The dimension of the amplitude axis, default 45
+
 
 
       :Returns:
@@ -319,7 +325,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
               A tuned rectangular pi/2 pulse of length tp
 
           p180: RectPulse
-              A tuned rectangular pi pulse of length tp
+              A tuned rectangular pi pulse of length 2*tp
 
 
 
@@ -335,7 +341,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400)
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400, step=0.02, dim=45)
 
       
       Tunes a single pulse a range of methods.
@@ -360,6 +366,12 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
           **shots: int**
               The number of shots
+
+          **step: float**
+              The step size for the amplitude tuning, default 0.02
+
+          **dim: int**
+              The dimension of the amplitude axis, default 45
 
 
 

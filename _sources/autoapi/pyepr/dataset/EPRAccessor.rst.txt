@@ -14,7 +14,7 @@ pyepr.dataset.EPRAccessor
 
       :Parameters:
 
-          **filename** : str
+          **filename** : str, file-like object
               The name of the file to save the dataset
 
           **type** : str, optional
