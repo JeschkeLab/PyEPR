@@ -324,7 +324,7 @@ class Pulse:
     @property
     def amp_factor(self):
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
-        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapz(self.AM,self.ax))
+        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapezoid(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
     
 
@@ -337,7 +337,6 @@ class Pulse:
         This function is ported from EasySpin 
         (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
         and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
-        Andrin Doll[3].
 
         References:
         +++++++++++

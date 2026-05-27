@@ -591,11 +591,11 @@ def calc_overlap(x, func1, func2):
     """
     y1 = func1(x)
     y2 = func2(x)
-    area_1 = np.trapz(y1, x)
-    area_2 = np.trapz(y2, x)
+    area_1 = np.trapezoid(y1, x)
+    area_2 = np.trapezoid(y2, x)
     y1 /= area_1
     y2 /= area_2
-    area_12 = np.trapz(y1*y2, x)
+    area_12 = np.trapezoid(y1*y2, x)
     return area_12
 
 def BSpline_extra(tck_s):

@@ -731,12 +731,12 @@ class T1InversionRecoverySequence(Sequence):
     Represents a T1 Inversion Recovery Sequence. 
 
     Sequence:
-    [\pi - \tau - \pi/2 - \tau - echo]
+    [\pi - t - \pi/2 - \tau - \pi - \tau - echo]
     
     Parameters
     ----------
     B : int or float
-        The B0 field, in Guass
+        The B0 field, in Gauss
     LO : int or float
         The LO frequency in GHz
     reptime : _type_
@@ -751,6 +751,8 @@ class T1InversionRecoverySequence(Sequence):
         The step size of the interpulse delay in ns, by default 50 ns
     dim : int
         The number of points in the X axis
+    tau: float
+        The Hahn echo interpulse delay in ns, by default 500 ns
 
     Optional Parameters
     -------------------
@@ -761,6 +763,62 @@ class T1InversionRecoverySequence(Sequence):
         An autoEPR Pulse object describing the refocusing pi pulses. If
         not specified a RectPulse will be created instead. 
     """
+
+    def __init__(self, *, B, freq, reptime, averages, shots,start=500, step=40, dim=200, **kwargs) -> None:
+        name = "T1InversionRecoverySequence"
+        tp = kwargs.get("tp", 12)
+
+        self.tau = Parameter(name="tau", value=500, unit="ns", description="The hahn ehco interpulse delay",virtual=True)
+        self.t = Parameter(name="t", value=start, step=step, dim=dim, unit="ns", description="The inversion recovery delay",virtual=True)
+        super().__init__(name=name,B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
+
+        if "pi_pulse" in kwargs:
+            self.pi_pulse = kwargs["pi_pulse"]
+        if "pi2_pulse" in kwargs:
+            self.pi2_pulse = kwargs["pi2_pulse"]
+        if "det_event" in kwargs:
+            self.det_event = kwargs["det_event"]
+
+        if hasattr(self, "pi_pulse"):
+            pi_pulse = self.addPulse(self.pi_pulse.copy(
+                t=0, pcyc={"phases":[0], "dets": [1]}))
+        else:
+            pi_pulse = self.addPulse(RectPulse( # Pump 1 pulse
+                t=0, tp=tp, freq=0, flipangle=np.pi
+            ))
+
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=self.t, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
+        else:
+            self.addPulse(RectPulse(  # Exc pulse
+                t=self.t, tp=tp, freq=0, flipangle=np.pi/2, 
+                pcyc={"phases":[0, np.pi], "dets":[1, -1]}
+            ))
+
+        if hasattr(self, "pi_pulse"):
+            pi_pulse = self.addPulse(self.pi_pulse.copy(
+                t=self.t+self.tau, pcyc={"phases":[0], "dets": [1]}))
+        else:
+            pi_pulse = self.addPulse(RectPulse( # Pump 1 pulse
+                t=self.t+self.tau, tp=tp, freq=0, flipangle=np.pi
+            ))
+        if hasattr(self, "det_event"):
+            self.addPulse(self.det_event.copy(t=self.t+2*self.tau))
+        else:
+            self.addPulse(Detection(t=self.t+2*self.tau, tp=self.det_window.value))
+
+        self.evolution([self.t])
+
+    def simulate(self, T1=1e4):
+        """
+        Simulates the T1 recovery as a simple exponential recovery.
+        """
+        func = lambda x, a, T1: a*(1 - 2*np.exp(-x/T1))
+        xaxis = val_in_ns(self.t)
+        data = func(xaxis,1,T1)
+        data = add_phaseshift(data, 0.05)
+        return xaxis, data
 # =============================================================================
 
 

@@ -232,7 +232,7 @@ class dummy_xepr:
             t = range(0,numpoints)
             for i in t:
                 ta,V = generate_hahn_echo_transient(pg,phase,phase_offset)
-                vals[i,] = np.trapz(V,x=ta)
+                vals[i,] = np.trapezoid(V,x=ta)
             return t, vals
 
         
