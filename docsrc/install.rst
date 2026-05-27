@@ -38,5 +38,4 @@ PyEPR requires:
     - h5netcdf
     - toml
     - deerlab (https://github.com/JeschkeLab/DeerLab)
-    - numba
     - psutil

@@ -1,6 +1,6 @@
 # Pulse Sequencer
 
-PyEPR provides an intuitive object-oriented pulse programmer allowing the user to design pulsesequences in a hardware-agnostic manner. Additionally, several common EPR experiments are pre-defined and can be easily instantiated and modified.
+PyEPR provides an intuitive object-oriented pulse programmer allowing the user to design pulse sequences in a hardware-agnostic manner. Additionally, several common EPR experiments are pre-defined and can be easily instantiated and modified.
 
 PyEPR uses ns, GHz and G as the default time, frequency and field units. Very occasionally, other units such as µs or MHz are used, in which case it will be explicitly mentioned.
 
@@ -31,33 +31,33 @@ These pulses will eventually need a scale (amplitude), before the sequence can b
 A Detection window is also created
 ```python
 p90 = epr.RectPulse(tp=16,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     flipangle=np.pi/2, # Flip angle in degrees
                     pcyc = {"phases":[0, np.pi], "dets":[1,-1]}
                     )
 p180 = epr.RectPulse(tp=32,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     flipangle=np.pi, # Flip angle in degrees
                     )
-det = epr.Detetction(tp=32,
-                    freq=0, # Frequency offset in MHz, w.r.t the sequence frequency,
+det = epr.Detection(tp=32,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
                     )
 ```                  
 We now need a time axis for our sequence and to add them to the sequence object.
-When a pulse is copied into the sequence using the `add_pulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
+When a pulse is copied into the sequence using the `addPulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
 ```python
 t = epr.Parameter(name='Interpulse Delay',
                   value=400, # Initial interpulse delay in ns
                   step=8,  # Step size in ns
-                  dim=1024  # Number of points,
-                  unit='ns'  # Unit of the parameter
+                  dim=1024,  # Number of points,
+                  unit='ns',  # Unit of the parameter
                   description='Interpulse delay between the pi/2 and pi pulse'
                   )
 
 # Adding the pulses to the sequence
-seq.add_pulse(p90.copy(t=0))
-seq.add_pulse(p180.copy(t=t))
-seq.add_pulse(det.copy(t=2*t))  
+seq.addPulse(p90.copy(t=0))
+seq.addPulse(p180.copy(t=t))
+seq.addPulse(det.copy(t=2*t))  
 
 # Defining the evolution
 seq.evolution([t])
@@ -81,7 +81,7 @@ HE_Seq = epr.HahnEchoRelaxationSequence(
     shots = 20, # Number of shots per point
     start = 400, # Initial interpulse delay in ns
     step = 8,  # Step size in ns
-    dim = 1024  # Number of points
+    dim = 1024,  # Number of points
     pi2_pulse = p90,  # The 90 degree pulse
     pi_pulse = p180  # The 180 degree pulse
 )

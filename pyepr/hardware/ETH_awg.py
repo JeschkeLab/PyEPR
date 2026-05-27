@@ -141,7 +141,7 @@ class ETH_awg_interface(Interface):
         # filename = cur_exp['savename']
         # files = os.listdir(folder_path)
 
-        curexpname = self.workspace['currexpname']
+        curexpname = self.workspace['currfilename']
         # def extract_date_time(str):
         #     output = re.findall(r"(\d{8})_(\d{4})", str)
         #     if output != []:
@@ -255,7 +255,7 @@ class ETH_awg_interface(Interface):
     def read_dataset(self, verbosity=0,savenow=False, **kwargs):
         cur_exp = self.workspace['currexp']
         folder_path = cur_exp['savepath']
-        curexpname = self.workspace['currexpname']
+        curexpname = self.workspace['currfilename']
 
         path = folder_path + "\\" + curexpname + ".mat"
 
@@ -459,7 +459,7 @@ class ETH_awg_interface(Interface):
     def isrunning(self) -> bool:
         if self.bg_thread is None:
             # state = bool(self.engine.dig_interface('savenow'))
-            _,_,_,state = self.engine.dig_interface('progress', nargout=4)
+            _,_,_,state,_ = self.engine.dig_interface('progress', nargout=5)
 
             if state == 0:
                 state = False
@@ -473,14 +473,14 @@ class ETH_awg_interface(Interface):
             state= self.bg_thread.is_alive()
         return state
     
-    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,step=0.02, dim=45):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
         Parameters
         ----------
         tp : float
-            Pulse length of pi/2 pulse in ns
+            $pi/2$ Pulse length in ns
         freq : float
             Central frequency of this pulse in GHz
         B : float
@@ -489,20 +489,26 @@ class ETH_awg_interface(Interface):
             Shot repetion time in us.
         shots: int
             The number of shots
+        step: float
+            The step size for the amplitude tuning, default 0.02
+        dim: int
+            The dimension of the amplitude axis, default 45
 
         Returns
         -------
         p90: RectPulse
             A tuned rectangular pi/2 pulse of length tp
         p180: RectPulse
-            A tuned rectangular pi pulse of length tp
+            A tuned rectangular pi pulse of length 2*tp
         """
-
         amp_tune =HahnEchoSequence(
             B=B, freq=freq, reptime=reptime, averages=1, shots=shots
         )
 
-        scale = Parameter("scale",0,dim=45,step=0.02)
+        max_val = step * (dim -1)
+        if max_val > 1.0:
+            raise ValueError("Step and dim values result in scale > 1.0")
+        scale = Parameter("scale",0,dim=dim,step=step)
         amp_tune.pulses[0].tp.value = tp
         amp_tune.pulses[0].scale = scale
         amp_tune.pulses[1].tp.value = tp * 2
@@ -520,7 +526,7 @@ class ETH_awg_interface(Interface):
         data = np.abs(dataset.data)
         scale = np.around(dataset.pulse0_scale[data.argmax()].data,2)
         if scale > 0.9:
-            raise RuntimeError("Not enough power avaliable.")
+            raise RuntimeError("Not enough power available.")
         
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
@@ -533,7 +539,7 @@ class ETH_awg_interface(Interface):
         return p90, p180
 
     
-    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400,step=0.02, dim=45):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -550,6 +556,10 @@ class ETH_awg_interface(Interface):
             Shot repetion time in us.
         shots: int
             The number of shots
+        step: float
+            The step size for the amplitude tuning, default 0.02
+        dim: int
+            The dimension of the amplitude axis, default 45
 
         Returns
         -------
@@ -570,9 +580,13 @@ class ETH_awg_interface(Interface):
         elif hasattr(pulse, "final_freq") & hasattr(pulse, "BW"):
             c_frq = pulse.final_freq.value - 0.5*pulse.BW.value + freq
         elif hasattr(pulse, "init_freq") & hasattr(pulse, "final_freq"):
-            c_frq = 0.5*(pulse.final_freq.value + pulse.final_freq.value) + freq
+            c_frq = 0.5*(pulse.init_freq.value + pulse.final_freq.value) + freq
 
         # Find rect pulses
+        max_val = step * (dim -1)
+        if max_val > 1.0:
+            raise ValueError("Step and dim values result in scale > 1.0")
+        
         if mode == "amp_hahn":
             if pulse.flipangle.value == np.pi:
                 tp = pulse.tp.value / 2
@@ -586,7 +600,7 @@ class ETH_awg_interface(Interface):
                 pi2_pulse = pulse, pi_pulse=pi_pulse
             )
 
-            scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
+            scale = Parameter('scale',0,unit=None,step=step, dim=dim, description='The amplitude of the pulse 0-1')
             amp_tune.pulses[0].scale = scale
 
             amp_tune.evolution([scale])
@@ -601,7 +615,7 @@ class ETH_awg_interface(Interface):
 
             new_amp = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
             if new_amp > 0.9:
-                raise RuntimeError("Not enough power avaliable.")
+                raise RuntimeError("Not enough power available.")
         
             if new_amp == 0:
                 warnings.warn("Pulse tuned with a scale of zero!")
@@ -626,7 +640,7 @@ class ETH_awg_interface(Interface):
                               freq=c_frq-freq))
             nut_tune.addPulse(Detection(t=3e3, tp=512, freq=c_frq-freq))
 
-            scale = Parameter('scale',0,unit=None,step=0.02, dim=45, description='The amplitude of the pulse 0-1')
+            scale = Parameter('scale',0,unit=None,step=step, dim=dim, description='The amplitude of the pulse 0-1')
             nut_tune.pulses[0].scale = scale
             nut_tune.evolution([scale])
 
@@ -694,7 +708,7 @@ class ETH_awg_interface(Interface):
             dataset = self.read_dataset()
             scale = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
             if scale > 0.9:
-                raise RuntimeError("Not enough power avaliable.")
+                raise RuntimeError("Not enough power available.")
             
             self.pulses[f"p90_{tp}"] = amp_tune.pulses[0].copy(
                 scale=scale, freq=0)
@@ -803,6 +817,7 @@ class ETH_awg_interface(Interface):
         
         elif type(pulse) is ChirpPulse:
             event["pulsedef"]["type"] = 'chirp'
+            event["pulsedef"]["t_rise"] = float(pulse.rise_time.value)
             
             if hasattr(pulse, "init_freq"):
                 event["pulsedef"]["nu_init"] = pulse.init_freq.value +\

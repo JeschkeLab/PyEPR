@@ -23,11 +23,19 @@ class Interface:
     """
 
     def __init__(self,config_file:dict=None,log=None) -> None:
+        """
+        Parameters
+        ----------
+        config_file : dict or str or Path, optional
+            The configuration file or dict for the spectrometer interface, by default None. If None, a default configuration will be used.
+        log : logging.Logger, optional  
+            The logger to be used, by default None. If None, a default logger will be created.
+        """
         if isinstance(config_file, (str,Path)):
             with open(config_file, 'r') as f:
                 config_file = yaml.safe_load(f)
         
-        self.config = config_file if isinstance(config_file, dict) else {}
+        self.config = config_file if isinstance(config_file, dict) else {"Spectrometer":{"Bridge":{}}}
         
         self.pulses = {}
         self.savefolder = str(Path.home())
@@ -37,7 +45,10 @@ class Interface:
         else:
             self.log = log
         self.resonator = None
-        self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        if self.config != {}:
+            self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        else:
+            self.amp_nonlinearity = None
         pass
 
     def connect(self) -> None:
@@ -153,7 +164,8 @@ class Interface:
             data = self.acquire_dataset()
             if autosave:
                 self.log.debug(f"Autosaving to {os.path.join(self.savefolder,self.savename)}")
-                data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                # data.to_netcdf(os.path.join(self.savefolder,self.savename),engine='h5netcdf',invalid_netcdf=True)
+                data.epr.save(os.path.join(self.savefolder,self.savename))
 
             try:
                 # nAvgs = data.num_scans.value
@@ -278,7 +290,7 @@ class Parameter:
             self.value = value
             self.NUS = False # uniform sampling
         elif isinstance(value, np.ndarray):
-            self.value = np.median(value)
+            self.value = value[0]
             axis = value - self.value
             self.NUS = True # non-uniform sampling
         elif value is None:
@@ -382,17 +394,22 @@ class Parameter:
             current_step =old_axis[1] - old_axis[0]
             # test if uniformally sampled
             if not np.allclose(np.diff(self.axis[i]["axis"]), current_step):
-                raise ValueError("This only works for uniformaly sampled data at the moment")
-            new_step = round_step(current_step, waveform_precision)
-
-            if new_step == 0:
-                new_step = waveform_precision
-            
-            if keep_dim:
-                dim = old_axis.shape[0]
-                new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][0]+new_step*dim, new_step)
+                tolerance = 1e-9
+                new_axis = copy.deepcopy(old_axis)
+                remainders = np.abs(new_axis % waveform_precision)
+                not_multiples = ~(np.isclose(remainders, 0, atol=1e-9) | np.isclose(remainders, waveform_precision, atol=1e-9))
+                new_axis[not_multiples] = np.round(new_axis[not_multiples] / waveform_precision) * waveform_precision
             else:
-                new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][-1]+new_step, new_step)
+                new_step = round_step(current_step, waveform_precision)
+
+                if new_step == 0:
+                    new_step = waveform_precision
+                
+                if keep_dim:
+                    dim = old_axis.shape[0]
+                    new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][0]+new_step*dim, new_step)
+                else:
+                    new_axis = np.arange(self.axis[i]["axis"][0], self.axis[i]["axis"][-1]+new_step, new_step)
             self.axis[i]["axis"] = new_axis
         
         if isinstance(self.value, numbers.Number):
@@ -496,6 +513,10 @@ class Parameter:
                 raise RuntimeError(
                     "Both parameters axis and the array must have the same shape")
     
+    def __radd__(self, __o:object):
+        return self.__add__(__o) 
+
+
     def __sub__(self, __o:object):
         
         if type(__o) is Parameter:
@@ -563,6 +584,9 @@ class Parameter:
             if self.axis.shape != __o.shape:
                 raise RuntimeError(
                     "Both parameters axis and the array must have the same shape")
+
+    def __rsub__(self, __o:object):
+        return self.__sub__(__o)
 
     def __mul__(self, __o:object):
         if type(__o) is Parameter:

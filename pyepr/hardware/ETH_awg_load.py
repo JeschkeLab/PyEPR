@@ -2,7 +2,7 @@ import numpy as np
 import scipy.signal as sig
 from pyepr.classes import Parameter
 from pyepr.dataset import create_dataset_from_axes, create_dataset_from_sequence
-from pyepr.pulses import Pulse
+import pyepr.pulses as pulses
 from scipy.integrate import cumulative_trapezoid
 from deerlab import correctphase
 from warnings import warn
@@ -26,7 +26,11 @@ def uwb_load(matfile: np.ndarray, options: dict = dict(), verbosity=0,
 
     # Extract Data
     estr = matfile[matfile['expname']]
-    conf = matfile['conf'] 
+    if 'settings' in matfile.keys():
+        conf = matfile['settings']['conf'] 
+    else:
+        conf = matfile['conf']
+
     
     def extract_data(matfile):
         if "dta" in matfile.keys():
@@ -543,7 +547,7 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
         The scans to be loaded.
     mask : list, optional
         The mask to be used.
-    filter_pulse : ad.Pulse, optional
+    filter_pulse : epr.Pulse, optional
         The pulse to be used as a matched filter. If None, the maximum pulse width will be used. This is only used if filter_type is 'match'
     filter_type : str, optional
         The type of filter to be used. Options are 'match', 'cheby2' and 'butter. Default is 'match'
@@ -559,7 +563,10 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
     # imports Andrin Doll AWG datafiles using a matched filter
 
     estr = matfile[matfile['expname']]
-    conf = matfile['conf'] 
+    if 'settings' in matfile.keys():
+        conf = matfile['settings']['conf'] 
+    else:
+        conf = matfile['conf']
 
     def extract_data(matfile,scans):
         if "dta" in matfile.keys() and not kwargs.get('ignore_dta',False):
@@ -849,12 +856,12 @@ def uwb_eval_match(matfile, sequence=None, scans=None, mask=None,filter_pulse=No
 
         filter_func = lambda dta, det_frq: match_filter_dc(dta,t,complex_shape,det_frq)
     
-    elif isinstance(filter_pulse,Pulse):
+    elif isinstance(filter_pulse,pulses.Pulse):
         complex_shape = filter_pulse.build_shape(t)
         filter_func = lambda dta, det_frq: match_filter_dc(dta,t,complex_shape,det_frq)
 
 
-    elif (filter_type.lower() == 'cheby2') or (filter_type.lower() == 'butter'):
+    elif filter_type.lower() in ['cheby2','butter','boxcar']:
         if filter_width is None:
             raise ValueError('You must provide a filter width for the cheby2 or butter filter')
         
@@ -954,7 +961,180 @@ def scipy_filter_dc(dta,t,filter_width,offset_freq,sampling_freq,filter_type='ch
         filter_sos = sig.cheby2(10,40,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
     elif filter_type == 'butter':
         filter_sos = sig.butter(10,(offset_freq-filter_width,offset_freq+filter_width),fs=sampling_freq,btype="bandpass",output='sos')
+    elif filter_type == 'boxcar':
+        # A boxcar is just a moving average, so we can implement it with a convolution
+        boxcar_len = int(2*filter_width*sampling_freq)
+        if boxcar_len % 2 == 0:
+            boxcar_len += 1
+        boxcar = np.ones(boxcar_len)/boxcar_len
+        filtered = sig.convolve(dta,boxcar,mode='same')
+        filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
+        return filtered_dc
+
     filtered = sig.sosfilt(filter_sos,dta)
     filtered_dc = digitally_upconvert(t,filtered,-offset_freq)
     return filtered_dc
+# ---------------------------------------------------------------------------
+# ETH UWB data to xarray
+# ---------------------------------------------------------------------------
 
+def extract_data(matfile,estr):
+    if "dta" in matfile.keys():
+        nAvgs = matfile["nAvgs"]
+        dta = [matfile["dta"]]
+
+    elif "dta_001" in matfile.keys():
+        dta = []
+        nAvgs = 0
+        for ii in range(1, estr["avgs"]+1):
+            actname = 'dta_%03u' % ii 
+            if actname in matfile.keys():
+                single_scan = matfile[actname]
+                # Only keep it if the average is complete, unless it is 
+                # the first
+                if np.sum(single_scan[..., -1]) == 0 and ii > 1: # incomplete scan
+                    if (nAvgs+1) != ii:
+                        print(f"Scan {ii} is incomplete and will be skipped.")
+                    continue
+                elif np.sum(single_scan[..., -1]) == 0 and ii == 1:
+                    nAvgs = 0
+                else:
+                    nAvgs += 1
+                dta.append(single_scan)
+    dta = np.array(dta)
+    dta = np.atleast_2d(dta)
+    if dta.ndim > 2:
+        dta = np.swapaxes(dta,-1,-2)
+    return dta, nAvgs
+
+
+def get_metadata(estr,conf):
+    metadata = {}
+    metadata['averages'] = estr['avgs']
+    metadata['reptime'] = estr['reptime']
+    metadata['shots'] = estr['shots']
+    metadata['B'] = estr['B']
+    metadata['name'] = estr['name']
+    metadata['freq'] = estr['LO']
+    for i,event in enumerate(estr['events']):
+        metadata.update(get_pulse_metadata(event,i))
+    metadata['dig_rate'] = conf['std']['dig_rate']
+    return metadata
+
+def detect_pulse_type(pulse):
+    if 'det_len' in pulse:
+        return pulses.Detection
+    if pulse['pulsedef']['type'] == 'chirp':
+        if 'nu_final' in pulse['pulsedef']:
+            return pulses.ChirpPulse
+        else:
+            return pulses.RectPulse
+        
+def get_pulse_metadata(pulse,i):
+    pulse_type = detect_pulse_type(pulse)
+    fixed_params = {}
+    if issubclass(pulse_type, pulses.Detection):
+        type_str="det"
+    else:
+        type_str="pulse"
+
+    fixed_params[f"{type_str}{i}_t"] = pulse['t']
+
+    if issubclass(pulse_type,pulses.Detection):
+        fixed_params[f"{type_str}{i}_tp"] = pulse['det_len']
+    else:
+        fixed_params[f"{type_str}{i}_tp"] = pulse['pulsedef']['tp']
+        fixed_params[f"{type_str}{i}_scale"] = pulse['pulsedef']['scale']
+
+    if issubclass(pulse_type,pulses.Detection):
+        fixed_params[f"{type_str}{i}_freq"] = pulse['det_frq']
+    elif issubclass(pulse_type, pulses.FrequencySweptPulse):
+        fixed_params[f"{type_str}{i}_init_freq"] = pulse['pulsedef']['nu_init']
+        fixed_params[f"{type_str}{i}_final_freq"] = pulse['pulsedef']['nu_final']
+    else: # Monochromatic pulse
+        fixed_params[f"{type_str}{i}_freq"] = pulse['pulsedef']['nu_init']
+    return fixed_params
+
+def get_dig_level(data,metadata,conf):
+    max_val = data.max()
+    dig_max = conf['std']['dig_max']
+    acqs = metadata['shots'] * metadata['nAvgs']* metadata['nPcyc']
+    dig_pc = max_val/(dig_max*acqs)
+    return dig_pc
+
+def get_nPcyc(estr):
+    nPcyc = 1
+    if not isinstance(estr['parvars'],list):
+        estr['parvars'] = [estr['parvars']]
+    for parvar in estr['parvars']:
+        if 'reduce' in parvar and parvar['reduce'] == 1:
+            nPcyc *= parvar['axis'].size
+    return nPcyc
+
+default_labels = ['X','Y','Z','T']
+def get_coords(parvars):
+    coords = {}
+    i=-1
+    if not isinstance(parvars,list):
+        parvars = [parvars]
+    for parvar in parvars:
+        if 'reduce' in parvar and parvar['reduce'] == 1:
+            continue
+        i += 1
+        for variable in np.atleast_1d(parvar['variables']):
+            if '.' in variable:
+                event,var = variable.split('.')
+                event_num = int(event.split('{')[1].split('}')[0])
+            
+                coord_name = f"pulse{event_num}_{var}"
+            else:
+                coord_name = f"{variable}"
+            coord_axis = np.array(parvar['axis']).astype(float)
+            coords[coord_name] = (default_labels[i],coord_axis)
+
+    return coords       
+
+def ETHUWB_xarray_load(matfile, sum_scans=True,):
+    """
+    This function reads data from an Andrin Doll ETH UWB EPR spectrometer
+    and converts it into an xarray.Dataset format compatible with PyEPR.
+
+    Parameters
+    ----------
+    matfile : dict
+        The data file to be loaded. 
+    sum_scans : bool, optional
+        Whether to sum all scans or not. Default is True.
+    Returns
+    -------
+    output : xarray.Dataset
+        The data in the xarray format.
+    
+    Notes and Limitations
+    ---------------------------
+    
+    - This function currently only supports experiments with reduced phase cycles.
+    """
+    estr = matfile[matfile['expname']]
+    conf = matfile['conf']
+
+    data,nAvgs = extract_data(matfile,estr)
+    metadata = get_metadata(estr,conf)
+    metadata['nPcyc'] = get_nPcyc(estr)
+    metadata['nAvgs'] = nAvgs
+    metadata['dig_pc'] = get_dig_level(data,metadata,conf)
+    data_shape = data.shape # [nAvgs, ..., tx]
+    axes_labels = default_labels[:len(data_shape)-2] + ['tx']
+    base_axes = [np.arange(data_shape[i+1]) for i in range(len(data_shape)-1)]
+
+    if sum_scans:
+        data = data.sum(axis=0)
+        # Add scan axis label
+    else:
+        axes_labels = ['scan'] + axes_labels
+        base_axes = [np.arange(nAvgs)] + base_axes
+
+    dataset = create_dataset_from_axes(data,base_axes,params=metadata,
+                                        extra_coords=get_coords(estr['parvars']),
+                                        axes_labels=axes_labels)
+    return dataset

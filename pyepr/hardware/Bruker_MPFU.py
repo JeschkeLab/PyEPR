@@ -957,7 +957,7 @@ def ELDORtune(interface, sequence, freq, MPFU=True,
     for i,x in enumerate(atten_axis):
         interface.api.set_attenuator('ELDOR',x)  # Set phase to value
         time.sleep(1)
-        data[i] = np.trapz(get_specjet_data(interface))
+        data[i] = np.trapezoid(get_specjet_data(interface))
     
     data = correctphase(data)
     if data[np.abs(data).argmax()].max() < 1:

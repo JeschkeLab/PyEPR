@@ -13,9 +13,7 @@ from pyepr import __version__
 import copy
 from functools import reduce
 from itertools import accumulate
-from numba import njit
 
-#@njit
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -26,7 +24,6 @@ def compute_upulses_not_trajectory(dUs):
         Upulses[i] = U
     return Upulses
 
-#@njit
 def compute_upulses_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
@@ -39,7 +36,6 @@ def compute_upulses_trajectory(dUs):
             Upulses[i, j + 1] = U
     return Upulses
 
-#@njit
 def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
     n_offsets = Upulses.shape[0]
     density = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -71,7 +67,6 @@ def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
 
     return Mag * Mmag[:, None]
 
-#@njit
 def compute_magnetization_trajectory(Upulses, density0):
     n_offsets, n_steps = Upulses.shape[:2]
     density = np.empty((n_offsets, n_steps, 2, 2), dtype=np.complex128)
@@ -329,7 +324,7 @@ class Pulse:
     @property
     def amp_factor(self):
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
-        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapz(self.AM,self.ax))
+        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapezoid(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
     
 
@@ -341,8 +336,7 @@ class Pulse:
 
         This function is ported from EasySpin 
         (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and
-        Andrin Doll[3].
+        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
 
         References:
         +++++++++++
@@ -478,13 +472,27 @@ class Pulse:
             offsets = np.linspace(-2*BW, 2*BW, 100) + c_freq
         else:
             offsets = freqs
-        
-        ISignal = np.real(self.complex) * self.amp_factor.value
-        QSignal = np.imag(self.complex) * self.amp_factor.value
+
+        if self.scale is None or self.scale.value is None:
+            scale=None
+            amp_factor = self.amp_factor.value
+        elif (self.scale.unit is not None) and (self.scale.unit.lower() in ['ghz','mhz']):
+            scale = 1.0
+            if self.scale.unit.lower() == 'mhz':
+                amp_factor = self.scale.value/1000
+            else:
+                amp_factor = self.scale.value
+        elif self.scale is not None:
+            scale = self.scale.value
+            amp_factor = self.amp_factor.value
+        else:
+            scale=None
+            amp_factor = self.amp_factor.value
         
         if resonator is not None:
+            # Apply resonator correction to the pulse AM function
             FM = self.FM
-            if self.scale is None or self.scale.value is None:
+            if scale is None:
                 amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
                 amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             else:
@@ -496,6 +504,12 @@ class Pulse:
 
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
+        
+        else:
+            # No resonator correction so use a constant amplitude
+            ISignal = np.real(self.complex) * amp_factor # In GHz
+            QSignal = np.imag(self.complex) * amp_factor # In GHz
+
 
         t= self.ax
         M0=[0, 0, 1]
@@ -610,7 +624,7 @@ class Pulse:
 
     def __str__(self):
         # Build header line
-        header = "#" * 79 + "\n" + "autoDEER Pulse Definition" + \
+        header = "#" * 79 + "\n" + "PyEPR Pulse Definition" + \
                  "\n" + "#" * 79 + "\n"
         
         # Build Overviews
@@ -685,7 +699,7 @@ class Pulse:
 
         # Build Footer
         footer = "#" * 79 + "\n" +\
-            f"Built by autoDEER Version: {__version__}" + "\n" + "#" * 79
+            f"Built by PyEPR Version: {__version__}" + "\n" + "#" * 79
 
         # Combine All
         string = header + overview_params + param_table + prog_table +\
@@ -964,20 +978,41 @@ class GaussianPulse(Pulse):
     Represents a Gaussian monochromatic pulse.
     """
 
-    def __init__(self, *, tp=32,FWHM=16, freq=0, **kwargs) -> None:
-        """    Represents a Gaussian monochromatic pulse.
+    def __init__(self, *, tp=32,FWHM=None, freq=0, **kwargs) -> None:
+        """
+        By default, the FWHM is set to tp/(2*np.sqrt(2*np.log(2))).
 
+        
         Parameters
         ----------
         tp : float
-            Pulse length in ns, by default 128
+            Pulse length in ns, by default 32
         FWHM : float,
-            The full width at half maximum of the pulse
+            The full width at half maximum of the pulse. Defaults to tp/(2*np.sqrt(2*np.log(2))).
         freq : float, optional
             The frequency of the pulse, by default 0
+        
+        
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            GuassPulse = epr.GaussianPulse(tp=32)
+            GuassPulse.plot(pad=0)
+            plt.annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
+            plt.annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
         """
         Pulse.__init__(self, tp=tp,name='GaussianPulse', **kwargs)
         self.freq = Parameter("Freq", freq, "GHz", "Frequency of the Pulse")
+
+        if FWHM is None:
+            FWHM = tp / (2 * np.sqrt(2 * np.log(2)))
+
         self.FWHM = Parameter("FWHM", FWHM, "ns", "Full Width at Half Maximum of the Pulse")
         self._buildFMAM(self.func)
         pass
@@ -988,6 +1023,9 @@ class GaussianPulse(Pulse):
         AM = np.exp(-ax**2 / (2 * sigma**2))
         FM = np.zeros(nx) + self.freq.value
         return AM, FM
+    
+    def plot(self, pad=1000):
+        return super().plot(pad)
 # =============================================================================
 class FrequencySweptPulse(Pulse):
     """
@@ -1008,8 +1046,12 @@ class FrequencySweptPulse(Pulse):
             elif "final_freq" in kwargs:
                 self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
                 self.init_freq = Parameter("init_freq", self.final_freq.value - BW, "GHz", "Initial frequency of pulse")
+            elif "freq" in kwargs:
+                # Assumes symmetric sweep about central frequency
+                self.init_freq = Parameter("init_freq", kwargs["freq"] - BW/2, "GHz", "Initial frequency of pulse")
+                self.final_freq = Parameter("final_freq", kwargs["freq"] + BW/2, "GHz", "Final frequency of pulse")
             else:
-                raise ValueError("Bandwidth must be combined with either an initial or final frequency")
+                raise ValueError("Bandwidth must be combined with either an initial, final or center frequency")
         elif ("init_freq" in kwargs) & ("final_freq" in kwargs):
             self.init_freq = Parameter("init_freq", kwargs["init_freq"], "GHz", "Initial frequency of pulse")
             self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
@@ -1078,7 +1120,7 @@ class HSPulse(FrequencySweptPulse):
         #     beta**beta_exp2 * (ax[cut:-1]/tp)**order2)
 
         # FM = BW * cumulative_trapezoid(AM**2,ax,initial=0) /\
-        #      np.trapz(AM**2,ax) + self.init_freq.value
+        #      np.trapezoid(AM**2,ax) + self.init_freq.value
         sech = lambda x: 1/np.cosh(x) 
         cut = round(nx/2)
         AM = np.zeros_like(ti)
@@ -1100,6 +1142,8 @@ class HSPulse(FrequencySweptPulse):
         """ The sweep rate of the pulse in GHz/ns"""
         sweeprate_value = self.beta.value * self.bandwidth.value / (2*self.tp.value)
         return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
+    
+        
 
 # =============================================================================
 
@@ -1108,20 +1152,28 @@ class ChirpPulse(FrequencySweptPulse):
     Represents a linear frequency-swept pulse.
     """
 
-    def __init__(self, *, tp=128, **kwargs) -> None:
+    def __init__(self, *, tp=128,rise_time=10, **kwargs) -> None:
         FrequencySweptPulse.__init__(self, tp=tp,name='ChirpPulse', **kwargs)
+        self.rise_time = Parameter("rise_time", rise_time, "ns", "The rise time of the pulse")
 
         self._buildFMAM(self.func)
         pass
 
     def func(self, ax):
         nx = ax.shape[0]
+        # Use a quarter sine wave for the rise and fall
+        rise_pts = int(self.rise_time.value/(ax[1]-ax[0]))
+        if rise_pts > nx/2:
+            rise_pts = int(nx/2)
         AM = np.ones(nx)
+        AM[0:rise_pts] = np.sin((np.pi/2)*(ax[0:rise_pts]/self.rise_time.value))**2
+        AM[-rise_pts:] = np.sin((np.pi/2)*((self.tp.value-ax[-rise_pts:])/self.rise_time.value))**2
 
         FM = np.linspace(
             self.init_freq.value, self.final_freq.value, nx)
 
         return AM, FM
+
     
     @property
     def sweeprate(self):
