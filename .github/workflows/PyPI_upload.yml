@@ -33,7 +33,7 @@ jobs:
         name: python-package-distributions
         path: dist/
 
-  publish-to-testpypi:
+  publish-to-pypi:
     name: Publish Python 🐍 distribution 📦 to PyPI
     needs:
     - build
@@ -41,7 +41,7 @@ jobs:
   
     environment:
       name: pypi
-      url: https://pypi.org/p/PyEPR-ESR
+      url: https://pypi.org/project/pyEPR-ESR/
   
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
