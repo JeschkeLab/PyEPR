@@ -13,9 +13,7 @@ from pyepr import __version__
 import copy
 from functools import reduce
 from itertools import accumulate
-from numba import njit
 
-#@njit
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -26,7 +24,6 @@ def compute_upulses_not_trajectory(dUs):
         Upulses[i] = U
     return Upulses
 
-#@njit
 def compute_upulses_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
     Upulses = np.empty((n_offsets, n_steps + 1, 2, 2), dtype=np.complex128)
@@ -39,7 +36,6 @@ def compute_upulses_trajectory(dUs):
             Upulses[i, j + 1] = U
     return Upulses
 
-#@njit
 def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
     n_offsets = Upulses.shape[0]
     density = np.empty((n_offsets, 2, 2), dtype=np.complex128)
@@ -71,7 +67,6 @@ def compute_magnetization_not_trajectory(Upulses, density0, Mmag):
 
     return Mag * Mmag[:, None]
 
-#@njit
 def compute_magnetization_trajectory(Upulses, density0):
     n_offsets, n_steps = Upulses.shape[:2]
     density = np.empty((n_offsets, n_steps, 2, 2), dtype=np.complex128)
@@ -329,7 +324,7 @@ class Pulse:
     @property
     def amp_factor(self):
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
-        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapz(self.AM,self.ax))
+        amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapezoid(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
     
 
@@ -341,8 +336,7 @@ class Pulse:
 
         This function is ported from EasySpin 
         (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and
-        Andrin Doll[3].
+        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
 
         References:
         +++++++++++
@@ -478,13 +472,27 @@ class Pulse:
             offsets = np.linspace(-2*BW, 2*BW, 100) + c_freq
         else:
             offsets = freqs
-        
-        ISignal = np.real(self.complex) * self.amp_factor.value
-        QSignal = np.imag(self.complex) * self.amp_factor.value
+
+        if self.scale is None or self.scale.value is None:
+            scale=None
+            amp_factor = self.amp_factor.value
+        elif (self.scale.unit is not None) and (self.scale.unit.lower() in ['ghz','mhz']):
+            scale = 1.0
+            if self.scale.unit.lower() == 'mhz':
+                amp_factor = self.scale.value/1000
+            else:
+                amp_factor = self.scale.value
+        elif self.scale is not None:
+            scale = self.scale.value
+            amp_factor = self.amp_factor.value
+        else:
+            scale=None
+            amp_factor = self.amp_factor.value
         
         if resonator is not None:
+            # Apply resonator correction to the pulse AM function
             FM = self.FM
-            if self.scale is None or self.scale.value is None:
+            if scale is None:
                 amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
                 amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
             else:
@@ -496,6 +504,12 @@ class Pulse:
 
             ISignal = np.real(self.complex) * amp_factor
             QSignal = np.imag(self.complex) * amp_factor
+        
+        else:
+            # No resonator correction so use a constant amplitude
+            ISignal = np.real(self.complex) * amp_factor # In GHz
+            QSignal = np.imag(self.complex) * amp_factor # In GHz
+
 
         t= self.ax
         M0=[0, 0, 1]
@@ -610,7 +624,7 @@ class Pulse:
 
     def __str__(self):
         # Build header line
-        header = "#" * 79 + "\n" + "autoDEER Pulse Definition" + \
+        header = "#" * 79 + "\n" + "PyEPR Pulse Definition" + \
                  "\n" + "#" * 79 + "\n"
         
         # Build Overviews
@@ -685,7 +699,7 @@ class Pulse:
 
         # Build Footer
         footer = "#" * 79 + "\n" +\
-            f"Built by autoDEER Version: {__version__}" + "\n" + "#" * 79
+            f"Built by PyEPR Version: {__version__}" + "\n" + "#" * 79
 
         # Combine All
         string = header + overview_params + param_table + prog_table +\
@@ -1032,8 +1046,12 @@ class FrequencySweptPulse(Pulse):
             elif "final_freq" in kwargs:
                 self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
                 self.init_freq = Parameter("init_freq", self.final_freq.value - BW, "GHz", "Initial frequency of pulse")
+            elif "freq" in kwargs:
+                # Assumes symmetric sweep about central frequency
+                self.init_freq = Parameter("init_freq", kwargs["freq"] - BW/2, "GHz", "Initial frequency of pulse")
+                self.final_freq = Parameter("final_freq", kwargs["freq"] + BW/2, "GHz", "Final frequency of pulse")
             else:
-                raise ValueError("Bandwidth must be combined with either an initial or final frequency")
+                raise ValueError("Bandwidth must be combined with either an initial, final or center frequency")
         elif ("init_freq" in kwargs) & ("final_freq" in kwargs):
             self.init_freq = Parameter("init_freq", kwargs["init_freq"], "GHz", "Initial frequency of pulse")
             self.final_freq = Parameter("final_freq", kwargs["final_freq"], "GHz", "Final frequency of pulse")
@@ -1102,7 +1120,7 @@ class HSPulse(FrequencySweptPulse):
         #     beta**beta_exp2 * (ax[cut:-1]/tp)**order2)
 
         # FM = BW * cumulative_trapezoid(AM**2,ax,initial=0) /\
-        #      np.trapz(AM**2,ax) + self.init_freq.value
+        #      np.trapezoid(AM**2,ax) + self.init_freq.value
         sech = lambda x: 1/np.cosh(x) 
         cut = round(nx/2)
         AM = np.zeros_like(ti)
@@ -1124,6 +1142,8 @@ class HSPulse(FrequencySweptPulse):
         """ The sweep rate of the pulse in GHz/ns"""
         sweeprate_value = self.beta.value * self.bandwidth.value / (2*self.tp.value)
         return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
+    
+        
 
 # =============================================================================
 
@@ -1153,6 +1173,7 @@ class ChirpPulse(FrequencySweptPulse):
             self.init_freq.value, self.final_freq.value, nx)
 
         return AM, FM
+
     
     @property
     def sweeprate(self):

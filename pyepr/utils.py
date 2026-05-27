@@ -157,7 +157,7 @@ def autoEPRDecoder(dct):
 
 
 def gcd(values:list):
-    """Generates the greatest common dividor on a  list of floats
+    """Generates the greatest common divisor on a list of floats
 
     Parameters
     ----------

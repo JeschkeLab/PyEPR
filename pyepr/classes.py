@@ -45,7 +45,10 @@ class Interface:
         else:
             self.log = log
         self.resonator = None
-        self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        if self.config != {}:
+            self.amp_nonlinearity = self.config["Spectrometer"]["Bridge"].get('Amplifier Non-Linearity',None)
+        else:
+            self.amp_nonlinearity = None
         pass
 
     def connect(self) -> None:
@@ -510,6 +513,10 @@ class Parameter:
                 raise RuntimeError(
                     "Both parameters axis and the array must have the same shape")
     
+    def __radd__(self, __o:object):
+        return self.__add__(__o) 
+
+
     def __sub__(self, __o:object):
         
         if type(__o) is Parameter:
@@ -577,6 +584,9 @@ class Parameter:
             if self.axis.shape != __o.shape:
                 raise RuntimeError(
                     "Both parameters axis and the array must have the same shape")
+
+    def __rsub__(self, __o:object):
+        return self.__sub__(__o)
 
     def __mul__(self, __o:object):
         if type(__o) is Parameter:

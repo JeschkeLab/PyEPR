@@ -480,7 +480,7 @@ class ETH_awg_interface(Interface):
         Parameters
         ----------
         tp : float
-            Pulse length of pi/2 pulse in ns
+            $pi/2$ Pulse length in ns
         freq : float
             Central frequency of this pulse in GHz
         B : float
@@ -499,9 +499,8 @@ class ETH_awg_interface(Interface):
         p90: RectPulse
             A tuned rectangular pi/2 pulse of length tp
         p180: RectPulse
-            A tuned rectangular pi pulse of length tp
+            A tuned rectangular pi pulse of length 2*tp
         """
-
         amp_tune =HahnEchoSequence(
             B=B, freq=freq, reptime=reptime, averages=1, shots=shots
         )
@@ -527,7 +526,7 @@ class ETH_awg_interface(Interface):
         data = np.abs(dataset.data)
         scale = np.around(dataset.pulse0_scale[data.argmax()].data,2)
         if scale > 0.9:
-            raise RuntimeError("Not enough power avaliable.")
+            raise RuntimeError("Not enough power available.")
         
         if scale == 0:
             warnings.warn("Pulse tuned with a scale of zero!")
@@ -616,7 +615,7 @@ class ETH_awg_interface(Interface):
 
             new_amp = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
             if new_amp > 0.9:
-                raise RuntimeError("Not enough power avaliable.")
+                raise RuntimeError("Not enough power available.")
         
             if new_amp == 0:
                 warnings.warn("Pulse tuned with a scale of zero!")
@@ -709,7 +708,7 @@ class ETH_awg_interface(Interface):
             dataset = self.read_dataset()
             scale = np.around(dataset.pulse0_scale[dataset.data.argmax()].data,2)
             if scale > 0.9:
-                raise RuntimeError("Not enough power avaliable.")
+                raise RuntimeError("Not enough power available.")
             
             self.pulses[f"p90_{tp}"] = amp_tune.pulses[0].copy(
                 scale=scale, freq=0)

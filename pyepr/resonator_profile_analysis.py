@@ -74,7 +74,7 @@ class ResonatorProfileAnalysis:
 
 
 
-        if np.iscomplexobj(dataset):
+        if np.iscomplexobj(dataset) and not kwargs.get('skip_phase_correction',False):
             self.dataset = phase_correct_respro(dataset)
         else:
             self.dataset = dataset
@@ -159,7 +159,7 @@ class ResonatorProfileAnalysis:
 
         return self.prof_data, self.prof_frqs
     
-    def _process_fit(self,R_limit=0.5,mask=None,debug=False):
+    def _process_fit(self,R_limit=0.5,mask=None,debug=False,**kwargs):
         """Processes the nutation data by fitting a cosine function to each
         frequency in the dataset.
 
@@ -229,6 +229,7 @@ class ResonatorProfileAnalysis:
                 self.profile_ci[i] = np.nan
             
         # Remove nan
+        old_freqs=self.freqs
         self.freqs = self.freqs[~np.isnan(self.profile)]
         self.profile = self.profile[~np.isnan(self.profile)]
         self.profile_ci = self.profile_ci[~np.isnan(self.profile_ci)]
@@ -251,7 +252,7 @@ class ResonatorProfileAnalysis:
             for i in range(n_excluded):
                 key = int(list(excluded.keys())[i])
                 nutation = self.dataset[:,key]
-                freq = self.freqs[key].values
+                freq = old_freqs[key].values
                 if np.iscomplexobj(nutation):
                     nutation = nutation.real
                 nutation = nutation/np.max(nutation)
@@ -590,11 +591,11 @@ def calc_overlap(x, func1, func2):
     """
     y1 = func1(x)
     y2 = func2(x)
-    area_1 = np.trapz(y1, x)
-    area_2 = np.trapz(y2, x)
+    area_1 = np.trapezoid(y1, x)
+    area_2 = np.trapezoid(y2, x)
     y1 /= area_1
     y2 /= area_2
-    area_12 = np.trapz(y1*y2, x)
+    area_12 = np.trapezoid(y1*y2, x)
     return area_12
 
 def BSpline_extra(tck_s):
@@ -642,3 +643,86 @@ def optimise_spectra_position(resonator_profile, fieldsweep, verbosity=0):
 
     return new_LO
 
+
+class AmplifierLinearityAnalysis:
+
+    def __init__(self, dataset,attenuator=0) -> None:
+        self.dataset = dataset
+        self.attenuator = attenuator
+
+        if "pulse0_scale" in self.dataset.coords:
+            self.scales=  self.dataset.pulse0_scale
+
+        if "pulse0_tp" in self.dataset.coords:
+            self.tp = self.dataset.pulse0_tp
+
+        self._process_fit()
+
+
+    def _process_fit(self,R_limit=0.5,mask=None):
+            self.n_scales = self.scales.shape[0]
+
+            self.profile = np.zeros(self.n_scales)
+            self.profile_ci = np.zeros(self.n_scales)
+
+            fun = lambda x, f, tau,a,k: a*np.cos(2*np.pi*f*x)*np.exp(-x/tau)+ k
+            bounds = ([5e-3,10,0,-1],[0.3,2000,2,1])
+            p0 = [50e-3,150,1,0]
+
+            R2 = lambda y, yhat: 1 - np.sum((y - yhat)**2) / np.sum((y - np.mean(y))**2)
+            
+            for i in range(self.n_scales):
+                if mask is not None:
+                    nutation = self.dataset[mask,i]
+                    x = self.tp[mask]
+                else:
+                    nutation = self.dataset[:,i]
+                    x = self.tp
+                if np.iscomplexobj(nutation):
+                    nutation = nutation.epr.correctphase
+                nutation = nutation/np.max(nutation)
+                
+                try:
+                    results = curve_fit(fun, x, nutation, bounds=bounds,xtol=1e-4,ftol=1e-4,p0=p0)
+                    if R2(nutation,fun(x,*results[0])) > R_limit:
+                        self.profile[i] = results[0][0]
+
+                        self.profile_ci[i] = np.sqrt(np.diag(results[1]))[0]*1.96
+                    else:
+                        self.profile[i] = np.nan
+                        self.profile_ci[i] = np.nan
+                except RuntimeError:
+                    self.profile[i] = np.nan
+                    self.profile_ci[i] = np.nan
+                
+            # Remove nan
+            self.scales = self.scales[~np.isnan(self.profile)]
+            self.profile = self.profile[~np.isnan(self.profile)]
+            self.profile_ci = self.profile_ci[~np.isnan(self.profile_ci)]
+
+            # Adjust for attenuator
+            self.profile = self.profile * 10**(self.attenuator/20)
+            self.profile_ci = self.profile_ci * 10**(self.attenuator/20)
+
+    def fit(self,order=5):
+        """ 5th order polynomial fit to the profile """
+        if hasattr(self, 'profile'):
+            self.coefficients = np.polyfit(self.scales, self.profile/self.profile.max(), order)
+            self.model = np.polyval(self.coefficients, self.scales)
+        else:
+            raise ValueError("Profile not calculated. Run _process_fit() first.")
+
+    def plot(self, axs= None, fig=None):
+
+        if axs is None and fig is None:
+            fig, axs = plt.subplots(1,1,constrained_layout=True,figsize=(8,8))
+
+        axs.plot(self.scales, self.profile*1e3, label="Profile", color=primary_colors[0], marker='o', markersize=5, linewidth=0,alpha=0.7)
+
+        if hasattr(self, 'model'):
+            axs.plot(self.scales, self.model*1e3*self.profile.max(), label="Model", color=primary_colors[0], linewidth=2)
+            axs.text(0.05, 0.95, f"Fit Coeff: {[f'{i:.3g}' for i in self.coefficients]}", transform=axs.transAxes, fontsize=10, verticalalignment='top',bbox=dict(facecolor='white', alpha=0.5, edgecolor='black'))
+        
+        axs.legend()
+        axs.set_xlabel("Pulse amplitude / A.U.")
+        axs.set_ylabel("Nutation frequency / MHz")

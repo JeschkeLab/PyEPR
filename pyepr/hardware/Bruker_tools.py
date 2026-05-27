@@ -1287,9 +1287,7 @@ def write_pulsespel_file(sequence,d0, AWG=False, MPFU=False,MaxGate=40):
         pcyc_hash = pcyc.pcyc_hash
         pcyc_str = pcyc.__str__()
     else:
-        pcyc = PSPhaseCycle(sequence, MPFU)
-        pcyc_hash = pcyc.pcyc_hash
-        pcyc_str = pcyc.__str__()
+        raise ValueError("Either AWG must be True or MPFU must be supplied")
     # Add Pulse Sequence
     pulse_str = "d9\n"
     for id, pulse in enumerate(sequence.pulses):
