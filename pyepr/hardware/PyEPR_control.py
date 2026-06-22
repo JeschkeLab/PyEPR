@@ -53,6 +53,8 @@ class PyEPRControlInterface(Interface):
                 raise RuntimeError(response.json()['error'])
     
     def connect(self,ip='localhost',port=5000):
+        """Connects to the spectrometer server and configures the spectrometer if it is not already configured."""
+
         ## Connect to the server
 
         self.ip = ip
@@ -83,13 +85,39 @@ class PyEPRControlInterface(Interface):
             self.savefolder = self.savefolder
         
     def disconnect(self):
+        """Disconnets the spectrometer from the components and stops the server."""
         response = requests.post(self.server + '/disconnect')
         log.info(response.json()['message'])
         self.server = None
         return True
 
-    def acquire_dataset(self,verbosity=0,sum_scans=True, **kwargs):
+    def acquire_dataset(self,verbosity=0,sum_scans=True,**kwargs):
+        """
+        Acquires the dataset from the spectrometer. 
+        If no full scan has been completed, this will return the current buffer. Otherwise, the inclusion of the current buffer is determined by the `live` argument.
 
+        Parameters
+        ----------
+        verbosity : int, optional
+            The level of verbosity for logging, by default 0. Higher values will log more information.
+        sum_scans : bool, optional
+            Whether to sum the scans together, by default True. If False, the returned dataset will include a 'Scan' dimension with each individual scan. If True, the returned dataset will be summed over the 'Scan' dimension, returning a single averaged scan.
+        live : bool, optional
+            Whether to include the current buffer in the returned dataset, by default False. 
+        downconvert : bool, optional
+            Whether to downconvert the data, by default True. 
+        filter_type : str, optional
+            The type of filter to apply to the data, by default 'cheby'. Possible values are 'cheby' for a Chebyshev filter and 'boxcar' for a boxcar filter.
+        filter_width : int, optional
+            The width of the filter to apply to the data, by default 100 MHz for cheby and 250 ns for boxcar. For a Chebyshev filter, this is the width of the stopband in MHz. For a boxcar filter, this is the width of the filter in ns.
+        IFfreq : float, optional
+            The intermediate frequency to use. If None the IFfreq is extracted from the dataset, by default 0.15
+
+        Returns
+        -------
+        dataset : xarray.DataArray
+            The acquired dataset, following the standard PyEPR format.
+        """
         if isinstance(self.cur_exp, FieldSweepSequence):
             kwargs['filter_type'] = kwargs.pop('filter_type', 'boxcar')
             kwargs['filter_width'] = kwargs.pop('filter_width', 250)
@@ -127,6 +155,29 @@ class PyEPRControlInterface(Interface):
             raise RuntimeError("No data returned from server")
         
     def get_buffer(self,verbosity=0,sum_scans=True, **kwargs):
+        """
+        Returns the current scan from the spectrometer buffer. 
+        Parameters
+        ----------
+        verbosity : int, optional
+            The level of verbosity for logging, by default 0. Higher values will log more information.
+        sum_scans : bool, optional
+            Whether to sum the scans together, by default True. If False, the returned dataset will include a 'Scan' dimension with each individual scan. If True, the returned dataset will be summed over the 'Scan' dimension, returning a single averaged scan.
+        downconvert : bool, optional
+            Whether to downconvert the data, by default True. 
+        filter_type : str, optional
+            The type of filter to apply to the data, by default 'cheby'. Possible values are 'cheby' for a Chebyshev filter and 'boxcar' for a boxcar filter.
+        filter_width : int, optional
+            The width of the filter to apply to the data, by default 100 MHz for cheby and 250 ns for boxcar. For a Chebyshev filter, this is the width of the stopband in MHz. For a boxcar filter, this is the width of the filter in ns.
+        IFfreq : float, optional
+            The intermediate frequency to use. If None the IFfreq is extracted from the dataset, by default 0.15
+
+        Returns
+        -------
+        dataset : xarray.DataArray
+            The acquired dataset, following the standard PyEPR format.
+        """
+
         for i in range(60):
             args = kwargs.copy()
             if 'downconvert' not in args:
@@ -151,13 +202,19 @@ class PyEPRControlInterface(Interface):
         else:
             raise RuntimeError("No data returned from server")
         
-    def status(self):
-        """Returns the status of the spectrometer.
+    def status(self, get_errors=True):
+        """
+        Returns the status of the spectrometer, including any errors.
+
+        Parameters
+        ----------
+        get_errors : bool, optional
+            Whether to include errors in the status, by default True  
 
         Returns
         -------
         dict
-            A dictionary containing the status of the spectrometer.
+            A dictionary containing the status of the spectrometer, including any errors if get_errors is True.
         """
         response = requests.get(self.server + '/status')
         if 'error' in response.json():
@@ -188,18 +245,40 @@ class PyEPRControlInterface(Interface):
         return True
 
     def terminate(self):
+        """
+        Terminates the current sequence immediately and stops the AWG and digitiser processes
+        """
         response = requests.post(self.server + '/terminate')
         log.debug(response.json()['message'])
         return True
-        
-    def status(self):
-        try:
-            response = requests.get(self.server + "/status", timeout=10)
-        except Exception as e:
-            print(f"Error updating status: {e}")
-        return pickle.loads(response.json()['status'].encode('latin1'))
     
-    def launch(self, sequence: Sequence , savename: str, IFgain=None, *args,**kwargs):
+    def stop(self):
+        """
+        Stops the current sequence after the current scan is finished. The AWG and digitiser processes will be stopped after the current scan is finished.
+        """
+        response = requests.post(self.server + '/stop')
+        log.debug(response.json()['message'])
+        return True
+            
+    def launch(self, sequence: Sequence , savename: str, IFgain=None,
+               save_scans=False, *args, **kwargs):
+        """
+        sequence : Sequence
+            The sequence object to be launched.
+        savename : str
+            The name of the file to save the dataset to. The full path will be determined by the savefolder attribute of the interface and the savename argument. 
+        mode : str, optional
+            The operating mode of the bridge. By default the mode is "normal". Other options are ["tune","amp_view","ampbypass","ampinput"].
+        IFgain : int, float, or None, optional
+            If None the IFgain will be automatically determined by the interface. If an int or float, the IF gain will be set to this value. 
+        IFfreq : float, optional
+            The IF frequency to be set on the AWG, by default None. If None, the IF frequency will be either automatically calculated or set to the default value in the config file.
+        save_scans : bool, optional
+            Whether to save individual scans, by default False. If True, individual scans will be saved to a temporary file and can be accessed by setting `sum_scans` to False when acquiring the dataset. If False, individual scans will not be saved and only the averaged dataset will be returned.
+        overwrite : bool, optional
+            If True, subsequent scans will overwrite the previous scans, by default False
+        
+        """
         self.savefolder = self.savefolder
         # increase the detection length to a minimum 1024ns
         for pulse in sequence.pulses:
@@ -255,7 +334,8 @@ class PyEPRControlInterface(Interface):
         else:
             raise ValueError(f"IFgain must be of type [None, bool, int, float]. Type {type(IFgain)}_{IFgain} is not valid.")
 
-    def _launch(self, sequence: Sequence , savename: str, IFgain=0,reset_cur_exp=True,*args,**kwargs):
+    def _launch(self, sequence: Sequence , savename: str,
+                 IFgain=0,reset_cur_exp=True, save_scans=False,*args,**kwargs):
 
         timestamp = datetime.datetime.now().strftime(r'%Y%m%d_%H%M_')
         self.savename = timestamp + savename + '.h5'
@@ -272,7 +352,8 @@ class PyEPRControlInterface(Interface):
         launch_arg = {
             'seq': sequence,
             'savefile': self.savename,
-            'IFgain': new_IFgain
+            'IFgain': new_IFgain,
+            'save_scans': save_scans
         }
         launch_arg.update(kwargs)
         response = requests.post(self.server + '/launch', data= pickle.dumps(launch_arg))
@@ -284,6 +365,7 @@ class PyEPRControlInterface(Interface):
         pass
 
     def isrunning(self) -> bool:
+        """Checks if the spectrometer is currently running a sequence."""
         response = requests.get(self.server + '/isrunning')
 
         return response.json()['isrunning']
