@@ -131,6 +131,7 @@ class Pulse:
 
 
         self.name = name
+        self.uuid = uuid.uuid1()
 
         if flipangle is not None:
             self.flipangle = Parameter(
@@ -142,6 +143,8 @@ class Pulse:
             self._addPhaseCycle(pcyc["phases"], detections=pcyc["dets"])
         elif type(pcyc) is dict and ("Phases" in pcyc) and ("DetSigns" in pcyc):
             self._addPhaseCycle(pcyc["Phases"], detections=pcyc["DetSigns"])
+        elif issubclass(type(pcyc), Pulse):
+            self._addPhaseCycle(pcyc.pcyc["Phases"], detections=pcyc.pcyc["DetSigns"],link=pcyc.uuid)
         else:
             self._addPhaseCycle(pcyc, detections=None)
         pass
@@ -157,7 +160,7 @@ class Pulse:
             raise ValueError()
         return BW
     
-    def _addPhaseCycle(self, phases, detections=None):
+    def _addPhaseCycle(self, phases, detections=None, link=None):
             """
             Adds a phase cycle to the pulse sequence.
 
@@ -170,7 +173,7 @@ class Pulse:
             """
             if detections is None:
                 detections = np.ones(len(phases))
-            self.pcyc = {"Phases": list(phases), "DetSigns": list(detections)}
+            self.pcyc = {"Phases": list(phases), "DetSigns": list(detections), "link": link}
             pass
     
     def removePhaseCycle(self):
@@ -589,7 +592,7 @@ class Pulse:
         re-created at another memory space.
 
         Parameter can be chaged at this stage by adding them as keyword-
-        arguments (kwargs).
+        arguments (kwargs). If the phase cycle is changed, the UUID of the pulse will be reset.
 
         Returns
         -------
@@ -621,9 +624,10 @@ class Pulse:
                     if attr is None:
                         new_pulse.pcyc = None
                     elif type(new_pcyc) is dict:
-                        new_pulse._addPhaseCycle(new_pcyc["phases"], detections=new_pcyc["dets"])
+                        new_pulse._addPhaseCycle(new_pcyc["phases"], detections=new_pcyc["dets"], link=new_pcyc.get("link", None))
                     else:
-                        new_pulse._addPhaseCycle(new_pcyc, detections=None)               
+                        new_pulse._addPhaseCycle(new_pcyc, detections=None)
+                    new_pulse.uuid = uuid.uuid1() # UUID reset when phase cycle is changed               
                 else:
                     attr = kwargs[arg]
             elif arg == "t":

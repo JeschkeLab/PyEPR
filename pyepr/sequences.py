@@ -227,43 +227,29 @@ class Sequence:
         return time
 
     def _buildPhaseCycle(self):
-        # Identify pulses which are phase cycled
+        # Group phase-cycled pulses by link target, so linked pulses step
+        # through their phase cycle in phase (zipped) instead of being
+        # combined via a full outer product with the rest of the sequence.
+        groups = {}
+        for pulse in self.pulses:
+            if pulse.pcyc is None:
+                continue
+            link = pulse.pcyc.get("link")
+            key = pulse.uuid if link is None else link
+            groups.setdefault(key, []).append(pulse)
+        groups = list(groups.values())
 
-        pcyc_pulses = []
-        pulse_cycles = []
-        det_cycles = []
-        for ix, pulse in enumerate(self.pulses):
-            if pulse.pcyc is not None:
-                pcyc_pulses.append(ix)
-                # pulse_cycles.append(np.array(pulse.pcyc[0]))
-                # det_cycles.append(np.array(pulse.pcyc[1]))
-                pulse_cycles.append(pulse.pcyc["Phases"])
-                det_cycles.append(pulse.pcyc["DetSigns"])
+        phase_axes = [list(zip(*(p.pcyc["Phases"] for p in g))) for g in groups]
+        det_axes = [list(zip(*(p.pcyc["DetSigns"] for p in g))) for g in groups]
 
-        self.pcyc_cycles = np.array(list(product(*pulse_cycles)))
-        self.pcyc_dets = np.array(list(product(*det_cycles))).prod(axis=1)
-        self.pcyc_vars = pcyc_pulses
+        self.pcyc_vars = [self.pulses.index(p) for g in groups for p in g]
+        self.pcyc_cycles = np.array([
+            [phase for phases in row for phase in phases]
+            for row in product(*phase_axes)])
+        self.pcyc_dets = np.array([
+            np.prod([det for dets in row for det in dets])
+            for row in product(*det_axes)])
 
-        # # Build expanded phase cycle
-        # func = lambda x: np.arange(0, len(x))
-        # map(func, pulse_cycles)
-        # n_pulses = len(pulse_cycles)
-
-        # m = list(map(func, pulse_cycles))
-        # grids = np.meshgrid(*m, indexing='ij')
-        # expanded_cycles = []
-        # expanded_dets = []
-
-        # for i in range(0, n_pulses):
-        #     expanded_cycles.append(
-        #         pulse_cycles[i][grids[i].flatten(order='F')])
-        #     expanded_dets.append(det_cycles[i][grids[i].flatten(order='F')])
-
-        # self.pcyc_vars = pcyc_pulses
-        # self.pcyc_cycles = np.stack(expanded_cycles)
-        # self.pcyc_dets = np.prod(np.stack(expanded_dets), axis=0)
-        # self.pcyc_n = self.pcyc_cycles.shape[1]
-        
         return self.pcyc_vars, self.pcyc_cycles, self.pcyc_dets
 
     def evolution(self, params, reduce=[]):
@@ -646,8 +632,11 @@ class HahnEchoSequence(Sequence):
     Represents a Hahn-Echo sequence. 
     """
     def __init__(self, *, B, freq, reptime, averages, shots, **kwargs) -> None:
-        """Build a Hahn-Echo sequence using either rectangular pulses or
+        r"""Build a Hahn-Echo sequence using either rectangular pulses or
         specified pulses. By default no progression is added to this sequence.
+
+        Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
 
         Parameters
         ----------
@@ -725,7 +714,7 @@ class HahnEchoSequence(Sequence):
 # =============================================================================
 
 class T1InversionRecoverySequence(Sequence):
-    """
+    r"""
     Represents a T1 Inversion Recovery Sequence. 
 
     Sequence:
@@ -821,9 +810,12 @@ class T1InversionRecoverySequence(Sequence):
 
 
 class HahnEchoRelaxationSequence(HahnEchoSequence):
-    """
+    r"""
     Represents a Hahn Echo relaxation sequence for measureing Tm. A Hahn Echo where the interpulse delay increases
     
+    Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
+
     Parameters
     ----------
     B : int or float
@@ -871,9 +863,12 @@ class HahnEchoRelaxationSequence(HahnEchoSequence):
         return xaxis, data
 
 class T2RelaxationSequence(HahnEchoRelaxationSequence):
-    """
+    r"""
     Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
     A Hahn Echo where the interpulse delay increases.
+
+    Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
     
     Parameters
     ----------
@@ -910,10 +905,16 @@ class T2RelaxationSequence(HahnEchoRelaxationSequence):
 class FieldSweepSequence(HahnEchoSequence):
     """
     Represents a Field Sweep (EDFS) sequence. 
+
+    
+
     """
     def __init__(self, *, B, freq, Bwidth, reptime, averages, shots, **kwargs) -> None:
-        """Build a Field Sweep (EDFS) sequence using either rectangular pulses or
+        r"""Build a Field Sweep (EDFS) sequence using either rectangular pulses or
         specified pulses.
+
+        Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
 
         Parameters
         ----------
@@ -985,7 +986,10 @@ class ReptimeScan(HahnEchoSequence):
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
     def __init__(self, *, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs) -> None:
-        """A Hahn echo sequence is perfomed with the shot repetition time increasing.1
+        r"""A Hahn echo sequence is perfomed with the shot repetition time increasing.1
+
+        Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
 
         Parameters
         ----------
@@ -1062,8 +1066,11 @@ class CarrPurcellSequence(Sequence):
     """
     def __init__(self, *, B, freq, reptime, averages, shots,
              n,start=300,step=50, dim=100,**kwargs) -> None:
-        """Build a Carr-Purcell dynamical decoupling sequence using either 
+        r"""Build a Carr-Purcell dynamical decoupling sequence using either 
         rectangular pulses or specified pulses.
+
+        Sequence:
+        [\pi/2 [- \tau - \pi - \tau]^n - echo]
 
         Parameters
         ----------
@@ -1213,7 +1220,7 @@ class ResonatorProfileSequence(Sequence):
     """
 
     def __init__(self, *, B, freq, reptime, averages, shots, fwidth=0.3,dtp=2, **kwargs) -> None:
-        """Build a resonator profile nutation sequence using either 
+        r"""Build a resonator profile nutation sequence using either 
         rectangular pulses or specified pulses.
 
         Parameters

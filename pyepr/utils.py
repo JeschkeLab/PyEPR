@@ -43,7 +43,13 @@ def build_table(source, params, params_widths):
             elif param == "iD":
                 elements.append(i)
             elif param == 'Phase Cycle':
-                elements.append(pulse._pcyc_str())
+                link = pulse.pcyc.get("link") if pulse.pcyc is not None else None
+                if link is not None:
+                    link_id = next(
+                        (j for j, p in enumerate(source) if p.uuid == link), None)
+                    elements.append(f"linked to pulse {link_id}")
+                else:
+                    elements.append(pulse._pcyc_str())
             elif hasattr(pulse, param):
                 if getattr(pulse, param) is None:
                     elements.append("N/A")

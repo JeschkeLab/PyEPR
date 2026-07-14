@@ -1,4 +1,6 @@
-from pyepr.sequences import FieldSweepSequence, CarrPurcellSequence, T2RelaxationSequence
+from pyepr.sequences import FieldSweepSequence, CarrPurcellSequence, T2RelaxationSequence, Sequence
+from pyepr.pulses import RectPulse, Detection
+from pyepr.utils import build_table
 import pytest
 import numpy as np
 
@@ -55,3 +57,29 @@ def test_T2RelaxationSequence():
     axes, data = seq.simulate()
     assert np.allclose(axes,np.arange(500,5100,step=500))
     assert np.allclose(data.real,[6.39143954e-01, 2.90680188e-01, 1.31219296e-01, 3.81219609e-02,1.16796898e-02, 2.39331041e-03, 5.31640969e-04, 8.06720436e-05,1.34965908e-05, 1.56414588e-06])
+
+def test_linked_phase_cycle():
+    N_gyro = 0.002803632236095
+    freq = 34
+
+    exc = RectPulse(
+        tp=16, freq=0, flipangle=np.pi/2, t=0,
+        pcyc={"phases": [0, np.pi], "dets": [1, -1]})
+    # `pcyc=exc` copies exc's phase cycle and links to it, so both pulses
+    # step through their phases in phase rather than being combined via a
+    # full outer product.
+    ref = RectPulse(tp=32, freq=0, flipangle=np.pi, t=100, pcyc=exc)
+    det = Detection(tp=32, t=200)
+
+    seq = Sequence(
+        name="test", B=freq/N_gyro, freq=freq, reptime=3e3, averages=1,
+        shots=10)
+    seq.addPulse([exc, ref, det])
+
+    # Two linked 2-step phase cycles produce 2 shots, not 2x2=4
+    assert seq.pcyc_cycles.shape == (2, 2)
+    assert np.allclose(seq.pcyc_cycles[:, 0], seq.pcyc_cycles[:, 1])
+    assert np.allclose(seq.pcyc_dets, [1, 1])
+
+    table = build_table([exc, ref, det], ['iD', 'Phase Cycle'], ['4', '40'])
+    assert "linked to pulse 0" in table
