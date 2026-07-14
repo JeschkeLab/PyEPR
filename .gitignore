@@ -70,6 +70,7 @@ instance/
 # Sphinx documentation
 docsrc/_build/
 docsrc/autoapi/
+_build/
 
 # PyBuilder
 target/
@@ -128,5 +129,6 @@ dmypy.json
 .DS_Store
 
 poetry.lock
+*.lock
 
 docsrc/auto_examples/
