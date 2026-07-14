@@ -46,10 +46,8 @@ class Sequence:
 
         self.pulses = []
         self.num_pulses = len(self.pulses)
-        self.axes_uuid = []
-        self.reduce_uuid = []
-
-
+        self._axes_uuid = []
+        self._reduce_uuid = []
 
         if isinstance(B, Parameter):
             self.B = B.copy()
@@ -294,8 +292,8 @@ class Sequence:
         
         """
         self.evo_params = params
-        self.axes_uuid = [param.uuid for param in params]
-        self.reduce_uuid = [param.uuid for param in reduce]
+        self._axes_uuid = [param.uuid for param in params]
+        self._reduce_uuid = [param.uuid for param in reduce]
 
         self._buildProgTable()
 
@@ -308,13 +306,13 @@ class Sequence:
         for n, pulse in enumerate(self.pulses):
             table = pulse.build_table()
             for i in range(len(table["uuid"])):
-                if table["uuid"][i] in self.axes_uuid:
-                    progTable["axID"].append(self.axes_uuid.index(table["uuid"][i]))
+                if table["uuid"][i] in self._axes_uuid:
+                    progTable["axID"].append(self._axes_uuid.index(table["uuid"][i]))
                     progTable["uuid"].append(table["uuid"][i]) 
                     progTable["EventID"].append(n)
                     progTable["Variable"].append(table["Variable"][i])
                     progTable["axis"].append(table["axis"][i])
-                    if table["uuid"][i] in self.reduce_uuid:
+                    if table["uuid"][i] in self._reduce_uuid:
                         progTable["reduce"].append(True)
                     else:
                         progTable["reduce"].append(False)
@@ -324,13 +322,13 @@ class Sequence:
             if type(var) is Parameter:
                 if not var.is_static() and not var.virtual:
                     for i in range(len(var.axis)):
-                        if var.axis[i]["uuid"] in self.axes_uuid:
-                            progTable["axID"].append(self.axes_uuid.index(var.axis[i]["uuid"]))
+                        if var.axis[i]["uuid"] in self._axes_uuid:
+                            progTable["axID"].append(self._axes_uuid.index(var.axis[i]["uuid"]))
                             progTable["EventID"].append(None)
                             progTable["Variable"].append(var_name) 
                             progTable["axis" ].append(var.axis[i]["axis"])
                             progTable["uuid"].append(var.axis[i]["uuid"]) 
-                            if var.axis[i]["uuid"] in self.reduce_uuid:
+                            if var.axis[i]["uuid"] in self._reduce_uuid:
                                 progTable["reduce"].append(True)
                             else:
                                 progTable["reduce"].append(False)
@@ -1168,7 +1166,23 @@ class CarrPurcellSequence(Sequence):
         Simulates the Carr-Purcell sequence as a single component stretched exponential decay.
 
         .. math::
-            V(t) = e^(-(t/T_{CP})^e)
+            V(t) = e^{(-(t/T_{CP})^e)}
+
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+
+            seq = epr.CarrPurcellSequence(B=12000, freq=34, reptime=1000, averages=1, shots=10, n=4)  
+            x,data = seq.simulate(T_CP=2.5e3, e=1.8)
+            plt.plot(x,data)
+            plt.xlabel("Interpulse Delay (ns)")
+            plt.ylabel("Signal Intensity (a.u.)")    
+
         
         Parameters
         ----------
@@ -1182,6 +1196,7 @@ class CarrPurcellSequence(Sequence):
         xaxis : np.ndarray
             The x-axis of the simulation
         data : np.ndarray
+
         """
         
 

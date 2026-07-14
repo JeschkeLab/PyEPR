@@ -55,7 +55,12 @@ autoapi_add_toctree_entry = False
 autoapi_python_class_content= "both"
 autoapi_python_use_implicit_namespaces = True
 autoapi_own_page_level = 'class'
-
+autoapi_options = ['members',
+                   'undoc-members',
+                   'show-inheritance',
+                   'show-module-summary',
+                   'imported-members',
+                   'inherited-members']
 sphinx_gallery_conf = {
      'examples_dirs': 'examples',   # path to your example scripts
      'gallery_dirs': 'auto_examples',  # path to where to save gallery generated output

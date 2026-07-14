@@ -35,8 +35,8 @@ Sequences
    pyepr.sequences.ReptimeScan
    pyepr.sequences.CarrPurcellSequence
    pyepr.sequences.ResonatorProfileSequence
-   pyepr.sequences.TWTProfileSequence
    pyepr.sequences.T1InversionRecoverySequence
+   pyepr.sequences.TWTProfileSequence
 
 Pulses
 ~~~~~~
@@ -48,9 +48,10 @@ Pulses
    pyepr.pulses.Detection
    pyepr.pulses.RectPulse
    pyepr.pulses.GaussianPulse
-   pyepr.pulses.HSPulse
    pyepr.pulses.ChirpPulse
+   pyepr.pulses.HSPulse
    pyepr.pulses.SincPulse
+   pyepr.pulses.WURSTPulse
 
 Termination Criteria
 ~~~~~~~~~~~~~~~~~~~~

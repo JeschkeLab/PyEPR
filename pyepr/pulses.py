@@ -89,7 +89,7 @@ class Pulse:
     Represents a general experimental pulse.
     """
 
-    def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=[0],
+    def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=None,
                  name=None, **kwargs) -> None:
         """The class for a general pulse.
 
@@ -101,6 +101,12 @@ class Pulse:
             The arbitary experimental pulse amplitude, 0-1.
         t : float, optional
             The pulse start time in ns.
+        flipangle : float, optional
+            The target flip angle of the pulse in radians, defaults to None.
+        name : str, optional
+            The name of the pulse, defaults to None.
+        pcyc : list, optional
+            The phase cycle of the pulse given as a diction with keys "Phases" and "DetSigns", defaults to None.
 
         """
         if t is not None:
@@ -125,7 +131,6 @@ class Pulse:
 
 
         self.name = name
-        self.Progression = False
 
         if flipangle is not None:
             self.flipangle = Parameter(
@@ -133,8 +138,10 @@ class Pulse:
                 "The target flip angle of the spins")
         if pcyc is None:
             self.pcyc = None
-        elif type(pcyc) is dict:
+        elif type(pcyc) is dict and ("phases" in pcyc) and ("dets" in pcyc):
             self._addPhaseCycle(pcyc["phases"], detections=pcyc["dets"])
+        elif type(pcyc) is dict and ("Phases" in pcyc) and ("DetSigns" in pcyc):
+            self._addPhaseCycle(pcyc["Phases"], detections=pcyc["DetSigns"])
         else:
             self._addPhaseCycle(pcyc, detections=None)
         pass
@@ -165,6 +172,13 @@ class Pulse:
                 detections = np.ones(len(phases))
             self.pcyc = {"Phases": list(phases), "DetSigns": list(detections)}
             pass
+    
+    def removePhaseCycle(self):
+        """
+        Clears the attached phase cycle.
+        """
+        self.pcyc = None
+        pass
 
     def _buildFMAM(self, func, ax=None):
         """
@@ -247,65 +261,64 @@ class Pulse:
 
     
     def is_static(self):
-            """
-            Check if all parameters in the pulse object are static.
-
-            Returns:
-                bool: True if all parameters are static, False otherwise.
-            """
-            for arg in vars(self):
-                attr = getattr(self,arg)
-                if type(attr) is Parameter and not attr.is_static():
-                    return False
-            return True
-
-    def isDelayFocused(self):
         """
-        Does the pulse contain a specified time, `t`?
+        Check if all parameters in the pulse object are static.
 
-        If so then it is not delay focused.
+        Returns:
+            bool: True if all parameters are static, False otherwise.
         """
-        if self.t is None:
-            return True
-        else:
-            return False
-    
-    def isPulseFocused(self):
-        """
-        Does the pulse contain a specified time, `t`?
+        for arg in vars(self):
+            attr = getattr(self,arg)
+            if type(attr) is Parameter and not attr.is_static():
+                return False
+        return True
 
-        If so then it is delay focused.
-        """
-        if self.t is not None:
-            return True
-        else:
-            return False
-
-    def plot(self, pad=1000):
-        """Plots the time domain representation of this pulse.
+    def plot(self, pad=1000, freqs=None):
+        """Plots the time domain representation of this pulse alongside its
+        Mz inversion profile.
 
         Parameters
         ----------
         pad : int, optional
             The number of zeros to pad the data with, by default 1000
+        freqs : np.ndarray, optional
+            The frequency axis to calculate the Mz inversion profile over.
+            If not given, a default range is calculated by `exciteprofile`.
         """
         dt = self.ax[1] - self.ax[0]
-        if self.isPulseFocused():
-            tax = self.t.value + self.ax
-        else:
-            tax = self.ax
+        tax = self.ax
         fwd_ex = np.linspace(tax[0] - dt * pad, tax[0], pad)
         rev_ex = np.linspace(
             tax[-1] + dt, tax[-1] + dt * pad, pad, endpoint=True)
         tax = np.concatenate((fwd_ex, tax, rev_ex))
         data = np.pad(self.complex, pad)
 
-        plt.plot(tax, np.real(data), label="Re")
-        plt.plot(tax, np.imag(data), label="Im")
-        plt.legend()
-        plt.xlabel("Time (ns)")
-        plt.ylabel("Amplitude (A.U.)")
-        pass
+        fig, axs = plt.subplots(1, 2, figsize=(10, 4), layout='constrained')
+
+        axs[0].plot(tax, np.real(data), label="Re")
+        axs[0].plot(tax, np.imag(data), label="Im")
+        axs[0].legend()
+        axs[0].set_xlabel("Time (ns)")
+        axs[0].set_ylabel("Amplitude (A.U.)")
+
+        if freqs is None:
+
+            if hasattr(self, "init_freq") and hasattr(self, "final_freq"):
+                freqs = np.linspace(self.init_freq.value - 0.2, self.final_freq.value + 0.2, 150)
+            else:
+                fxs, fs = self._calc_fft()
+                fs = np.abs(fs)
+                points = np.argwhere(fs > (fs.max() * 0.5))[:, 0]
+                BW = fxs[points[-1]] - fxs[points[0]]
+                c_freq = np.mean([fxs[points[-1]], fxs[points[0]]])
+                freqs = np.linspace(-2 * BW, 2 * BW, 100) + c_freq
+
+        Mag = self.exciteprofile(freqs=freqs)
+        axs[1].plot(freqs, Mag[:, 2])
+        axs[1].set_xlabel("Frequency (GHz)")
+        axs[1].set_ylabel("Mz magnetisation")
+
+        return fig
     
     def _calc_fft(self, pad=10000):
         self._buildFMAM(self.func)
@@ -326,127 +339,17 @@ class Pulse:
         """ The B1 amplitude factor (nutation frequency) for the pulse in GHz"""
         amp_factor_value=  self.flipangle.value / (2 * np.pi * np.trapezoid(self.AM,self.ax))
         return Parameter("amp_factor", amp_factor_value, "GHz", "Amplitude factor for the pulse")
-    
-
-    # @cached(thread_safe=False)
-    def exciteprofile_old(self, freqs=None, resonator = None):
-        """Excitation profile
-
-        Generates the exciatation profiles for this pulse.
-
-        This function is ported from EasySpin 
-        (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-        and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
-
-        References:
-        +++++++++++
-        [1] Stefan Stoll, Arthur Schweiger
-        EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-        J. Magn. Reson. 178(1), 42-55 (2006)
-        
-        [2] Stefan Stoll, R. David Britt
-        General and efficient simulation of pulse EPR spectra
-        Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
-
-        [3] Jeschke, G., Pribitzer, S. & DollA. 
-        Coherence Transfer by Passage Pulses in Electron Paramagnetic 
-        Resonance Spectroscopy. 
-        J. Phys. Chem. B 119, 13570-13582 (2015)
-
-
-        Parameters
-        ----------
-        
-        freqs: np.ndarray, optional
-            The frequency axis. Caution: A larger number of points will linearly
-            increase computation time.
-        resonator: ad.ResonatorProfile, optional
-
-        
-        Returns
-        -------
-
-        Mx: np.ndarray
-            The magentisation in the X direction.
-        My: np.ndarray
-            The magentisation in the Y direction.
-        Mz: np.ndarray
-            The magentisation in the Z direction.
-        """
-        eye = np.identity(2)
-        # offsets = np.arange(-2*BW,2*BW,0.002)
-
-        self._buildFMAM(self.func)
-
-        if freqs is None:
-            fxs, fs = self._calc_fft()
-            fs = np.abs(fs)
-            points = np.argwhere(fs>(fs.max()*0.5))[:,0]
-            BW = fxs[points[-1]] - fxs[points[0]]
-            c_freq = np.mean([fxs[points[-1]], fxs[points[0]]])
-            offsets = np.linspace(-2*BW, 2*BW, 100) + c_freq
-        else:
-            offsets = freqs
-
-        offsets 
-        t = self.ax 
-        nOffsets = offsets.shape[0]
-
-        ISignal = np.real(self.complex) * self.amp_factor.value
-        QSignal = np.imag(self.complex) * self.amp_factor.value
-
-        if resonator is not None:
-            FM = self.FM
-            amp_factor = np.interp(FM, resonator.freqs-resonator.freq_c, resonator.profile)
-            amp_factor = np.min([amp_factor,np.ones_like(amp_factor)*self.amp_factor.value],axis=0)
-            ISignal = np.real(self.complex) * amp_factor
-            QSignal = np.imag(self.complex) * amp_factor
-
-        npoints = ISignal.shape[0]
-        Sx = sop([1/2],"x")
-        Sy = sop([1/2],"y")
-        Sz = sop([1/2],"z")
-        Density0 = -Sz
-        Mag = np.zeros((3,nOffsets), dtype=np.complex128)
-        for iOffset in range(0,nOffsets):
-            UPulse = eye
-            Ham0 = offsets[iOffset]*Sz
-
-            for it in range(0,npoints):
-                Ham = ISignal[it] * Sx + QSignal[it] * Sy + Ham0
-                M = -2j * np.pi * (t[1]-t[0]) * Ham
-                q = np.sqrt(M[0,0] ** 2 - np.abs(M[0,1]) ** 2)
-                if np.abs(q) < 1e-10:
-                    dU = eye + M
-                else:
-                    dU = np.cosh(q)*eye + (np.sinh(q)/q)*M
-                UPulse = dU @ UPulse
-
-            Density = UPulse @ Density0 @ UPulse.conjugate().T
-            Mag[0, iOffset] = -2 * (Sx @ Density.T).sum().real
-            Mag[1, iOffset] = -2 * (Sy @ Density.T).sum().real
-            Mag[2, iOffset] = -2 * (Sz * Density.T).sum().real
-        
-        return Mag[0,:], Mag[1,:], Mag[2,:]
-    
+  
     # @cached(thread_safe=False)
     def exciteprofile(self, freqs=None, resonator=None, trajectory=False):
         """Excitation profile
 
         Generates the exciatation profiles for this pulse, using the two-level system model developed by Jeschke et al. [1].
-        And then optimised in the PulseShape software package by Maxx Tessmer [2], reproduced under the GNU GPL v3 license.
-
-        References:
-        +++++++++++
-        [1] Jeschke, G., Pribitzer, S. & Doll, A. 
-            Coherence Transfer by Passage Pulses in Electron Paramagnetic 
-            Resonance Spectroscopy. 
-            J. Phys. Chem. B 119, 13570-13582 (2015)
-        [2] https://github.com/mtessmer/PulseShape
+        And then optimised in the PulseShape software package by Maxx Tessmer, reproduced under the GNU GPL v3 license [2].
 
         Parameters
         ----------
-        
+
         freqs: np.ndarray, optional
             The frequency axis. Caution: A larger number of points will linearly
             increase computation time.
@@ -454,12 +357,20 @@ class Pulse:
             The resonator profile to apply resonator compensation.
         trajectory: bool, optional
             If True, the function will return the magnetisation at each time point. Default is False.
-        
+
         Returns
         -------
         Mag: np.ndarray
             The magnetisation in the X, Y, and Z directions.
-        
+
+        References
+        ----------
+        [1] Jeschke, G., Pribitzer, S. & Doll, A.
+        Coherence Transfer by Passage Pulses in Electron Paramagnetic
+        Resonance Spectroscopy.
+        J. Phys. Chem. B 119, 13570-13582 (2015)
+
+        [2] https://github.com/mtessmer/PulseShape
         """
         self._buildFMAM(self.func)
 
@@ -575,18 +486,6 @@ class Pulse:
             return Mag
 
 
-
-    def plot_fft(self):
-                
-        ax, ft = self._calc_fft(1e4)
-        plt.plot(ax, np.real(ft), label="Re")
-        plt.plot(ax, np.imag(ft), label="Im")
-        plt.plot(ax, np.abs(ft), label="Im")
-        plt.legend()
-        plt.xlabel("Frequency (GHz)")
-        plt.ylabel("Amplitude (A.U.)")
-        pass
-
     def _pcyc_str(self):
     
         if self.pcyc is not None:
@@ -627,30 +526,16 @@ class Pulse:
         header = "#" * 79 + "\n" + "PyEPR Pulse Definition" + \
                  "\n" + "#" * 79 + "\n"
         
-        # Build Overviews
-        if self.isPulseFocused():
-            overview_params = "Time Pos (ns) \tLength (ns) \tScale (0-1)" +\
-                "\t Static \n"
-            
-            if type(self) is Detection:
-                overview_params += f"{self.t.value}" + "\t\t" + \
-                    f"{self.tp.value}" + "\t\t" + "\t\t" +\
-                    f"{self.is_static()}" + "\n" + "#" * 79 + "\n"        
-            else:
-                overview_params += f"{self.t.value}" + "\t\t" + \
-                    f"{self.tp.value}" + "\t\t" + f"{self.scale.value}" + \
-                    "\t\t" + f"{self.is_static()}" + "\n" + "#" * 79 + "\n"
-        elif self.isDelayFocused():
-            overview_params = "Length (ns) \tScale (0-1)" +\
-                "\t Static \n"
-            
-            if type(self) is Detection:
-                overview_params += f"{self.tp.value}" + "\t\t" + "\t\t" +\
-                    f"{self.is_static()}" + "\n" + "#" * 79 + "\n"        
-            else:
-                overview_params += f"{self.tp.value}" + "\t\t" +\
-                    f"{self.scale.value}" + "\t\t" + f"{self.is_static()}" +\
-                    "\n" + "#" * 79 + "\n"
+        overview_params = "Length (ns) \t Scale (0-1)" +\
+            "\t Static \n"
+        
+        if type(self) is Detection:
+            overview_params += f"{self.tp.value}" + "\t\t" + "\t\t" +\
+                f"{self.is_static()}" + "\n" + "#" * 79 + "\n"        
+        else:
+            overview_params += f"{self.tp.value}" + "\t\t" +\
+                f"{self.scale.value}" + "\t\t" + f"{self.is_static()}" +\
+                "\n" + "#" * 79 + "\n"
 
         # Build Pulse Parameter Table
         param_table =  f"{'Name':^12} \t {'Value':^12} \t {'Unit':^7} \t Description\n"
@@ -679,15 +564,7 @@ class Pulse:
                 param_table += f"{attr.name:>12} \t {value:>12} \t" +\
                     f"{attr.unit:>7} \t {attr.description} \n"
 
-        # Build Pulse Progression Table
-        if self.Progression is True:
-            prog_table = "#" * 79 + "\n" + "Progressive Variables:" + "\n"
-            prog_table += "Variable \t Axis \t Length \n"
-            prog_table += "-------- \t ---- \t ------ \n"
-            prog_table += f"{self.Prog_var} \t\t {self.Prog_axis} \t" +\
-                f"{self.Prog_n} \n"
-        else:
-            prog_table = ""
+        prog_table = ""
 
         # Build Pulse Phase Cycle Table
         if self.pcyc is not None:
@@ -960,6 +837,19 @@ class RectPulse(Pulse):
             Time position in ns, by default None
         flipangle : _type_, optional
             The flip angle in radians, by default None
+
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            pulse = epr.RectPulse(tp=32, flipangle=np.pi)
+            pulse.plot(pad=50)
+
         """
         Pulse.__init__(
             self, tp=tp, t=t, flipangle=flipangle,name='RectPulse', **kwargs)
@@ -1002,10 +892,11 @@ class GaussianPulse(Pulse):
             import pyepr as epr
             import matplotlib.pyplot as plt
 
-            GuassPulse = epr.GaussianPulse(tp=32)
-            GuassPulse.plot(pad=0)
-            plt.annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
-            plt.annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
+            GuassPulse = epr.GaussianPulse(tp=32, flipangle=np.pi)
+            fig = GuassPulse.plot(pad=50)
+            axs = fig.get_axes()
+            axs[0].annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
+            axs[0].annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
         """
         Pulse.__init__(self, tp=tp,name='GaussianPulse', **kwargs)
         self.freq = Parameter("Freq", freq, "GHz", "Frequency of the Pulse")
@@ -1027,12 +918,29 @@ class GaussianPulse(Pulse):
     def plot(self, pad=1000):
         return super().plot(pad)
 # =============================================================================
-class FrequencySweptPulse(Pulse):
-    """
-    A general parent class for Frequency Swept Pulses.
-    """
-    
+class FrequencySweptPulse(Pulse):    
     def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=[0], name=None, **kwargs) -> None:
+
+        """
+        Parameters
+        ----------
+        tp : float
+            Pulse length in ns
+        t : float, optional
+            The time position of the pulse, by default None
+        init_freq : float, optional
+            The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        final_freq : float, optional
+            The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        BW : float, optional
+            The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        freq : float, optional
+            The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        scale : float, optional
+            The scale of the pulse, by default None
+        flipangle : float, optional
+            The flip angle of the pulse in radians, by default None
+        """
         
         super().__init__(tp=tp, t=t, scale=scale, flipangle=flipangle, pcyc=pcyc, name=name, **kwargs)
 
@@ -1087,10 +995,67 @@ class FrequencySweptPulse(Pulse):
         
 
 class HSPulse(FrequencySweptPulse):
-    """
-    Represents a hyperboilc secant frequency-swept pulse.
-    """
     def __init__(self, *, tp=128, order1=1, order2=6, beta=20, **kwargs) -> None:
+        r"""
+        Represents a hyperboilc secant frequency-swept pulse.
+
+        The amplitude and frequency modulation functions are defined as:
+
+        .. math::
+            :nowrap:
+
+            \begin{align}
+                \mathrm{AM} & = \begin{cases}
+                    \mathrm{sech}\left(\frac{\beta}{2}\left(\frac{2t}{t_p}\right)^{\alpha_1}\right) & t < t_p/2 \\
+                    \mathrm{sech}\left(\frac{\beta}{2}\left(\frac{2t}{t_p}\right)^{\alpha_2}\right) & t \geq t_p/2
+                \end{cases} \\
+                \mathrm{FM} & = \frac{\mathrm{BW}}{2 \mathrm{tanh}( \beta/2)}\mathrm{tanh}\left(\frac{\beta t}{t_p} \right) + \omega_0
+            \end{align}
+
+        where :math:`\alpha_1` and :math:`\alpha_2` are the orders of the hyperbolic secant function
+        for the amplitude and frequency modulation respectively, :math:`\beta` is the
+        truncation parameter, and :math:`BW` is the sweep bandwidth.
+
+        Parameters
+        ----------
+        tp : float
+            Pulse length in ns
+        t : float, optional
+            The time position of the pulse, by default None
+        init_freq : float, optional
+            The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        final_freq : float, optional
+            The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        BW : float, optional
+            The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        freq : float, optional
+            The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        scale : float, optional
+            The scale of the pulse, by default None
+        flipangle : float, optional
+            The flip angle of the pulse in radians, by default None
+        order1 : float, optional
+            The order of the hyperbolic secant function for the first half of the pulse, by default 1
+        order2 : float, optional
+            The order of the hyperbolic secant function for the second half of the pulse, by default 6
+        beta : float, optional
+            The beta parameter of the hyperbolic secant function, by default 20
+        
+        Examples
+        --------
+
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            pulse = epr.HSPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1, order1=1, order2=6, beta=20)
+            pulse.plot(pad=100)
+
+        """
+
         FrequencySweptPulse.__init__(self, tp=tp, name='HSPulse', **kwargs)
         self.order1 = Parameter(
             "order1", order1, None, "Order 1 of the HS Pulse")
@@ -1153,6 +1118,40 @@ class ChirpPulse(FrequencySweptPulse):
     """
 
     def __init__(self, *, tp=128,rise_time=10, **kwargs) -> None:
+        """
+        Parameters
+        ----------
+        tp : float
+            Pulse length in ns
+        init_freq : float, optional
+            The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        final_freq : float, optional
+            The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        BW : float, optional
+            The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        freq : float, optional
+            The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+        scale : float, optional
+            The scale of the pulse, by default None
+        rise_time : float, optional
+            The quarter sine wave rise time of the pulse in ns, by default 10
+        t : float, optional
+            The time position of the pulse, by default None
+        flipangle : float, optional
+            The flip angle of the pulse in radians, by default None
+
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            pulse = epr.ChirpPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1)
+            pulse.plot(pad=100)
+        """
         FrequencySweptPulse.__init__(self, tp=tp,name='ChirpPulse', **kwargs)
         self.rise_time = Parameter("rise_time", rise_time, "ns", "The rise time of the pulse")
 
@@ -1183,28 +1182,57 @@ class ChirpPulse(FrequencySweptPulse):
 # =============================================================================
 
 class WURSTPulse(FrequencySweptPulse):
-    """
+    r"""
     Represents a WURST frequency-swept pulse.
 
     Equations:
 
     The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:
-    .. math::
-        AM(t) = 1 - \left|\sin\left(\frac{\pi}{tp} \cdot t\right)\right|^{order}
     
     .. math::
-        FM(t) = \frac{BW t}{tp} + init\_freq
-    where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`init_freq` is the initial frequency of the pulse, and :math:`order` is the order of the WURST pulse.
+
+        AM(t) = 1 - \left|\sin\left(\frac{\pi}{tp} \cdot t\right)\right|^{n}
+    
+    .. math::
+
+        FM(t) = \frac{BW \cdot t}{tp} + \nu_0
+
+    where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`\nu_0` is the initial frequency of the pulse, and :math:`n` is the order of the WURST pulse.
+
 
     Parameters
     ----------
-    tp : int, optional
-        Pulse length in ns, by default 128
+    tp : float
+        Pulse length in ns
+    t : float, optional
+        The time position of the pulse, by default None
+    init_freq : float, optional
+        The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+    final_freq : float, optional
+        The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+    BW : float, optional
+        The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+    freq : float, optional
+        The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+    scale : float, optional
+        The scale of the pulse, by default None
+    flipangle : float, optional
+        The flip angle of the pulse in radians, by default None
     order : int, optional
         The order of the WURST pulse, by default 32
-    **kwargs : dict, optional
-        Additional keyword arguments to pass to the default pulse class.
 
+    
+    Examples
+    --------
+
+    .. plot::
+        :include-source:
+
+        import pyepr as epr
+        import matplotlib.pyplot as plt
+
+        pulse = epr.WURSTPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1,order=32)
+        pulse.plot(pad=100)
     """
 
     def __init__(self, *, tp=128, order=32, **kwargs) -> None:
@@ -1248,6 +1276,18 @@ class SincPulse(Pulse):
             The order of this sinc function, by default 6
         window : _type_, optional
             The window function, by default None
+        
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import matplotlib.pyplot as plt
+
+            pulse = epr.SincPulse(tp=128, flipangle=np.pi, freq=0, order=6)
+            pulse.plot(pad=100)
         """
 
         Pulse.__init__(self, tp=tp,name='SincPulse', **kwargs)
