@@ -1,9 +1,11 @@
-from autodeer.ResPro import *
-from autodeer.hardware.dummy import _similate_respro
-from autodeer.sequences import ResonatorProfileSequence
-from autodeer.dataset import create_dataset_from_sequence, create_dataset_from_axes
-from autodeer.FieldSweep import create_Nmodel, FieldSweepAnalysis
+from pyepr.ResPro import *
+from pyepr.hardware.dummy import _similate_respro
+from pyepr.sequences import ResonatorProfileSequence
+from pyepr.dataset import create_dataset_from_sequence, create_dataset_from_axes
+from pyepr.FieldSweep import create_Nmodel, FieldSweepAnalysis
 import pytest
+import numpy as np
+from pyepr import ResonatorProfileAnalysis
 
 def test_ResonatorProfileAnalysis_from_sim():
     def lorenz_fcn(x, centre, sigma):
