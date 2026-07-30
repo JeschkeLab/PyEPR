@@ -668,7 +668,11 @@ class PyEPRControlInterface(Interface):
                 pulse.scale.value = scale
 
             return sequence
-  
+
+    def tune_resonator(self,*,freq,sweep, reptime=1e3, shots=100, step=0.05, dim=25):
+        
+        pass
+
     def get_config(self):
         """Returns the current configuration of the spectrometer."""
         try:

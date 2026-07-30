@@ -7,6 +7,7 @@ from pyepr.hardware.ETH_awg_load import uwb_load, uwb_eval_match, ETHUWB_xarray_
 from scipy.io import loadmat
 from scipy.io.matlab import MatReadError
 import xarray as xr
+import warnings
 
 log = logging.getLogger('autoDEER.Tools')
 
@@ -87,6 +88,9 @@ def eprload(
         if downconvert and 'tx' in dataset.dims:
             datasetDC = downconvert_dataset(dataset,**kwargs)
             return datasetDC
+        elif downconvert and 'tx' not in dataset.dims:
+            warnings.warn("Downconversion requested but no 'tx' dimension found in dataset. Returning original dataset.")
+            return dataset
         else:
             return dataset
 
@@ -118,6 +122,9 @@ def eprload(
         if downconvert and 'tx' in dataset.dims:
             datasetDC = downconvert_dataset(dataset,**kwargs)
             return datasetDC
+        elif downconvert and 'tx' not in dataset.dims:
+            warnings.warn("Downconversion requested but no 'tx' dimension found in dataset. Returning original dataset.")
+            return dataset
         else:
             return dataset
 

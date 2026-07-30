@@ -63,8 +63,9 @@ def get_all_fixed_param(sequence):
         elif not isinstance(param, Parameter):
             continue
         else:
-            if (param.axis == []) and (param.value is not None):
-                fixed_param[param_name] = param.value
+            if param.axis == []:
+                if (param.value is not None):
+                    fixed_param[param_name] = param.value
             elif param.axis[0]['uuid'] in sequence._reduce_uuid:
                 fixed_param[param_name] = param.value
         
@@ -412,12 +413,19 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
             IF = dataset.attrs.get('IFfreq') # GHz
         else:
             raise ValueError('IFfreq not found in dataset attributes, please provide IF value')
+    
+    det_freqs = [v for k,v in dataset.attrs.items() if 'det' in k and 'freq' in k]
+    if len(det_freqs) > 0:
+        IF += det_freqs[0]
 
     if sampling_rate is None:
         if 'det_rate' in dataset.attrs:
             sampling_rate = dataset.attrs.get('det_rate') # GHz
         elif 'sampling_rate' in dataset.attrs:
             sampling_rate = dataset.attrs.get('sampling_rate') # GHz
+        elif 'SamplingRate' in dataset.attrs:
+            sampling_rate = dataset.attrs.get('SamplingRate') # GHz
+
         else:
             raise ValueError('sampling_rate not found in dataset attributes, please provide sampling_rate value')
     if filter_type is None:
@@ -459,7 +467,9 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
     else:
         data_array_dc = xr.apply_ufunc(funct,dataset)
         data_array_dc = data_array_dc*np.exp(-1j*2*np.pi*IF*data_array_dc.tx/sampling_rate)
-        
+    data_array_dc.attrs['filter_type'] = filter_type
+    data_array_dc.attrs['filter_width'] = filter_width
+
     # if data_array_dc.ndim == 3:
     #     max_echo_pos = np.unravel_index(np.argmax(np.abs(data_array_dc.data[0,0,20:-20])),data_array_dc.shape[-1])[0] + 20
     # else:
@@ -469,6 +479,7 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
             max_echo_pos = kwargs['max_echo_pos']
         else:
             max_echo_pos = np.unravel_index(np.abs(data_array_dc).argmax(),data_array_dc.shape)[-1]
+        data_array_dc.attrs['max_echo_pos'] = max_echo_pos
         return data_array_dc[...,max_echo_pos]
     else:
         return data_array_dc
