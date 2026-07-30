@@ -587,13 +587,19 @@ class Pulse:
 
         return string
 
-    def copy(self, clear=False, **kwargs):
+    def copy(self, clear=False, reset_uuid=True, **kwargs):
         """Creates a deep-copy of the pulse. I.e. Every parameter object is
         re-created at another memory space.
 
         Parameter can be chaged at this stage by adding them as keyword-
         arguments (kwargs). If the phase cycle is changed, the UUID of the pulse will be reset.
 
+        Parameters
+        ----------
+        reset_uuid : bool, optional
+            If True, the UUID of the copied pulse will be reset to a new value. Default is True.
+        **kwargs : dict
+            Keyword arguments representing the parameters to be changed in the copied pulse. Includes 't', 'tp', 'scale', 'flipangle', and 'pcyc', and any other attributes of the pulse.
         Returns
         -------
         Pulse
@@ -601,6 +607,9 @@ class Pulse:
         """
 
         new_pulse = copy.deepcopy(self)
+
+        if reset_uuid:
+            new_pulse.uuid = uuid.uuid1()
 
         if clear:
             for arg in vars(new_pulse):
