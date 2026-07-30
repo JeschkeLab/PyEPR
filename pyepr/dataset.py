@@ -25,8 +25,8 @@ def get_all_axes(sequence):
             continue
         
         for axis in param.axis:
-            if axis['uuid'] in sequence.axes_uuid and not axis['uuid'] in sequence.reduce_uuid:
-                ax_id = sequence.axes_uuid.index(axis['uuid'])
+            if axis['uuid'] in sequence._axes_uuid and not axis['uuid'] in sequence._reduce_uuid:
+                ax_id = sequence._axes_uuid.index(axis['uuid'])
                 if param.unit == 'ns':
                     convert = 1e-3
                 elif param.unit == 'us':
@@ -45,8 +45,8 @@ def get_all_axes(sequence):
             if param.axis == []:
                 continue
             for axis in param.axis:
-                if axis['uuid'] in sequence.axes_uuid and not axis['uuid'] in sequence.reduce_uuid:
-                    ax_id = sequence.axes_uuid.index(axis['uuid'])
+                if axis['uuid'] in sequence._axes_uuid and not axis['uuid'] in sequence._reduce_uuid:
+                    ax_id = sequence._axes_uuid.index(axis['uuid'])
                     axes[f"pulse{i}_{param_name}"] = {'axis': axis['axis'] + param.value, 'ax_id':ax_id}
 
     return axes
@@ -65,7 +65,7 @@ def get_all_fixed_param(sequence):
         else:
             if (param.axis == []) and (param.value is not None):
                 fixed_param[param_name] = param.value
-            elif param.axis[0]['uuid'] in sequence.reduce_uuid:
+            elif param.axis[0]['uuid'] in sequence._reduce_uuid:
                 fixed_param[param_name] = param.value
         
 
