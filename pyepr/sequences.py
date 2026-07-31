@@ -218,9 +218,11 @@ class Sequence:
         """
         self._buildPhaseCycle()
         acqs = self.averages.value * self.shots.value * self.pcyc_dets.shape[0]
+        
+        reptime = np.mean(val_in_us(self.reptime))
         if hasattr(self,'evo_params'):
             acqs *= np.prod([np.prod(param.dim) for param in self.evo_params])        
-        time = acqs * self.reptime.value * 1e-6
+        time = acqs * reptime * 1e-6
 
         self.time = Parameter(name="time", value=f"{(time // 3600):.0f}:{(time % 3600) // 60:.0f}:{(time % 60):.0f}", unit="HH:MM:SS",
         description="Estimated sequence run time")
@@ -428,6 +430,9 @@ class Sequence:
                 if type(param.value) is str:
                     seq_param_string += "{:<10} {:<12} {:<10} {:<30} \n".format(
                         param.name, param.value, unit, param.description)
+                elif param.value is None:
+                    seq_param_string += "{:<10} {:<12} {:<10} {:<30} \n".format(
+                        param.name, "None", unit, param.description)
                 else:
                     seq_param_string += "{:<10} {:<12.5g} {:<10} {:<30} \n".format(
                         param.name, param.value, unit, param.description)
@@ -945,9 +950,9 @@ class FieldSweepSequence(HahnEchoSequence):
             shots=shots, **kwargs)
         self.name = "FieldSweepSequence"
 
-
+        dim = Bwidth // kwargs.get('step',1)
         self.B = Parameter(
-            "B", value=B, start = -Bwidth/2, step=1, dim=Bwidth, unit="Gauss", description="Field sweep width"
+            "B", value=B, start = -Bwidth/2, step=kwargs.get('step',1), dim=dim, unit="Gauss", description="Field sweep width"
         )
         
         self.evolution([self.B])

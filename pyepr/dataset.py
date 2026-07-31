@@ -436,7 +436,7 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
         
     
     if filter_type == 'boxcar':
-        filter_width = kwargs.get('filter_width',20)
+        filter_width = int(round(kwargs.get('filter_width',20)))
         funct = lambda data: np.convolve(data,np.ones(filter_width),mode='same')
         dc_first=True
     elif isinstance(filter_type, ad_pulses.Pulse): # match filter to a epr Pulse
