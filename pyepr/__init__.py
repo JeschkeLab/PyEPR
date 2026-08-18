@@ -10,4 +10,4 @@ from .config import get_waveform_precision, set_waveform_precision
 from .fieldsweep_analysis import *
 from .relaxation_analysis import *
 from .resonator_profile_analysis import *
-from .colors import primary_colors
+from .colors import primary_colors, primary_colors_light, secondary_colors
