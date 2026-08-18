@@ -1252,6 +1252,8 @@ class ResonatorProfileSequence(Sequence):
             The time step for the test pulse in ns, by default 2 ns
         step:
             The frequency step parameter in GHz, by default 0.02GHz
+        dim: int
+            The number of points in the tp axis, by default set to 120/dtp, which is 60 points for dtp=2ns.
 
         Optional Parameters
         -------------------
@@ -1292,7 +1294,7 @@ class ResonatorProfileSequence(Sequence):
         tau1 = self.kwargs.get("tau1",2000) #2000
         tau2 = self.kwargs.get("tau2",500) #500
         fstep = self.kwargs.get("step",0.02)
-        dim = np.floor(120/self.dtp.value).astype(int)
+        dim = self.kwargs.get("dim",np.floor(120/self.dtp.value).astype(int))
         tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
         fwidth= self.fwidth.value
         fstep = self.fstep.value
@@ -1436,3 +1438,55 @@ class TWTProfileSequence(Sequence):
         self.evolution([tp, scale])
 
 # =============================================================================
+
+class KBBSequence(Sequence):
+    """
+    Builds a Kutnz-Boehlen-Bodenhausen echo sequence.
+
+    """
+
+    def __init__(self,*,B,freq,reptime,averages=1,shots=100,**kwargs) -> None:
+        """
+        Parameters
+        ----------
+        B : _type_
+            _description_
+        freq : _type_
+            _description_
+        reptime : _type_
+            _description_
+        averages : int, optional
+            _description_, by default 1
+        shots : int, optional
+            _description_, by default 100
+        dtp : int, optional
+            _description_, by default 2
+        """
+        name = "KBBSequence"
+        super().__init__(
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
+            shots=shots, **kwargs)
+        
+        self.kwargs = kwargs
+
+        self._build_sequence()
+
+    def _build_sequence(self,):
+        pass
+
+
+class KBBPulseProfileSequence(KBBSequence):
+    """
+    Builds a KBB based Resonator Profile sequence. 
+    """
+    
+    def __init__(self,*,B,freq,reptime,averages=1,shots=100,dtp=2,**kwargs) -> None:
+
+        name = "KBB_PulseProfileSequence"
+        super().__init__(
+            name=name, B=B, freq=freq, reptime=reptime, averages=averages,
+            shots=shots, **kwargs)
+        self._build_sequence()
+
+    def _build_sequence(self,):
+        pass

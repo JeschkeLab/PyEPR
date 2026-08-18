@@ -636,7 +636,7 @@ def detect_ESEEM(dataset,type='deuteron', threshold=1.5):
 
 cmap = ['#D95B6F','#42A399']
 
-def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap, labels =None):
+def plot_1Drelax(*args,fig=None, axs=None,cmap=None, labels =None):
     """
     Create a superimposed plot of relaxation data and fits.
 
@@ -650,7 +650,7 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap, labels =None):
     axs : Axes, optional
         The axes to plot to, by default None
     cmap : list, optional
-        The color map to use, by default ad.cmap
+        The color map to use, by default None which uses the primary_colors from pyepr.colors
     
     """
 
@@ -658,6 +658,9 @@ def plot_1Drelax(*args,fig=None, axs=None,cmap=cmap, labels =None):
         fig, axs = plt.subplots(1,1, figsize=(5,5))
     elif axs is None:
         axs = fig.subplots(1,1)
+
+    if cmap is None:
+        cmap = primary_colors
 
     for i,arg in enumerate(args): 
         if arg.dataset.seq_name == 'T2RelaxationSequence':
