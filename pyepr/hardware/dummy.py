@@ -1,4 +1,5 @@
-from pyepr.classes import  Interface, Parameter
+from pyepr.classes import  Parameter
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.dataset import  create_dataset_from_sequence
 from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, Delay, Detection
 from pyepr.sequences import *

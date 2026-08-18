@@ -671,7 +671,7 @@ class HahnEchoSequence(Sequence):
 
         """
         
-        name = "HahnEchoSequence"
+        name = kwargs.pop('name',"HahnEchoSequence")
         
         if "pi_pulse" in kwargs:
             self.pi_pulse = kwargs["pi_pulse"]

@@ -1,4 +1,4 @@
-from pyepr.classes import Interface
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.hardware.XeprAPI_link import XeprAPILink
 from pyepr.hardware.Bruker_tools import PulseSpel, run_general, build_unique_progtable,write_pulsespel_file,step_parameters, get_specjet_data
 from pyepr.dataset import *

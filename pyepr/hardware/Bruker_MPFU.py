@@ -1,4 +1,5 @@
-from pyepr.classes import Interface, Parameter
+from pyepr.classes import  Parameter
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.pulses import Delay, Detection, RectPulse
 from pyepr.hardware.XeprAPI_link import XeprAPILink
 from pyepr.hardware.Bruker_tools import PulseSpel, run_general,build_unique_progtable,PSPhaseCycle, write_pulsespel_file

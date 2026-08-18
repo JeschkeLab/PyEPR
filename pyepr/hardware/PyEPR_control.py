@@ -9,9 +9,10 @@ import datetime
 import logging
 
 # PyEPR imports
-from pyepr.classes import  Interface, Parameter
+from pyepr.classes import  Parameter
 from pyepr.pulses import  Delay, Detection
 from pyepr.sequences import Sequence, HahnEchoSequence, FieldSweepSequence
+from pyepr.hardware.BaseInterfaceClass import Interface
 
 
 log = logging.getLogger("interface")

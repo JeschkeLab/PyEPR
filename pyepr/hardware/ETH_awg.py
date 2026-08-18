@@ -1,5 +1,6 @@
 import matlab.engine
-from pyepr.classes import  Interface, Parameter
+from pyepr.classes import Parameter
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, Delay, Detection
 from pyepr.sequences import Sequence, HahnEchoSequence, FieldSweepSequence
 import numpy as np

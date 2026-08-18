@@ -1,7 +1,7 @@
 from ._version import __version__, __copyright__
 from .tools import eprload
 from .utils import *
-from .classes import Parameter, Interface
+from .classes import Parameter
 from .sequences import *
 from .pulses import *
 from .criteria import *
@@ -13,3 +13,4 @@ from .resonator_profile_analysis import *
 from .colors import primary_colors, primary_colors_light, secondary_colors
 from .plotting import plot_sequence_freq
 from .resonator_tune import LoSweepTuneSequence
+from .hardware.BaseInterfaceClass import Interface

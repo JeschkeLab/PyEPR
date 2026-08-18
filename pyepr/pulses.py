@@ -875,6 +875,12 @@ class RectPulse(Pulse):
         AM = np.ones(nx)
         FM = np.zeros(nx) + self.freq.value
         return AM, FM
+    
+    @property
+    def bandwidth(self):
+        bandwidth = 1 / self.tp.value
+        BW = Parameter("Bandwidth", bandwidth, "GHz", "Bandwidth of pulse")
+        return BW
 
 class GaussianPulse(Pulse):
     """
@@ -930,6 +936,13 @@ class GaussianPulse(Pulse):
     
     def plot(self, pad=1000):
         return super().plot(pad)
+
+    @property
+    def bandwidth(self):
+        bandwidth = 1 / self.FWHM.value
+        BW = Parameter("Bandwidth", bandwidth, "GHz", "Bandwidth of pulse")
+        return BW
+
 # =============================================================================
 class FrequencySweptPulse(Pulse):    
     def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=[0], name=None, **kwargs) -> None:
