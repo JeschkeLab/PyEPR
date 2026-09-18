@@ -627,6 +627,15 @@ class Pulse:
                     elif isinstance(kwargs[arg], Parameter):
                         attr.value = kwargs[arg].value
                         attr.axis = kwargs[arg].axis
+                elif arg == "pcyc":
+                    new_pcyc = kwargs[arg]
+                    if new_pcyc is None:
+                        new_pulse.pcyc = None
+                    elif isinstance(new_pcyc, dict) and ("phases" in new_pcyc) and ("dets" in new_pcyc):
+                        new_pulse._addPhaseCycle(new_pcyc["phases"], detections=new_pcyc["dets"], link=new_pcyc.get("link", None))
+                    else:
+                        new_pulse._addPhaseCycle(new_pcyc, detections=None)
+                    new_pulse.uuid = uuid.uuid1() # UUID reset when phase cycle is changed
                 else:
                     attr = kwargs[arg]
             elif arg == "pcyc":
