@@ -245,6 +245,27 @@ class PyEPRControlInterface(Interface):
             log.info(response.json()['message'])
         return True
 
+    def set_field(self,field,ramp_rate=None,wait=False):
+        """
+        Sets the magnetic field
+
+        Parameters
+        ----------
+        field : float
+            The target magnetic field in Gauss.
+        ramp_rate : float, optional
+            The ramp rate in Gauss per second. If not specified, the current ramp rate is used. 
+        wait : bool, optional
+            If True, the method will block until the field is reached. Default is False.
+        
+        """
+        response = requests.post(self.server + '/set_field', json={'value': field, 'ramp_rate': ramp_rate, 'wait': wait})
+        if 'error' in response.json():
+            raise RuntimeError(response.json()['error'])
+        elif 'message' in response.json():
+            log.info(response.json()['message'])
+        return True
+    
     def terminate(self):
         """
         Terminates the current sequence immediately and stops the AWG and digitiser processes

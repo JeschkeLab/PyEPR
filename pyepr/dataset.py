@@ -431,8 +431,16 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
     if filter_type is None:
         dc_first=True
     elif filter_type not in ['boxcar','cheby']:
+        Warning('Filter type not recognised, using cheby filter')
         filter_type = 'cheby'
         filter_width = 50
+
+    if not np.iscomplexobj(dataset):
+        # Apply a Hilbert transform to the dataset to make it complex
+        from scipy.signal import hilbert
+        from scipy.fft import set_workers
+        with set_workers(-1):
+            dataset = xr.apply_ufunc(hilbert,dataset)
         
     
     if filter_type == 'boxcar':
