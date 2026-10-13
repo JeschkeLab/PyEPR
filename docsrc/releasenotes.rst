@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+
+Version 1.2 (2026-10-01):
+++++++++++++++++++++++++++++
+- Added `ThreePulseESEEMSequence` and `HYSCORESequence` sequences.
+- Added `ESEEMAnalysis` and `HYSCOREAnalysis` classes for analyzing ESEEM and HYSCORE data.
+- Expanded `dataset.epr.save` method to support saving in Bruker format.
+- Expanded `eprload` function to support loading from MS400 dataformat.
+- Improved Documentation
+- Increase test coverage
+
 Version 1.1 (2026-05-27):
 ++++++++++++++++++++++++++++
 - Added `AmplifierLinearityAnalysis` class for characterizing amplifier non-linearity.

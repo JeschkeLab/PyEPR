@@ -12,6 +12,11 @@ import pyepr as epr
 data = epr.eprload('path/to/datafile.h5')
 # Load data from a text file
 data_txt = epr.eprload('path/to/datafile.txt')
+# Load data from a Bruker .DSC/.DTA file
+data_bruker = epr.eprload('path/to/datafile.DTA')
+# Load data from a MS400 file
+data_ms400 = epr.eprload('path/to/datafile_ms400.dat')
+
 ```
 
 ## Viewing Data

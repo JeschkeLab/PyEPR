@@ -11,6 +11,7 @@ import xarray as xr
 from deerlab import correctphase
 from deerlab import deerload
 import copy
+import datetime
 
 # =============================================================================
 
@@ -201,7 +202,11 @@ class EPRAccessor:
             mode = "a"
 
         #if filename doesn't have the extension .h5, add it
-        if isinstance(filename,str) and not filename.endswith('.h5'):
+        if not isinstance(filename,str):
+            raise ValueError("filename must be a string")
+        elif filename.endswith('.DSC'):
+            type = 'bruker'
+        elif  not filename.endswith('.h5'):
             filename = filename + '.h5'
 
         if 'Scan' in self._obj.dims:
@@ -212,6 +217,10 @@ class EPRAccessor:
 
         if type == 'netCDF':
             self._obj.to_netcdf(filename,engine='h5netcdf',invalid_netcdf=True,mode=mode,unlimited_dims=unlimited_dims)
+
+        elif type == 'bruker':
+            save_bruker(self._obj, filename, overwrite=overwrite)
+
 
     @property
     def correctphase(self):
@@ -503,3 +512,143 @@ def find_peak(dataset, freq,freq_axis=None,search_range=4):
     loc = loc-search_range + dataset.values[loc-search_range:loc+search_range].argmax()
     peak = dataset[loc].values
     return loc,peak
+
+
+def save_bruker(dataset, filename, overwrite=True):
+    """
+    Save a dataset to a Bruker .DSC/ .DTA file
+
+    Parameters
+    ----------
+    dataset : xr.DataArray
+        The dataset to save
+    filename : str
+        The name of the file to save
+    overwrite : bool, optional
+        If True, overwrite the file if it exists, by default True
+    """
+    if not filename.endswith('.DSC'):
+        filename = filename + '.DSC'
+    
+    if overwrite:
+        mode = 'w'
+    else:
+        mode = 'a'
+
+    data = dataset.values
+    if data.ndim > 2:
+        raise ValueError("Cannot save data with more than 2 dimensions.")
+
+    two_dim = data.ndim == 2 and min(data.shape) > 1
+
+    if two_dim:
+        if not (isinstance(x, (list, tuple)) and len(x) == 2):
+            raise ValueError("For 2D data, x must be a list/tuple of two axes.")
+        x_axis = np.asarray(x[0], dtype=np.float64).ravel()
+        y_axis = np.asarray(x[1], dtype=np.float64).ravel()
+    else:
+        if isinstance(x, (list, tuple)):
+            x_axis = np.asarray(x[0], dtype=np.float64).ravel()
+        else:
+            x_axis = np.asarray(x, dtype=np.float64).ravel()
+        y_axis = None
+
+    complex_data = not np.isrealobj(data)
+    byteorder = 'big'  # BES3T default (XEPR/Linux)
+    bes3t_version = '1.2'
+
+    dta_path = filename + '.DTA'
+    # Flatten column-major (Fortran order) to match MATLAB data(:)
+    flat = data.flatten('F')
+    if complex_data:
+        interleaved = np.empty(2 * len(flat), dtype=np.float64)
+        interleaved[0::2] = flat.real
+        interleaved[1::2] = flat.imag
+        raw = interleaved
+    else:
+        raw = flat.real.astype(np.float64)
+
+    with open(dta_path, 'wb') as f:
+        f.write(raw.astype('>f8').tobytes())
+
+    # --- Write .DSC descriptor file ---
+    dsc_path = filename + '.DSC'
+    now = datetime.now()
+
+    def _is_linear(axis):
+        diffs = np.diff(axis)
+        if len(diffs) == 0:
+            return True
+        mn, mx = diffs.min(), diffs.max()
+        if mn == 0:
+            return False
+        return abs(mx / mn - 1) < 1e-5
+
+    x_linear = _is_linear(x_axis)
+    x_type = 'IDX' if x_linear else 'IGD'
+    if two_dim:
+        y_linear = _is_linear(y_axis)
+        y_type = 'IDX' if y_linear else 'IGD'
+    else:
+        y_type = 'NODATA'
+
+    with open(dsc_path, 'w') as f:
+        def kv(key, val):
+            f.write(f'{key}\t{val}\n')
+
+        def line(val=''):
+            f.write(f'{val}\n')
+
+        f.write(f'* Exported from PyEPR Version {__version__}, {now.strftime("%Y-%m-%d %H:%M:%S")}\n')
+        kv('#DESC', f'{bes3t_version} * DESCRIPTOR INFORMATION ***********************')
+        kv('DSRC', 'MAN')
+        kv('BSEQ', 'BIG' if byteorder == 'big' else 'LIT')
+        kv('IKKF', 'CPLX' if complex_data else 'REAL')
+        kv('IRFMT', 'D')
+        if complex_data:
+            kv('IIFMT', 'D')
+
+        # Write XGF gauge file if X axis is non-linear
+        if not x_linear:
+            xgf_path = filename + '.XGF'
+            with open(xgf_path, 'wb') as gf:
+                gf.write(x_axis.astype('>f8').tobytes())
+            kv('XFMT', 'D')
+
+        # Write YGF gauge file if Y axis is non-linear
+        if two_dim and not y_linear:
+            ygf_path = filename + '.YGF'
+            with open(ygf_path, 'wb') as gf:
+                gf.write(y_axis.astype('>f8').tobytes())
+            kv('YFMT', 'D')
+
+        kv('XTYP', x_type)
+        kv('YTYP', y_type)
+        kv('ZTYP', 'NODATA')
+
+        kv('XPTS', str(len(x_axis)))
+        kv('XMIN', f'{x_axis[0]:g}')
+        kv('XWID', f'{x_axis[-1] - x_axis[0]:g}')
+        if two_dim:
+            kv('YPTS', str(len(y_axis)))
+            kv('YMIN', f'{y_axis[0]:g}')
+            kv('YWID', f'{y_axis[-1] - y_axis[0]:g}')
+
+        if 'title' in dataset.attrs:
+            kv('TITL', f"'{dataset.attrs['title']}'")
+
+        line('*')
+        line('************************************************************')
+        line('*')
+        kv('#SPL', f'{bes3t_version} * STANDARD PARAMETER LAYER')
+        kv('OPER', '')
+        kv('DATE', now.strftime('%d/%m/%y'))
+        kv('TIME', now.strftime('%H:%M:%S'))
+        kv('CMNT', '')
+        kv('SAMP', '')
+        kv('SFOR', '')
+        if 'freq' in dataset.attrs:
+            kv('MWFQ', f'{dataset.attrs.get('freq') * 1e9:.9g}')
+
+        if 'B' in dataset.attrs:
+            kv('B0VL', f'{dataset.attrs.get('B') * 1e-4:.9g}') # G -> T
