@@ -1381,6 +1381,118 @@ class ResonatorProfileSequence(Sequence):
 
 # =============================================================================
 
+class ThreePulseESEEMSequence(Sequence):
+
+    def __init__(self, *, B, freq, reptime, averages, shots, tau=300, start=500, step=40, dim=200, **kwargs) -> None:
+
+        self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="1st Inter Pulse Delay",virtual=True)
+        self.T = Parameter(
+            name='T',
+            description = 'Mixing Time',
+            unit = 'ns',
+            value=start,
+            step = step,
+            dim = dim,
+            virtual=True)
+
+        super().__init__(name="ThreePulseESEEMSequence",
+                         B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
+
+        self._build_sequence()
+
+    def _build_sequence(self):
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=0, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
+        else:
+            self.addPulse(RectPulse(  # pi/2
+                t=0, tp=16, freq=0, flipangle=np.pi/2, 
+                pcyc={"phases":[0, np.pi], "dets": [1, -1]}
+            ))
+
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=self.tau))
+        else:
+            self.addPulse(RectPulse(  # pi/2
+            t=self.tau, tp=32, freq=0, flipangle=np.pi
+            ))
+
+        if hasattr(self, "pi2_pulse"):
+            self.addPulse(self.pi2_pulse.copy(
+                t=self.tau+self.T))
+        else:
+            self.addPulse(RectPulse(  # pi/2
+            t=self.tau+self.T, tp=32, freq=0, flipangle=np.pi
+            ))
+
+        self.addPulse(Detection(t=self.tau+self.T+self.tau, tp=512))
+
+        self.evolution([self.T])
+
+    def _simulate(self):
+        raise NotImplementedError("Simulation for Three Pulse ESEEM is not implemented yet.")
+
+    
+class HYSCORESequence(Sequence):
+    def __init__(self, *, B, freq, reptime, averages, shots, tau=300, start=300, step=16, dim=128, **kwargs) -> None:
+        
+        self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="1st Inter Pulse Delay",virtual=True)
+        self.T1 = Parameter(
+            name='T1',
+            description = '1st Mixing Time',
+            unit = 'ns',
+            value=start,
+            step = step,
+            dim = dim,
+            virtual=True)
+        self.T2 = Parameter(
+            name='T2',
+            description = '2nd Mixing Time',
+            unit = 'ns',
+            value=start,
+            step = step,
+            dim = dim,
+            virtual=True)
+
+        super().__init__(
+            name = "HYSCORESequence",
+            B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
+
+        self._build_sequence()
+
+    def _build_sequence(self):
+
+        if hasattr(self, "pi2_pulse"):
+            p90 = self.pi2_pulse.copy(t=0, pcyc={'phases':[0], 'dets':[1]})
+        else:
+            p90 = RectPulse(  # pi/2
+                t=0, tp=16, freq=0, flipangle=np.pi/2, 
+                pcyc={"phases":[0], "dets": [1]}
+            )
+
+        if hasattr(self, "pi_pulse"):
+            p180 = self.pi_pulse.copy(t=0, pcyc={'phases':[0], 'dets':[1]})
+        else:
+            p180 = RectPulse(  # pi
+                t=0, tp=32, freq=0, flipangle=np.pi, 
+                pcyc={"phases":[0], "dets": [1]}
+            )
+
+        det_event = Detection(t=0, tp=512)
+
+
+        self.addPulse(p90.copy(t=0, pcyc={'phases':[0], 'dets':[1]}))
+        self.addPulse(p90.copy(t=self.tau, pcyc={'phases':[0], 'dets':[1]}))
+        self.addPulse(p180.copy(t=self.tau+self.T1,pcyc={'phases':[0,np.pi/2,np.pi,3*np.pi/2,], 'dets':[1,-1,1,-1]}))
+        self.addPulse(p90.copy(t=self.tau+self.T1+self.T2,pcyc={'phases':[0], 'dets':[1]}))
+
+        self.addPulse(det_event.copy(t=2*self.tau+self.T1+self.T2))
+        self._buildPhaseCycle()
+        self.evolution([self.T1,self.T2])
+
+# =============================================================================
+
 class TWTProfileSequence(Sequence):
     """
     Builds TWT based Resonator Profile sequence. 
@@ -1474,6 +1586,7 @@ class KBBSequence(Sequence):
     def _build_sequence(self,):
         pass
 
+# =============================================================================
 
 class KBBPulseProfileSequence(KBBSequence):
     """
