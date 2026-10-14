@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import re
 import scipy.fft as fft
 from pyepr import __version__
-from pyepr.pulses import Detection
+from pyepr.pulses import Detection, Pulse
 from pyepr.classes import Parameter
 from pyepr.sequences import Sequence
-import pyepr.pulses as ad_pulses
+import pyepr.pulses as epr_pulses
 import xarray as xr
 from deerlab import correctphase
 from deerlab import deerload
@@ -319,7 +319,7 @@ class EPRAccessor:
                     params[param_type] = Parameter(name = param_type, value = min_value, dim=dim, step=step)
             
             try:
-                pulse_build = getattr(ad_pulses,pulse_type)
+                pulse_build = getattr(epr_pulses,pulse_type)
                 pulses_obj.append(pulse_build(**params))
             except:
                 continue
@@ -437,6 +437,7 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
 
         else:
             raise ValueError('sampling_rate not found in dataset attributes, please provide sampling_rate value')
+
     if filter_type is None:
         dc_first=True
     elif filter_type not in ['boxcar','cheby']:
@@ -456,8 +457,6 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
         filter_width = int(round(kwargs.get('filter_width',20)))
         funct = lambda data: np.convolve(data,np.ones(filter_width),mode='same')
         dc_first=True
-    elif isinstance(filter_type, ad_pulses.Pulse): # match filter to a epr Pulse
-        raise NotImplementedError('Match filter to a pulse not implemented yet')
     elif filter_type == 'cheby':
         from scipy.signal import cheby1,sosfiltfilt
         filter_width = kwargs.get('filter_width',50) # MHz
@@ -470,8 +469,32 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
         a = cheby1(order,0.5,Wn,'bandpass',analog=False,fs=sampling_rate,output='sos')
         funct = lambda data: sosfiltfilt(a,data)
         dc_first=False
+    elif filter_type in ['gaussian','gauss']:
+        from scipy.signal import gaussian,convolve
+        filter_width = kwargs.get('filter_width',50) # MHz
+        filter_width /= 1e3
+        std = filter_width/2.355
+        gauss_filter = gaussian(6*std,std)
+        gauss_filter /= np.sum(gauss_filter)
+        funct = lambda data: convolve(data,gauss_filter,mode='same')
+        dc_first=False
+    elif filter_type == 'butter':
+        from scipy.signal import butter,sosfiltfilt
+        filter_width = kwargs.get('filter_width',50) # MHz
+        filter_width /= 1e3
+
+        Wn = np.array([IF-filter_width,IF+filter_width])
+        Wn[Wn<=0] = 0.001
+        order = 5
+        
+        a = butter(order,Wn,'bandpass',analog=False,fs=sampling_rate,output='sos')
+        funct = lambda data: sosfiltfilt(a,data)
+        dc_first=False
     elif filter_type is None:
         dc_first=True
+    elif issubclass(filter_type, Pulse): # match filter to a epr Pulse
+        raise NotImplementedError('Match filter to a pulse not implemented yet')
+
 
     else:
         raise ValueError('Filter not recognised')

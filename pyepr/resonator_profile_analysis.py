@@ -80,13 +80,13 @@ class ResonatorProfileAnalysis:
             self.dataset = dataset
             
         if "LO" in self.dataset.coords:
-            self.freqs = self.dataset.LO
+            self.freqs = self.dataset.LO.values
             self.freq_c = np.mean(self.dataset.LO)
         elif "freq" in self.dataset.coords:
-            self.freqs = self.dataset.freq
+            self.freqs = self.dataset.freq.values
             self.freq_c = np.mean(self.dataset.freq)
         elif "freq_axis" in self.dataset.coords:
-            self.freqs = self.dataset.freq_axis
+            self.freqs = self.dataset.freq_axis.values
             self.freq_c = self.dataset.freq
 
         if isinstance(self.freq_c,xr.DataArray):
@@ -347,15 +347,13 @@ class ResonatorProfileAnalysis:
 
         return lorenz_fit
 
-    def plot(self, fieldsweep=None, axs= None, fig=None):
+    def plot(self, axs= None, fig=None, **kwargs):
         """plot. 
 
         Parameters
         ----------
-        fieldsweep : FieldSweepAnalysis, optional
-            Overlays the FieldSweep if provided, by default None
         axs : matplotlib.Axes, optional
-            Axes to plot on, by default None
+            Axes to plot on, by default None. Needs to be a flat array with two axes
         fig : matplotlib.Figure, optional
             Figure to plot on, by default None
 
@@ -365,32 +363,27 @@ class ResonatorProfileAnalysis:
             matplotlib figure object
         """
         if axs is None and fig is None:
-            fig, axs = plt.subplots(2,1,constrained_layout=True,height_ratios=[0.8,0.2],sharex=True)
+            figsize = kwargs.get('figsize', (6,4))
+            fig, axs = plt.subplots(2,1,figsize=figsize,sharex=True)
+            fig.subplots_adjust(hspace=0.05)
+        elif fig is None and isinstance(axs,plt.Axes):
+            fig = axs.figure
 
-        if isinstance(axs, list) or isinstance(axs, np.ndarray):
-            axs1 = axs[0]
-            axs2 = axs[1]
-        else:
-            axs1 = axs
-            axs2 = None
-        prof_data = self.profile * 1e3 # GHz -MHz
-        
-        axs1.errorbar(self.freqs, prof_data, yerr=self.profile_ci*1e3, fmt='o', label='Data')
+        self.dataset.real.plot(y='pulse0_tp',x='freq', ax=axs[0],add_colorbar=False,cmap='PuOr')
+        axs[0].set_xlabel('',fontsize=15)
+        axs[1].plot(self.freqs,self.profile *1e3,ls='',ms=10,marker='.',alpha=0.8,color=primary_colors[0])
+        if hasattr(self,'results'):
+            model_x = np.linspace(self.freqs.min(), self.freqs.max(), 200)
+            model_y = self.model_func(model_x)
+            axs[1].plot(model_x,model_y *1e3,color=primary_colors[1],lw=3)
+        axs[1].set_ylabel('Nutation Frequency / MHz',fontsize=11)
+        axs[1].set_xlabel('Freq / GHz',fontsize=11)
 
-        if hasattr(self, 'model'):
-            axs1.plot(self.model_x, self.model*1e3, label='Model')
-            # CI= self.results.propagate(self.lorenz_model,self.model_x).ci(50)
-            # axs1.fill_between(self.model_x, (CI[:,0])*1e3, (CI[:,1])*1e3, alpha=0.5)
-            
-            if axs2 is not None:
-                axs2.plot(self.model_x, self.pha, label='Phase')
-                axs2.set_xlabel("Frequency / GHz")
-                axs2.set_ylabel("Phase / rad")
-        
-
-        if axs2 is None:
-            axs1.set_xlabel("Frequency / GHz")
-        axs1.set_ylabel("Nutation Frequency / MHz")
+        axs[1].yaxis.set_visible(True)
+        axs[0].tick_params(axis='both', which='major', labelsize=10)
+        axs[0].set_ylabel('tp / ns',fontsize=11)
+        axs[1].grid()
+        axs[1].tick_params(axis='both', which='major', labelsize=10)
 
         def Hz2length(x):
             return 1 / ((x/1000)*2)
@@ -398,15 +391,27 @@ class ResonatorProfileAnalysis:
         def length2Hz(x):
             return 1 / ((x*1000)*2) 
 
-        secax = axs1.secondary_yaxis('right', functions=(Hz2length, length2Hz))
-        secax.set_ylabel(r'$\pi/2$ pulse length / ns')
-        # secax.yaxis.set_locator(AutoLocator)
+        secax = axs[1].secondary_yaxis('right', functions=(Hz2length, length2Hz))
+        secax.set_ylabel(r'$\pi$ pulse length / ns',fontsize=11)
+        secax.set_ticks([8,10,12,14,16,24,32,64])
+        secax.tick_params(axis='both', which='major', labelsize=10)
 
-        if fieldsweep:
-            fsweep_data = np.abs(fieldsweep.data)
-            fsweep_data /= fsweep_data.max()
-            fsweep_data = fsweep_data * prof_data.max()
-            axs1.plot(fieldsweep.fs_x + fieldsweep.freq, fsweep_data)
+        if hasattr(self,'results'):
+            props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+            textstr = f"Q = {self.q:.2f}\n$f_c$ = {self.fc:.2f} GHz\n$\\nu_{{max}}$ = {self.model.max()*1e3:.2f} MHz"
+            axs[1].text(0.02, 0.95, textstr, transform=axs[1].transAxes, fontsize=11,
+                    verticalalignment='top', bbox=props)
+
+            axs[0].set_ylim(*axs[1].get_ylim())
+            axs[0].vlines(self.fc,*axs[0].get_ylim(),ls='--',color='0.7',lw=2)
+
+            axs[1].set_ylim(*axs[1].get_ylim())
+            axs[1].vlines(self.fc,*axs[1].get_ylim(),ls='--',color='0.7',lw=2)
+
+            secax.tick_params(axis='both', which='major', labelsize=10)
+            secax2 = axs[1].secondary_xaxis(-0.22, functions=(lambda x: x - self.fc, lambda x: x + self.fc))
+
+            secax2.set_xlabel('Relative Freq / GHz',fontsize=11)
 
         return fig
 
