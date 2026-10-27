@@ -564,7 +564,10 @@ class AmplifierLinearityAnalysis:
                     x = self.tp
                 if np.iscomplexobj(nutation):
                     nutation = nutation.epr.correctphase
-                nutation = nutation/np.max(nutation)
+                    
+                nutation = nutation/np.max(np.abs(nutation))
+                if np.abs(np.min(nutation)) > np.max(nutation):
+                    nutation *= -1
                 
                 try:
                     results = curve_fit(fun, x, nutation, bounds=bounds,xtol=1e-4,ftol=1e-4,p0=p0)

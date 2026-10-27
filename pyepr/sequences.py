@@ -1500,6 +1500,40 @@ class TWTProfileSequence(Sequence):
     
     def __init__(self,*,B,freq,reptime,averages=1,shots=100,dtp=2,**kwargs) -> None:
 
+        """
+        
+
+        Parameters
+        ----------
+        B: float
+            The B0 field, in Gauss
+        freq: float
+            The freq frequency in GHz
+        reptime: float
+            The shot repetition time in us
+        averages: int
+            The number of scans.
+        shots: int
+            The number of shots per point
+        dtp: float
+            The time step for the test pulse in ns, by default 2 ns
+        tp_dim: int
+            The number of points in the tp axis, by default set to 120/dtp, which is 60 points for dtp=2ns.
+        step: float
+            The scale step parameter, by default 0.02
+        dim: int
+            The number of points in the scale axis, by default 50
+        tau1: float
+            The delay between the nutating pulse and the Hahn Echo, by default 2000 ns
+        tau2: float
+            The interpulse delay in the Hahn Echo, by default 500 ns
+        pi2_pulse : Pulse
+            A PyEPR `Pulse` object describing the excitation pi/2 pulse.
+        pi_pulse : Pulse
+            A PyEPR `Pulse` object describing the refocusing pi pulses.
+                
+        """
+
         name = "TWTProfileSequence"
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
@@ -1520,12 +1554,20 @@ class TWTProfileSequence(Sequence):
         tau1 = self.kwargs.get("tau1",2000) #2000
         tau2 = self.kwargs.get("tau2",500) #500
 
-        dim = np.floor(120/self.dtp.value).astype(int)
-        tp = Parameter("tp", 0, step=self.dtp.value, dim=dim, unit="ns", description="Test Pulse length")
-        scale = Parameter("scale", 0, step=0.01, dim=100, unit="None", description="Amplitude scale factor")
+        tp_dim = self.kwargs.get("tp_dim",np.floor(120/self.dtp.value).astype(int))
+        tp = Parameter("tp", 0, step=self.dtp.value, dim=tp_dim, unit="ns", description="Test Pulse length")
+        
+        step = self.kwargs.get("step",0.02)
+        dim = self.kwargs.get("dim",50)
+        # limit the scale to a max of 1.0
+        if step * dim > 1.0:
+            dim = int(1.0 / step)
+            warnings.warn(f"Scale axis limited to a maximum of 1.0, dim set to {dim}.")
+
+        scale = Parameter("scale", 0, step=step, dim=dim, unit="None", description="Amplitude scale factor")
 
         self.addPulse(RectPulse(  # Hard pulse
-            t=0, tp=tp, freq=0, flipangle="Hard",scale=scale
+            t=0, tp=tp, freq=0, flipangle="hard",scale=scale
         ))
         
         if hasattr(self, "pi2_pulse"):

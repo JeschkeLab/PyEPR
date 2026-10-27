@@ -312,7 +312,7 @@ class PyEPRControlInterface(Interface):
             test_IF = True
             while test_IF:
                 self.terminate()
-                self._launch(sequence,savename,self.IFgain, *args,**kwargs)
+                self._launch(sequence,savename,self.IFgain, *args,save_scans=save_scans,**kwargs)
                 scan_time = sequence._estimate_time() / sequence.averages.value
                 check_1stScan = True
                 while check_1stScan:
@@ -351,7 +351,7 @@ class PyEPRControlInterface(Interface):
                         test_IF = False
         elif (IFgain is not None) and isinstance(IFgain, (int, float)):
             
-            self._launch(sequence,savename,IFgain, *args,**kwargs)
+            self._launch(sequence,savename,IFgain, *args,save_scans=save_scans,**kwargs)
 
         else:
             raise ValueError(f"IFgain must be of type [None, bool, int, float]. Type {type(IFgain)}_{IFgain} is not valid.")
