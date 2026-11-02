@@ -163,7 +163,7 @@ class dummyInterface(Interface):
 
 
         self.mode = self.dummyResonator.mode
-        super().__init__(self.config,log=hw_log)
+        super().__init__(self.config, log=hw_log)
 
     def launch(self, sequence, savename: str, **kwargs):
         hw_log.info(f"Launching {sequence.name} sequence")
