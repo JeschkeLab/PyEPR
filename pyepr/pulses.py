@@ -937,6 +937,7 @@ class GaussianPulse(Pulse):
         pass
 
     def func(self, ax):
+        ax -= self.tp.value / 2 # Shift the axis to center the Gaussian pulse
         nx = ax.shape[0]
         sigma = self.FWHM.value / (2 * np.sqrt(2 * np.log(2)))
         AM = np.exp(-ax**2 / (2 * sigma**2))
