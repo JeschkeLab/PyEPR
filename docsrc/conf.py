@@ -38,7 +38,8 @@ extensions = ['sphinx.ext.viewcode',
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
+                    'examples']  # gallery sources; sphinx-gallery renders them into auto_examples
 
 # -- Options for autoapi.extension -------------------------------------------
 # https://sphinx-autoapi.readthedocs.io/en/latest/config.html
@@ -54,7 +55,7 @@ autoapi_keep_files = True
 autoapi_add_toctree_entry = False
 autoapi_python_class_content= "both"
 autoapi_python_use_implicit_namespaces = True
-autoapi_own_page_level = 'class'
+autoapi_own_page_level = 'function'
 autoapi_options = ['members',
                    'undoc-members',
                    'show-inheritance',
@@ -65,6 +66,7 @@ sphinx_gallery_conf = {
      'examples_dirs': 'examples',   # path to your example scripts
      'gallery_dirs': 'auto_examples',  # path to where to save gallery generated output
      'filename_pattern': r'.*\.py',
+     'subsection_order': ['examples/advanced_sequences', 'examples/tools', '*'],
 }
 
 # -- Options for HTML output -------------------------------------------------
@@ -72,10 +74,14 @@ sphinx_gallery_conf = {
 
 html_theme = 'furo'
 html_static_path = ['_static']
+html_css_files = ['autoapi.css']
 html_theme_options = {
     # "announcement": "Version 0.7 out now!",
     "light_logo": "pyepr_logo_light.svg",
     "dark_logo": "pyepr_logo_dark.svg",
+    "source_repository": "https://github.com/jeschkelab/PyEPR/",
+    "source_branch": "main",
+    "source_directory": "docsrc/",
 
 }
 favicons = [
@@ -83,3 +89,19 @@ favicons = [
     "favicon_32x32.png",
     "icon.svg",
 ]
+
+
+def setup(app):
+    # sphinx-autoapi 2.0.1 ignores autosummary's :nosignatures: option on Sphinx >= 9,
+    # which expects get_items() to return None as the signature when it is set.
+    from autoapi.directives import AutoapiSummary
+
+    class AutoapiSummaryNoSig(AutoapiSummary):
+        def get_items(self, names):
+            items = super().get_items(names)
+            if 'nosignatures' in self.options or self.options.get('signatures') == 'none':
+                items = [(name, None, summary, real_name)
+                         for name, _sig, summary, real_name in items]
+            return items
+
+    app.add_directive('autoapisummary', AutoapiSummaryNoSig, override=True)

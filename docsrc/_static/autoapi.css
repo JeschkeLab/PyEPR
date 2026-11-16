@@ -1,0 +1,23 @@
+/* "Attributes" / "Methods" headings on class pages (_templates/autoapi/python/class.rst).
+   Styled as section headings so they stand apart from docstring rubrics such as "Examples". */
+p.rubric.autoapi-member-heading {
+    font-size: 1.25em;
+    margin-top: 2rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--color-background-border);
+}
+
+/* Summary tables on API_docs.rst (its top section has class "api-docs"): full width with
+   a fixed first column, so every table on the page lines up. */
+section.api-docs table.autosummary {
+    width: 100%;
+    table-layout: fixed;
+}
+section.api-docs table.autosummary td:first-child {
+    width: 40%;
+}
+
+/* "Inherited from X: a, b, c" link lists under those headings. */
+div.autoapi-inherited {
+    margin-top: 1rem;
+}

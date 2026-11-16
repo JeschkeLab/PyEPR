@@ -87,7 +87,7 @@ fieldsweep.plot()
         .. code-block:: python
 
             tm_data = epr.eprload('path/to/tm_datafile.h5')
-            t2_analysis = epr.HahnEchoRelaxationAnalysis(t2_data)
+            t2_analysis = epr.HahnEchoRelaxationAnalysis(tm_data)
             # Calculate T2 relaxation time
             t2_result = t2_analysis.fit()
             # Plot the results

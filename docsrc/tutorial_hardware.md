@@ -1,8 +1,9 @@
 # Interfacing with Hardware
 
 PyEPR has been designed to interface with a range of different EPR spectrometers, providing a hardware abstraction layer that allows users to write experiments in a hardware-agnostic manner. Currently, PyEPR supports the following hardware interfaces:
-    - Bruker ElexSys AWG based spectrometers
-    - ETH Zürich Matlab based homebuilt spectrometers
+
+- Bruker ElexSys AWG based spectrometers
+- ETH Zürich Matlab based homebuilt spectrometers
 
 For homebuilt spectrometers, there can be additional packages required. Please refer to the respective hardware interface documentation for more details.
 
@@ -82,8 +83,9 @@ This is done as an amplitude sweep, either as a Hahn Echo (`amp_hahn`) or more c
 When a hole-burning recovery experiment is used, a pair of on-resonance rectangular pulses are first created using the `tune_rectpulse` method.
 
 ```python
-from pyepr.pulses import GaussPulse
-pulse = GaussPulse(tp=32, freq=0, flipangle=np.pi)  # Create a Gaussian pulse with length 32 ns
+import numpy as np
+from pyepr.pulses import GaussianPulse
+pulse = GaussianPulse(tp=32, freq=0, flipangle=np.pi)  # Create a Gaussian pulse with length 32 ns
 tuned_pulse = interface.tune_pulse(
                                      pulse,
                                      'amp_nut',
