@@ -185,7 +185,10 @@ def create_dataset_from_bruker(filepath):
 
 @xr.register_dataarray_accessor("epr")
 class EPRAccessor:
-
+    """
+    Xarray accessor for EPR datasets. Provides methods for saving, phase correction, normalization, FFT, and more.
+    These can be accessed via the `.epr` attribute of an xarray DataArray object. E.g. `dataset.epr.save('filename.h5')`
+    """
     def __init__(self, xarray_obj):
         self._obj = xarray_obj
 
@@ -229,7 +232,10 @@ class EPRAccessor:
 
 
     @property
-    def correctphase(self):
+    def correctphase(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 corr_data = correctphase(self._obj.data)
@@ -240,11 +246,17 @@ class EPRAccessor:
     
     @property
     def normalise(self):
+        """
+        In-place normalisation of the dataset to the maximum absolute value of the data.
+        """
         self._obj.data = self._obj.data / np.abs(self._obj.data).max()
         return self._obj
     
     @property
-    def correctphasefull(self):
+    def correctphasefull(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function and keeps the real and imaginary parts of the data.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 Re,Im,_ = correctphase(self._obj.data,full_output=True)
@@ -254,13 +266,19 @@ class EPRAccessor:
         return new_obj
 
     @property
-    def SNR(self):
+    def SNR(self)->float:
+        """
+        Calculate the signal-to-noise ratio of the dataset using the DeerLab der_snr function.
+        """
         from deerlab import der_snr
         norm_data = self._obj.data / np.abs(self._obj.data).max()
         return 1/der_snr(norm_data)
 
     @property
     def fft(self):
+        """
+        Calculate the FFT of the dataset and returns a new dataset with the FFT applied.
+        """
         new_obj = copy.deepcopy(self._obj)
         new_obj.data = fft.fftshift(fft.fft(self._obj.data))
         new_coords = {}
@@ -278,7 +296,8 @@ class EPRAccessor:
     
     
     @property
-    def sequence(self):
+    def sequence(self)->Sequence:
+        """Extracts the PyEPR Sequence object from the dataset attributes and coordinates."""
         dataset_attrs = self._obj.attrs
         dataset_coords = self._obj.coords
 
@@ -397,7 +416,8 @@ class EPRAccessor:
 
 def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampling_rate=None,**kwargs):
     """
-    Downconvert a dataset to baseband using a filter	
+    Downconvert a dataset to baseband using a filter
+
     Parameters
     ----------
     dataset : xr.DataArray
