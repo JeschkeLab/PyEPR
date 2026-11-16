@@ -402,7 +402,7 @@ class ResonatorProfileAnalysis:
             axs[1].text(0.02, 0.95, textstr, transform=axs[1].transAxes, fontsize=11,
                     verticalalignment='top', bbox=props)
 
-            axs[0].set_ylim(*axs[1].get_ylim())
+            axs[0].set_ylim(*axs[0].get_ylim())
             axs[0].vlines(self.fc,*axs[0].get_ylim(),ls='--',color='0.7',lw=2)
 
             axs[1].set_ylim(*axs[1].get_ylim())
