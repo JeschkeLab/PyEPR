@@ -1,4 +1,6 @@
-from pyepr import Sequence, Parameter, Detection, ChirpPulse, RectPulse
+from pyepr.sequences import Sequence
+from pyepr.classes import Parameter
+from pyepr.pulses import Detection, ChirpPulse, RectPulse
 
 class LoSweepTuneSequence(Sequence):
 
