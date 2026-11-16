@@ -59,22 +59,27 @@ class Parameter:
         Examples
         --------
         Creating a static parameter
-        ```
-        Par1 = Parameter(
-            name="Par1", value=10, unit="us", description="The first parameter")
-        ```
+
+        .. code-block:: python
+
+            Par1 = Parameter(
+                name="Par1", value=10, unit="us", description="The first parameter")
+
         Creating a dynamic parameter
-        ```
-        Par1 = Parameter(
-            name="Par1", value=10, unit="us", description="The first parameter",
-            axis=np.arange(0,10,1), axis_id=0)
-        ```
+
+        .. code-block:: python
+
+            Par1 = Parameter(
+                name="Par1", value=10, unit="us", description="The first parameter",
+                axis=np.arange(0,10,1), axis_id=0)
 
         Adding a parameter and a number:
-        ```
-        Par1 = Parameter(
-            name="Par1", value=10, unit="us", description="The first parameter")
-        Par2 = Par1 + 2
+
+        .. code-block:: python
+
+            Par1 = Parameter(
+                name="Par1", value=10, unit="us", description="The first parameter")
+            Par2 = Par1 + 2
         """
 
         self.name = name
@@ -330,7 +335,7 @@ class Parameter:
                     # a_ax_ids:list = self.ax_id
                     a_ax_ids:list = [self.axis[i]["uuid"] for i in range(len(self.axis))]
                     # b_ax_ids:list = __o.ax_id
-                    b_ax_ids:list = [__o.axis[i]["uuid"] for i in range(len(self.__o))]
+                    b_ax_ids:list = [__o.axis[i]["uuid"] for i in range(len(self.__o.axis))]
                     ab_ax_ids = list(set(a_ax_ids + b_ax_ids))
                     for id in ab_ax_ids:
                         if id not in b_ax_ids: # I.e. only in A
@@ -408,7 +413,7 @@ class Parameter:
                     # a_ax_ids:list = self.ax_id
                     a_ax_ids:list = [self.axis[i]["uuid"] for i in range(len(self.axis))]
                     # b_ax_ids:list = __o.ax_id
-                    b_ax_ids:list = [__o.axis[i]["uuid"] for i in range(len(self.__o))]
+                    b_ax_ids:list = [__o.axis[i]["uuid"] for i in range(len(self.__o.axis))]
                     ab_ax_ids = list(set(a_ax_ids + b_ax_ids))
                     for id in ab_ax_ids:
                         if id not in b_ax_ids: # I.e. only in A
@@ -444,7 +449,7 @@ class Parameter:
 
         elif isinstance(__o, numbers.Number):
             new_value = self.value * __o
-            new_name = f"{self.name} + {__o}"
+            new_name = f"{self.name} * {__o}"
             new_parameter = Parameter(
                 name=new_name, value=new_value, unit=self.unit)
             if self.axis is not []:

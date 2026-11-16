@@ -93,10 +93,6 @@ def compute_magnetization_trajectory(Upulses, density0):
     return Mag
 
 class Pulse:
-    """
-    Represents a general experimental pulse.
-    """
-
     def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=None,
                  name=None, **kwargs) -> None:
         """The class for a general pulse.
@@ -1041,7 +1037,7 @@ class FrequencySweptPulse(Pulse):
 class HSPulse(FrequencySweptPulse):
     def __init__(self, *, tp=128, order1=1, order2=6, beta=20, **kwargs) -> None:
         r"""
-        Represents a hyperboilc secant frequency-swept pulse.
+        Represents a non-symetric hyperboilc secant frequency-swept pulse.
 
         The amplitude and frequency modulation functions are defined as:
 
@@ -1101,11 +1097,14 @@ class HSPulse(FrequencySweptPulse):
         """
 
         FrequencySweptPulse.__init__(self, tp=tp, name='HSPulse', **kwargs)
-        self.order1 = Parameter(
+        self.order1: Parameter = Parameter(
             "order1", order1, None, "Order 1 of the HS Pulse")
-        self.order2 = Parameter(
+        """The order of the hyperbolic secant function for the first half of the pulse"""
+        self.order2: Parameter = Parameter(
             "order2", order2, None, "Order 2 of the HS Pulse")
-        self.beta = Parameter("beta", beta, None, "Beta of the HS Pulse")
+        """The order of the hyperbolic secant function for the first half of the pulse"""
+        self.beta: Parameter = Parameter("beta", beta, None, "Beta of the HS Pulse")
+        """The beta parameter of the hyperbolic secant function"""
 
         self._buildFMAM(self.func)
         pass
@@ -1150,9 +1149,7 @@ class HSPulse(FrequencySweptPulse):
     def sweeprate(self):
         """ The sweep rate of the pulse in GHz/ns"""
         sweeprate_value = self.beta.value * self.bandwidth.value / (2*self.tp.value)
-        return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
-    
-        
+        return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")    
 
 # =============================================================================
 

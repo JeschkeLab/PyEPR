@@ -4,6 +4,12 @@ from scipy.sparse import bsr_array
 import uuid
 import base64
 
+__all__ = [
+    'build_table', 'sop', 'transpose_dict_of_list', 'transpose_list_of_dicts',
+    'save_file', 'autoEPRDecoder', 'gcd', 'val_in_us', 'val_in_ns',
+    'add_phaseshift', 'round_step',
+]
+
 
 def build_table(source, params, params_widths):
     string = ""

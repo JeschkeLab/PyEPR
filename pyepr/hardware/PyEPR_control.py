@@ -157,7 +157,8 @@ class PyEPRControlInterface(Interface):
         
     def get_buffer(self,verbosity=0,sum_scans=True, **kwargs):
         """
-        Returns the current scan from the spectrometer buffer. 
+        Returns the current scan from the spectrometer buffer.
+
         Parameters
         ----------
         verbosity : int, optional

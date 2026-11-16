@@ -15,18 +15,8 @@ hw_log = logging.getLogger('interface.Xepr')
 
 header = "; " + "-" * 79 + "\n"
 header += "; " + \
-     f"Auto-generated PulseSpel {{}} file by autoDEER {__version__}\n"
+     f"Auto-generated PulseSpel {{}} file by PyEPR {__version__}\n"
 header += "; " + "-" * 79 + "\n"
-
-
-def get_specjet_data(interface):
-    n_points  = interface.api.hidden['specJet.Data'].aqGetParDimSize(0)
-    array = np.zeros(n_points,dtype=np.complex128)
-    for i in range(n_points):
-        array[i] = interface.api.hidden['specJet.Data'][i] + 1j* interface.api.hidden['specJet.Data1'][i]
-
-    return array
-
 
 # =============================================================================
 
@@ -220,10 +210,12 @@ class PSparvar:
         pass
 
     def checkPulseSpel(self) -> bool:
-        """Checks if parvar can be run in PulseSpel.\\
+        """Checks if parvar can be run in PulseSpel.
+
         Criteria:
-            1) Only pulse/delay lengths changing
-            2) Constant integer step changes
+
+        1) Only pulse/delay lengths changing
+        2) Constant integer step changes
 
         Returns
         -------
