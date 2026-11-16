@@ -1,8 +1,7 @@
-from pyepr.ResPro import *
-from pyepr.hardware.dummy import _similate_respro
+from pyepr.resonator_profile_analysis import *
 from pyepr.sequences import ResonatorProfileSequence
 from pyepr.dataset import create_dataset_from_sequence, create_dataset_from_axes
-from pyepr.FieldSweep import create_Nmodel, FieldSweepAnalysis
+from pyepr.fieldsweep_analysis import create_Nmodel, FieldSweepAnalysis
 import pytest
 import numpy as np
 from pyepr import ResonatorProfileAnalysis
@@ -19,7 +18,7 @@ def test_ResonatorProfileAnalysis_from_sim():
     seq = ResonatorProfileSequence(B=12220,LO=34,reptime=3e3,averages=1,shots=50,fwidth=0.3)
 
 
-    [tp_x, LO_axis], data = _similate_respro(seq,mode_fun)
+    [tp_x, LO_axis], data = seq.simulate(Q=60, fc=34.0)
 
     dset = create_dataset_from_sequence(data,seq)
 

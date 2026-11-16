@@ -4,6 +4,8 @@ from pyepr.utils import build_table
 import pytest
 import numpy as np
 
+from pyepr.sequences.DEER import FourPulseDEERSequence, FivePulseDEERSequence, ThreePulseDEERSequence
+
 def test_fieldsweep_simulate():
     
     N_gyro = 0.002803632236095
@@ -83,3 +85,37 @@ def test_linked_phase_cycle():
 
     table = build_table([exc, ref, det], ['iD', 'Phase Cycle'], ['4', '40'])
     assert "linked to pulse 0" in table
+
+
+def test_FourPulseDEERSequence():
+    N_gyro = 0.002803632236095
+    freq = 34
+
+    seq = FourPulseDEERSequence(
+        B=freq/N_gyro,
+        freq=freq,
+        reptime=3e3,
+        averages=1,
+        shots=10,
+        tau1=0.4,
+        tau2=4,
+        step=8,
+        start=0.28,
+        phase_cycle='16-step'
+    )
+
+    
+
+    assert seq.tau1.value == 0.4
+    assert seq.tau2.value == 4
+
+    assert seq.t.get_axis().shape[0] == 501
+    assert seq.t.get_axis()[0] == 0.28
+    assert seq.t.get_axis()[-1] == 4.28
+
+    assert seq.pulses[2].t.get_axis()[0] == 800 + 280
+
+
+    axes, data = seq.simulate()
+
+
