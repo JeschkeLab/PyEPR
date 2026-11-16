@@ -13,7 +13,7 @@ from scipy.io.matlab import MatReadError
 from pyepr.utils import transpose_list_of_dicts
 from pyepr.hardware.ETH_awg_load import uwb_eval_match
 from pyepr.utils import save_file, transpose_list_of_dicts, transpose_dict_of_list
-from pyepr import create_dataset_from_sequence
+from pyepr.dataset import create_dataset_from_sequence
 import datetime
 import copy
 import threading

@@ -11,6 +11,12 @@ from pyepr.dataset import create_dataset_from_axes
 import xarray as xr
 from pyepr.colors import primary_colors
 
+__all__ = [
+    'phase_correct_respro', 'ResonatorProfileAnalysis', 'ceil', 'floor',
+    'calc_overlap', 'BSpline_extra', 'optimise_spectra_position',
+    'AmplifierLinearityAnalysis',
+]
+
 # def phase_correct_respro(data_array):
 #     Vre, Vim, ph = dl.correctphase(data_array.values,full_output=True)
 #     index =  np.argmax(np.abs(Vre),axis=0)

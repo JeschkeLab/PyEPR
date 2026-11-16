@@ -1,5 +1,5 @@
 import numpy as np
-from pyepr import __version__
+from pyepr._version import __version__
 import copy
 import numbers
 import uuid

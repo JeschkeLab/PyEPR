@@ -1,7 +1,6 @@
 from pyepr.classes import *
 from pyepr.dataset import *
 from pyepr.sequences import *
-from pyepr.hardware.dummy import _simulate_field_sweep, _simulate_T2
 import numpy as np
 from scipy.signal import hilbert
 import pytest

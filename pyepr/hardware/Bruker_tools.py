@@ -5,7 +5,7 @@ import numpy as np
 import re
 import time
 import importlib
-from pyepr import __version__
+from pyepr._version import __version__
 import os
 import logging
 

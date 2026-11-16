@@ -9,10 +9,18 @@ import json
 import base64
 import matplotlib.pyplot as plt
 import scipy.fft as fft
-from pyepr import __version__
+from pyepr._version import __version__
 import copy
 from functools import reduce
 from itertools import accumulate
+
+__all__ = [
+    'compute_upulses_not_trajectory', 'compute_upulses_trajectory',
+    'compute_magnetization_not_trajectory', 'compute_magnetization_trajectory',
+    'Pulse', 'Detection', 'Delay', 'RectPulse', 'GaussianPulse',
+    'FrequencySweptPulse', 'HSPulse', 'ChirpPulse', 'WURSTPulse', 'SincPulse',
+    'CPMGDetection', 'build_default_pulses',
+]
 
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape

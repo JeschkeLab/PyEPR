@@ -5,7 +5,7 @@ from pyepr.hardware.XeprAPI_link import XeprAPILink
 from pyepr.hardware.Bruker_tools import PulseSpel, run_general,build_unique_progtable,PSPhaseCycle, write_pulsespel_file
 from pyepr.sequences import Sequence, HahnEchoSequence
 from pyepr.utils import save_file, transpose_list_of_dicts, transpose_dict_of_list, round_step
-from pyepr import create_dataset_from_sequence, create_dataset_from_axes
+from pyepr.dataset import create_dataset_from_sequence, create_dataset_from_axes
 
 import tempfile
 import time

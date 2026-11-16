@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import scipy.fft as fft
-from pyepr import __version__
+from pyepr._version import __version__
 from pyepr.pulses import Detection, Pulse
 from pyepr.classes import Parameter
 from pyepr.sequences import Sequence
@@ -12,6 +12,12 @@ from deerlab import correctphase
 from deerlab import deerload
 import copy
 import datetime
+
+__all__ = [
+    'get_all_axes', 'get_all_fixed_param', 'create_dataset_from_sequence',
+    'create_dataset_from_axes', 'create_dataset_from_bruker', 'EPRAccessor',
+    'downconvert_dataset', 'find_peak', 'save_bruker',
+]
 
 # =============================================================================
 

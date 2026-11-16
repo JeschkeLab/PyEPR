@@ -5,6 +5,8 @@ from deerlab import noiselevel
 import logging
 import datetime
 
+__all__ = ['Criteria', 'TimeCriteria', 'SNRCriteria']
+
 
 log = logging.getLogger('interface')
 class Criteria:
