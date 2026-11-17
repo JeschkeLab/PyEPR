@@ -47,7 +47,7 @@ Relxation Sequences
     pyepr.sequences.HahnEchoRelaxationSequence
     pyepr.sequences.CarrPurcellSequence
     pyepr.sequences.T1InversionRecoverySequence
-    pyepr.sequences.ReptimeScan
+    pyepr.sequences.ReptimeScanSequence
 
 Dipolar EPR Sequences
 +++++++++++++++++++++
@@ -55,7 +55,9 @@ Dipolar EPR Sequences
 
 .. autoapisummary::
 
+   pyepr.sequences.DEER.ThreePulseDEERSequence
    pyepr.sequences.DEER.FourPulseDEERSequence
+   pyepr.sequences.DEER.FivePulseDEERSequence
 
 Hyperfine Spectroscopy Sequences
 ++++++++++++++++++++++++++++++++

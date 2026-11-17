@@ -134,3 +134,5 @@ poetry.lock
 *.lock
 
 docsrc/auto_examples/
+
+_pulsespel_output/

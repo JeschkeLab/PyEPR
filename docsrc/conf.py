@@ -67,6 +67,7 @@ sphinx_gallery_conf = {
      'gallery_dirs': 'auto_examples',  # path to where to save gallery generated output
      'filename_pattern': r'.*\.py',
      'subsection_order': ['examples/advanced_sequences', 'examples/tools', '*'],
+     'remove_config_comments': True,  # hide "# sphinx_gallery_..." settings from rendered code
 }
 
 # -- Options for HTML output -------------------------------------------------
@@ -74,7 +75,7 @@ sphinx_gallery_conf = {
 
 html_theme = 'furo'
 html_static_path = ['_static']
-html_css_files = ['autoapi.css']
+html_css_files = ['autoapi.css', 'gallery.css']
 html_theme_options = {
     # "announcement": "Version 0.7 out now!",
     "light_logo": "pyepr_logo_light.svg",
