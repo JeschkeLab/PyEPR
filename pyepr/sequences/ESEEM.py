@@ -100,7 +100,7 @@ class ThreePulseESEEMSequence(Sequence):
 
         self.evolution([self.T])
 
-    def _simulate(self):
+    def simulate(self):
         raise NotImplementedError("Simulation for Three Pulse ESEEM is not implemented yet.")
 
     
