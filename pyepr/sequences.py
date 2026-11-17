@@ -1,5 +1,5 @@
 from pyepr.classes import Parameter
-from pyepr.pulses import Pulse, Detection, Delay, RectPulse
+from pyepr.pulses import Pulse, Detection, Delay, RectPulse, ChirpPulse
 from pyepr.utils import val_in_ns, val_in_us, add_phaseshift, _gen_ESEEM
 from pyepr.fieldsweep_analysis import create_Nmodel
 import pyepr.pulses as ad_pulses
@@ -1613,8 +1613,16 @@ class KBBSequence(Sequence):
             _description_, by default 1
         shots : int, optional
             _description_, by default 100
-        dtp : int, optional
-            _description_, by default 2
+        pi2_pulse : Pulse, optional
+            A PyEPR Pulse object describing the excitation pi/2 pulse. 
+            If missing a ChirpPulse without amplitude will be created instead, with frequency sweep of -50 to 50 MHz and duration of 200 ns.
+        pi_pulse : Pulse, optional
+            A PyEPR Pulse object describing the refocusing pi pulses. 
+            If missing a ChirpPulse without amplitude will be created instead, with frequency sweep of -50 to 50 MHz and duration of 100 ns.
+        det_event : Detection, optional
+            A PyEPR Detection object describing the detection event.
+        tau : float, optional
+            The interpulse delay in ns, by default 500 ns
         """
         name = "KBBSequence"
         super().__init__(
@@ -1626,6 +1634,16 @@ class KBBSequence(Sequence):
         self._build_sequence()
 
     def _build_sequence(self,):
+
+        tau_value = self.kwargs.get("tau",500) #500
+        pi2_pulse = self.kwargs.get("pi2_pulse",ChirpPulse(tp=200,freq=0,flipangle=np.pi/2, init_freq=-0.05, final_freq=0.05))
+        pi_pulse = self.kwargs.get("pi_pulse",ChirpPulse(tp=100,freq=0,flipangle=np.pi, init_freq=-0.05, final_freq=0.05))
+        
+        self.addPulse(pi2_pulse.copy(t=0, pcyc={"phases":[0, np.pi], "dets": [1,-1]}))
+        self.addPulse(pi_pulse.copy(t=tau_value, pcyc={"phases":[0], "dets": [1]}))
+        self.addPulse(Detection(t=2*tau_value, tp=512))
+
+        self.evolution([])
         pass
 
 # =============================================================================
