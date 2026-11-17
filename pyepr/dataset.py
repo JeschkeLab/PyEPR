@@ -14,7 +14,7 @@ import copy
 import datetime
 
 __all__ = [
-    'get_all_axes', 'get_all_fixed_param', 'create_dataset_from_sequence',
+    'get_all_axes', 'get_all_fixed_param', 'get_phase_cycle_attrs', 'create_dataset_from_sequence',
     'create_dataset_from_axes', 'create_dataset_from_bruker', 'EPRAccessor',
     'downconvert_dataset', 'find_peak', 'save_bruker',
 ]
@@ -99,6 +99,31 @@ def get_all_fixed_param(sequence):
         fixed_param['pcyc_name'] = sequence.pcyc_name
     return fixed_param
 
+def get_phase_cycle_attrs(sequence):
+    """
+    Collect the phase cycle of a sequence as dataset attributes.
+
+    Stores the per-pulse phases and detection signs (``pulse{i}_pcyc_phases``,
+    ``pulse{i}_pcyc_dets``) as well as the full built phase cycle of the
+    sequence (``pcyc_vars``, ``pcyc_cycles``, ``pcyc_dets``).
+    """
+    pcyc_attrs = {}
+    for i, pulse in enumerate(sequence.pulses):
+        pcyc = getattr(pulse, 'pcyc', None)
+        if pcyc is None:
+            continue
+        type = "det" if isinstance(pulse, Detection) else "pulse"
+        pcyc_attrs[f"{type}{i}_pcyc_phases"] = np.asarray(pcyc["Phases"])
+        pcyc_attrs[f"{type}{i}_pcyc_dets"] = np.asarray(pcyc["DetSigns"])
+
+    if hasattr(sequence, 'pcyc_vars'):
+        pcyc_attrs['pcyc_vars'] = np.asarray(sequence.pcyc_vars, dtype=int)
+    if hasattr(sequence, 'pcyc_cycles'):
+        pcyc_attrs['pcyc_cycles'] = np.asarray(sequence.pcyc_cycles)
+    if hasattr(sequence, 'pcyc_dets'):
+        pcyc_attrs['pcyc_dets'] = np.asarray(sequence.pcyc_dets)
+    return pcyc_attrs
+
 def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     ndims = data.ndim
     default_labels = ['X','Y','Z','T']
@@ -106,6 +131,7 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     axes = get_all_axes(sequence)
     coords = {a:(default_labels[b['ax_id']],b['axis']) for a,b in axes.items()}
     attr = get_all_fixed_param(sequence)
+    attr.update(get_phase_cycle_attrs(sequence))
     attr.update(extra_params)
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
@@ -345,12 +371,30 @@ class EPRAccessor:
             
             try:
                 pulse_build = getattr(epr_pulses,pulse_type)
-                pulses_obj.append(pulse_build(**params))
+                pulse_obj = pulse_build(**params)
             except:
                 continue
-       
+
+            # netCDF stores one-element attributes as scalars, so re-wrap them
+            if f"{key}{i}_pcyc_phases" in dataset_attrs:
+                phases = np.atleast_1d(dataset_attrs[f"{key}{i}_pcyc_phases"])
+                dets = np.atleast_1d(dataset_attrs.get(f"{key}{i}_pcyc_dets", np.ones(len(phases))))
+                pulse_obj._addPhaseCycle(phases, detections=dets)
+            pulses_obj.append(pulse_obj)
+
         sequence = Sequence(**seq_params)
         sequence.pulses = pulses_obj
+        sequence._buildPhaseCycle()
+
+        # Restore the saved sequence-level phase cycle, which also preserves
+        # linked pulses. Only valid if every pulse was rebuilt (indices match).
+        if all(k in dataset_attrs for k in ['pcyc_vars', 'pcyc_cycles', 'pcyc_dets']) and len(pulses_obj) == n_events:
+            pcyc_vars = np.atleast_1d(dataset_attrs['pcyc_vars']).astype(int)
+            if len(pcyc_vars) == 0:
+                return sequence
+            sequence.pcyc_vars = pcyc_vars.tolist()
+            sequence.pcyc_cycles = np.atleast_1d(dataset_attrs['pcyc_cycles']).reshape(-1, len(pcyc_vars))
+            sequence.pcyc_dets = np.atleast_1d(dataset_attrs['pcyc_dets'])
 
         return sequence
 
