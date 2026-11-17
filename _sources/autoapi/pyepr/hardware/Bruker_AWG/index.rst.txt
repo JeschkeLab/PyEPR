@@ -28,6 +28,11 @@ Classes
 Functions
 ---------
 
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/Bruker_AWG/test_if_MPFU_compatability
+
 .. autoapisummary::
 
    pyepr.hardware.Bruker_AWG.test_if_MPFU_compatability
@@ -37,6 +42,4 @@ Module Contents
 ---------------
 
 .. py:data:: hw_log
-
-.. py:function:: test_if_MPFU_compatability(seq)
 

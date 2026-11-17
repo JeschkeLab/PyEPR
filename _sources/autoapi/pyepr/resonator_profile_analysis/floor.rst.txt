@@ -1,0 +1,6 @@
+pyepr.resonator_profile_analysis.floor
+======================================
+
+.. py:currentmodule:: pyepr.resonator_profile_analysis
+
+.. py:function:: floor(number, decimals=0)

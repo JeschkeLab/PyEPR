@@ -1,7 +1,9 @@
 pyepr.ChirpPulse
 ================
 
-.. py:class:: pyepr.ChirpPulse(*, tp=128, rise_time=10, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: ChirpPulse(*, tp=128, rise_time=10, **kwargs)
 
    Bases: :py:obj:`FrequencySweptPulse`
 
@@ -9,19 +11,37 @@ pyepr.ChirpPulse
    Represents a linear frequency-swept pulse.
 
 
-   The class for a general pulse.
+
 
 
    :Parameters:
 
        **tp** : float
-           The pulse length in ns.
+           Pulse length in ns
 
-       **scale** : float
-           The arbitary experimental pulse amplitude, 0-1.
+       **init_freq** : float, optional
+           The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **final_freq** : float, optional
+           The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **BW** : float, optional
+           The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **freq** : float, optional
+           The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **scale** : float, optional
+           The scale of the pulse, by default None
+
+       **rise_time** : float, optional
+           The quarter sine wave rise time of the pulse in ns, by default 10
 
        **t** : float, optional
-           The pulse start time in ns.
+           The time position of the pulse, by default None
+
+       **flipangle** : float, optional
+           The flip angle of the pulse in radians, by default None
 
 
 
@@ -35,15 +55,26 @@ pyepr.ChirpPulse
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import matplotlib.pyplot as plt
+
+       pulse = epr.ChirpPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1)
+       pulse.plot(pad=100)
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: rise_time
-
-
-   .. py:method:: func(ax)
 
 
    .. py:property:: sweeprate
@@ -68,4 +99,29 @@ pyepr.ChirpPulse
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:attr:`~pyepr.pulses.FrequencySweptPulse.Qcrit`, :py:attr:`~pyepr.pulses.FrequencySweptPulse.amp_factor`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: func(ax)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:meth:`~pyepr.pulses.FrequencySweptPulse.flip`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

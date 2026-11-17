@@ -1,7 +1,13 @@
 pyepr.hardware.Bruker_tools.PulseSpel
 =====================================
 
-.. py:class:: pyepr.hardware.Bruker_tools.PulseSpel(sequence, d0, MPFU=None, AWG=False)
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:class:: PulseSpel(sequence, d0, MPFU=None, AWG=False)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: possible_delays
       :value: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15',...
@@ -59,44 +65,11 @@ pyepr.hardware.Bruker_tools.PulseSpel
 
 
 
-   .. py:method:: _new_delay(key)
 
-
-   .. py:method:: _new_var(key)
-
-
-   .. py:method:: _new_pulse(key)
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: save(filepath)
 
-
-   .. py:method:: _addDef(str)
-
-
-   .. py:method:: _addExp(str)
-
-
-   .. py:method:: _ExpDefs()
-
-
-   .. py:method:: _addScanLoop()
-
-
-   .. py:method:: _addPhaseCycle()
-
-
-   .. py:method:: _addAWGPulse(sequence, pulse_num, id)
-
-
-   .. py:method:: _check_sequence(sequence)
-
-
-   .. py:method:: _cmpl_Exp()
-
-
-   .. py:method:: _cmpl_def()
-
-
-   .. py:method:: __str__()
 

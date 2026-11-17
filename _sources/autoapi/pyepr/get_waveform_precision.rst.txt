@@ -1,0 +1,6 @@
+pyepr.get_waveform_precision
+============================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: get_waveform_precision()

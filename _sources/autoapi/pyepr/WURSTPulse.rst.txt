@@ -1,52 +1,93 @@
 pyepr.WURSTPulse
 ================
 
-.. py:class:: pyepr.WURSTPulse(*, tp=128, order=32, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: WURSTPulse(*, tp=128, order=32, **kwargs)
 
    Bases: :py:obj:`FrequencySweptPulse`
 
 
-       Represents a WURST frequency-swept pulse.
+   Represents a WURST frequency-swept pulse.
 
-       Equations:
+   Equations:
 
-       The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:
-       .. math::
-           AM(t) = 1 - \left|\sin\left(
-   rac{\pi}{tp} \cdot t
-   ight)
-   ight|^{order}
-       
-       .. math::
-           FM(t) = 
-   rac{BW t}{tp} + init\_freq
-       where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`init_freq` is the initial frequency of the pulse, and :math:`order` is the order of the WURST pulse.
+   The amplitude :math:`AM` and frequency modulation :math:`FM` of the WURST pulse are defined as follows:
 
-       Parameters
-       ----------
-       tp : int, optional
-           Pulse length in ns, by default 128
-       order : int, optional
-           The order of the WURST pulse, by default 32
-       **kwargs : dict, optional
-           Additional keyword arguments to pass to the default pulse class.
+   .. math::
 
-       
+       AM(t) = 1 - \left|\sin\left(\frac{\pi}{tp} \cdot t\right)\right|^{n}
+
+   .. math::
+
+       FM(t) = \frac{BW \cdot t}{tp} + \nu_0
+
+   where :math:`t` is the time axis, :math:`tp` is the pulse length, :math:`BW` is the bandwidth, :math:`\nu_0` is the initial frequency of the pulse, and :math:`n` is the order of the WURST pulse.
 
 
-   The class for a general pulse.
+   Parameters
+   ----------
+   tp : float
+       Pulse length in ns
+   t : float, optional
+       The time position of the pulse, by default None
+   init_freq : float, optional
+       The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+   final_freq : float, optional
+       The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+   BW : float, optional
+       The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+   freq : float, optional
+       The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+   scale : float, optional
+       The scale of the pulse, by default None
+   flipangle : float, optional
+       The flip angle of the pulse in radians, by default None
+   order : int, optional
+       The order of the WURST pulse, by default 32
+
+
+   Examples
+   --------
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import matplotlib.pyplot as plt
+
+       pulse = epr.WURSTPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1,order=32)
+       pulse.plot(pad=100)
+
+
+
 
 
    :Parameters:
 
        **tp** : float
-           The pulse length in ns.
-
-       **scale** : float
-           The arbitary experimental pulse amplitude, 0-1.
+           Pulse length in ns
 
        **t** : float, optional
-           The pulse start time in ns.
+           The time position of the pulse, by default None
+
+       **init_freq** : float, optional
+           The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **final_freq** : float, optional
+           The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **BW** : float, optional
+           The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **freq** : float, optional
+           The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **scale** : float, optional
+           The scale of the pulse, by default None
+
+       **flipangle** : float, optional
+           The flip angle of the pulse in radians, by default None
 
 
 
@@ -65,10 +106,11 @@ pyepr.WURSTPulse
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: order
-
-
-   .. py:method:: func(ax)
 
 
    .. py:property:: sweeprate
@@ -93,4 +135,29 @@ pyepr.WURSTPulse
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:attr:`~pyepr.pulses.FrequencySweptPulse.Qcrit`, :py:attr:`~pyepr.pulses.FrequencySweptPulse.amp_factor`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: func(ax)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:meth:`~pyepr.pulses.FrequencySweptPulse.flip`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

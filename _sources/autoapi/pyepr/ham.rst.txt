@@ -1,0 +1,6 @@
+pyepr.ham
+=========
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: ham(SpinSystem, elspins=None, nucspins=None)

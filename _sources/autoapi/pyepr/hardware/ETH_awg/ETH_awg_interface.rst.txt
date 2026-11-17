@@ -1,9 +1,11 @@
 pyepr.hardware.ETH_awg.ETH_awg_interface
 ========================================
 
-.. py:class:: pyepr.hardware.ETH_awg.ETH_awg_interface(config_file, awg_freq=1.5, dig_rate=2)
+.. py:currentmodule:: pyepr.hardware.ETH_awg
 
-   Bases: :py:obj:`pyepr.classes.Interface`
+.. py:class:: ETH_awg_interface(config_file, awg_freq=1.5, dig_rate=2)
+
+   Bases: :py:obj:`pyepr.hardware.BaseInterfaceClass.Interface`
 
 
    Represents the interface for connecting to Andrin Doll style spectrometers.
@@ -37,6 +39,10 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: spec_config
@@ -81,6 +87,15 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
 
    .. py:property:: savefolder
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.config`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.savename`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.resonator`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.AWG`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: connect(session=None)
@@ -165,9 +180,6 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
       ..
           !! processed by numpydoc !!
-
-
-   .. py:method:: _wait_for_scan(target_scan=None)
 
 
    .. py:method:: get_buffer(verbosity=0, **kwargs)
@@ -287,7 +299,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
    .. py:method:: isrunning()
 
 
-   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, step=0.02, dim=45)
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, step=0.02, dim=45, **kwargs)
 
       
       Generates a rectangular pi and pi/2 pulse of the given length at 
@@ -341,7 +353,7 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
           !! processed by numpydoc !!
 
 
-   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400, step=0.02, dim=45)
+   .. py:method:: tune_pulse(pulse, mode, freq, B, reptime, shots=400, step=0.02, dim=45, **kwargs)
 
       
       Tunes a single pulse a range of methods.
@@ -397,56 +409,6 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
    .. py:method:: tune(*, sequence=None, mode='amp_hahn', freq=None, gyro=None)
 
 
-   .. py:method:: _build_exp_struct(sequence)
-
-
-   .. py:method:: _build_pulse(pulse)
-
-
-   .. py:method:: _build_phase_cycle(sequence)
-
-
-   .. py:method:: _build_parvar(id, sequence)
-
-      
-      This interface takes a dictionary called a parvar for all 
-      progressive elements. It is this object that controls how the
-      sequence changes with time.
-
-      .. note::
-          This interface interprets any change in `freq` as being a 
-          change in the IF frequency of all pulses and detections.
-           I.e. the physcial LO **does not** change. 
-
-      :Parameters:
-
-          **id** : _type_
-              _description_
-
-          **sequence** : _type_
-              _description_
-
-
-
-      :Returns:
-
-          dict
-              _description_
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
    .. py:method:: terminate()
 
       
@@ -469,4 +431,9 @@ pyepr.hardware.ETH_awg.ETH_awg_interface
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.rescale`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.terminate_at`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_RectPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_GaussianPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_KBBPulse`
 

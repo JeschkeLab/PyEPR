@@ -1,0 +1,6 @@
+pyepr.fieldsweep_analysis.ham_nz
+================================
+
+.. py:currentmodule:: pyepr.fieldsweep_analysis
+
+.. py:function:: ham_nz(SpinSystem, B=None, nspins=None)

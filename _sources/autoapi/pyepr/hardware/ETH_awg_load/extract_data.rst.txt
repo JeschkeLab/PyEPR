@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.extract_data
+========================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: extract_data(matfile, estr)

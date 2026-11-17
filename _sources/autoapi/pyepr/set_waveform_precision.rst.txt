@@ -1,0 +1,6 @@
+pyepr.set_waveform_precision
+============================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: set_waveform_precision(precision)

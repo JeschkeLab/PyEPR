@@ -1,0 +1,50 @@
+
+
+.. _sphx_glr_auto_examples_tools:
+
+Tools
+-----
+
+Examples of PyEPR's utilities for loading, plotting and handling data.
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="PyEPR can also be used to load CW EPR data files, for plotting and analysis in python.">
+
+.. only:: html
+
+  .. image:: /auto_examples/tools/images/thumb/sphx_glr_loading_cw_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/tools/loading_cw`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Loading a CW EPR file</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/tools/loading_cw
+

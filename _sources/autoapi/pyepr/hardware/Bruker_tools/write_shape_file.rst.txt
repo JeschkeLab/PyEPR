@@ -1,0 +1,47 @@
+pyepr.hardware.Bruker_tools.write_shape_file
+============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: write_shape_file(pulse, name = '', phase_shift=0, number=None, AWG_rate=1.6)
+
+   
+   Write a Bruker shape file for a given pulse.
+
+
+   :Parameters:
+
+       **pulse** : Pulse
+           The pulse to be converted.
+
+       **name** : str, optional
+           The name of the pulse, by default ""
+
+       **phase_shift** : int, optional
+           The phase shift of the pulse in radians, by default 0
+
+       **number** : int, optional
+           The number of the pulse, by default None
+
+       **AWG_rate** : float, optional
+           The sample rate of the AWG in GSa/s, by default 1.6 GSa/s for SpinJet-I    
+
+
+
+   :Returns:
+
+       str
+           The string for the shape file.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

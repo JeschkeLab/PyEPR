@@ -1,9 +1,11 @@
 pyepr.hardware.Bruker_MPFU.BrukerMPFU
 =====================================
 
-.. py:class:: pyepr.hardware.Bruker_MPFU.BrukerMPFU(config_file)
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
 
-   Bases: :py:obj:`pyepr.classes.Interface`
+.. py:class:: BrukerMPFU(config_file)
+
+   Bases: :py:obj:`pyepr.hardware.BaseInterfaceClass.Interface`
 
 
    Represents the interface for connecting to MPFU based Bruker ELEXSYS-II 
@@ -38,6 +40,10 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: api
@@ -95,6 +101,15 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
 
 
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.config`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.pulses`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.resonator`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.AWG`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: connect(d0=None)
 
 
@@ -123,9 +138,6 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
       ..
           !! processed by numpydoc !!
-
-
-   .. py:method:: _launch_complex_thread(sequence, axID=1, tune=True)
 
 
    .. py:method:: launch(sequence, savename, start=True, tune=True, MPFU_overwrite=None, update_pulsespel=True, reset_bg_data=True, reset_cur_exp=True, attenuator=0, **kwargs)
@@ -263,4 +275,9 @@ pyepr.hardware.Bruker_MPFU.BrukerMPFU
 
 
    .. py:method:: calc_d0_from_Hahn_Echo(B=None, freq=None)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.rescale`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.terminate_at`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_RectPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_GaussianPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_KBBPulse`
 

@@ -1,0 +1,56 @@
+pyepr.hardware.ETH_awg_load.uwb_eval_match
+==========================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: uwb_eval_match(matfile, sequence=None, scans=None, mask=None, filter_pulse=None, filter_type='match', filter_width=None, verbosity=0, corr_phase=False, **kwargs)
+
+   
+
+
+
+   :Parameters:
+
+       **matfile** : np.ndarray
+           The data file to be loaded.
+
+       **sequence** : ad.Sequence, optional
+           The sequence used to generate the data.
+
+       **scans** : list, optional
+           The scans to be loaded.
+
+       **mask** : list, optional
+           The mask to be used.
+
+       **filter_pulse** : epr.Pulse, optional
+           The pulse to be used as a matched filter. If None, the maximum pulse width will be used. This is only used if filter_type is 'match'
+
+       **filter_type** : str, optional
+           The type of filter to be used. Options are 'match', 'cheby2' and 'butter. Default is 'match'
+
+       **filter_width** : float, optional
+           The width of the filter to be used. This is only used if filter_type is 'cheby2' or 'butter'
+
+       **verbosity** : int, optional
+           The verbosity of the function. Default is 0.
+
+       **corr_phase: bool, optional**
+           If True each echo is idenpendently phased, if false then it is globally phased.
+           If a vector is applied then this is used phase them. Default is False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

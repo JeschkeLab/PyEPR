@@ -1,7 +1,9 @@
 pyepr.Parameter
 ===============
 
-.. py:class:: pyepr.Parameter(name, value, unit='', description='', virtual=False, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Parameter(name, value, unit='', description='', virtual=False, **kwargs)
 
    Represents a sequence or pulse parameter.
 
@@ -60,25 +62,34 @@ pyepr.Parameter
    .. rubric:: Examples
 
    Creating a static parameter
-   ```
-   Par1 = Parameter(
-       name="Par1", value=10, unit="us", description="The first parameter")
-   ```
+
+   .. code-block:: python
+
+       Par1 = Parameter(
+           name="Par1", value=10, unit="us", description="The first parameter")
+
    Creating a dynamic parameter
-   ```
-   Par1 = Parameter(
-       name="Par1", value=10, unit="us", description="The first parameter",
-       axis=np.arange(0,10,1), axis_id=0)
-   ```
+
+   .. code-block:: python
+
+       Par1 = Parameter(
+           name="Par1", value=10, unit="us", description="The first parameter",
+           axis=np.arange(0,10,1), axis_id=0)
 
    Adding a parameter and a number:
-   ```
-   Par1 = Parameter(
-       name="Par1", value=10, unit="us", description="The first parameter")
-   Par2 = Par1 + 2
+
+   .. code-block:: python
+
+       Par1 = Parameter(
+           name="Par1", value=10, unit="us", description="The first parameter")
+       Par2 = Par1 + 2
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: name
@@ -107,6 +118,14 @@ pyepr.Parameter
    .. py:attribute:: ax_id
       :value: []
 
+
+
+   .. py:property:: dim
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: add_axis(axis_id, axis)
@@ -148,43 +167,13 @@ pyepr.Parameter
           !! processed by numpydoc !!
 
 
-   .. py:property:: dim
-
-
    .. py:method:: remove_dynamic()
 
 
    .. py:method:: is_static()
 
 
-   .. py:method:: __eq__(__o)
-
-
-   .. py:method:: __add__(__o)
-
-
-   .. py:method:: __radd__(__o)
-
-
-   .. py:method:: __sub__(__o)
-
-
-   .. py:method:: __rsub__(__o)
-
-
-   .. py:method:: __mul__(__o)
-
-
-   .. py:method:: __rmul__(__o)
-
-
    .. py:method:: copy()
-
-
-   .. py:method:: _to_dict()
-
-
-   .. py:method:: _to_json()
 
 
    .. py:method:: save(filename)
@@ -223,16 +212,6 @@ pyepr.Parameter
           !! processed by numpydoc !!
 
 
-   .. py:method:: _from_dict(dict)
-      :staticmethod:
-
-
-
-   .. py:method:: _from_json(JSONstring)
-      :classmethod:
-
-
-
    .. py:method:: load(filename)
       :classmethod:
 
@@ -269,4 +248,5 @@ pyepr.Parameter
 
       ..
           !! processed by numpydoc !!
+
 

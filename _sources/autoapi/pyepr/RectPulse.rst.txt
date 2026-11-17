@@ -1,7 +1,9 @@
 pyepr.RectPulse
 ===============
 
-.. py:class:: pyepr.RectPulse(tp=16, freq=0, t=None, flipangle=None, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: RectPulse(tp=16, freq=0, t=None, flipangle=None, **kwargs)
 
    Bases: :py:obj:`Pulse`
 
@@ -38,13 +40,44 @@ pyepr.RectPulse
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import matplotlib.pyplot as plt
+
+       pulse = epr.RectPulse(tp=32, flipangle=np.pi)
+       pulse.plot(pad=50)
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: freq
 
 
+   .. py:property:: bandwidth
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: func(ax)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

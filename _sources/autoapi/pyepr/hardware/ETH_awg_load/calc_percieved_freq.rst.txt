@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.calc_percieved_freq
+===============================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: calc_percieved_freq(sampling_freq, fc)

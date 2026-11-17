@@ -1,0 +1,27 @@
+pyepr.transpose_dict_of_list
+============================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: transpose_dict_of_list(d)
+
+   
+   Turns a dictionary of lists into a list of dictionaries.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,0 +1,6 @@
+pyepr.resonator_profile_analysis.BSpline_extra
+==============================================
+
+.. py:currentmodule:: pyepr.resonator_profile_analysis
+
+.. py:function:: BSpline_extra(tck_s)

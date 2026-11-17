@@ -1,9 +1,11 @@
 pyepr.hardware.dummy.dummyInterface
 ===================================
 
-.. py:class:: pyepr.hardware.dummy.dummyInterface(config_file)
+.. py:currentmodule:: pyepr.hardware.dummy
 
-   Bases: :py:obj:`pyepr.classes.Interface`
+.. py:class:: dummyInterface(config_file)
+
+   Bases: :py:obj:`pyepr.hardware.BaseInterfaceClass.Interface`
 
 
    Represents the interface connection from autoEPR to the spectrometer.
@@ -29,6 +31,10 @@ pyepr.hardware.dummy.dummyInterface
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: state
@@ -63,6 +69,15 @@ pyepr.hardware.dummy.dummyInterface
 
 
    .. py:attribute:: mode
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.config`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.savefolder`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.savename`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.resonator`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.AWG`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: launch(sequence, savename, **kwargs)
@@ -151,4 +166,9 @@ pyepr.hardware.dummy.dummyInterface
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.connect`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.rescale`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.terminate_at`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_RectPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_GaussianPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_KBBPulse`
 

@@ -1,0 +1,37 @@
+pyepr.save_bruker
+=================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: save_bruker(dataset, filename, overwrite=True)
+
+   
+   Save a dataset to a Bruker .DSC/ .DTA file
+
+
+   :Parameters:
+
+       **dataset** : xr.DataArray
+           The dataset to save
+
+       **filename** : str
+           The name of the file to save
+
+       **overwrite** : bool, optional
+           If True, overwrite the file if it exists, by default True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

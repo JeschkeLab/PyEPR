@@ -1,0 +1,23 @@
+pyepr.sequences.DEER
+====================
+
+.. py:module:: pyepr.sequences.DEER
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/sequences/DEER/FourPulseDEERSequence
+   /autoapi/pyepr/sequences/DEER/FivePulseDEERSequence
+   /autoapi/pyepr/sequences/DEER/ThreePulseDEERSequence
+
+.. autoapisummary::
+
+   pyepr.sequences.DEER.FourPulseDEERSequence
+   pyepr.sequences.DEER.FivePulseDEERSequence
+   pyepr.sequences.DEER.ThreePulseDEERSequence
+
+

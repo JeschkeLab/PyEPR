@@ -1,0 +1,129 @@
+pyepr.sequences.base_sequences.HahnEchoSequence
+===============================================
+
+.. py:currentmodule:: pyepr.sequences.base_sequences
+
+.. py:class:: HahnEchoSequence(*, B, freq, reptime, averages, shots, **kwargs)
+
+   Bases: :py:obj:`Sequence`
+
+
+   Represents a Hahn-Echo sequence. 
+
+
+   Build a Hahn-Echo sequence using either rectangular pulses or
+   specified pulses. By default no progression is added to this sequence.
+
+   Sequence:
+   [\pi/2 - \tau - \pi - \tau - echo]
+
+   :Parameters:
+
+       **B** : int or float
+           The B0 field, in Gauss
+
+       **freq** : int or float
+           The freq frequency in GHz
+
+       **reptime** : _type_
+           The shot repetition time in us
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point
+
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import numpy as np
+
+       epr.set_waveform_precision(1)
+       seq = epr.HahnEchoSequence(
+           B=12000, freq=34, reptime=1e3, averages=1, shots=10, tau=500)
+       seq.draw()
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.name`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: simulate(Tm=1000.0)
+
+      
+      Simulates the Hahn echo intensity as a stretched exponential decay
+      of the interpulse delay, with a stretching exponent of 1.6.
+
+      .. math::
+          V(\tau) = e^{-(\tau/T_m)^{1.6}}
+
+      :Parameters:
+
+          **Tm** : float
+              The phase memory time in ns, by default 1e3 ns
+
+
+
+      :Returns:
+
+          **xaxis** : np.ndarray
+              The interpulse delay in ns (a single point)
+
+          **data** : np.ndarray
+              The simulated complex echo intensity (a single point)
+
+
+
+
+
+
+
+
+
+
+      .. rubric:: Examples
+
+      .. code-block:: python
+
+          import pyepr as epr
+          seq = epr.HahnEchoSequence(
+              B=12000, freq=34, reptime=1e3, averages=1, shots=10, tau=500)
+          tau, data = seq.simulate(Tm=1e3)
+          print(tau, data)
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
+

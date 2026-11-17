@@ -1,0 +1,47 @@
+pyepr.hardware.Bruker_tools.write_pulsespel_file
+================================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: write_pulsespel_file(sequence, d0, AWG=False, MPFU=False, MaxGate=40)
+
+   
+   Write the pulsespel file for a given sequence. 
+
+
+   :Parameters:
+
+       **sequence** : Sequence
+           The sequence class to be converted.
+
+       **AWG** : bool, optional
+           Is this a pulse spel file for an AWG spectrometer, by default False
+
+       **MPFU** : list, optional
+           A list of MPFU channels, by default False
+
+       **MaxGate** : float, optional
+           The maximum gate time for the TWT gate in microseconds, by default 40 us
+
+
+
+   :Returns:
+
+       str
+           The string for the definition file
+
+       str
+           The string for the experiment file
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

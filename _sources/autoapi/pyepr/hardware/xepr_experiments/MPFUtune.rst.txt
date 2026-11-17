@@ -1,7 +1,9 @@
 pyepr.hardware.xepr_experiments.MPFUtune
 ========================================
 
-.. py:class:: pyepr.hardware.xepr_experiments.MPFUtune(api, echo='Hahn', ps_length=16, d0=680, srt=6000000.0)
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:class:: MPFUtune(api, echo='Hahn', ps_length=16, d0=680, srt=6000000.0)
 
    Tuning MPFU channels for optimal attenuation and phase
 
@@ -41,6 +43,10 @@ pyepr.hardware.xepr_experiments.MPFUtune
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: api
 
 
@@ -64,7 +70,9 @@ pyepr.hardware.xepr_experiments.MPFUtune
 
 
 
-   .. py:method:: _setup_echo(echo, tau1=400, tau2=400)
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: tune_phase(channel, target, tol=0.1, maxiter=30)
@@ -186,4 +194,5 @@ pyepr.hardware.xepr_experiments.MPFUtune
 
 
    .. py:method:: calc_d0()
+
 

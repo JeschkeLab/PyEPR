@@ -1,0 +1,728 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
+        <link rel="prefetch" href="../../_static/pyepr_logo_light.svg" as="image">
+        <link rel="prefetch" href="../../_static/pyepr_logo_dark.svg" as="image">
+
+    <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
+        <title>pyepr.plotting - PyEPR 1.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-toolbox-code.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=c83e6b79" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autoapi.css?v=9806287c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css?v=c7eabba0" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">PyEPR 1.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/pyepr_logo_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/pyepr_logo_dark.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">PyEPR 1.2 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial.html">Tutorial</a><input aria-label="Toggle navigation of Tutorial" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_loading.html">Loading and Analysing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_sequencer.html">Pulse Sequencer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial_hardware.html">Interfacing with Hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../API_docs.html">API doc</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../auto_examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../auto_examples/advanced_sequences/index.html">Advanced Sequences</a><input aria-label="Toggle navigation of Advanced Sequences" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/advanced_sequences/linking_sequence_parameter.html">Linking a pulse’s phase cycle to another pulse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/advanced_sequences/uhrig_decoupling_sequence.html">Uhrig Decoupling Sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/advanced_sequences/advanced_sequence_axes.html">Advanced Sequence Axes</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../auto_examples/tools/index.html">Tools</a><input aria-label="Toggle navigation of Tools" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/tools/loading_cw.html">Loading a CW EPR file</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../auto_examples/automation/index.html">Automation</a><input aria-label="Toggle navigation of Automation" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/automation/DEER_pump_frequency_sweep.html">Testing different pump-offsets in Four-Pulse DEER</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../auto_examples/interfaces/index.html">Interface Specific Examples</a><input aria-label="Toggle navigation of Interface Specific Examples" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/interfaces/PyEPR_Control_SuperConducting.html">PyEPR Control Superconducting Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/interfaces/ETH_AWG.html">ETH Matlab Based AWG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/interfaces/Xepr.html">Xepr API Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/interfaces/PulseSpel_Compile.html">PulseSpel Compile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../releasenotes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licence.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/PyEPR">Github</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JeschkeLab/autoDEER">autoDEER</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for pyepr.plotting</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyepr</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">epr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
+
+<div class="viewcode-block" id="plot_sequence_freq">
+<a class="viewcode-back" href="../../autoapi/pyepr/plotting/plot_sequence_freq.html#pyepr.plot_sequence_freq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_sequence_freq</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">resonator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Plots the relative pulses in the frequency domain. If a resonator or spectrum is provided, these are plotted as well.  </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sequence : epr.Sequence</span>
+<span class="sd">        The pulse sequence to be plotted.</span>
+<span class="sd">    resonator : epr.ResonatorProfile, optional</span>
+<span class="sd">        The resonator profile to be plotted. If provided, the resonator profile will be plotted on a secondary y-axis.</span>
+<span class="sd">    spectrum : epr.FieldSweepAnalysis, optional</span>
+<span class="sd">        The field sweep spectrum to be plotted. If provided, the spectrum will be plotted on the same axis as the pulse sequence.</span>
+<span class="sd">    title : str, optional</span>
+<span class="sd">        The title of the plot. If not provided, no title will be set.</span>
+<span class="sd">    fig : matplotlib.figure.Figure, optional</span>
+<span class="sd">        The figure to plot on. If not provided, a new figure will be created.</span>
+<span class="sd">    axs : matplotlib.axes.Axes, optional</span>
+<span class="sd">        The axes to plot on. If not provided, new axes will be created.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig : matplotlib.figure.Figure</span>
+<span class="sd">        The figure containing the plot.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">axs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'figsize'</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">'constrained'</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">figure</span>
+
+    <span class="n">fc</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">if</span> <span class="n">resonator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axs_res</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+        <span class="n">axs_res</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">resonator</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span> <span class="n">resonator</span><span class="o">.</span><span class="n">profile</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span><span class="s1">'.-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Resonator Profile'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">axs_res</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Resonator Profile $\nu_1$ / MHz'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">BW</span> <span class="o">=</span> <span class="n">resonator</span><span class="o">.</span><span class="n">fc</span><span class="o">/</span><span class="n">resonator</span><span class="o">.</span><span class="n">q</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">BW</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">BW</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axs_res</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">spectrum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="s1">'gyro'</span><span class="p">):</span>
+        <span class="n">gyro</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">gyro</span>
+        <span class="n">freq_peak</span> <span class="o">=</span> <span class="n">B</span><span class="o">*</span><span class="n">gyro</span>
+        <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">fs_x</span><span class="o">+</span><span class="n">freq_peak</span><span class="p">,</span><span class="n">spectrum</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">primary_colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Field Sweep Spectrum'</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">pulse</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span><span class="n">epr</span><span class="o">.</span><span class="n">Detection</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">pulse</span><span class="p">:</span><span class="n">epr</span><span class="o">.</span><span class="n">Pulse</span>
+
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">exciteprofile</span><span class="p">(</span><span class="n">freqs</span><span class="o">=</span><span class="n">freqs</span><span class="p">)[:,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">rescaled_profile</span> <span class="o">=</span> <span class="p">(</span><span class="n">profile</span> <span class="o">*-</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Pulse </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="n">axs</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">freqs</span><span class="o">+</span><span class="n">fc</span><span class="p">,</span> <span class="n">rescaled_profile</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">secondary_colors</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="n">epr</span><span class="o">.</span><span class="n">secondary_colors</span><span class="p">)])</span>
+
+    <span class="c1"># Cretate parallel x axis offset by seq.freq.value</span>
+    <span class="n">secax</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">secondary_xaxis</span><span class="p">(</span><span class="s1">'top'</span><span class="p">,</span> <span class="n">functions</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="n">fc</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">fc</span><span class="p">))</span>
+    <span class="n">secax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Pulse Frequency / GHz'</span><span class="p">)</span>  <span class="c1"># adjust label/units as needed</span>
+    <span class="n">axs</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Lab Frequency / GHz'</span><span class="p">)</span>
+    <span class="n">axs</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Normalized Pulse Efficiency '</span><span class="p">)</span>
+    <span class="n">axs</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">freqs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">fc</span><span class="p">,</span> <span class="n">freqs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">fc</span><span class="p">)</span>
+
+    <span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">axs_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">axs_res</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines2</span><span class="o">+</span> <span class="n">lines1</span> 
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels2</span><span class="o">+</span> <span class="n">labels1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines1</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels1</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'outside lower left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="draw_sequence">
+<a class="viewcode-back" href="../../autoapi/pyepr/plotting/draw_sequence.html#pyepr.draw_sequence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_sequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Draws the sequence as an anotated matplotlib figure, showing </span>
+<span class="sd">        pictorial representations of the pulses and delays in the sequence. It</span>
+<span class="sd">        does not show the phase cycle and nothing is to scale.</span>
+
+<span class="sd">        Pulses are drawn with their amplitude envelope and labelled with their</span>
+<span class="sd">        flip angle. Frequency swept pulses are additionally shown with a chirp</span>
+<span class="sd">        of increasing (or decreasing) frequency. Pulses at a frequency other</span>
+<span class="sd">        than the detection frequency are drawn on a separate channel below.</span>
+<span class="sd">        The delay between each consecutive event is annotated beneath the</span>
+<span class="sd">        sequence.</span>
+
+<span class="sd">        Evolution axes are colour coded and listed beneath the sequence.</span>
+<span class="sd">        Delays and pulse parameters that change along an evolution axis are</span>
+<span class="sd">        drawn in that axis colour, and labelled with the range they cover.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            The axes to draw onto. If None, a new figure is created.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fig : matplotlib.figure.Figure</span>
+<span class="sd">            The figure containing the drawing.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyepr.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">primary_colors</span><span class="p">,</span> <span class="n">secondary_colors</span>
+
+        <span class="n">time_scales</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"ns"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"us"</span><span class="p">:</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s2">"ms"</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">:</span> <span class="mf">1e9</span><span class="p">}</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">to_ns</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">time_scales</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">evo_params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="s2">"evo_params"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">evo_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The sequence has no evolution parameters to draw. Please call Sequence.evolution first."</span><span class="p">)</span>
+        <span class="n">evo_uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">uuid</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">evo_params</span><span class="p">]</span>
+        <span class="n">evo_colors</span> <span class="o">=</span> <span class="p">{</span><span class="n">uid</span><span class="p">:</span> <span class="n">secondary_colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">secondary_colors</span><span class="p">)]</span>
+                      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">uid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evo_uuids</span><span class="p">)}</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">evo_axes</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+            <span class="c1"># Offsets from the initial value, for each evolution axis the</span>
+            <span class="c1"># parameter follows</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">"axis"</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">if</span> <span class="n">axis</span><span class="p">[</span><span class="s2">"uuid"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">evo_uuids</span><span class="p">:</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">axis</span><span class="p">[</span><span class="s2">"uuid"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="s2">"axis"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">axes</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">fmt_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">time_scales</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">fmt_delay</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="n">time_scales</span><span class="p">[</span><span class="n">unit</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"None"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.5g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">fmt_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt_value</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">)</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">fmt_value</span><span class="p">(</span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">pulse_evolution</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="c1"># Evolving pulse parameters, other than the start time</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"t"</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">Parameter</span><span class="p">)</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">axes</span> <span class="o">=</span> <span class="n">evo_axes</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fmt_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                              <span class="n">evo_colors</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">axes</span><span class="p">))]))</span>
+            <span class="k">return</span> <span class="n">lines</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">centre_freq</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"freq"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">pulse</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"init_freq"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"final_freq"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">is_swept</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"init_freq"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"final_freq"</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">flip_label</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="n">flipangle</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"flipangle"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">flipangle</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">""</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">flipangle</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">frac</span> <span class="o">=</span> <span class="n">flipangle</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">for</span> <span class="n">den</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">frac</span> <span class="o">*</span> <span class="n">den</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">num</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="n">den</span><span class="p">,</span> <span class="n">frac</span><span class="p">):</span>
+                    <span class="n">num_str</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="s2">"-"</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+                    <span class="n">den_str</span> <span class="o">=</span> <span class="s2">""</span> <span class="k">if</span> <span class="n">den</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">den</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="k">return</span> <span class="sa">rf</span><span class="s2">"$</span><span class="si">{</span><span class="n">num_str</span><span class="si">}</span><span class="s2">\pi</span><span class="si">{</span><span class="n">den_str</span><span class="si">}</span><span class="s2">$"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">°"</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">pulse_width</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="c1"># Pictorial widths, a pi pulse is twice as wide as a pi/2 pulse</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">Detection</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_swept</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+                <span class="k">return</span> <span class="mf">1.2</span>
+            <span class="n">flipangle</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"flipangle"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">flipangle</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.7</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">flipangle</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="p">(</span><span class="n">epr</span><span class="o">.</span><span class="n">GaussianPulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">SincPulse</span><span class="p">)):</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>  <span class="c1"># Shaped pulses need room to show their envelope</span>
+            <span class="k">return</span> <span class="n">width</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">envelope</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+            <span class="c1"># Idealised amplitude envelope over x in [-1, 1]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">GaussianPulse</span><span class="p">):</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mf">0.45</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">SincPulse</span><span class="p">):</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">HSPulse</span><span class="p">):</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="n">pulse</span><span class="o">.</span><span class="n">order1</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">WURSTPulse</span><span class="p">):</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="n">pulse</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">ChirpPulse</span><span class="p">):</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">AM</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">AM</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">AM</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">fmt_delay</span><span class="p">(</span><span class="n">dt</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">1e3</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dt</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2"> µs"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dt</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2"> ns"</span>
+
+        <span class="c1"># Collect the events in time order</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">pulse</span> <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pulses</span>
+                  <span class="k">if</span> <span class="n">pulse</span><span class="o">.</span><span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pulse</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The sequence contains no pulses to draw."</span><span class="p">)</span>
+        <span class="n">events</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">to_ns</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">t</span><span class="p">))</span>
+
+        <span class="c1"># Assign each event to a frequency channel, the observer channel is</span>
+        <span class="c1"># the detection frequency</span>
+        <span class="n">dets</span> <span class="o">=</span> <span class="p">[</span><span class="n">pulse</span> <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">Detection</span><span class="p">)]</span>
+        <span class="n">obs_freq</span> <span class="o">=</span> <span class="n">centre_freq</span><span class="p">(</span><span class="n">dets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">channel_freqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs_freq</span><span class="p">]</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="n">centre_freq</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">channel_freqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Group simultaneous events into slots, evenly spaced along the x-axis</span>
+        <span class="n">slot_times</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">slot_axes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">slot_of_event</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">to_ns</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">slot_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+                <span class="n">slot_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">time_scales</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">slot_axes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">uid</span><span class="p">:</span> <span class="n">axis</span> <span class="o">*</span> <span class="n">scale</span> <span class="k">for</span> <span class="n">uid</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">evo_axes</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+            <span class="n">slot_of_event</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">delay_evolution</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="c1"># Change of the delay between slot i and i+1 along each evolution axis</span>
+            <span class="n">diffs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">evo_uuids</span><span class="p">:</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="n">slot_axes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">slot_axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">diffs</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">=</span> <span class="n">diff</span>
+            <span class="k">return</span> <span class="n">diffs</span>
+
+        <span class="n">slot_widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">slot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">slot_of_event</span><span class="p">):</span>
+            <span class="n">slot_widths</span><span class="p">[</span><span class="n">slot</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">slot_widths</span><span class="p">[</span><span class="n">slot</span><span class="p">],</span> <span class="n">pulse_width</span><span class="p">(</span><span class="n">pulse</span><span class="p">))</span>
+
+        <span class="n">slot_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">)):</span>
+            <span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">slot_widths</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">slot_widths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">1.8</span>
+
+        <span class="c1"># Layout</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">channel_spacing</span> <span class="o">=</span> <span class="mf">2.2</span>
+        <span class="n">baselines</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">channel_spacing</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">))]</span>
+        <span class="c1"># Leave room under the bottom channel for evolving pulse parameters</span>
+        <span class="n">n_bottom_lines</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">pulse_evolution</span><span class="p">(</span><span class="n">pulse</span><span class="p">))</span> <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">channel</span>
+                              <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">channels</span><span class="p">)</span> <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">arrow_y</span> <span class="o">=</span> <span class="n">baselines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.6</span> <span class="o">-</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">n_bottom_lines</span>
+        <span class="n">legend_y</span> <span class="o">=</span> <span class="n">arrow_y</span> <span class="o">-</span> <span class="mf">0.75</span>
+        <span class="n">y_min</span> <span class="o">=</span> <span class="n">legend_y</span> <span class="o">-</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">evo_params</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.2</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">evo_params</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.15</span><span class="p">)</span>
+        <span class="n">x_min</span> <span class="o">=</span> <span class="n">slot_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">slot_widths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">x_max</span> <span class="o">=</span> <span class="n">slot_x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">slot_widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig_width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">18</span><span class="p">))</span>
+            <span class="n">fig_height</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">baselines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.6</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.6</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">fig_width</span><span class="p">,</span> <span class="n">fig_height</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">primary_colors</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">))]</span>
+
+        <span class="c1"># Channel baselines and labels</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">baselines</span><span class="p">,</span> <span class="n">channel_freqs</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">],</span> <span class="p">[</span><span class="n">y0</span><span class="p">,</span> <span class="n">y0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s2">"mw"</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"$\nu_</span><span class="si">{obs}</span><span class="s2">$"</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_freqs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"$\nu_</span><span class="si">{pump}</span><span class="s2">$"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">"$\nu_</span><span class="se">{{</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_min</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">height</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">freq</span> <span class="o">-</span> <span class="n">obs_freq</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e3</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_min</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="mf">0.15</span><span class="o">*</span><span class="n">height</span><span class="p">,</span> <span class="sa">rf</span><span class="s2">"$\Delta\nu$ = </span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> MHz"</span><span class="p">,</span>
+                        <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.35'</span><span class="p">)</span>
+
+        <span class="c1"># Vertical guides from each event down to the delay arrows</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">slot_x</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">arrow_y</span><span class="p">,</span> <span class="n">baselines</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.75'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Pulses and detection events</span>
+        <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">channel</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">slot_of_event</span><span class="p">,</span> <span class="n">channels</span><span class="p">):</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">slot_x</span><span class="p">[</span><span class="n">slot</span><span class="p">]</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="n">baselines</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">pulse_width</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">evo_color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pulse_evolution</span><span class="p">(</span><span class="n">pulse</span><span class="p">)):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="mf">0.12</span> <span class="o">-</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">j</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'top'</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">evo_color</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">Detection</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+                <span class="n">env</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">xs</span> <span class="o">/</span> <span class="mf">0.35</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">xs</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">height</span><span class="o">*</span><span class="n">env</span><span class="p">,</span>
+                                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">xs</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">height</span><span class="o">*</span><span class="n">env</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mf">2.5</span><span class="o">*</span><span class="n">xs</span><span class="p">),</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s2">"echo"</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s2">"n_echoes"</span><span class="p">):</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="sa">rf</span><span class="s2">" $\times$</span><span class="si">{</span><span class="n">pulse</span><span class="o">.</span><span class="n">n_echoes</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">xs</span><span class="p">,</span> <span class="n">AM</span> <span class="o">=</span> <span class="n">envelope</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span>
+            <span class="n">px</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">xs</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">height</span><span class="o">*</span><span class="n">AM</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_swept</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.35</span><span class="p">,</span>
+                            <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">height</span><span class="o">*</span><span class="n">AM</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">is_swept</span><span class="p">(</span><span class="n">pulse</span><span class="p">):</span>
+                <span class="c1"># Draw a chirp inside the envelope to show the frequency sweep</span>
+                <span class="n">xs_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+                <span class="n">AM_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">xs_fine</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">AM</span><span class="p">)</span>
+                <span class="n">f0</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="k">if</span> <span class="n">pulse</span><span class="o">.</span><span class="n">final_freq</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">init_freq</span><span class="o">.</span><span class="n">value</span> <span class="k">else</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs_fine</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">phase</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">f0</span><span class="o">*</span><span class="n">u</span> <span class="o">+</span> <span class="p">(</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">xs_fine</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">height</span><span class="o">*</span><span class="n">AM_fine</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase</span><span class="p">)),</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">height</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">AM</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">flip_label</span><span class="p">(</span><span class="n">pulse</span><span class="p">),</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+        <span class="c1"># Delays between consecutive events, evolving delays are coloured by</span>
+        <span class="c1"># their evolution axis and given as a range</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slot_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">slot_times</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">slot_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">diffs</span> <span class="o">=</span> <span class="n">delay_evolution</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">evo_colors</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">diffs</span><span class="p">))]</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">fmt_range</span><span class="p">(</span><span class="n">dt</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+                                  <span class="n">dt</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="s2">"ns"</span><span class="p">)</span>
+                <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.6</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="s1">'0.3'</span><span class="p">,</span> <span class="n">fmt_delay</span><span class="p">(</span><span class="n">dt</span><span class="p">),</span> <span class="mf">0.9</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">arrow_y</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arrow_y</span><span class="p">),</span>
+                        <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'&lt;-&gt;'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span>
+                                        <span class="n">shrinkA</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shrinkB</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">slot_x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">arrow_y</span> <span class="o">-</span> <span class="mf">0.12</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'top'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">color</span><span class="p">)</span>
+
+        <span class="c1"># Legend of the evolution axes</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evo_params</span><span class="p">):</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="n">evo_axes</span><span class="p">(</span><span class="n">param</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"axis"</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">legend_y</span> <span class="o">-</span> <span class="mf">0.35</span><span class="o">*</span><span class="n">i</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">"■ Axis </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt_range</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">axis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">param</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span><span class="si">}</span><span class="s2"> pts)"</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'top'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">evo_colors</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x_min</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">baselines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="n">sequence</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=61243dd2"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
+    </body>
+</html>

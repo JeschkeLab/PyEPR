@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.get_nPcyc
+=====================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: get_nPcyc(estr)

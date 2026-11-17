@@ -1,0 +1,6 @@
+pyepr.hardware.dummy.add_noise
+==============================
+
+.. py:currentmodule:: pyepr.hardware.dummy
+
+.. py:function:: add_noise(data, noise_level)

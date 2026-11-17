@@ -1,0 +1,86 @@
+
+
+.. _sphx_glr_auto_examples_advanced_sequences:
+
+Advanced Sequences
+------------------
+
+Examples of building more complex pulse sequences with PyEPR.
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="When several pulses in a sequence are phase cycled, PyEPR combines them multiplicatively by default: each pulse&#x27;s phase cycle is stepped through independently, giving the full outer product of every combination.">
+
+.. only:: html
+
+  .. image:: /auto_examples/advanced_sequences/images/thumb/sphx_glr_linking_sequence_parameter_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/advanced_sequences/linking_sequence_parameter`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Linking a pulse's phase cycle to another pulse</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The Uhrig dynamical decoupling (UDD) sequence uses n refocusing pulses placed non-uniformly over the total evolution time T. The j-th pulse is placed at">
+
+.. only:: html
+
+  .. image:: /auto_examples/advanced_sequences/images/thumb/sphx_glr_uhrig_decoupling_sequence_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/advanced_sequences/uhrig_decoupling_sequence`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Uhrig Decoupling Sequence</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Advanced Sequence Axes">
+
+.. only:: html
+
+  .. image:: /auto_examples/advanced_sequences/images/thumb/sphx_glr_advanced_sequence_axes_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/advanced_sequences/advanced_sequence_axes`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Advanced Sequence Axes</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/advanced_sequences/linking_sequence_parameter
+   /auto_examples/advanced_sequences/uhrig_decoupling_sequence
+   /auto_examples/advanced_sequences/advanced_sequence_axes
+

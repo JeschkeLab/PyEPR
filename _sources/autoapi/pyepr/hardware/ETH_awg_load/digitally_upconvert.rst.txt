@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.digitally_upconvert
+===============================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: digitally_upconvert(t, complex, fc)

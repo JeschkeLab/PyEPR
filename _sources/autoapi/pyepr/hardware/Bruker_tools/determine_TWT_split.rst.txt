@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.determine_TWT_split
+===============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: determine_TWT_split(sequence, MaxGate)

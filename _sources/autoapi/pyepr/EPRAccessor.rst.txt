@@ -1,0 +1,274 @@
+pyepr.EPRAccessor
+=================
+
+.. py:currentmodule:: pyepr
+
+.. py:class:: EPRAccessor(xarray_obj)
+
+   
+   Xarray accessor for EPR datasets. Provides methods for saving, phase correction, normalization, FFT, and more.
+   These can be accessed via the `.epr` attribute of an xarray DataArray object. E.g. `dataset.epr.save('filename.h5')`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. py:property:: correctphase
+      :type: xarray.DataArray
+
+
+      
+      Correct the phase of the dataset using the DeerLab correctphase function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: normalise
+
+      
+      In-place normalisation of the dataset to the maximum absolute value of the data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: correctphasefull
+      :type: xarray.DataArray
+
+
+      
+      Correct the phase of the dataset using the DeerLab correctphase function and keeps the real and imaginary parts of the data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: SNR
+      :type: float
+
+
+      
+      Calculate the signal-to-noise ratio of the dataset using the DeerLab der_snr function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: fft
+
+      
+      Calculate the FFT of the dataset and returns a new dataset with the FFT applied.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: MeasurementTime
+
+      
+      Calculate the total measurement time in seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: sequence
+      :type: pyepr.sequences.Sequence
+
+
+      
+      Extracts the PyEPR Sequence object from the dataset attributes and coordinates.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: save(filename, type='netCDF', overwrite=True)
+
+      
+      Save the dataset to a hdf5 file
+
+
+      :Parameters:
+
+          **filename** : str, file-like object
+              The name of the file to save the dataset
+
+          **type** : str, optional
+              The type of file to save, by default 'netCDF' (including .h5)
+
+          **overwrite** : bool, optional
+              Overwrite the file if it exists, by default True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: merge(other, ignore_errors=True)
+
+      
+      Merge two datasets into one dataset.
+
+      Handles the following cases:
+      1. Both datasets have the same parameters but different axes and are 1D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

@@ -1,0 +1,6 @@
+pyepr.utils.autoEPRDecoder
+==========================
+
+.. py:currentmodule:: pyepr.utils
+
+.. py:function:: autoEPRDecoder(dct)

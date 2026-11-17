@@ -1,7 +1,9 @@
 pyepr.T2RelaxationSequence
 ==========================
 
-.. py:class:: pyepr.T2RelaxationSequence(*, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: T2RelaxationSequence(*, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs)
 
    Bases: :py:obj:`HahnEchoRelaxationSequence`
 
@@ -9,38 +11,12 @@ pyepr.T2RelaxationSequence
    Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
    A Hahn Echo where the interpulse delay increases.
 
-   Parameters
-   ----------
-   B : int or float
-       The B0 field, in Gauss
-   freq : int or float
-       The freq frequency in GHz
-   reptime : _type_
-       The shot repetition time in us
-   averages : int
-       The number of scans.
-   shots : int
-       The number of shots per point
-   start : float
-       The minimum interpulse delay in ns, by default 500 ns
-   step : float
-       The step size of the interpulse delay in ns, by default 40 ns
-   dim : int
-       The number of points in the X axis
 
-   Optional Parameters
-   -------------------
-   pi2_pulse : Pulse
-       An autoEPR Pulse object describing the excitation pi/2 pulse. If
-       not specified a RectPulse will be created instead. 
-   pi_pulse : Pulse
-       An autoEPR Pulse object describing the refocusing pi pulses. If
-       not specified a RectPulse will be created instead. 
+   Build a T2 relaxation sequence. This is an alias for
+   :class:`HahnEchoRelaxationSequence`.
 
-
-   Build a Hahn-Echo sequence using either rectangular pulses or
-   specified pulses. By default no progression is added to this sequence.
-
+   Sequence:
+   [\pi/2 - \tau - \pi - \tau - echo]
 
    :Parameters:
 
@@ -59,6 +35,14 @@ pyepr.T2RelaxationSequence
        **shots** : int
            The number of shots per point
 
+       **start** : float
+           The minimum interpulse delay in ns, by default 500 ns
+
+       **step** : float
+           The step size of the interpulse delay in ns, by default 40 ns
+
+       **dim** : int
+           The number of points in the X axis, by default 200
 
 
 
@@ -71,7 +55,44 @@ pyepr.T2RelaxationSequence
 
 
 
+
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+       seq = epr.T2RelaxationSequence(
+           B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=300, step=40, dim=200)
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.HahnEchoRelaxationSequence`: :py:attr:`~pyepr.sequences.base_sequences.HahnEchoRelaxationSequence.tau`, :py:attr:`~pyepr.sequences.base_sequences.HahnEchoRelaxationSequence.name`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.HahnEchoRelaxationSequence`: :py:meth:`~pyepr.sequences.base_sequences.HahnEchoRelaxationSequence.simulate`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
 

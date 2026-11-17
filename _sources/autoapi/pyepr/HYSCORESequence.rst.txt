@@ -1,0 +1,172 @@
+pyepr.HYSCORESequence
+=====================
+
+.. py:currentmodule:: pyepr
+
+.. py:class:: HYSCORESequence(*, B, freq, reptime, averages, shots, tau=300, start=300, step=16, dim=128, **kwargs)
+
+   Bases: :py:obj:`pyepr.sequences.Sequence`
+
+
+   Represents an experimental pulse sequence.
+
+
+   Creates a HYSCORE sequence object.
+   In the form of [\pi/2 -         au - \pi/2 - T1 - \pi - T2 - \pi/2 - echo]
+
+
+   :Parameters:
+
+       **B** : float
+           The B0 field in Gauss.
+
+       **freq** : float
+           The frequency in GHz.
+
+       **reptime** : float
+           The shot repetition time in us.
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point.
+
+       **tau** : float, optional
+           The first interpulse delay in us, by default 300.
+
+       **start** : float, optional
+           The starting mixing time in ns, by default 300.
+
+       **step** : float, optional
+           The step size for the mixing time in ns, by default 16.
+
+       **dim** : int, optional
+           The number of points in the mixing time, by default 128.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+
+       seq = epr.HYSCORESequence(
+           B=12000, freq=34, reptime=1000, averages=1, shots=10,
+           tau=300, start=300, step=16, dim=128)
+       seq.draw()
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. py:attribute:: tau
+      :type:  pyepr.classes.Parameter
+
+      
+      First Interpulse Delay parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: T1
+      :type:  pyepr.classes.Parameter
+
+      
+      1st Mixing Time parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: T2
+      :type:  pyepr.classes.Parameter
+
+      
+      2nd Mixing Time parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.name`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: simulate()
+      :abstractmethod:
+
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
+

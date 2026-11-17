@@ -1,0 +1,44 @@
+pyepr.hardware.ETH_awg_load.ETHUWB_xarray_load
+==============================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: ETHUWB_xarray_load(matfile, sum_scans=True)
+
+   
+   This function reads data from an Andrin Doll ETH UWB EPR spectrometer
+   and converts it into an xarray.Dataset format compatible with PyEPR.
+
+
+   :Parameters:
+
+       **matfile** : dict
+           The data file to be loaded. 
+
+       **sum_scans** : bool, optional
+           Whether to sum all scans or not. Default is True.
+
+       **Returns**
+           ..
+
+       **-------**
+           ..
+
+       **output** : xarray.Dataset
+           The data in the xarray format.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.match_filter_dc
+===========================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: match_filter_dc(pulse, t, win, offset_freq)

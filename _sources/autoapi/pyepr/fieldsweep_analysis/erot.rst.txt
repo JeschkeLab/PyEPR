@@ -1,0 +1,27 @@
+pyepr.fieldsweep_analysis.erot
+==============================
+
+.. py:currentmodule:: pyepr.fieldsweep_analysis
+
+.. py:function:: erot(*args)
+
+   
+   Passive rotation matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -15,6 +15,12 @@ Attributes
 Functions
 ---------
 
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/config/set_waveform_precision
+   /autoapi/pyepr/config/get_waveform_precision
+
 .. autoapisummary::
 
    pyepr.config.set_waveform_precision
@@ -27,8 +33,4 @@ Module Contents
 .. py:data:: waveform_precision
    :value: 2
 
-
-.. py:function:: set_waveform_precision(precision)
-
-.. py:function:: get_waveform_precision()
 

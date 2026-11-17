@@ -1,0 +1,47 @@
+pyepr.plotting.draw_sequence
+============================
+
+.. py:currentmodule:: pyepr.plotting
+
+.. py:function:: draw_sequence(sequence, ax=None, **kwargs)
+
+   
+   Draws the sequence as an anotated matplotlib figure, showing 
+   pictorial representations of the pulses and delays in the sequence. It
+   does not show the phase cycle and nothing is to scale.
+
+   Pulses are drawn with their amplitude envelope and labelled with their
+   flip angle. Frequency swept pulses are additionally shown with a chirp
+   of increasing (or decreasing) frequency. Pulses at a frequency other
+   than the detection frequency are drawn on a separate channel below.
+   The delay between each consecutive event is annotated beneath the
+   sequence.
+
+   Evolution axes are colour coded and listed beneath the sequence.
+   Delays and pulse parameters that change along an evolution axis are
+   drawn in that axis colour, and labelled with the range they cover.
+
+   :Parameters:
+
+       **ax** : matplotlib.axes.Axes, optional
+           The axes to draw onto. If None, a new figure is created.
+
+
+
+   :Returns:
+
+       **fig** : matplotlib.figure.Figure
+           The figure containing the drawing.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

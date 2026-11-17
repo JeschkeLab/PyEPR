@@ -12,6 +12,11 @@ import pyepr as epr
 data = epr.eprload('path/to/datafile.h5')
 # Load data from a text file
 data_txt = epr.eprload('path/to/datafile.txt')
+# Load data from a Bruker .DSC/.DTA file
+data_bruker = epr.eprload('path/to/datafile.DTA')
+# Load data from a MS400 file
+data_ms400 = epr.eprload('path/to/datafile_ms400.dat')
+
 ```
 
 ## Viewing Data
@@ -82,7 +87,7 @@ fieldsweep.plot()
         .. code-block:: python
 
             tm_data = epr.eprload('path/to/tm_datafile.h5')
-            t2_analysis = epr.HahnEchoRelaxationAnalysis(t2_data)
+            t2_analysis = epr.HahnEchoRelaxationAnalysis(tm_data)
             # Calculate T2 relaxation time
             t2_result = t2_analysis.fit()
             # Plot the results

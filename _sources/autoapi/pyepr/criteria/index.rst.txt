@@ -4,14 +4,6 @@ pyepr.criteria
 .. py:module:: pyepr.criteria
 
 
-Attributes
-----------
-
-.. autoapisummary::
-
-   pyepr.criteria.log
-
-
 Classes
 -------
 
@@ -28,9 +20,4 @@ Classes
    pyepr.criteria.TimeCriteria
    pyepr.criteria.SNRCriteria
 
-
-Module Contents
----------------
-
-.. py:data:: log
 

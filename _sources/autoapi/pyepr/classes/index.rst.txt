@@ -10,12 +10,10 @@ Classes
 .. toctree::
    :hidden:
 
-   /autoapi/pyepr/classes/Interface
    /autoapi/pyepr/classes/Parameter
 
 .. autoapisummary::
 
-   pyepr.classes.Interface
    pyepr.classes.Parameter
 
 

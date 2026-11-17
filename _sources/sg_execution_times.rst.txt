@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.000** total execution time for 0 files **from all galleries**:
+**00:00.516** total execution time for 9 files **from all galleries**:
 
 .. container::
 
@@ -32,6 +32,30 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - N/A
-     - N/A
-     - N/A
+   * - :ref:`sphx_glr_auto_examples_advanced_sequences_uhrig_decoupling_sequence.py` (``examples/advanced_sequences/uhrig_decoupling_sequence.py``)
+     - 00:00.230
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interfaces_PulseSpel_Compile.py` (``examples/interfaces/PulseSpel_Compile.py``)
+     - 00:00.105
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_automation_DEER_pump_frequency_sweep.py` (``examples/automation/DEER_pump_frequency_sweep.py``)
+     - 00:00.097
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_advanced_sequences_linking_sequence_parameter.py` (``examples/advanced_sequences/linking_sequence_parameter.py``)
+     - 00:00.076
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_advanced_sequences_advanced_sequence_axes.py` (``examples/advanced_sequences/advanced_sequence_axes.py``)
+     - 00:00.008
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_tools_loading_cw.py` (``examples/tools/loading_cw.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interfaces_Xepr.py` (``examples/interfaces/Xepr.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interfaces_ETH_AWG.py` (``examples/interfaces/ETH_AWG.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_interfaces_PyEPR_Control_SuperConducting.py` (``examples/interfaces/PyEPR_Control_SuperConducting.py``)
+     - 00:00.000
+     - 0.0

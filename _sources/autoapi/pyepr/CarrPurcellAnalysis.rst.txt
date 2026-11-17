@@ -1,7 +1,9 @@
 pyepr.CarrPurcellAnalysis
 =========================
 
-.. py:class:: pyepr.CarrPurcellAnalysis(dataset, sequence = None)
+.. py:currentmodule:: pyepr
+
+.. py:class:: CarrPurcellAnalysis(dataset, sequence = None)
 
    
 
@@ -34,6 +36,10 @@ pyepr.CarrPurcellAnalysis
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: dataset
 
 
@@ -41,6 +47,11 @@ pyepr.CarrPurcellAnalysis
 
 
    .. py:attribute:: noise
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: fit(type = 'mono', **kwargs)
@@ -183,42 +194,4 @@ pyepr.CarrPurcellAnalysis
       ..
           !! processed by numpydoc !!
 
-
-   .. py:method:: __call__(x, norm=True, SNR=False, source=None)
-
-      
-      Evaluate the fit or data at a given x value.
-
-
-      :Parameters:
-
-          **x** : float
-              The x value to evaluate the data at.
-
-          **norm** : bool, optional
-              Normalise the data to the maximum, by default True
-
-          **SNR** : bool, optional
-              Return the SNR_per_sqrt(shot) for this data point, by default False
-              If True, the data is normalised to the maximum of the data.
-
-          **source** : str, optional
-              The source of the data, either 'fit' or 'data', by default None
-              If None, the source is determined by the presence of a fit result.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
 

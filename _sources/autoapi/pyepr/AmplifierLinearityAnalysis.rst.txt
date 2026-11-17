@@ -1,7 +1,13 @@
 pyepr.AmplifierLinearityAnalysis
 ================================
 
-.. py:class:: pyepr.AmplifierLinearityAnalysis(dataset, attenuator=0)
+.. py:currentmodule:: pyepr
+
+.. py:class:: AmplifierLinearityAnalysis(dataset, attenuator=0)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: dataset
 
@@ -11,7 +17,9 @@ pyepr.AmplifierLinearityAnalysis
 
 
 
-   .. py:method:: _process_fit(R_limit=0.5, mask=None)
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: fit(order=5)
@@ -39,4 +47,5 @@ pyepr.AmplifierLinearityAnalysis
 
 
    .. py:method:: plot(axs=None, fig=None)
+
 

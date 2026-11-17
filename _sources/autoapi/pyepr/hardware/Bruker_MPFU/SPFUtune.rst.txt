@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.SPFUtune
+===================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: SPFUtune(interface, sequence, flip_power, echo='Hahn', tol = 0.1, bounds=[0, 60], tau_value=550)

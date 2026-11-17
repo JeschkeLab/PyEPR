@@ -10,6 +10,8 @@ Attributes
 .. autoapisummary::
 
    pyepr.colors.primary_colors
+   pyepr.colors.primary_colors_light
+   pyepr.colors.secondary_colors
    pyepr.colors.ReIm_colors
    pyepr.colors.shade_colors
 
@@ -18,6 +20,14 @@ Module Contents
 ---------------
 
 .. py:data:: primary_colors
+   :value: ['#7C37DB', '#DB7C17', '#166122']
+
+
+.. py:data:: primary_colors_light
+   :value: ['#A787D6', '#D68B3B', '#67B875']
+
+
+.. py:data:: secondary_colors
    :value: ['#D95B6F', '#42A399', '#E1AE38']
 
 

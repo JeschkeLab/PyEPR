@@ -1,0 +1,50 @@
+pyepr.build_spectrum
+====================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: build_spectrum(system, mwFreq, Range, knots=19, npoints=1000, Guass_broadening=0.25)
+
+   
+   Build a field sweep spectrum
+
+
+   :Parameters:
+
+       **system** : SpinSystem
+           The spin system it must include: I & S spins, g, A, gn
+
+       **mwFreq** : float
+           The microwave frequency in MHz
+
+       **Range** : float
+           The field range in mT
+
+       **knots** : int, optional
+           The number of knots of orientation averaging, by default 19
+
+       **npoints** : int, optional
+           The number of points in the spectrum, by default 1000
+
+
+
+   :Returns:
+
+       xAxis: np.ndarray
+           The xAxis in mT
+
+       y: np.ndarray
+           The spectrum intensities normalised to 1  
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

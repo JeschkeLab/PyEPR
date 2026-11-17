@@ -1,0 +1,32 @@
+pyepr.kroneye
+=============
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: kroneye(M)
+
+   
+   Computes the Kronecker product of a matrix with the identity matrix of the same size.
+
+   Args:
+       M (numpy.ndarray): The matrix to compute the Kronecker product with.
+
+   Returns:
+       numpy.ndarray: The Kronecker product of M with the identity matrix of the same size.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

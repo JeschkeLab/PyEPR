@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.ELDORtune
+====================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: ELDORtune(interface, sequence, freq, MPFU=True, tau_value=550, test_tp=16, plot=False, save=True)

@@ -1,16 +1,20 @@
 pyepr.sequences.ReptimeScan
 ===========================
 
-.. py:class:: pyepr.sequences.ReptimeScan(*, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs)
+.. py:currentmodule:: pyepr.sequences
 
-   Bases: :py:obj:`HahnEchoSequence`
+.. py:class:: ReptimeScan(*args, **kwargs)
+
+   Bases: :py:obj:`ReptimeScanSequence`
 
 
-   Represents a reptime scan of a Hahn Echo Sequence. 
+   Deprecated alias for :class:`ReptimeScanSequence`.
 
 
    A Hahn echo sequence is perfomed with the shot repetition time increasing.1
 
+   Sequence:
+   [\pi/2 - \tau - \pi - \tau - echo]
 
    :Parameters:
 
@@ -50,34 +54,38 @@ pyepr.sequences.ReptimeScan
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+       seq = epr.ReptimeScanSequence(
+       B=12000, freq=34, reptime=1000, averages=1,
+       shots=10, reptime_max=10000, start=20, dim=100)  
+
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: name
       :value: 'ReptimeScan'
 
 
-
-   .. py:method:: simulate()
-
       
-      Simulates the reptime scan as an exponential recovery.
-
-      .. math::
-          V(t) = 1 - e^(-t/T1)
+      The name of this pulse sequence.
 
 
 
 
-      :Returns:
 
-          **t** : np.ndarray
-              The x-axis of the simulation
-
-          **data** : np.ndarray
-              The y-axis of the simulation
 
 
 
@@ -91,4 +99,22 @@ pyepr.sequences.ReptimeScan
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.ReptimeScanSequence`: :py:meth:`~pyepr.sequences.base_sequences.ReptimeScanSequence.simulate`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
 

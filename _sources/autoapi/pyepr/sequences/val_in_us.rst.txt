@@ -1,0 +1,35 @@
+pyepr.sequences.val_in_us
+=========================
+
+.. py:currentmodule:: pyepr.sequences
+
+.. py:function:: val_in_us(Param, axis=True)
+
+   
+   Returns the value or axis of a parameter in microseconds
+
+
+   :Parameters:
+
+       **Param** : autodeer.Parameter
+           The parameter to be converted
+
+
+
+   :Returns:
+
+       float or numpy.ndarray
+           ..
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

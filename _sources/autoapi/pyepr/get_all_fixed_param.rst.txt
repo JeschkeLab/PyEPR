@@ -1,0 +1,6 @@
+pyepr.get_all_fixed_param
+=========================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: get_all_fixed_param(sequence)

@@ -1,0 +1,6 @@
+pyepr.resfields
+===============
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: resfields(system, Orientations, mwFreq, computeIntensities=True, RejectionRatio=1e-08, Range=(0, 100000000.0), Threshold=0, computeFreq2Field=True)

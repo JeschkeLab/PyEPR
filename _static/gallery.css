@@ -1,0 +1,6 @@
+/* Code blocks given ":class: scroll-40" (e.g. the PulseSpel file tabs in
+   examples/interfaces/PulseSpel_Compile.py): show at most 40 lines, then scroll. */
+div.scroll-40 pre {
+    max-height: 40lh;
+    overflow-y: auto;
+}

@@ -1,0 +1,6 @@
+pyepr.ceil
+==========
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: ceil(number, decimals=0)

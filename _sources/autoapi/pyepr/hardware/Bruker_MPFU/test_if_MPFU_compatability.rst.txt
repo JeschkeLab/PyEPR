@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.test_if_MPFU_compatability
+=====================================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: test_if_MPFU_compatability(seq)

@@ -1,0 +1,42 @@
+pyepr.hardware.Bruker_tools.change_dimensions
+=============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: change_dimensions(path, dim, new_length)
+
+   
+   A function to rewrite a pulseSpel experiment file with a new dimension
+
+
+   :Parameters:
+
+       **path** : str
+           The full file path.
+
+       **dim** : int
+           The experiment number that needs to be changed
+
+       **new_length** : int
+           The new length can be a list of two if 2D.
+
+
+
+
+
+
+
+   :Raises:
+
+       ValueError
+           If there more than 2 dimesnions are supplied. Xepr can not handle 3+D 
+           experiments.
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,7 +1,9 @@
 pyepr.CPMGDetection
 ===================
 
-.. py:class:: pyepr.CPMGDetection(*, tp, t=None, freq=0, n_echoes=1, echo_spacing=100, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: CPMGDetection(*, tp, t=None, freq=0, n_echoes=1, echo_spacing=100, **kwargs)
 
    Bases: :py:obj:`Detection`
 
@@ -49,8 +51,30 @@ pyepr.CPMGDetection
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: n_echoes
 
 
    .. py:attribute:: echo_spacing
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Detection`: :py:attr:`~pyepr.pulses.Detection.scale`, :py:attr:`~pyepr.pulses.Detection.freq`, :py:attr:`~pyepr.pulses.Detection.pcyc`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

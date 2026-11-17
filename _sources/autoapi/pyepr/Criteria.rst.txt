@@ -1,7 +1,9 @@
 pyepr.Criteria
 ==============
 
-.. py:class:: pyepr.Criteria(name, test, description = '', end_signal=None)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Criteria(name, test, description = '', end_signal=None)
 
    
    A class for defining criteria for terminating experiments. This should
@@ -25,6 +27,10 @@ pyepr.Criteria
    ..
        !! processed by numpydoc !!
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: name
 
 
@@ -40,6 +46,4 @@ pyepr.Criteria
       :value: None
 
 
-
-   .. py:method:: __add__(__o)
 

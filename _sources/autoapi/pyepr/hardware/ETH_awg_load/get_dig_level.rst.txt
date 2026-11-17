@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.get_dig_level
+=========================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: get_dig_level(data, metadata, conf)

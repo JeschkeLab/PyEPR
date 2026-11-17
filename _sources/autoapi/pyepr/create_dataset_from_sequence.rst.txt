@@ -1,0 +1,6 @@
+pyepr.create_dataset_from_sequence
+==================================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: create_dataset_from_sequence(data, sequence, extra_params={})

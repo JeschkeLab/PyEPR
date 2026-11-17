@@ -6,7 +6,13 @@ pyepr.hardware.dummy_xepr.dummy_xepr
 
    /autoapi/pyepr/hardware/dummy_xepr/dummy_xepr.XeprCmds
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_xepr
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_xepr
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: cur_exp
 
@@ -14,10 +20,16 @@ pyepr.hardware.dummy_xepr.dummy_xepr
    .. py:attribute:: hidden
 
 
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: XeprExperiment(hidden=None)
 
 
    .. py:method:: XeprDataset()
+
 
 Classes
 -------

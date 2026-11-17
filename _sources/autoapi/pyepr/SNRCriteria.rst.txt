@@ -1,7 +1,9 @@
 pyepr.SNRCriteria
 =================
 
-.. py:class:: pyepr.SNRCriteria(SNR_target, description = '', verbosity=0, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: SNRCriteria(SNR_target, description = '', verbosity=0, **kwargs)
 
    Bases: :py:obj:`Criteria`
 
@@ -53,4 +55,13 @@ pyepr.SNRCriteria
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.criteria.Criteria`: :py:attr:`~pyepr.criteria.Criteria.name`, :py:attr:`~pyepr.criteria.Criteria.description`, :py:attr:`~pyepr.criteria.Criteria.test`, :py:attr:`~pyepr.criteria.Criteria.end_signal`
 

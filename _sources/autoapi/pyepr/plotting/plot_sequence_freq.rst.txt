@@ -1,0 +1,50 @@
+pyepr.plotting.plot_sequence_freq
+=================================
+
+.. py:currentmodule:: pyepr.plotting
+
+.. py:function:: plot_sequence_freq(sequence, resonator=None, spectrum=None, title=None, fig=None, axs=None, **kwargs)
+
+   
+   Plots the relative pulses in the frequency domain. If a resonator or spectrum is provided, these are plotted as well.  
+
+
+   :Parameters:
+
+       **sequence** : epr.Sequence
+           The pulse sequence to be plotted.
+
+       **resonator** : epr.ResonatorProfile, optional
+           The resonator profile to be plotted. If provided, the resonator profile will be plotted on a secondary y-axis.
+
+       **spectrum** : epr.FieldSweepAnalysis, optional
+           The field sweep spectrum to be plotted. If provided, the spectrum will be plotted on the same axis as the pulse sequence.
+
+       **title** : str, optional
+           The title of the plot. If not provided, no title will be set.
+
+       **fig** : matplotlib.figure.Figure, optional
+           The figure to plot on. If not provided, a new figure will be created.
+
+       **axs** : matplotlib.axes.Axes, optional
+           The axes to plot on. If not provided, new axes will be created.
+
+
+
+   :Returns:
+
+       **fig** : matplotlib.figure.Figure
+           The figure containing the plot.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

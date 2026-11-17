@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.get_specjet_data
+============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: get_specjet_data(interface, full_output=False, suppress_exceptions=False)

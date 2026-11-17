@@ -1,7 +1,9 @@
 pyepr.TWTProfileSequence
 ========================
 
-.. py:class:: pyepr.TWTProfileSequence(*, B, freq, reptime, averages=1, shots=100, dtp=2, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: TWTProfileSequence(*, B, freq, reptime, averages=1, shots=100, dtp=2, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -9,32 +11,32 @@ pyepr.TWTProfileSequence
    Builds TWT based Resonator Profile sequence. 
 
 
-   Represents an experimental pulse sequence.
+   Build a TWT profile sequence, a nutation experiment where both the
+   length and the amplitude scale of the nutating pulse are varied. This
+   is used to characterise the (non-)linearity of the TWT amplifier.
 
+   Sequence:
+   [p_{nut}(t_p, scale) - \tau_1 - \pi/2 - \tau_2 - \pi - \tau_2 - echo]
 
    :Parameters:
 
-       **name** : str
-           The name of this pulse sequence
+       **B** : int or float
+           The B0 field, in Gauss
 
-       **B** : float
-           The magnetic field for this sequence in Gauss.
+       **freq** : int or float
+           The freq frequency in GHz
 
-       **freq** : float
-           The central frequency of this sequence. I.e. The frequnecy at which
-           a zero offset pulse is at. 
+       **reptime** : _type_
+           The shot repetition time in us
 
-       **reptime** : float
-           The shot repetition time in us.
+       **averages** : int, optional
+           The number of scans, by default 1
 
-       **averages** : int
-           The number of scans to be accumulated.
+       **shots** : int, optional
+           The number of shots per point, by default 100
 
-       **shots** : itn
-           The number of shots per point.
-
-       **LO** : float
-           The now deprecated local oscillator frequency. freq should be used.
+       **dtp** : float, optional
+           The time step for the test pulse in ns, by default 2 ns
 
 
 
@@ -48,16 +50,150 @@ pyepr.TWTProfileSequence
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import numpy as np
+       epr.set_waveform_precision(1)
+
+       seq = epr.TWTProfileSequence(
+           B=12000, freq=34, reptime=3e3, averages=1, shots=10, dtp=2)
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: kwargs
+      :type:  dict
+
+      
+      Keyword arguments
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: dtp
+      :type:  pyepr.classes.Parameter
+
+      
+      Time step for the test pulse
 
 
-   .. py:method:: _build_sequence()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.name`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: simulate(nu1=75, damping=0.06, sat=None)
+
+      
+      Simulates the TWT profile as damped nutations, where the nutation
+      frequency is proportional to the amplitude scale of the test pulse.
+
+      An optional saturation of the amplifier can be included, in which case
+      the nutation frequency follows a hyperbolic tangent of the scale.
+
+      .. math::
+          \nu_1(s) = \nu_{1,max} \frac{\tanh(s/s_{sat})}{\tanh(1/s_{sat})}
+
+      :Parameters:
+
+          **nu1** : float
+              The nutation frequency at full scale (scale=1) in MHz, by default 75 MHz
+
+          **damping** : float
+              The damping factor of the nutations, by default 0.06
+
+          **sat** : float, optional
+              The saturation scale of the amplifier. If None the amplifier is
+              assumed to be linear, by default None
+
+
+
+      :Returns:
+
+          **axes** : list[np.ndarray]
+              The test pulse length axis in ns and the amplitude scale axis
+
+          **data** : np.ndarray
+              The simulated nutation data, with shape (len(tp), len(scale))
+
+
+
+
+
+
+
+
+
+
+      .. rubric:: Examples
+
+      .. plot::
+          :include-source:
+
+          import matplotlib.pyplot as plt
+          import pyepr as epr
+          epr.set_waveform_precision(1)
+
+          seq = epr.TWTProfileSequence(
+              B=12000, freq=34, reptime=3e3, averages=1, shots=10, dtp=2)
+          [tp, scale], data = seq.simulate(nu1=75, sat=0.5)
+          plt.pcolormesh(scale, tp, data.real, shading='auto')
+          plt.xlabel("Amplitude Scale")
+          plt.ylabel("Test Pulse Length (ns)")
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
 

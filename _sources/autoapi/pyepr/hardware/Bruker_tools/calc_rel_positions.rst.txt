@@ -1,0 +1,27 @@
+pyepr.hardware.Bruker_tools.calc_rel_positions
+==============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: calc_rel_positions(sequence)
+
+   
+   Calcuates the starting relative positions of all pulses in a sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

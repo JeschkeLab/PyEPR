@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.find_max_pulse_length
+=================================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: find_max_pulse_length(estr)

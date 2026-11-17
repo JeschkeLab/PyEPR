@@ -40,6 +40,15 @@ Classes
 Functions
 ---------
 
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/pulses/compute_upulses_not_trajectory
+   /autoapi/pyepr/pulses/compute_upulses_trajectory
+   /autoapi/pyepr/pulses/compute_magnetization_not_trajectory
+   /autoapi/pyepr/pulses/compute_magnetization_trajectory
+   /autoapi/pyepr/pulses/build_default_pulses
+
 .. autoapisummary::
 
    pyepr.pulses.compute_upulses_not_trajectory
@@ -48,17 +57,4 @@ Functions
    pyepr.pulses.compute_magnetization_trajectory
    pyepr.pulses.build_default_pulses
 
-
-Module Contents
----------------
-
-.. py:function:: compute_upulses_not_trajectory(dUs)
-
-.. py:function:: compute_upulses_trajectory(dUs)
-
-.. py:function:: compute_magnetization_not_trajectory(Upulses, density0, Mmag)
-
-.. py:function:: compute_magnetization_trajectory(Upulses, density0)
-
-.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
 

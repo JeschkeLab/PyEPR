@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg_load.detect_pulse_type
+=============================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg_load
+
+.. py:function:: detect_pulse_type(pulse)

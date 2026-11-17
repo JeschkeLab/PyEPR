@@ -1,0 +1,31 @@
+pyepr.fieldsweep_analysis.create_Nmodel
+=======================================
+
+.. py:currentmodule:: pyepr.fieldsweep_analysis
+
+.. py:function:: create_Nmodel(mwFreq)
+
+   
+   Create the field sweep model for a Nitroxide spin system. 
+
+
+   :Parameters:
+
+       **mwFreq** : float
+           The microwave frequency in MHz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

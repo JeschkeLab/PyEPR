@@ -1,0 +1,45 @@
+pyepr.sop
+=========
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: sop(spins, comps)
+
+   
+   Spin Operator Matricies.
+
+   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
+
+   References:
+   +++++++++++
+   [1] Stefan Stoll, Arthur Schweiger
+   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
+   J. Magn. Reson. 178(1), 42-55 (2006)
+
+   [2] Stefan Stoll, R. David Britt
+   General and efficient simulation of pulse EPR spectra
+   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
+
+   :Parameters:
+
+       **spins** : list
+           A list of each spin and its spin qunatum number
+
+       **comps** : str
+           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

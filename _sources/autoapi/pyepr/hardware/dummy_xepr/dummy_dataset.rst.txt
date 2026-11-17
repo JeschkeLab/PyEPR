@@ -1,10 +1,17 @@
 pyepr.hardware.dummy_xepr.dummy_dataset
 =======================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_dataset(t, V)
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_dataset(t, V)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: O
 
 
    .. py:attribute:: size
+
 

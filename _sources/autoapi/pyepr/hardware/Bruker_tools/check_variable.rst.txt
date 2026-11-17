@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.check_variable
+==========================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: check_variable(var, uprog)

@@ -1,7 +1,9 @@
 pyepr.TimeCriteria
 ==================
 
-.. py:class:: pyepr.TimeCriteria(name, end_time, description = '', night_hours = None, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: TimeCriteria(name, end_time, description = '', night_hours = None, **kwargs)
 
    Bases: :py:obj:`Criteria`
 
@@ -45,4 +47,13 @@ pyepr.TimeCriteria
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.criteria.Criteria`: :py:attr:`~pyepr.criteria.Criteria.name`, :py:attr:`~pyepr.criteria.Criteria.description`, :py:attr:`~pyepr.criteria.Criteria.test`, :py:attr:`~pyepr.criteria.Criteria.end_signal`
 

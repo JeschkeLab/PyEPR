@@ -1,7 +1,9 @@
 pyepr.hardware.dummy_xepr.dummy_api
 ===================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_api
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_api
 
    Bases: :py:obj:`pyepr.hardware.XeprAPI_link.XeprAPILink`
 
@@ -9,17 +11,18 @@ pyepr.hardware.dummy_xepr.dummy_api
    
 
    This class links to the Bruker Xepr API to control the spectrometer.
-   Parameters
-   ----------
-   config_file : str, optional
-       Path to a PyEPR spectrometer configuration file, by default None
-   kwargs : dict, optional
-       Additional keyword arguments:
-       - retry_attempts : int
-           Number of times to retry getting a Xepr parameter before 
-           raising an exception. Default is 50.
 
 
+   :Parameters:
+
+       **config_file** : str, optional
+           Path to a PyEPR spectrometer configuration file, by default None
+
+       **kwargs** : dict, optional
+           Additional keyword arguments:
+           
+           - retry_attempts (int): Number of times to retry getting a Xepr
+             parameter before raising an exception. Default is 50.
 
 
 
@@ -38,12 +41,20 @@ pyepr.hardware.dummy_xepr.dummy_api
        !! processed by numpydoc !!
 
 
-   .. py:attribute:: _tmp_dir
-      :value: None
-
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: meta
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.XeprAPI_link.XeprAPILink`: :py:attr:`~pyepr.hardware.XeprAPI_link.XeprAPILink.Xepr`, :py:attr:`~pyepr.hardware.XeprAPI_link.XeprAPILink.cur_exp`, :py:attr:`~pyepr.hardware.XeprAPI_link.XeprAPILink.hidden`, :py:attr:`~pyepr.hardware.XeprAPI_link.XeprAPILink.XeprCmds`, :py:attr:`~pyepr.hardware.XeprAPI_link.XeprAPILink.retry_attempts`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: find_Xepr()
@@ -231,4 +242,9 @@ pyepr.hardware.dummy_xepr.dummy_api
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.XeprAPI_link.XeprAPILink`: :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.connect`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.log_xepr_version`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_param`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_hidden_param`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_param`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_hidden_param`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.find_cur_exp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.find_hidden`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.acquire_dataset`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_ReplaceMode`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_ReplaceMode`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PhaseCycle`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_PhaseCycle`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_exp_filename`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_exp_filepath`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_exp_filepath`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_def_filename`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_def_filepath`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_def_filepath`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_phase_cycling`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_phase_cycling`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_PulseSpel_experiment`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_PulseSpel_experiment`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.save_PulseSpel_exp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.save_PulseSpel_def`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_Acquisition_mode`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_Acquisition_mode`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.pause_exp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.rerun_exp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.xepr_save`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_field`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.center_field`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_field`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_counterfreq`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_sweep_width`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_sweep_width`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_freq`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_freq`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_spec_config`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_attenuator`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_attenuator`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_phase`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_phase`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_ELDOR_freq`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_ELDOR_freq`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_gain_step`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_gain`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_config_file`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_config_file`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_MW_amp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_MW_amp`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.get_video_bandwidth`, :py:meth:`~pyepr.hardware.XeprAPI_link.XeprAPILink.set_video_bandwidth`
 

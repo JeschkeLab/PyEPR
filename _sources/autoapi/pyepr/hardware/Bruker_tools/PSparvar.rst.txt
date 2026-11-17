@@ -1,7 +1,13 @@
 pyepr.hardware.Bruker_tools.PSparvar
 ====================================
 
-.. py:class:: pyepr.hardware.Bruker_tools.PSparvar(sequence, id)
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:class:: PSparvar(sequence, id)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: PulseSpel
       :value: True
@@ -13,14 +19,20 @@ pyepr.hardware.Bruker_tools.PSparvar
 
 
 
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: checkPulseSpel()
 
       
-      Checks if parvar can be run in PulseSpel.\
-      Criteria:
-          1) Only pulse/delay lengths changing
-          2) Constant integer step changes
+      Checks if parvar can be run in PulseSpel.
 
+      Criteria:
+
+      1) Only pulse/delay lengths changing
+      2) Constant integer step changes
 
 
 
@@ -42,4 +54,5 @@ pyepr.hardware.Bruker_tools.PSparvar
 
       ..
           !! processed by numpydoc !!
+
 

@@ -1,7 +1,9 @@
 pyepr.Interface
 ===============
 
-.. py:class:: pyepr.Interface(config_file = None, log=None)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Interface(config_file = None, log=None)
 
    Represents the interface connection from autoEPR to the spectrometer.
        
@@ -35,6 +37,10 @@ pyepr.Interface
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: config
 
 
@@ -54,6 +60,16 @@ pyepr.Interface
    .. py:attribute:: resonator
       :value: None
 
+
+
+   .. py:attribute:: AWG
+      :value: True
+
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: connect()
@@ -212,4 +228,206 @@ pyepr.Interface
 
       ..
           !! processed by numpydoc !!
+
+
+   .. py:method:: tune_RectPulse(freq, B, reptime, tp, offset_freq=0, shots=200, verbosity=0, **kwargs)
+
+      
+      Tunes a pair of equal power pi/2, pi rectangular pulses though an amplitude sweep. 
+
+
+      :Parameters:
+
+          **freq** : float
+              The central frequency of the experiment in GHz.
+
+          **B** : float
+              The magnetic field in Gauss.
+
+          **reptime** : float
+              The repetition time in us.
+
+          **tp** : float
+              The length of the pi/2 pulse in ns. The pi pulse will be half this length. 
+              This will be rounded to the nearest 2*waveform_precision to ensure that the pi pulse is of the correct length.
+
+          **offset_freq** : float, optional
+              The offset frequency of the rectangular pulse in GHz. This is used to shift the pulse away from the central frequency of the experiment. Default is 0.
+
+          **shots** : int, optional
+              The number of shots to be used for the frequency sweep, by default 200.
+
+          **verbosity** : int, optional
+              The verbosity level, by default 0. If > 0, the scale values will be printed.
+
+          **\*\*kwargs** : dict
+              - step : float, optional
+                  The step size for the amplitude parameter, by default 0.02.
+              - dim : int, optional
+                  The dimension of the amplitude parameter, by default 50.
+              - tau : float, optional
+                  The delay between the pi/2 and pi pulses in ns, by default 500.
+
+          **\*\* Interface specific launch commands**
+              ..
+
+
+
+      :Returns:
+
+          **p90** : pulses.RectPulse
+              The tuned pi/2 pulse.
+
+          **p180** : pulses.RectPulse
+              The tuned pi pulse.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: tune_GaussianPulse(freq, B, reptime, tp, offset_freq=0, shots=200, verbosity=0, **kwargs)
+
+      
+      Tunes a pair of equal power pi/2, pi Gaussian pulses though an amplitude sweep. 
+
+
+      :Parameters:
+
+          **freq** : float
+              The central frequency of the experiment in GHz.
+
+          **B** : float
+              The magnetic field in Gauss.
+
+          **reptime** : float
+              The repetition time in us.
+
+          **tp** : float
+              The length of the pi/2 pulse in ns. The pi pulse will be half this length. 
+              This will be rounded to the nearest 2*waveform_precision to ensure that the pi pulse is of the correct length.
+
+          **offset_freq** : float, optional
+              The offset frequency of the Gaussian pulse in GHz. This is used to shift the pulse away from the central frequency of the experiment. Default is 0.
+
+          **shots** : int, optional
+              The number of shots to be used for the frequency sweep, by default 200.
+
+          **verbosity** : int, optional
+              The verbosity level, by default 0. If > 0, the scale values will be printed.
+
+          **\*\*kwargs** : dict
+              - step : float, optional
+                  The step size for the amplitude parameter, by default 0.02.
+              - dim : int, optional
+                  The dimension of the amplitude parameter, by default 50.
+              - tau : float, optional
+                  The delay between the pi/2 and pi pulses in ns, by default 500.
+
+          **\*\* Interface specific launch commands**
+              ..
+
+
+
+      :Returns:
+
+          **p90** : pulses.GaussianPulse
+              The tuned pi/2 pulse.
+
+          **p180** : pulses.GaussianPulse
+              The tuned pi pulse.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: tune_KBBPulse(*, freq, B, reptime, tp, init_freq, final_freq, shots=200, verbosity=0, **kwargs)
+
+      
+      Tunes a Kutz-Boehlen-Bodenhausen linear chirp echo. This is a three step optimisation:
+
+      1. Both pulses amplitudes are swept with a 1:2 ratio.
+      2. Pulse 0 is fixed using the optimal amplitude from step 1 and pulse 1 is swept.
+      3. Pulse 1 is fixed using the optimal amplitude from step 2 and pulse 0 is swept.
+
+      :Parameters:
+
+          **freq** : float
+              The central frequency of the experiment in GHz.
+
+          **B** : float
+              The magnetic field in Gauss.
+
+          **reptime** : float
+              The repetition time in us.
+
+          **tp** : float
+              The length of the pi/2 pulse in ns. The pi pulse will be half this length. 
+              This will be rounded to the nearest 2*waveform_precision to ensure that the pi pulse is of the correct length.
+
+          **init_freq** : float
+              The initial frequency of the frequency sweep in GHz.
+
+          **final_freq** : float
+              The final frequency of the frequency sweep in GHz.
+
+          **shots** : int, optional
+              The number of shots to be used for the frequency sweep, by default 200.
+
+          **verbosity** : int, optional
+              The verbosity level, by default 0. If > 0, the scale values will be printed.
+
+          **\*\*kwargs** : dict
+              - step : float, optional
+                  The step size for the amplitude parameter, by default 0.01.
+              - dim : int, optional
+                  The dimension of the amplitude parameter, by default 50.
+              - tau : float, optional
+                  The delay between the pi/2 and pi pulses in ns, by default 500.
+
+          **\*\* Interface specific launch commands**
+              ..
+
+
+
+      :Returns:
+
+          **p90** : pulses.ChirpPulse
+              The tuned pi/2 pulse.
+
+          **p180** : pulses.ChirpPulse
+              The tuned pi pulse.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
 

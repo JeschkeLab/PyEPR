@@ -1,7 +1,9 @@
 pyepr.Sequence
 ==============
 
-.. py:class:: pyepr.Sequence(*, name, B, reptime, averages, shots, LO=None, freq=None, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Sequence(*, name, B, reptime, averages, shots, LO=None, freq=None, **kwargs)
 
    Represents an experimental pulse sequence.
 
@@ -19,7 +21,7 @@ pyepr.Sequence
 
        **freq** : float
            The central frequency of this sequence. I.e. The frequnecy at which
-           a zero offset pulse is at. 
+           a zero offset pulse is at.
 
        **reptime** : float
            The shot repetition time in us.
@@ -45,47 +47,403 @@ pyepr.Sequence
 
 
 
+   .. rubric:: Examples
+
+   A custom sequence can be built by adding pulses to an empty sequence.
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import numpy as np
+       epr.set_waveform_precision(1)
+
+       seq = epr.Sequence(
+           name="CustomHahnEcho", B=12000, freq=34, reptime=1e3,
+           averages=1, shots=10)
+       seq.addPulse(epr.RectPulse(t=0, tp=16, freq=0, flipangle=np.pi/2))
+       seq.addPulse(epr.RectPulse(t=500, tp=32, freq=0, flipangle=np.pi))
+       seq.addPulse(epr.Detection(t=1000, tp=512))
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. py:attribute:: time
+      :type:  pyepr.classes.Parameter
+
+      
+      The estimated run time of the sequence (HH:MM:SS), updated whenever the sequence changes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: pcyc_vars
+      :type:  list[int]
+
+      
+      The indices of the pulses that are phase cycled.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: pcyc_cycles
+      :type:  numpy.ndarray
+
+      
+      The phase of each phase-cycled pulse for every step of the phase cycle.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: pcyc_dets
+      :type:  numpy.ndarray
+
+      
+      The detection sign for every step of the phase cycle.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
    .. py:attribute:: pulses
+      :type:  list[pyepr.pulses.Pulse]
       :value: []
 
 
-
-   .. py:attribute:: num_pulses
-      :value: 0
-
-
-
-   .. py:attribute:: axes_uuid
-      :value: []
+      
+      The list of pulses in this sequence.
 
 
 
-   .. py:attribute:: reduce_uuid
-      :value: []
 
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: averages
+      :type:  pyepr.classes.Parameter
+
+      
+      The number of averages (scans) to perform.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: shots
+      :type:  pyepr.classes.Parameter
+
+      
+      The number of shots per point.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: name
+      :type:  str
+
+      
+      The name of this pulse sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: progTable
+      :type:  dict
+
+      
+      The program table for this sequence, which is used to generate the pulse program. Has columns for EventID, Variable, axis, axID, uuid, and reduce.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: evo_params
+      :type:  list[pyepr.classes.Parameter]
+      :value: []
+
+
+      
+      The list of evolution parameters for this sequence, which are used to define the evolution axes of the sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: num_pulses
+      :type: int
+
+
+      
+      The number of pulses in this sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: seqtable_steps
+      :type: int
+
+
+      
+      The number of steps in the sequence table, which is the product of the number of phase cycle detections, the number of phase cycle variables, and the product of the dimensions of the evolution parameters.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:property:: shape
+      :type: list[int]
+
+
+      
+      Gives the shape of the sequence,excluding the number of shots.
+
+
+
+
+
+      :Returns:
+
+          list
+              [nAvgs, axes_dims, nPcyc]
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: plot()
 
 
    .. py:method:: plot_pulse_exc(FieldSweep=None, ResonatorProfile=None)
+
+
+   .. py:method:: draw(**kwargs)
+
+      
+      Draws the sequence as an annotated matplotlib figure, showing pictorial representations of the pulses and delays in the sequence.
+      Calls the `draw_sequence` function from the `pyepr.plotting` module.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: addPulse(pulse)
@@ -116,33 +474,6 @@ pyepr.Sequence
           !! processed by numpydoc !!
 
 
-   .. py:method:: _estimate_time()
-
-      
-      Calculates the estimated experiment time in seconds.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: _buildPhaseCycle()
-
-
    .. py:method:: evolution(params, reduce=[])
 
       
@@ -169,40 +500,6 @@ pyepr.Sequence
 
           **progTable** : dict
               A dictionary containing the progression of the sequence.
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: _buildProgTable()
-
-
-   .. py:property:: seqtable_steps
-
-
-   .. py:property:: shape
-
-      
-      Gives the shape of the sequence,excluding the number of shots. 
-      Return
-      ------
-      list:
-          [nAvgs, axes_dims, nPcyc]
-
-
-
-
-
 
 
 
@@ -249,11 +546,8 @@ pyepr.Sequence
 
    .. py:method:: shift_detfreq_to_zero()
 
-
-   .. py:method:: _checkRect()
-
       
-      Checks if all the pulses in the sequence are rectangular.
+      Shifts the detection frequency of all pulses to zero, by subtracting the detection frequency from all pulses and the sequence frequency.
 
 
 
@@ -274,16 +568,28 @@ pyepr.Sequence
           !! processed by numpydoc !!
 
 
-   .. py:method:: __str__()
-
-
    .. py:method:: copy()
 
+      
+      Deep copy the sequence object, including all pulses and parameters.
 
-   .. py:method:: _to_dict()
 
 
-   .. py:method:: _to_json()
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: save(filename)
@@ -322,16 +628,6 @@ pyepr.Sequence
           !! processed by numpydoc !!
 
 
-   .. py:method:: _from_dict(dct)
-      :classmethod:
-
-
-
-   .. py:method:: _from_json(JSONstring)
-      :classmethod:
-
-
-
    .. py:method:: load(filename)
       :classmethod:
 
@@ -368,4 +664,5 @@ pyepr.Sequence
 
       ..
           !! processed by numpydoc !!
+
 

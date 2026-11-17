@@ -1,0 +1,41 @@
+pyepr.hardware.XeprAPI_link.get_package_version_from_dnf
+========================================================
+
+.. py:currentmodule:: pyepr.hardware.XeprAPI_link
+
+.. py:function:: get_package_version_from_dnf(package_name)
+
+   
+   Get the version and release of a package installed via dnf.
+
+
+   :Parameters:
+
+       **package_name** : str
+           The name of the package to check.
+
+       **Returns**
+           ..
+
+       **-------**
+           ..
+
+       **dict or None**
+           A dictionary with 'version' and 'release' keys if the package is found,
+           otherwise None.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

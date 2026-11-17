@@ -1,7 +1,13 @@
 pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
 =============================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_xepr.XeprCmds
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
 
    .. py:method:: aqPgShowPrg()
 
@@ -25,4 +31,5 @@ pyepr.hardware.dummy_xepr.dummy_xepr.XeprCmds
 
 
    .. py:method:: vpSave(title, path)
+
 

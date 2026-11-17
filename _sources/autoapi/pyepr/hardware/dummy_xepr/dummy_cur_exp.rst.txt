@@ -1,7 +1,13 @@
 pyepr.hardware.dummy_xepr.dummy_cur_exp
 =======================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_cur_exp
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_cur_exp
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: ShotRepTime
 
@@ -48,32 +54,9 @@ pyepr.hardware.dummy_xepr.dummy_cur_exp
    .. py:attribute:: SweepWidth
 
 
-   .. py:method:: __getitem__(name)
 
-      
-      This method returns a given parameter class for the name provided
-
-      :param name: The name of parameter needed
-      :type name: string
-      :return: Instance of dummy_param class corresponding to the searched name
-      :rtype: dummy_param class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: getParam(name)
@@ -105,4 +88,5 @@ pyepr.hardware.dummy_xepr.dummy_cur_exp
 
 
    .. py:method:: aqExpRun()
+
 

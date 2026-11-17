@@ -1,7 +1,9 @@
 pyepr.Delay
 ===========
 
-.. py:class:: pyepr.Delay(*, tp, t=None)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Delay(*, tp, t=None)
 
    Bases: :py:obj:`Pulse`
 
@@ -25,6 +27,15 @@ pyepr.Delay
        **t** : float, optional
            The pulse start time in ns.
 
+       **flipangle** : float, optional
+           The target flip angle of the pulse in radians, defaults to None.
+
+       **name** : str, optional
+           The name of the pulse, defaults to None.
+
+       **pcyc** : list, optional
+           The phase cycle of the pulse given as a diction with keys "Phases" and "DetSigns", defaults to None.
+
 
 
 
@@ -42,6 +53,10 @@ pyepr.Delay
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: tp
 
 
@@ -53,4 +68,18 @@ pyepr.Delay
    .. py:attribute:: scale
       :value: None
 
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

@@ -1,0 +1,35 @@
+pyepr.utils.val_in_ns
+=====================
+
+.. py:currentmodule:: pyepr.utils
+
+.. py:function:: val_in_ns(Param)
+
+   
+   Returns the value or axis of a parameter in nanoseconds
+
+
+   :Parameters:
+
+       **Param** : autodeer.Parameter
+           The parameter to be converted
+
+
+
+   :Returns:
+
+       float or numpy.ndarray
+           ..
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

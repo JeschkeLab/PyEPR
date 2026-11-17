@@ -1,0 +1,6 @@
+pyepr.build_default_pulses
+==========================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)

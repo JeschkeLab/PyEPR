@@ -1,27 +1,68 @@
 pyepr.pulses.HSPulse
 ====================
 
-.. py:class:: pyepr.pulses.HSPulse(*, tp=128, order1=1, order2=6, beta=20, **kwargs)
+.. py:currentmodule:: pyepr.pulses
+
+.. py:class:: HSPulse(*, tp=128, order1=1, order2=6, beta=20, **kwargs)
 
    Bases: :py:obj:`FrequencySweptPulse`
 
 
-   Represents a hyperboilc secant frequency-swept pulse.
+   
 
+   Represents a non-symetric hyperboilc secant frequency-swept pulse.
 
-   The class for a general pulse.
+   The amplitude and frequency modulation functions are defined as:
 
+   .. math::
+       :nowrap:
+
+       \begin{align}
+           \mathrm{AM} & = \begin{cases}
+               \mathrm{sech}\left(\frac{\beta}{2}\left(\frac{2t}{t_p}\right)^{\alpha_1}\right) & t < t_p/2 \\
+               \mathrm{sech}\left(\frac{\beta}{2}\left(\frac{2t}{t_p}\right)^{\alpha_2}\right) & t \geq t_p/2
+           \end{cases} \\
+           \mathrm{FM} & = \frac{\mathrm{BW}}{2 \mathrm{tanh}( \beta/2)}\mathrm{tanh}\left(\frac{\beta t}{t_p} \right) + \omega_0
+       \end{align}
+
+   where :math:`\alpha_1` and :math:`\alpha_2` are the orders of the hyperbolic secant function
+   for the amplitude and frequency modulation respectively, :math:`\beta` is the
+   truncation parameter, and :math:`BW` is the sweep bandwidth.
 
    :Parameters:
 
        **tp** : float
-           The pulse length in ns.
-
-       **scale** : float
-           The arbitary experimental pulse amplitude, 0-1.
+           Pulse length in ns
 
        **t** : float, optional
-           The pulse start time in ns.
+           The time position of the pulse, by default None
+
+       **init_freq** : float, optional
+           The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **final_freq** : float, optional
+           The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **BW** : float, optional
+           The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **freq** : float, optional
+           The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **scale** : float, optional
+           The scale of the pulse, by default None
+
+       **flipangle** : float, optional
+           The flip angle of the pulse in radians, by default None
+
+       **order1** : float, optional
+           The order of the hyperbolic secant function for the first half of the pulse, by default 1
+
+       **order2** : float, optional
+           The order of the hyperbolic secant function for the second half of the pulse, by default 6
+
+       **beta** : float, optional
+           The beta parameter of the hyperbolic secant function, by default 20
 
 
 
@@ -35,21 +76,98 @@ pyepr.pulses.HSPulse
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import matplotlib.pyplot as plt
+
+       pulse = epr.HSPulse(tp=128, flipangle=np.pi, init_freq=-0.2, final_freq=0.1, order1=1, order2=6, beta=20)
+       pulse.plot(pad=100)
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: order1
+      :type:  pyepr.classes.Parameter
+
+      
+      The order of the hyperbolic secant function for the first half of the pulse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: order2
+      :type:  pyepr.classes.Parameter
+
+      
+      The order of the hyperbolic secant function for the first half of the pulse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: beta
+      :type:  pyepr.classes.Parameter
+
+      
+      The beta parameter of the hyperbolic secant function
 
 
-   .. py:method:: func(ax)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:property:: sweeprate
@@ -74,4 +192,29 @@ pyepr.pulses.HSPulse
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:attr:`~pyepr.pulses.FrequencySweptPulse.Qcrit`, :py:attr:`~pyepr.pulses.FrequencySweptPulse.amp_factor`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: func(ax)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.FrequencySweptPulse`: :py:meth:`~pyepr.pulses.FrequencySweptPulse.flip`
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

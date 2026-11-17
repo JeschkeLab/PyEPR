@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.get_specjet_data
+===========================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: get_specjet_data(interface)

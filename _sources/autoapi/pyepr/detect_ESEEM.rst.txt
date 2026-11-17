@@ -1,0 +1,41 @@
+pyepr.detect_ESEEM
+==================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: detect_ESEEM(dataset, type='deuteron', threshold=1.5)
+
+   
+   Detect if the dataset is an ESEEM experiment.
+
+
+   :Parameters:
+
+       **dataset** : xr.DataArray
+           The dataset to be analyzed.
+
+       **type** : str, optional
+           The type of ESEEM experiment, either deuteron or proton, by default 'deuteron'
+
+       **threshold** : float, optional
+           The SNR threshold for detection, by default 1.5
+
+
+
+   :Returns:
+
+       bool
+           True if ESEEM is detected, False if not.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,0 +1,6 @@
+pyepr.compute_magnetization_not_trajectory
+==========================================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: compute_magnetization_not_trajectory(Upulses, density0, Mmag)

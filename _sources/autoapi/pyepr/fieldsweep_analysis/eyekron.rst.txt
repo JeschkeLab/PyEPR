@@ -1,0 +1,32 @@
+pyepr.fieldsweep_analysis.eyekron
+=================================
+
+.. py:currentmodule:: pyepr.fieldsweep_analysis
+
+.. py:function:: eyekron(M)
+
+   
+   Calculates the Kronecker product of the identity matrix with a matrix M.
+
+   Parameters:
+   M (np.ndarray): The matrix to be multiplied with the identity matrix.
+
+   Returns:
+   np.ndarray: The Kronecker product of the identity matrix with M.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

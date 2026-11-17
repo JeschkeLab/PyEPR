@@ -1,0 +1,6 @@
+pyepr.hardware.dummy.add_phaseshift
+===================================
+
+.. py:currentmodule:: pyepr.hardware.dummy
+
+.. py:function:: add_phaseshift(data, phase)

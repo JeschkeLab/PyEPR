@@ -1,7 +1,9 @@
 pyepr.sequences.CarrPurcellSequence
 ===================================
 
-.. py:class:: pyepr.sequences.CarrPurcellSequence(*, B, freq, reptime, averages, shots, n, start=300, step=50, dim=100, **kwargs)
+.. py:currentmodule:: pyepr.sequences
+
+.. py:class:: CarrPurcellSequence(*, B, freq, reptime, averages, shots, n, start=300, step=50, dim=100, **kwargs)
 
    Bases: :py:obj:`Sequence`
 
@@ -12,6 +14,8 @@ pyepr.sequences.CarrPurcellSequence
    Build a Carr-Purcell dynamical decoupling sequence using either 
    rectangular pulses or specified pulses.
 
+   Sequence:
+   [\pi/2 [- \tau - \pi - \tau]^n - echo]
 
    :Parameters:
 
@@ -54,21 +58,107 @@ pyepr.sequences.CarrPurcellSequence
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+       seq = epr.CarrPurcellSequence(B=12000, freq=34, reptime=1000, averages=1, shots=10, n=4)  
+
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: t
+      :type:  pyepr.classes.Parameter
+
+      
+      The first interpulse delay in ns, which is incremented.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: n
+      :type:  pyepr.classes.Parameter
+
+      
+      The number of refocusing pi pulses.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:attribute:: dim
+      :type:  pyepr.classes.Parameter
+
+      
+      The number of points in the X axis.
 
 
-   .. py:method:: _build_sequence()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.name`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: simulate(T_CP=2500.0, e=1.8)
@@ -77,7 +167,7 @@ pyepr.sequences.CarrPurcellSequence
       Simulates the Carr-Purcell sequence as a single component stretched exponential decay.
 
       .. math::
-          V(t) = e^(-(t/T_{CP})^e)
+          V(t) = e^{(-(t/T_{CP})^e)}
 
       :Parameters:
 
@@ -106,7 +196,26 @@ pyepr.sequences.CarrPurcellSequence
 
 
 
+      .. rubric:: Examples
+
+      .. plot::
+          :include-source:
+
+          import matplotlib.pyplot as plt
+          import pyepr as epr
+          epr.set_waveform_precision(1)
+
+          seq = epr.CarrPurcellSequence(B=12000, freq=34, reptime=1000, averages=1, shots=10, n=4)  
+          x,data = seq.simulate(T_CP=2.5e3, e=1.8)
+          plt.plot(x,data)
+          plt.xlabel("Interpulse Delay (ns)")
+          plt.ylabel("Signal Intensity (a.u.)")    
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
 

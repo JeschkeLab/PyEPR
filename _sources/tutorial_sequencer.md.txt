@@ -4,17 +4,19 @@ PyEPR provides an intuitive object-oriented pulse programmer allowing the user t
 
 PyEPR uses ns, GHz and G as the default time, frequency and field units. Very occasionally, other units such as µs or MHz are used, in which case it will be explicitly mentioned.
 
-## Seqeunce Construction
+## Sequence Construction
 
 First we must import the pyepr package, and set our waveform precision. This waveform precision determines the time resolution of the pulse length and positons. If values are given that are not multiples of the waveform precision, they will be rounded.
 
 ```python
+import numpy as np
 import pyepr as epr
 epr.set_waveform_precision(2)  # Set waveform precision to 2 ns
 ```
 
+### 1. Creating the base sequence object
 Next, we want to create a sequence object. Here we are aiming to create a simple Hahn Echo sequence.
-It is normally recommened, to set the field `B` and frequency `freq` as external variables. 
+It is normally recommended, to set the field `B` and frequency `freq` as external variables. 
 ```python
 B = 12200  # Magnetic field in Gauss
 freq = 34.0  # Microwave frequency in GHz
@@ -26,25 +28,11 @@ seq = epr.Sequence(name='Hahn Echo Sequence',
                    shots = 20, # Number of shots per point
                    ) 
 ```
-Now we need to define some pulses that can be used in our sequence. Here we create a 90 degree and a 180 degree rectangular pulse.
-These pulses will eventually need a scale (amplitude), before the sequence can be run on hardware.
-A Detection window is also created
-```python
-p90 = epr.RectPulse(tp=16,
-                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
-                    flipangle=np.pi/2, # Flip angle in degrees
-                    pcyc = {"phases":[0, np.pi], "dets":[1,-1]}
-                    )
-p180 = epr.RectPulse(tp=32,
-                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
-                    flipangle=np.pi, # Flip angle in degrees
-                    )
-det = epr.Detection(tp=32,
-                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
-                    )
-```                  
-We now need a time axis for our sequence and to add them to the sequence object.
-When a pulse is copied into the sequence using the `addPulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
+### 2. Defining the moving parmameter
+We now need a time axis for our sequence and to add them to the sequence object. 
+This is necessary for parameter sweeps and for any parameter that we would ideally like to 
+be saved in the sequence object for later use.
+
 ```python
 t = epr.Parameter(name='Interpulse Delay',
                   value=400, # Initial interpulse delay in ns
@@ -53,13 +41,40 @@ t = epr.Parameter(name='Interpulse Delay',
                   unit='ns',  # Unit of the parameter
                   description='Interpulse delay between the pi/2 and pi pulse'
                   )
+```
 
+### 3. Defining the pulses
+Now we need to define some pulses that can be used in our sequence. Here we create a 90 degree and a 180 degree rectangular pulse.
+Standard phases cycles are added to each pulse using the pcyc argument and a dict listing the phases and detection sign for each step. PyEPR automatically multiplies the phase cycles up, i.e. a 4 step on two pulses will result in a 16 step phase cycle.
+
+These pulses will eventually need a scale (amplitude), before the sequence can be run on hardware.
+A Detection window is also created
+```python
+p90 = epr.RectPulse(tp=16,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
+                    flipangle=np.pi/2, # Flip angle in radians
+                    pcyc = {"phases":[0, np.pi], "dets":[1,-1]}
+                    )
+p180 = epr.RectPulse(tp=32,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
+                    flipangle=np.pi, # Flip angle in radians
+                    )
+det = epr.Detection(tp=32,
+                    freq=0, # Frequency offset in GHz, w.r.t the sequence frequency,
+                    )
+```                  
+When a pulse is copied into the sequence using the `addPulse` method, parameters can be modified allowing the same pulse can be used multiple times with different timings or amplitudes.
+```python
 # Adding the pulses to the sequence
 seq.addPulse(p90.copy(t=0))
 seq.addPulse(p180.copy(t=t))
 seq.addPulse(det.copy(t=2*t))  
+```
 
-# Defining the evolution
+### 4. Defining the evolution
+To define the evolution of the sequence, we need to specify which parameters are evolving. In this case, we want to evolve the interpulse delay `t`. 
+
+```python
 seq.evolution([t])
 ```
 ### Advanced Sequences
@@ -67,9 +82,12 @@ The sequence class is capable of more advanced features such as:
 - Linked axes
 - Reduced axes
 - Non-linear axes
+- Linked phase cycles
+
+Which are covered in the [examples](auto_examples/index.rst).
 
 ## Default Experiments
-For convienience, several common EPR experiments are pre-defined and can be easily instantiated and modified.
+For convenience, several common EPR experiments are pre-defined and can be easily instantiated and modified.
 A list of currently implemented experiments can be found in the [API documentation](API_docs.rst).
 Here we show how to create a simple Hahn Echo Relaxation experiment.
 ```python

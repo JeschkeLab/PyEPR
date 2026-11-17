@@ -1,0 +1,27 @@
+pyepr.resonator_profile_analysis.phase_correct_respro
+=====================================================
+
+.. py:currentmodule:: pyepr.resonator_profile_analysis
+
+.. py:function:: phase_correct_respro(dataset)
+
+   
+   Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

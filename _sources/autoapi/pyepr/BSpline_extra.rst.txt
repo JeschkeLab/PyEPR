@@ -1,0 +1,6 @@
+pyepr.BSpline_extra
+===================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: BSpline_extra(tck_s)

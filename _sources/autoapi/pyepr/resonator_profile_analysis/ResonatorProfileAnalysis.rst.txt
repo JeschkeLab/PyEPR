@@ -1,7 +1,9 @@
 pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
 =========================================================
 
-.. py:class:: pyepr.resonator_profile_analysis.ResonatorProfileAnalysis(dataset, f_lims=(32, 36), attentuator=0, R_limit=0.2, bounds=None, p0=None, **kwargs)
+.. py:currentmodule:: pyepr.resonator_profile_analysis
+
+.. py:class:: ResonatorProfileAnalysis(dataset, f_lims=(32, 36), attentuator=0, R_limit=0.2, bounds=None, p0=None, **kwargs)
 
    
 
@@ -54,6 +56,10 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: n_files
 
 
@@ -68,6 +74,11 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
    .. py:attribute:: attenuator
       :value: 0
 
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: process_nutations(noisedensity = None, threshold = 2, nfft = 1000, **kwargs)
@@ -114,47 +125,7 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
           !! processed by numpydoc !!
 
 
-   .. py:method:: _process_fit(R_limit=0.5, mask=None, debug=False, **kwargs)
-
-      
-      Processes the nutation data by fitting a cosine function to each
-      frequency in the dataset.
-
-      Function used for fitting:
-      .. math:: \nu(t) = a \cos(2\pi f (t - x_0)) e^{-(t - x_0)/\tau} + k
-      where :math:`a` is the amplitude, :math:`f` is the nutation frequency,
-      :math:`\tau` is the decay time, :math:`x_0` is the offset and :math:`k` is a constant offset.
-
-      :Parameters:
-
-          **R_limit** : float, optional
-              The R^2 limit for extracting fits, by default 0.5
-
-          **mask** : np.ndarray, optional
-              A mask to apply to the dataset, by default None. If not given the whole dataset is used.
-              The mask is applied along the 'pulse0_tp' axis, so it should be a 1D array
-
-          **debug** : bool, optional
-              If True all fits that are below the R_limit are plotted, by default False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: fit(f_diff_threshold=2, cores=1, multi_mode=False, fc_guess=None)
+   .. py:method:: fit(model='lorenz_sqrt', f_diff_threshold=2, cores=1, fc_guess=None, **kwargs)
 
       
       Fit the resonator profile with a sum of lorentzians.
@@ -182,7 +153,7 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
           !! processed by numpydoc !!
 
 
-   .. py:method:: plot(fieldsweep=None, axs=None, fig=None)
+   .. py:method:: plot(axs=None, fig=None, **kwargs)
 
       
       plot. 
@@ -190,11 +161,8 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
 
       :Parameters:
 
-          **fieldsweep** : FieldSweepAnalysis, optional
-              Overlays the FieldSweep if provided, by default None
-
           **axs** : matplotlib.Axes, optional
-              Axes to plot on, by default None
+              Axes to plot on, by default None. Needs to be a flat array with two axes
 
           **fig** : matplotlib.Figure, optional
               Figure to plot on, by default None
@@ -219,42 +187,4 @@ pyepr.resonator_profile_analysis.ResonatorProfileAnalysis
       ..
           !! processed by numpydoc !!
 
-
-   .. py:method:: _dummy_create(freq_axis, nu_max, Q, fc)
-      :classmethod:
-
-
-      
-      Creates a dummy resonator profile for testing purposes.
-
-
-      :Parameters:
-
-          **freq_axis** : np.ndarray
-              The frequency axis of the resonator profile.
-
-          **nu_max** : float
-              The maximum nutation frequency.
-
-          **Q** : float
-              The quality factor of the resonator.
-
-          **fc** : float
-              The center frequency of the resonator.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
 

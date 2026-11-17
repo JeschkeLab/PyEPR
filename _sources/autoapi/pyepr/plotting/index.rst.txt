@@ -1,0 +1,21 @@
+pyepr.plotting
+==============
+
+.. py:module:: pyepr.plotting
+
+
+Functions
+---------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/plotting/plot_sequence_freq
+   /autoapi/pyepr/plotting/draw_sequence
+
+.. autoapisummary::
+
+   pyepr.plotting.plot_sequence_freq
+   pyepr.plotting.draw_sequence
+
+

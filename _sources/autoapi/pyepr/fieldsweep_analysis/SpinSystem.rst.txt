@@ -1,7 +1,13 @@
 pyepr.fieldsweep_analysis.SpinSystem
 ====================================
 
-.. py:class:: pyepr.fieldsweep_analysis.SpinSystem(espins, nspin, g, A)
+.. py:currentmodule:: pyepr.fieldsweep_analysis
+
+.. py:class:: SpinSystem(espins, nspin, g, A)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: g
 
@@ -29,5 +35,6 @@ pyepr.fieldsweep_analysis.SpinSystem
 
    .. py:attribute:: gnscale
       :value: 1
+
 
 

@@ -1,0 +1,292 @@
+pyepr.sequences.DEER.FivePulseDEERSequence
+==========================================
+
+.. py:currentmodule:: pyepr.sequences.DEER
+
+.. py:class:: FivePulseDEERSequence(*, B, freq, reptime, averages, shots, tau1, tau2, tau3, step=8, start=None, dim=None, phase_cycle='16-step', **kwargs)
+
+   Bases: :py:obj:`pyepr.sequences.Sequence`
+
+
+   Represents an experimental pulse sequence.
+
+
+   Initialize the 5-pulse DEER sequence.
+
+   Sequence:
+   [\pi/2 - \tau_1-\tau_3 \pi_{pump} - \tau3 \pi - t \pi_{pump} - (\tau_2+\tau_1-t) - \pi - \tau2 - echo]   
+
+   :Parameters:
+
+       **B** : int or float
+           The B0 field, in Gauss
+
+       **freq** : int or float
+           The freq frequency in GHz
+
+       **reptime** : float
+           The shot repetition time in us
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point
+
+       **tau1** : int or float
+           The first interpulse delay in us
+
+       **tau2** : int or float
+           The second interpulse delay in us
+
+       **tau3** : int or float
+           The third interpulse delay in us
+
+       **step** : int or float
+           The step size for the DEER time in ns, by default it is 8 ns
+
+       **start** : int or float
+           The starting DEER time in us, also known as tmin. If it is None then it is 180ns before tau2. By default it is None.
+
+       **dim** : int
+           The number of points in the DEER time, by default it is calculated from the step and start values, and stops at tau2
+
+       **phase_cycle** : str|list, optional
+           The phase cycling scheme to use. Either a pre-defined option 
+           ('16-step' or 'DC'), can be supplied or a list of the phase cycles 
+           for each pulse. Default is '16-step'. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import numpy as np
+       from pyepr.sequences.DEER import FivePulseDEERSequence
+       N_gyro = 0.002803632236095
+       freq = 34
+
+       exc_pulse = epr.GaussianPulse(tp=32,freq=0,flipangle=np.pi/2)
+       ref_pulse = epr.GaussianPulse(tp=32,freq=0,flipangle=np.pi)
+       pump_pulse = epr.ChirpPulse(tp=200,init_freq=-0.10,final_freq=-0.05,flipangle=np.pi)
+       seq = FivePulseDEERSequence(
+               B=freq/N_gyro,
+               freq=freq,
+               reptime=3e3,
+               averages=1,
+               shots=10,
+               tau1=3,
+               tau2=3,
+               tau3=0.3,
+               step=8,
+               start=0.1,
+               phase_cycle='16-step',
+               exc_pulse=exc_pulse,
+               ref_pulse=ref_pulse,
+               pump_pulse=pump_pulse
+           )
+
+       seq.draw()
+       print(seq)
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. py:attribute:: tau1
+      :type:  pyepr.classes.Parameter
+
+      
+      The first interpulse delay parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: tau2
+      :type:  pyepr.classes.Parameter
+
+      
+      The second interpulse delay parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: tau3
+      :type:  pyepr.classes.Parameter
+
+      
+      The third interpulse delay parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:attribute:: t
+      :type:  pyepr.classes.Parameter
+
+      
+      The pump pulse position parameter in ns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.name`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: simulate(**kwargs)
+
+      
+      Simulate the 5-pulse DEER sequence using DeerLab. 
+
+
+
+
+
+      :Returns:
+
+          **t** : np.ndarray
+              The DEER time axis in us
+
+          **Vsim** : np.ndarray
+              The simulated DEER signal
+
+
+
+
+
+
+
+
+
+
+      .. rubric:: Examples
+
+      .. plot::
+          :include-source:
+
+          import pyepr as epr
+          import numpy as np
+          import matplotlib.pyplot as plt
+          from pyepr.sequences.DEER import FivePulseDEERSequence
+          N_gyro = 0.002803632236095
+          freq = 34
+
+          exc_pulse = epr.GaussianPulse(tp=32,freq=0,flipangle=np.pi/2)
+          ref_pulse = epr.GaussianPulse(tp=32,freq=0,flipangle=np.pi)
+          pump_pulse = epr.ChirpPulse(tp=200,init_freq=-0.10,final_freq=-0.05,flipangle=np.pi)
+          seq = FivePulseDEERSequence(
+                  B=freq/N_gyro,
+                  freq=freq,
+                  reptime=3e3,
+                  averages=1,
+                  shots=10,
+                  tau1=3,
+                  tau2=3,
+                  tau3=0.3,
+                  step=8,
+                  start=0.1,
+                  phase_cycle='16-step',
+                  exc_pulse=exc_pulse,
+                  ref_pulse=ref_pulse,
+                  pump_pulse=pump_pulse
+              )
+
+          t, Vsim = seq.simulate(rmean=4.0, rstd=0.75, conc=100)
+          plt.plot(t, Vsim)
+          plt.xlabel(r'Time ($\mu$s)')
+          plt.ylabel(r'Signal (a.u.)')
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
+

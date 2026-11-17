@@ -1,0 +1,105 @@
+
+
+.. _sphx_glr_auto_examples_interfaces:
+
+Interface Specific Examples
+---------------------------
+
+
+
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="PyEPR Control Superconducting Interface">
+
+.. only:: html
+
+  .. image:: /auto_examples/interfaces/images/thumb/sphx_glr_PyEPR_Control_SuperConducting_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/interfaces/PyEPR_Control_SuperConducting`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">PyEPR Control Superconducting Interface</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="ETH Matlab Based AWG">
+
+.. only:: html
+
+  .. image:: /auto_examples/interfaces/images/thumb/sphx_glr_ETH_AWG_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/interfaces/ETH_AWG`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ETH Matlab Based AWG</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Connecting to a Bruker Xepr (or Xenon) based spectrometer needs to be done using the XeprAPI. Using this API, PyEPR can control the spectrometer and upload pulse sequences to it for execution. It also has a lower-level interface which allows for more advanced control of the spectrometer,  which can be useful for CW as well as pulse EPR experiments.">
+
+.. only:: html
+
+  .. image:: /auto_examples/interfaces/images/thumb/sphx_glr_Xepr_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/interfaces/Xepr`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Xepr API Interface</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="PyEPR can compile a Bruker PulseSpel pulse sequence from a PyEPR sequence object.  This allows for easy integration of PyEPR with Bruker Xepr software,  and allows for the use of PyEPR&#x27;s powerful sequence building tools to create complex pulse sequences for EPR experiments.">
+
+.. only:: html
+
+  .. image:: /auto_examples/interfaces/images/thumb/sphx_glr_PulseSpel_Compile_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/interfaces/PulseSpel_Compile`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">PulseSpel Compile</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/interfaces/PyEPR_Control_SuperConducting
+   /auto_examples/interfaces/ETH_AWG
+   /auto_examples/interfaces/Xepr
+   /auto_examples/interfaces/PulseSpel_Compile
+

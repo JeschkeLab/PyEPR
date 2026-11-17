@@ -1,0 +1,6 @@
+pyepr.dataset.get_all_fixed_param
+=================================
+
+.. py:currentmodule:: pyepr.dataset
+
+.. py:function:: get_all_fixed_param(sequence)

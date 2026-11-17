@@ -1,0 +1,38 @@
+pyepr.utils.add_phaseshift
+==========================
+
+.. py:currentmodule:: pyepr.utils
+
+.. py:function:: add_phaseshift(data, phase)
+
+   
+   Adds a phase shift to the data
+
+
+   :Parameters:
+
+       **data** : numpy.ndarray
+           The data to be phase shifted
+
+       **phase** : float
+           The phase shift in degrees
+
+
+
+   :Returns:
+
+       numpy.ndarray
+           ..
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

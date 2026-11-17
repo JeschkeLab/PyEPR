@@ -1,7 +1,13 @@
 pyepr.hardware.dummy.dummyResonator
 ===================================
 
-.. py:class:: pyepr.hardware.dummy.dummyResonator
+.. py:currentmodule:: pyepr.hardware.dummy
+
+.. py:class:: dummyResonator
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: fc
       :type:  float
@@ -19,5 +25,11 @@ pyepr.hardware.dummy.dummyResonator
       :type:  float
 
 
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: mode(x)
+
 

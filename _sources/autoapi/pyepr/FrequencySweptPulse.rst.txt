@@ -1,27 +1,43 @@
 pyepr.FrequencySweptPulse
 =========================
 
-.. py:class:: pyepr.FrequencySweptPulse(*, tp, t=None, scale=None, flipangle=None, pcyc=[0], name=None, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: FrequencySweptPulse(*, tp, t=None, scale=None, flipangle=None, pcyc=[0], name=None, **kwargs)
 
    Bases: :py:obj:`Pulse`
 
 
-   A general parent class for Frequency Swept Pulses.
+   
 
 
-   The class for a general pulse.
 
 
    :Parameters:
 
        **tp** : float
-           The pulse length in ns.
-
-       **scale** : float
-           The arbitary experimental pulse amplitude, 0-1.
+           Pulse length in ns
 
        **t** : float, optional
-           The pulse start time in ns.
+           The time position of the pulse, by default None
+
+       **init_freq** : float, optional
+           The initial frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **final_freq** : float, optional
+           The final frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **BW** : float, optional
+           The bandwidth of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **freq** : float, optional
+           The central frequency of the pulse in GHz, by default None. Either the initial and final frequency or the bandwidth and central frequency must be specified.
+
+       **scale** : float, optional
+           The scale of the pulse, by default None
+
+       **flipangle** : float, optional
+           The flip angle of the pulse in radians, by default None
 
 
 
@@ -38,6 +54,10 @@ pyepr.FrequencySweptPulse
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:property:: Qcrit
@@ -114,6 +134,15 @@ pyepr.FrequencySweptPulse
           !! processed by numpydoc !!
 
 
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: flip()
 
       
@@ -136,4 +165,9 @@ pyepr.FrequencySweptPulse
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

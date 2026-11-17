@@ -1,0 +1,165 @@
+pyepr.sequences.ReptimeScanSequence
+===================================
+
+.. py:currentmodule:: pyepr.sequences
+
+.. py:class:: ReptimeScanSequence(*, B, freq, reptime, reptime_max, averages, shots, start=20, dim=100, **kwargs)
+
+   Bases: :py:obj:`HahnEchoSequence`
+
+
+   Represents a reptime scan of a Hahn Echo Sequence. 
+
+
+   A Hahn echo sequence is perfomed with the shot repetition time increasing.1
+
+   Sequence:
+   [\pi/2 - \tau - \pi - \tau - echo]
+
+   :Parameters:
+
+       **B** : int or float
+           The B0 field, in Gauss
+
+       **freq** : int or float
+           The freq frequency in GHz
+
+       **reptime: float**
+           The default reptime, this is used for tuning pulses etc...
+
+       **averages** : int
+           The number of scans.
+
+       **shots** : int
+           The number of shots per point
+
+       **reptime_max** : float
+           The maximum shot repetition time in us
+
+       **start** : float
+           The minimum shot repetition time in us, by default 20 us
+
+       **dim** : int
+           The number of points in the reptime axis
+
+
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+       seq = epr.ReptimeScanSequence(
+       B=12000, freq=34, reptime=1000, averages=1,
+       shots=10, reptime_max=10000, start=20, dim=100)  
+
+       seq.draw()
+
+   ..
+       !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
+   .. py:attribute:: name
+      :value: 'ReptimeScan'
+
+
+      
+      The name of this pulse sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: simulate()
+
+      
+      Simulates the reptime scan as an exponential recovery.
+
+      .. math::
+          V(t) = 1 - e^(-t/T1)
+
+
+
+
+      :Returns:
+
+          **t** : np.ndarray
+              The shot repetition time axis in us
+
+          **data** : np.ndarray
+              The simulated complex echo intensity
+
+
+
+
+
+
+
+
+
+
+      .. rubric:: Examples
+
+      .. plot::
+          :include-source:
+
+          import matplotlib.pyplot as plt
+          import pyepr as epr
+          epr.set_waveform_precision(1)
+
+          seq = epr.ReptimeScanSequence(
+              B=12000, freq=34, reptime=1000, averages=1,
+              shots=10, reptime_max=10000, start=20, dim=100)
+          t, data = seq.simulate()
+          plt.plot(t, data.real)
+          plt.xlabel(r"Shot Repetition Time ($\mu$s)")
+          plt.ylabel("Signal Intensity (a.u.)")
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
+

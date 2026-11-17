@@ -1,0 +1,6 @@
+pyepr.utils.build_table
+=======================
+
+.. py:currentmodule:: pyepr.utils
+
+.. py:function:: build_table(source, params, params_widths)

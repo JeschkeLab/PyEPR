@@ -1,7 +1,9 @@
 pyepr.pulses.GaussianPulse
 ==========================
 
-.. py:class:: pyepr.pulses.GaussianPulse(*, tp=32, FWHM=None, freq=0, **kwargs)
+.. py:currentmodule:: pyepr.pulses
+
+.. py:class:: GaussianPulse(*, tp=32, FWHM=None, freq=0, **kwargs)
 
    Bases: :py:obj:`Pulse`
 
@@ -43,13 +45,18 @@ pyepr.pulses.GaussianPulse
        import pyepr as epr
        import matplotlib.pyplot as plt
 
-       GuassPulse = epr.GaussianPulse(tp=32)
-       GuassPulse.plot(pad=0)
-       plt.annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
-       plt.annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
+       GuassPulse = epr.GaussianPulse(tp=32, flipangle=np.pi)
+       fig = GuassPulse.plot(pad=50)
+       axs = fig.get_axes()
+       axs[0].annotate('', xy=(-GuassPulse.FWHM.value/2, 0.5), xytext=(GuassPulse.FWHM.value/2, 0.5), color='C1',arrowprops=dict(arrowstyle='<|-|>', color='C1',lw=2))
+       axs[0].annotate('FWHM', xy=(0, 0.51), xytext=(0, 0.51), color='C1', ha='center', fontsize=12)
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: freq
@@ -58,19 +65,36 @@ pyepr.pulses.GaussianPulse
    .. py:attribute:: FWHM
 
 
+   .. py:property:: bandwidth
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: func(ax)
 
 
    .. py:method:: plot(pad=1000)
 
       
-      Plots the time domain representation of this pulse.
+      Plots the time domain representation of this pulse alongside its
+      Mz inversion profile.
 
 
       :Parameters:
 
           **pad** : int, optional
               The number of zeros to pad the data with, by default 1000
+
+          **freqs** : np.ndarray, optional
+              The frequency axis to calculate the Mz inversion profile over.
+              If not given, a default range is calculated by `exciteprofile`.
 
 
 
@@ -87,4 +111,9 @@ pyepr.pulses.GaussianPulse
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

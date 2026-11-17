@@ -1,0 +1,6 @@
+pyepr.hardware.xepr_experiments.DEER5p_run
+==========================================
+
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:function:: DEER5p_run(api, ps_length, d0, tau2, sweeps=4, deadtime=80, dt=16, num_points=0, srt=6000000.0)

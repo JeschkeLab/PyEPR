@@ -1,0 +1,31 @@
+pyepr.utils.gcd
+===============
+
+.. py:currentmodule:: pyepr.utils
+
+.. py:function:: gcd(values)
+
+   
+   Generates the greatest common divisor on a list of floats
+
+
+   :Parameters:
+
+       **values** : list
+           _description_
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,0 +1,6 @@
+pyepr.hardware.ETH_awg.bg_thread
+================================
+
+.. py:currentmodule:: pyepr.hardware.ETH_awg
+
+.. py:function:: bg_thread(interface, seq, savename, IFgain, axID, stop_flag)

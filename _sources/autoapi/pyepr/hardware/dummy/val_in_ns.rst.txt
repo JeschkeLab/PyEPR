@@ -1,0 +1,6 @@
+pyepr.hardware.dummy.val_in_ns
+==============================
+
+.. py:currentmodule:: pyepr.hardware.dummy
+
+.. py:function:: val_in_ns(Param)

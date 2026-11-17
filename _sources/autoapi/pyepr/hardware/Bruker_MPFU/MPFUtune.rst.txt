@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.MPFUtune
+===================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: MPFUtune(interface, sequence, channels, echo='Hahn', tol = 0.1, bounds=[0, 100], tau_value=550)

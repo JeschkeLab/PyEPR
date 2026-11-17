@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.get_arange
+======================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: get_arange(array)

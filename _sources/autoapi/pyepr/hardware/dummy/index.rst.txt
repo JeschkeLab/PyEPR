@@ -33,6 +33,14 @@ Classes
 Functions
 ---------
 
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/dummy/val_in_us
+   /autoapi/pyepr/hardware/dummy/val_in_ns
+   /autoapi/pyepr/hardware/dummy/add_noise
+   /autoapi/pyepr/hardware/dummy/add_phaseshift
+
 .. autoapisummary::
 
    pyepr.hardware.dummy.val_in_us
@@ -47,12 +55,4 @@ Module Contents
 .. py:data:: rng
 
 .. py:data:: hw_log
-
-.. py:function:: val_in_us(Param)
-
-.. py:function:: val_in_ns(Param)
-
-.. py:function:: add_noise(data, noise_level)
-
-.. py:function:: add_phaseshift(data, phase)
 

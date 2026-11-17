@@ -1,7 +1,9 @@
 pyepr.relaxation_analysis.ReptimeAnalysis
 =========================================
 
-.. py:class:: pyepr.relaxation_analysis.ReptimeAnalysis(dataset, sequence = None)
+.. py:currentmodule:: pyepr.relaxation_analysis
+
+.. py:class:: ReptimeAnalysis(dataset, sequence = None)
 
    
 
@@ -33,6 +35,10 @@ pyepr.relaxation_analysis.ReptimeAnalysis
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: axis
 
 
@@ -47,6 +53,11 @@ pyepr.relaxation_analysis.ReptimeAnalysis
 
 
 
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: fit(type='SE', **kwargs)
 
 
@@ -54,4 +65,5 @@ pyepr.relaxation_analysis.ReptimeAnalysis
 
 
    .. py:method:: calc_optimal_reptime(recovery=0.9)
+
 

@@ -1,10 +1,11 @@
 pyepr.pulses.Pulse
 ==================
 
-.. py:class:: pyepr.pulses.Pulse(*, tp, t=None, scale=None, flipangle=None, pcyc=[0], name=None, **kwargs)
+.. py:currentmodule:: pyepr.pulses
 
-   Represents a general experimental pulse.
+.. py:class:: Pulse(*, tp, t=None, scale=None, flipangle=None, pcyc=None, name=None, **kwargs)
 
+   
 
    The class for a general pulse.
 
@@ -19,6 +20,15 @@ pyepr.pulses.Pulse
 
        **t** : float, optional
            The pulse start time in ns.
+
+       **flipangle** : float, optional
+           The target flip angle of the pulse in radians, defaults to None.
+
+       **name** : str, optional
+           The name of the pulse, defaults to None.
+
+       **pcyc** : list, optional
+           The phase cycle of the pulse given as a diction with keys "Phases" and "DetSigns", defaults to None.
 
 
 
@@ -37,30 +47,26 @@ pyepr.pulses.Pulse
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: name
       :value: None
 
 
 
-   .. py:attribute:: Progression
-      :value: False
-
+   .. py:attribute:: uuid
 
 
    .. py:property:: bandwidth
 
 
-   .. py:method:: _addPhaseCycle(phases, detections=None)
+   .. py:property:: amp_factor
 
       
-      Adds a phase cycle to the pulse sequence.
+      The B1 amplitude factor (nutation frequency) for the pulse in GHz
 
-      Args:
-          phases (list): List of phases to add to the phase cycle.
-          detections (list, optional): List of detection signs. Defaults to None. If None then all cycles are summed.
-
-      Returns:
-          None
 
 
 
@@ -80,16 +86,16 @@ pyepr.pulses.Pulse
           !! processed by numpydoc !!
 
 
-   .. py:method:: _buildFMAM(func, ax=None)
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. py:method:: removePhaseCycle()
 
       
-      Builds the amplitude modulation (AM) and frequency modulation (FM) of a given function.
+      Clears the attached phase cycle.
 
-      Args:
-          func: A function that takes in an array of values and returns two arrays, representing the AM and FM of the function.
-
-      Returns:
-          Two arrays representing the AM and FM of the function.
 
 
 
@@ -190,60 +196,11 @@ pyepr.pulses.Pulse
           !! processed by numpydoc !!
 
 
-   .. py:method:: isDelayFocused()
+   .. py:method:: plot(pad=1000, freqs=None)
 
       
-      Does the pulse contain a specified time, `t`?
-
-      If so then it is not delay focused.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: isPulseFocused()
-
-      
-      Does the pulse contain a specified time, `t`?
-
-      If so then it is delay focused.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: plot(pad=1000)
-
-      
-      Plots the time domain representation of this pulse.
+      Plots the time domain representation of this pulse alongside its
+      Mz inversion profile.
 
 
       :Parameters:
@@ -251,6 +208,10 @@ pyepr.pulses.Pulse
           **pad** : int, optional
               The number of zeros to pad the data with, by default 1000
 
+          **freqs** : np.ndarray, optional
+              The frequency axis to calculate the Mz inversion profile over.
+              If not given, a default range is calculated by `exciteprofile`.
+
 
 
 
@@ -266,9 +227,6 @@ pyepr.pulses.Pulse
 
       ..
           !! processed by numpydoc !!
-
-
-   .. py:method:: _calc_fft(pad=10000)
 
 
    .. py:method:: flip()
@@ -295,107 +253,13 @@ pyepr.pulses.Pulse
           !! processed by numpydoc !!
 
 
-   .. py:property:: amp_factor
-
-      
-      The B1 amplitude factor (nutation frequency) for the pulse in GHz
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: exciteprofile_old(freqs=None, resonator=None)
-
-      
-      Excitation profile
-
-      Generates the exciatation profiles for this pulse.
-
-      This function is ported from EasySpin 
-      (https://easyspin.org/easyspin/documentation/sop.html) [1-2],
-      and based upon the method from Gunnar Jeschke, Stefan Pribitzer and Andrin Doll[3].
-
-      References:
-      +++++++++++
-      [1] Stefan Stoll, Arthur Schweiger
-      EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-      J. Magn. Reson. 178(1), 42-55 (2006)
-
-      [2] Stefan Stoll, R. David Britt
-      General and efficient simulation of pulse EPR spectra
-      Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
-
-      [3] Jeschke, G., Pribitzer, S. & DollA. 
-      Coherence Transfer by Passage Pulses in Electron Paramagnetic 
-      Resonance Spectroscopy. 
-      J. Phys. Chem. B 119, 13570-13582 (2015)
-
-      :Parameters:
-
-          **freqs: np.ndarray, optional**
-              The frequency axis. Caution: A larger number of points will linearly
-              increase computation time.
-
-          **resonator: ad.ResonatorProfile, optional**
-              ..
-
-
-
-      :Returns:
-
-          Mx: np.ndarray
-              The magentisation in the X direction.
-
-          My: np.ndarray
-              The magentisation in the Y direction.
-
-          Mz: np.ndarray
-              The magentisation in the Z direction.
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
    .. py:method:: exciteprofile(freqs=None, resonator=None, trajectory=False)
 
       
       Excitation profile
 
       Generates the exciatation profiles for this pulse, using the two-level system model developed by Jeschke et al. [1].
-      And then optimised in the PulseShape software package by Maxx Tessmer [2], reproduced under the GNU GPL v3 license.
-
-      References:
-      +++++++++++
-      [1] Jeschke, G., Pribitzer, S. & Doll, A. 
-          Coherence Transfer by Passage Pulses in Electron Paramagnetic 
-          Resonance Spectroscopy. 
-          J. Phys. Chem. B 119, 13570-13582 (2015)
-      [2] https://github.com/mtessmer/PulseShape
+      And then optimised in the PulseShape software package by Maxx Tessmer, reproduced under the GNU GPL v3 license [2].
 
       :Parameters:
 
@@ -424,36 +288,48 @@ pyepr.pulses.Pulse
 
 
 
+      .. rubric:: References
+
+      [1] Jeschke, G., Pribitzer, S. & Doll, A.
+      Coherence Transfer by Passage Pulses in Electron Paramagnetic
+      Resonance Spectroscopy.
+      J. Phys. Chem. B 119, 13570-13582 (2015)
+
+      [2] https://github.com/mtessmer/PulseShape
+
+      .. only:: latex
+
+         
 
 
       ..
           !! processed by numpydoc !!
 
 
-   .. py:method:: plot_fft()
-
-
-   .. py:method:: _pcyc_str()
-
-
-   .. py:method:: __str__()
-
-
-   .. py:method:: copy(clear=False, **kwargs)
+   .. py:method:: copy(clear=False, reset_uuid=True, **kwargs)
 
       
       Creates a deep-copy of the pulse. I.e. Every parameter object is
       re-created at another memory space.
 
       Parameter can be chaged at this stage by adding them as keyword-
-      arguments (kwargs).
+      arguments (kwargs). If the phase cycle is changed, the UUID of the pulse will be reset.
 
+      :Parameters:
 
+          **reset_uuid** : bool, optional
+              If True, the UUID of the copied pulse will be reset to a new value. Default is True.
 
+          **\*\*kwargs** : dict
+              Keyword arguments representing the parameters to be changed in the copied pulse. Includes 't', 'tp', 'scale', 'flipangle', and 'pcyc', and any other attributes of the pulse.
 
-      :Returns:
+          **Returns**
+              ..
 
-          Pulse
+          **-------**
+              ..
+
+          **Pulse**
               A deep copy of the pulse
 
 
@@ -466,14 +342,11 @@ pyepr.pulses.Pulse
 
 
 
+
+
+
       ..
           !! processed by numpydoc !!
-
-
-   .. py:method:: _to_dict()
-
-
-   .. py:method:: _to_json()
 
 
    .. py:method:: save(filename)
@@ -512,16 +385,6 @@ pyepr.pulses.Pulse
           !! processed by numpydoc !!
 
 
-   .. py:method:: _from_dict(dct)
-      :classmethod:
-
-
-
-   .. py:method:: _from_json(JSONstring)
-      :classmethod:
-
-
-
    .. py:method:: load(filename)
       :classmethod:
 
@@ -558,4 +421,5 @@ pyepr.pulses.Pulse
 
       ..
           !! processed by numpydoc !!
+
 

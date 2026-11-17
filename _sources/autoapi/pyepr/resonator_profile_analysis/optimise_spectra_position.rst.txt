@@ -1,0 +1,6 @@
+pyepr.resonator_profile_analysis.optimise_spectra_position
+==========================================================
+
+.. py:currentmodule:: pyepr.resonator_profile_analysis
+
+.. py:function:: optimise_spectra_position(resonator_profile, fieldsweep, verbosity=0)

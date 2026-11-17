@@ -1,0 +1,27 @@
+pyepr.erot
+==========
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: erot(*args)
+
+   
+   Passive rotation matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

@@ -1,0 +1,6 @@
+pyepr.get_all_axes
+==================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: get_all_axes(sequence)

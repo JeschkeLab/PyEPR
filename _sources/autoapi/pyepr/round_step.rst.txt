@@ -1,0 +1,6 @@
+pyepr.round_step
+================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: round_step(value, step)

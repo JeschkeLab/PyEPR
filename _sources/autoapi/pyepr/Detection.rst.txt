@@ -1,7 +1,9 @@
 pyepr.Detection
 ===============
 
-.. py:class:: pyepr.Detection(*, tp, t=None, freq=0, **kwargs)
+.. py:currentmodule:: pyepr
+
+.. py:class:: Detection(*, tp, t=None, freq=0, **kwargs)
 
    Bases: :py:obj:`Pulse`
 
@@ -42,6 +44,10 @@ pyepr.Detection
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: scale
       :value: None
 
@@ -53,4 +59,18 @@ pyepr.Detection
    .. py:attribute:: pcyc
       :value: None
 
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

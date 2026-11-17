@@ -1,0 +1,48 @@
+pyepr.tools.eprload
+===================
+
+.. py:currentmodule:: pyepr.tools
+
+.. py:function:: eprload(path, experiment = None, type = None, downconvert=True, **kwargs)
+
+   
+   A general versions of eprload
+
+
+   :Parameters:
+
+       **path** : str
+           The file path of the data that should be loaded.
+
+       **experiment** : str, optional
+           _description_, by default None
+
+       **type** : str, optional
+           _description_, by default None
+
+
+
+   :Returns:
+
+       xarray.Dataarray
+           _description_
+
+
+
+
+   :Raises:
+
+       ValueError
+           _description_
+
+       RuntimeError
+           _description_
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

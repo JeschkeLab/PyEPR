@@ -1,0 +1,6 @@
+pyepr.hardware.xepr_experiments.CP_run
+======================================
+
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:function:: CP_run(api, d0, num_pulses=3, ps_length=16, sweeps=4, dt=100, num_points=256, srt=6000000.0)

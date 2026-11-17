@@ -1,0 +1,6 @@
+pyepr.ham_nz
+============
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: ham_nz(SpinSystem, B=None, nspins=None)

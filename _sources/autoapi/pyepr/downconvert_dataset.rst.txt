@@ -1,0 +1,50 @@
+pyepr.downconvert_dataset
+=========================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: downconvert_dataset(dataset, filter_type='boxcar', IF=None, reduce=True, sampling_rate=None, **kwargs)
+
+   
+   Downconvert a dataset to baseband using a filter
+
+
+   :Parameters:
+
+       **dataset** : xr.DataArray
+           The dataset to downconvert
+
+       **filter_type** : str, optional
+           The type of filter to use, by default 'boxcar'. Other options are 'cheby' and a Pulse object
+
+       **filter_width** : float, optional
+           The width of the filter in MHz or ns depending on filter tyre, by default 20 ns for boxcar and 50 MHz for cheby.
+
+       **IF** : float, optional
+           The intermediate frequency to use, by default 0.15
+
+       **reduce** : bool, optional
+           If True, the dataset is reduced to a single point, by default True
+
+       **\*\*kwargs** : dict
+           Extra arguments to pass to the filter function
+
+
+
+   :Returns:
+
+       xr.DataArray
+           The downconverted dataset
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

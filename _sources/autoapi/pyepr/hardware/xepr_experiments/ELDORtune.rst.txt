@@ -1,7 +1,9 @@
 pyepr.hardware.xepr_experiments.ELDORtune
 =========================================
 
-.. py:class:: pyepr.hardware.xepr_experiments.ELDORtune(api, d0=700, ps_length=16, srt=6000000.0)
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:class:: ELDORtune(api, d0=700, ps_length=16, srt=6000000.0)
 
    
 
@@ -38,6 +40,10 @@ pyepr.hardware.xepr_experiments.ELDORtune
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: api
 
 
@@ -61,14 +67,14 @@ pyepr.hardware.xepr_experiments.ELDORtune
 
 
 
-   .. py:method:: _setup_exp(tau1=400, tau2=400)
 
-
-   .. py:method:: _get_exp()
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: find_min(dataset)
 
 
    .. py:method:: tune(target)
+
 

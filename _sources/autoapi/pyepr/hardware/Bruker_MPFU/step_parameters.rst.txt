@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_MPFU.step_parameters
+==========================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_MPFU
+
+.. py:function:: step_parameters(interface, reduced_seq, dim, variables)

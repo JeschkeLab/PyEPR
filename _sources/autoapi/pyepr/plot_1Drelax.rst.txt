@@ -1,0 +1,40 @@
+pyepr.plot_1Drelax
+==================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=None, labels=None)
+
+   
+   Create a superimposed plot of relaxation data and fits.
+
+
+   :Parameters:
+
+       **args** : ad.Analysis
+           The 1D relaxation data to be plotted.
+
+       **fig** : Figure, optional
+           The figure to plot to, by default None
+
+       **axs** : Axes, optional
+           The axes to plot to, by default None
+
+       **cmap** : list, optional
+           The color map to use, by default None which uses the primary_colors from pyepr.colors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

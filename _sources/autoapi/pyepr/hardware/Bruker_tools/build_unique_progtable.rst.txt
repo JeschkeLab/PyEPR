@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.build_unique_progtable
+==================================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: build_unique_progtable(seq)

@@ -1,0 +1,6 @@
+pyepr.hardware.Bruker_tools.addAWGPulse
+=======================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: addAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None, SpinJet_version=1, resonator=None)

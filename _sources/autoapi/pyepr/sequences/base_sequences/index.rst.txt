@@ -1,0 +1,43 @@
+pyepr.sequences.base_sequences
+==============================
+
+.. py:module:: pyepr.sequences.base_sequences
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/sequences/base_sequences/Sequence
+   /autoapi/pyepr/sequences/base_sequences/HahnEchoSequence
+   /autoapi/pyepr/sequences/base_sequences/T1InversionRecoverySequence
+   /autoapi/pyepr/sequences/base_sequences/HahnEchoRelaxationSequence
+   /autoapi/pyepr/sequences/base_sequences/T2RelaxationSequence
+   /autoapi/pyepr/sequences/base_sequences/FieldSweepSequence
+   /autoapi/pyepr/sequences/base_sequences/ReptimeScanSequence
+   /autoapi/pyepr/sequences/base_sequences/ReptimeScan
+   /autoapi/pyepr/sequences/base_sequences/CarrPurcellSequence
+   /autoapi/pyepr/sequences/base_sequences/ResonatorProfileSequence
+   /autoapi/pyepr/sequences/base_sequences/TWTProfileSequence
+   /autoapi/pyepr/sequences/base_sequences/KBBSequence
+   /autoapi/pyepr/sequences/base_sequences/KBBPulseProfileSequence
+
+.. autoapisummary::
+
+   pyepr.sequences.base_sequences.Sequence
+   pyepr.sequences.base_sequences.HahnEchoSequence
+   pyepr.sequences.base_sequences.T1InversionRecoverySequence
+   pyepr.sequences.base_sequences.HahnEchoRelaxationSequence
+   pyepr.sequences.base_sequences.T2RelaxationSequence
+   pyepr.sequences.base_sequences.FieldSweepSequence
+   pyepr.sequences.base_sequences.ReptimeScanSequence
+   pyepr.sequences.base_sequences.ReptimeScan
+   pyepr.sequences.base_sequences.CarrPurcellSequence
+   pyepr.sequences.base_sequences.ResonatorProfileSequence
+   pyepr.sequences.base_sequences.TWTProfileSequence
+   pyepr.sequences.base_sequences.KBBSequence
+   pyepr.sequences.base_sequences.KBBPulseProfileSequence
+
+

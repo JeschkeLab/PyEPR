@@ -1,21 +1,16 @@
 pyepr.hardware.Bruker_tools.PSPhaseCycle
 ========================================
 
-.. py:class:: pyepr.hardware.Bruker_tools.PSPhaseCycle(sequence, MPFU=None, OnlyDet=False)
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:class:: PSPhaseCycle(sequence, MPFU=None, OnlyDet=False)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: BPhaseCycles
       :value: []
 
 
-
-   .. py:method:: _MPFU(sequence, MPFU)
-
-
-   .. py:method:: _main(sequence, OnlyDet)
-
-
-   .. py:method:: _detect(sequence)
-
-
-   .. py:method:: __str__()
 

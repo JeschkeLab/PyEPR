@@ -1,7 +1,9 @@
 pyepr.FieldSweepAnalysis
 ========================
 
-.. py:class:: pyepr.FieldSweepAnalysis(dataset)
+.. py:currentmodule:: pyepr
+
+.. py:class:: FieldSweepAnalysis(dataset)
 
    
 
@@ -30,7 +32,16 @@ pyepr.FieldSweepAnalysis
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: data
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: find_max()
@@ -211,4 +222,5 @@ pyepr.FieldSweepAnalysis
 
       ..
           !! processed by numpydoc !!
+
 

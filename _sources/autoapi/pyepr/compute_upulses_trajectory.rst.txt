@@ -1,0 +1,6 @@
+pyepr.compute_upulses_trajectory
+================================
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: compute_upulses_trajectory(dUs)

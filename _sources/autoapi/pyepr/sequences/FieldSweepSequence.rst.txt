@@ -1,7 +1,9 @@
 pyepr.sequences.FieldSweepSequence
 ==================================
 
-.. py:class:: pyepr.sequences.FieldSweepSequence(*, B, freq, Bwidth, reptime, averages, shots, **kwargs)
+.. py:currentmodule:: pyepr.sequences
+
+.. py:class:: FieldSweepSequence(*, B, freq, Bwidth, reptime, averages, shots, **kwargs)
 
    Bases: :py:obj:`HahnEchoSequence`
 
@@ -9,9 +11,14 @@ pyepr.sequences.FieldSweepSequence
    Represents a Field Sweep (EDFS) sequence. 
 
 
+
+
+
    Build a Field Sweep (EDFS) sequence using either rectangular pulses or
    specified pulses.
 
+   Sequence:
+   [\pi/2 - \tau - \pi - \tau - echo]
 
    :Parameters:
 
@@ -45,17 +52,84 @@ pyepr.sequences.FieldSweepSequence
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       epr.set_waveform_precision(1)
+
+       seq = epr.FieldSweepSequence(
+       B=12000, Bwidth=100, freq=34, reptime=1e3, averages=1, shots=10)
+       seq.draw()
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: name
       :value: 'FieldSweepSequence'
 
 
+      
+      The name of this pulse sequence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
 
    .. py:attribute:: B
+      :type:  pyepr.classes.Parameter
+
+      
+      The swept B0 field in Gauss, centred on the given field.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:attr:`~pyepr.sequences.base_sequences.Sequence.time`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_vars`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_cycles`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pcyc_dets`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.averages`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shots`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.progTable`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.evo_params`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.num_pulses`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.seqtable_steps`, :py:attr:`~pyepr.sequences.base_sequences.Sequence.shape`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: simulate()
@@ -70,10 +144,10 @@ pyepr.sequences.FieldSweepSequence
       :Returns:
 
           **axis** : np.ndarray
-              The x-axis of the simulation
+              The magnetic field axis in Gauss
 
           **data** : np.ndarray
-              The y-axis of the simulation
+              The simulated complex echo intensity
 
 
 
@@ -84,7 +158,29 @@ pyepr.sequences.FieldSweepSequence
 
 
 
+      .. rubric:: Examples
+
+      .. plot::
+          :include-source:
+
+          import matplotlib.pyplot as plt
+          import pyepr as epr
+          epr.set_waveform_precision(1)
+
+          N_gyro = 0.002803632236095
+          freq = 34
+          seq = epr.FieldSweepSequence(
+              B=freq/N_gyro, Bwidth=200, freq=freq, reptime=1e3, averages=1, shots=10)
+          B, data = seq.simulate()
+          plt.plot(B, data.real)
+          plt.xlabel("Magnetic Field (G)")
+          plt.ylabel("Signal Intensity (a.u.)")
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.sequences.base_sequences.Sequence`: :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.plot_pulse_exc`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.draw`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.addPulse`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.evolution`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.adjust_step`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.shift_detfreq_to_zero`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.copy`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.save`, :py:meth:`~pyepr.sequences.base_sequences.Sequence.load`
 

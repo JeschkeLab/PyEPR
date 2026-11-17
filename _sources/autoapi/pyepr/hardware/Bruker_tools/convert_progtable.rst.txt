@@ -1,0 +1,28 @@
+pyepr.hardware.Bruker_tools.convert_progtable
+=============================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: convert_progtable(progtable)
+
+   
+   This function reformats the progtable to be compatible with the Bruker_tools. 
+   This is done by converting the axis of each moving pulse to be relative to the previous moving pulse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

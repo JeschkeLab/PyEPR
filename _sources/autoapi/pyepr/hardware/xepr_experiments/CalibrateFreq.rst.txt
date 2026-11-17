@@ -1,0 +1,38 @@
+pyepr.hardware.xepr_experiments.CalibrateFreq
+=============================================
+
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:function:: CalibrateFreq(api, num_points = 50, deg = 5)
+
+   
+   Generate the polynomial parameters for converting from frequency 
+   (in GHz) to Xepr gunn diode stepper value. 0-4095.
+
+
+   :Parameters:
+
+       **api** : XeprAPILink
+           The API for the spectrometer
+
+       **num_points** : int, optional
+           The number of points to be measured, by default 50
+
+       **deg** : int, optional
+           The degree of polynomial fit, by default 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

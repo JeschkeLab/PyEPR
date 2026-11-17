@@ -1,0 +1,30 @@
+pyepr.dataset.get_phase_cycle_attrs
+===================================
+
+.. py:currentmodule:: pyepr.dataset
+
+.. py:function:: get_phase_cycle_attrs(sequence)
+
+   
+   Collect the phase cycle of a sequence as dataset attributes.
+
+   Stores the per-pulse phases and detection signs (``pulse{i}_pcyc_phases``,
+   ``pulse{i}_pcyc_dets``) as well as the full built phase cycle of the
+   sequence (``pcyc_vars``, ``pcyc_cycles``, ``pcyc_dets``).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

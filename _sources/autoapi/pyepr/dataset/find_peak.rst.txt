@@ -1,0 +1,6 @@
+pyepr.dataset.find_peak
+=======================
+
+.. py:currentmodule:: pyepr.dataset
+
+.. py:function:: find_peak(dataset, freq, freq_axis=None, search_range=4)

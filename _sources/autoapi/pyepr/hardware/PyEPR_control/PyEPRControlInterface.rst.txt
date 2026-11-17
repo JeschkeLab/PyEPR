@@ -1,9 +1,11 @@
 pyepr.hardware.PyEPR_control.PyEPRControlInterface
 ==================================================
 
-.. py:class:: pyepr.hardware.PyEPR_control.PyEPRControlInterface(config_file_path)
+.. py:currentmodule:: pyepr.hardware.PyEPR_control
 
-   Bases: :py:obj:`pyepr.classes.Interface`
+.. py:class:: PyEPRControlInterface(config_file_path)
+
+   Bases: :py:obj:`pyepr.hardware.BaseInterfaceClass.Interface`
 
 
    Represents the interface for spectrometers built using PyEPR and connected with a local flask server.
@@ -34,6 +36,10 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: IFgain_options
 
 
@@ -58,16 +64,19 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
    .. py:property:: savefolder
 
 
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.config`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.pulses`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.savename`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.resonator`, :py:attr:`~pyepr.hardware.BaseInterfaceClass.Interface.AWG`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: connect(ip='localhost', port=5000)
 
-
-   .. py:method:: disconnect()
-
-
-   .. py:method:: acquire_dataset(verbosity=0, sum_scans=True, **kwargs)
-
       
-      Acquires the dataset.
+      Connects to the spectrometer server and configures the spectrometer if it is not already configured.
 
 
 
@@ -88,22 +97,145 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_buffer(verbosity=0, sum_scans=True, **kwargs)
-
-
-   .. py:method:: status()
+   .. py:method:: disconnect()
 
       
-      Returns the status of the spectrometer.
+      Disconnets the spectrometer from the components and stops the server.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: acquire_dataset(verbosity=0, sum_scans=True, **kwargs)
+
+      
+      Acquires the dataset from the spectrometer. 
+      If no full scan has been completed, this will return the current buffer. Otherwise, the inclusion of the current buffer is determined by the `live` argument.
+
+
+      :Parameters:
+
+          **verbosity** : int, optional
+              The level of verbosity for logging, by default 0. Higher values will log more information.
+
+          **sum_scans** : bool, optional
+              Whether to sum the scans together, by default True. If False, the returned dataset will include a 'Scan' dimension with each individual scan. If True, the returned dataset will be summed over the 'Scan' dimension, returning a single averaged scan.
+
+          **live** : bool, optional
+              Whether to include the current buffer in the returned dataset, by default False. 
+
+          **downconvert** : bool, optional
+              Whether to downconvert the data, by default True. 
+
+          **filter_type** : str, optional
+              The type of filter to apply to the data, by default 'cheby'. Possible values are 'cheby' for a Chebyshev filter and 'boxcar' for a boxcar filter.
+
+          **filter_width** : int, optional
+              The width of the filter to apply to the data, by default 100 MHz for cheby and 250 ns for boxcar. For a Chebyshev filter, this is the width of the stopband in MHz. For a boxcar filter, this is the width of the filter in ns.
+
+          **IFfreq** : float, optional
+              The intermediate frequency to use. If None the IFfreq is extracted from the dataset, by default 0.15
+
+
+
+      :Returns:
+
+          **dataset** : xarray.DataArray
+              The acquired dataset, following the standard PyEPR format.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_buffer(verbosity=0, sum_scans=True, **kwargs)
+
+      
+      Returns the current scan from the spectrometer buffer.
+
+
+      :Parameters:
+
+          **verbosity** : int, optional
+              The level of verbosity for logging, by default 0. Higher values will log more information.
+
+          **sum_scans** : bool, optional
+              Whether to sum the scans together, by default True. If False, the returned dataset will include a 'Scan' dimension with each individual scan. If True, the returned dataset will be summed over the 'Scan' dimension, returning a single averaged scan.
+
+          **downconvert** : bool, optional
+              Whether to downconvert the data, by default True. 
+
+          **filter_type** : str, optional
+              The type of filter to apply to the data, by default 'cheby'. Possible values are 'cheby' for a Chebyshev filter and 'boxcar' for a boxcar filter.
+
+          **filter_width** : int, optional
+              The width of the filter to apply to the data, by default 100 MHz for cheby and 250 ns for boxcar. For a Chebyshev filter, this is the width of the stopband in MHz. For a boxcar filter, this is the width of the filter in ns.
+
+          **IFfreq** : float, optional
+              The intermediate frequency to use. If None the IFfreq is extracted from the dataset, by default 0.15
+
+
+
+      :Returns:
+
+          **dataset** : xarray.DataArray
+              The acquired dataset, following the standard PyEPR format.
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: status(get_errors=True)
+
+      
+      Returns the status of the spectrometer, including any errors.
+
+
+      :Parameters:
+
+          **get_errors** : bool, optional
+              Whether to include errors in the status, by default True  
 
 
 
       :Returns:
 
           dict
-              A dictionary containing the status of the spectrometer.
+              A dictionary containing the status of the spectrometer, including any errors if get_errors is True.
 
 
 
@@ -150,43 +282,25 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
           !! processed by numpydoc !!
 
 
-   .. py:method:: terminate()
+   .. py:method:: set_field(field, ramp_rate=None, wait=False, persistance=None)
 
       
-      Terminates the experiment immediately. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: launch(sequence, savename, IFgain=None, *args, **kwargs)
-
-      
-      Launches the experiment and initialises autosaving.
+      Sets the magnetic field
 
 
       :Parameters:
 
-          **sequence** : Sequence
-              The sequence to be launched
+          **field** : float
+              The target magnetic field in Gauss.
 
-          **savename** : str
-              The savename for this measurement. A timestamp will be added to the value.
+          **ramp_rate** : float, optional
+              The ramp rate in Gauss per second. If not specified, the current ramp rate is used. 
+
+          **wait** : bool, optional
+              If True, the method will block until the field is reached. Default is False.
+
+          **persistance** : bool, optional
+              If True, the magnet will be set to persistent mode after reaching the target field. If False, the magnet will be set to driven mode. If None, the current mode is maintained. Default is None.
 
 
 
@@ -205,13 +319,116 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
           !! processed by numpydoc !!
 
 
-   .. py:method:: _launch(sequence, savename, IFgain=0, reset_cur_exp=True, *args, **kwargs)
+   .. py:method:: terminate()
+
+      
+      Terminates the current sequence immediately and stops the AWG and digitiser processes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: stop()
+
+      
+      Stops the current sequence after the current scan is finished. The AWG and digitiser processes will be stopped after the current scan is finished.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: launch(sequence, savename, IFgain=None, save_scans=False, *args, **kwargs)
+
+      
+      sequence : Sequence
+          The sequence object to be launched.
+      savename : str
+          The name of the file to save the dataset to. The full path will be determined by the savefolder attribute of the interface and the savename argument. 
+      mode : str, optional
+          The operating mode of the bridge. By default the mode is "normal". Other options are ["tune","amp_view","ampbypass","ampinput"].
+      IFgain : int, float, or None, optional
+          If None the IFgain will be automatically determined by the interface. If an int or float, the IF gain will be set to this value. 
+      IFfreq : float, optional
+          The IF frequency to be set on the AWG, by default None. If None, the IF frequency will be either automatically calculated or set to the default value in the config file.
+      save_scans : bool, optional
+          Whether to save individual scans, by default False. If True, individual scans will be saved to a temporary file and can be accessed by setting `sum_scans` to False when acquiring the dataset. If False, individual scans will not be saved and only the averaged dataset will be returned.
+      overwrite : bool, optional
+          If True, subsequent scans will overwrite the previous scans, by default False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
 
 
    .. py:method:: isrunning()
 
+      
+      Checks if the spectrometer is currently running a sequence.
 
-   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, tau=500, IFgain=None)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: tune_rectpulse(*, tp, freq, B, reptime, shots=400, tau=500, IFgain=None, offset=0)
 
       
       Generates a rectangular pi and pi/2 pulse of the given length at 
@@ -234,6 +451,15 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
           **shots: int**
               The number of shots
+
+          **tau: float**
+              The tau value for the Hahn echo sequence in ns, default is 500 ns
+
+          **IFgain: float**
+              The IF gain to be used for the tuning sequence. If None, the IF gain will be automatically determined by the interface.
+
+          **offset: float**
+              The frequency offset of the pulse in GHz. This is added to the central frequency of the pulse. Default is 0.
 
 
 
@@ -309,6 +535,9 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
    .. py:method:: tune(*, sequence=None, mode='amp_hahn', freq=None, gyro=None)
 
 
+   .. py:method:: tune_resonator(*, freq, sweep, reptime=1000.0, shots=100, step=0.05, dim=25)
+
+
    .. py:method:: get_config()
 
       
@@ -359,4 +588,9 @@ pyepr.hardware.PyEPR_control.PyEPRControlInterface
 
       ..
           !! processed by numpydoc !!
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.hardware.BaseInterfaceClass.Interface`: :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.rescale`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.terminate_at`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_RectPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_GaussianPulse`, :py:meth:`~pyepr.hardware.BaseInterfaceClass.Interface.tune_KBBPulse`
 

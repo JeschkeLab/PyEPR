@@ -1,0 +1,6 @@
+pyepr.floor
+===========
+
+.. py:currentmodule:: pyepr
+
+.. py:function:: floor(number, decimals=0)

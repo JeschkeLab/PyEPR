@@ -1,0 +1,21 @@
+pyepr.sequences.ESEEM
+=====================
+
+.. py:module:: pyepr.sequences.ESEEM
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/sequences/ESEEM/ThreePulseESEEMSequence
+   /autoapi/pyepr/sequences/ESEEM/HYSCORESequence
+
+.. autoapisummary::
+
+   pyepr.sequences.ESEEM.ThreePulseESEEMSequence
+   pyepr.sequences.ESEEM.HYSCORESequence
+
+

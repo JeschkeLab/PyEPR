@@ -1,22 +1,25 @@
 pyepr.hardware.XeprAPI_link.XeprAPILink
 =======================================
 
-.. py:class:: pyepr.hardware.XeprAPI_link.XeprAPILink(config_file = None, **kwargs)
+.. py:currentmodule:: pyepr.hardware.XeprAPI_link
+
+.. py:class:: XeprAPILink(config_file = None, **kwargs)
 
    
 
    This class links to the Bruker Xepr API to control the spectrometer.
-   Parameters
-   ----------
-   config_file : str, optional
-       Path to a PyEPR spectrometer configuration file, by default None
-   kwargs : dict, optional
-       Additional keyword arguments:
-       - retry_attempts : int
-           Number of times to retry getting a Xepr parameter before 
-           raising an exception. Default is 50.
 
 
+   :Parameters:
+
+       **config_file** : str, optional
+           Path to a PyEPR spectrometer configuration file, by default None
+
+       **kwargs** : dict, optional
+           Additional keyword arguments:
+           
+           - retry_attempts (int): Number of times to retry getting a Xepr
+             parameter before raising an exception. Default is 50.
 
 
 
@@ -35,6 +38,10 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
        !! processed by numpydoc !!
 
 
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
+
    .. py:attribute:: Xepr
       :value: None
 
@@ -50,17 +57,17 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
 
 
 
-   .. py:attribute:: _tmp_dir
-      :value: None
-
-
-
    .. py:attribute:: XeprCmds
       :value: None
 
 
 
    .. py:attribute:: retry_attempts
+
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: connect()
@@ -111,25 +118,10 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
           !! processed by numpydoc !!
 
 
-   .. py:method:: _set_Xepr_global(Xepr_inst)
-
-
-   .. py:method:: _get_Xepr_global()
-
-
-   .. py:method:: _xepr_retry(func, *args, **kwargs)
-
-
    .. py:method:: get_param(param_name)
 
 
    .. py:method:: get_hidden_param(param_name)
-
-
-   .. py:method:: _set_cur_exp_param(param_name, value)
-
-
-   .. py:method:: _set_hidden_param(param_name, value)
 
 
    .. py:method:: set_param(param_name, value)
@@ -139,12 +131,6 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
 
 
    .. py:method:: find_Xepr()
-
-
-   .. py:method:: _set_cur_exp_global(cur_exp_inst)
-
-
-   .. py:method:: _get_cur_exp_global()
 
 
    .. py:method:: find_cur_exp()
@@ -1121,4 +1107,5 @@ pyepr.hardware.XeprAPI_link.XeprAPILink
 
       ..
           !! processed by numpydoc !!
+
 

@@ -34,6 +34,7 @@ PyEPR's Key Features
     ./install.rst
     ./tutorial.rst
     ./API_docs.rst
+    auto_examples/index.rst
 
 .. toctree::
     :hidden:

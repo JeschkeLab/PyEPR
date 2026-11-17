@@ -1,7 +1,13 @@
 pyepr.hardware.dummy_xepr.dummy_param
 =====================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_param(min, max, type=int, par=None)
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_param(min, max, type=int, par=None)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: aqGetParMaxValue
 
@@ -15,4 +21,5 @@ pyepr.hardware.dummy_xepr.dummy_param
 
 
    .. py:property:: value
+
 

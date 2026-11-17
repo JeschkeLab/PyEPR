@@ -1,0 +1,52 @@
+
+
+.. _sphx_glr_auto_examples_automation:
+
+Automation
+---------------------------
+One of the big advantages of using `PyEPR` is the ability to automate experiments,
+and conduct detailed parameter analysis.
+
+
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Testing different pump-offsets in Four-Pulse DEER">
+
+.. only:: html
+
+  .. image:: /auto_examples/automation/images/thumb/sphx_glr_DEER_pump_frequency_sweep_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/automation/DEER_pump_frequency_sweep`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Testing different pump-offsets in Four-Pulse DEER</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/automation/DEER_pump_frequency_sweep
+

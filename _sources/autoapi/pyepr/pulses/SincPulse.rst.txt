@@ -1,13 +1,14 @@
 pyepr.pulses.SincPulse
 ======================
 
-.. py:class:: pyepr.pulses.SincPulse(*, tp=128, freq=0, order=6, window=None, **kwargs)
+.. py:currentmodule:: pyepr.pulses
+
+.. py:class:: SincPulse(*, tp=128, freq=0, order=6, window=None, **kwargs)
 
    Bases: :py:obj:`Pulse`
 
 
-   Represents a general experimental pulse.
-
+   
 
    Represents a sinc shaped monochromatic pulse.
 
@@ -38,9 +39,23 @@ pyepr.pulses.SincPulse
 
 
 
+   .. rubric:: Examples
+
+   .. plot::
+       :include-source:
+
+       import pyepr as epr
+       import matplotlib.pyplot as plt
+
+       pulse = epr.SincPulse(tp=128, flipangle=np.pi, freq=0, order=6)
+       pulse.plot(pad=100)
 
    ..
        !! processed by numpydoc !!
+
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
 
 
    .. py:attribute:: freq
@@ -52,5 +67,19 @@ pyepr.pulses.SincPulse
    .. py:attribute:: window
 
 
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:attr:`~pyepr.pulses.Pulse.name`, :py:attr:`~pyepr.pulses.Pulse.uuid`, :py:attr:`~pyepr.pulses.Pulse.bandwidth`, :py:attr:`~pyepr.pulses.Pulse.amp_factor`
+
+
+   .. rubric:: Methods
+      :class: autoapi-member-heading
+
+
    .. py:method:: func(ax)
+
+
+   .. container:: autoapi-inherited
+
+      **Inherited from** :py:class:`~pyepr.pulses.Pulse`: :py:meth:`~pyepr.pulses.Pulse.removePhaseCycle`, :py:meth:`~pyepr.pulses.Pulse.build_shape`, :py:meth:`~pyepr.pulses.Pulse.build_table`, :py:meth:`~pyepr.pulses.Pulse.is_static`, :py:meth:`~pyepr.pulses.Pulse.plot`, :py:meth:`~pyepr.pulses.Pulse.flip`, :py:meth:`~pyepr.pulses.Pulse.exciteprofile`, :py:meth:`~pyepr.pulses.Pulse.copy`, :py:meth:`~pyepr.pulses.Pulse.save`, :py:meth:`~pyepr.pulses.Pulse.load`
 

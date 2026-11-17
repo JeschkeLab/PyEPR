@@ -1,0 +1,52 @@
+pyepr.hardware.Bruker_tools.run_general
+=======================================
+
+.. py:currentmodule:: pyepr.hardware.Bruker_tools
+
+.. py:function:: run_general(api, ps_file, exp, settings, variables, run = True)
+
+   
+   A function to run a general Pulse Spel experiment through autoDeer.
+
+
+   :Parameters:
+
+       **api** : _type_
+           The current Bruker Xepr class
+
+       **ps_file** : tuple
+           A tuple containing the file path to both the ".exp" and ".def" files.
+
+       **exp** : tuple
+           A tuple giving the name of the experiment and phase cycle.
+
+       **settings** : dict
+           A dictionary containing possible acquisition settings. Options include 
+           ['ReplaceMode','PhaseCycle','Acquisition_mode']
+
+       **variables** : dict
+           A dictionary containg pulse spel variables to choose from can, these 
+           can also be dimension of experiment.
+
+       **run** : bool, optional
+           Should the experiment run or just compile, by default True
+
+
+
+
+
+
+
+   :Raises:
+
+       ValueError
+           If an input is of the wrong type.
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!

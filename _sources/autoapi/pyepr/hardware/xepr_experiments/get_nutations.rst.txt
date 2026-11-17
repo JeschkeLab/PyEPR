@@ -1,0 +1,6 @@
+pyepr.hardware.xepr_experiments.get_nutations
+=============================================
+
+.. py:currentmodule:: pyepr.hardware.xepr_experiments
+
+.. py:function:: get_nutations(api, nu, field, step, ELDOR = True, nx = 128)

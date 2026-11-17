@@ -37,17 +37,30 @@ Classes
 Functions
 ---------
 
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/hardware/Bruker_tools/convert_progtable
+   /autoapi/pyepr/hardware/Bruker_tools/calc_rel_positions
+   /autoapi/pyepr/hardware/Bruker_tools/run_general
+   /autoapi/pyepr/hardware/Bruker_tools/change_dimensions
+   /autoapi/pyepr/hardware/Bruker_tools/addAWGPulse
+   /autoapi/pyepr/hardware/Bruker_tools/get_arange
+   /autoapi/pyepr/hardware/Bruker_tools/build_unique_progtable
+   /autoapi/pyepr/hardware/Bruker_tools/check_variable
+   /autoapi/pyepr/hardware/Bruker_tools/determine_TWT_split
+   /autoapi/pyepr/hardware/Bruker_tools/write_pulsespel_file
+   /autoapi/pyepr/hardware/Bruker_tools/write_shape_file
+   /autoapi/pyepr/hardware/Bruker_tools/step_parameters
+   /autoapi/pyepr/hardware/Bruker_tools/get_specjet_data
+
 .. autoapisummary::
 
-   pyepr.hardware.Bruker_tools.get_specjet_data
    pyepr.hardware.Bruker_tools.convert_progtable
    pyepr.hardware.Bruker_tools.calc_rel_positions
    pyepr.hardware.Bruker_tools.run_general
    pyepr.hardware.Bruker_tools.change_dimensions
-   pyepr.hardware.Bruker_tools._add_AWG_line
    pyepr.hardware.Bruker_tools.addAWGPulse
-   pyepr.hardware.Bruker_tools._addDefaultAWGPulse
-   pyepr.hardware.Bruker_tools._addCustomAWGPulse
    pyepr.hardware.Bruker_tools.get_arange
    pyepr.hardware.Bruker_tools.build_unique_progtable
    pyepr.hardware.Bruker_tools.check_variable
@@ -83,8 +96,6 @@ Module Contents
 
 
 
-.. py:function:: get_specjet_data(interface)
-
 .. py:data:: possible_delays
    :value: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15',...
 
@@ -96,243 +107,4 @@ Module Contents
 .. py:data:: possible_pulses
    :value: ['p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10']
 
-
-.. py:function:: convert_progtable(progtable)
-
-   
-   This function reformats the progtable to be compatible with the Bruker_tools. 
-   This is done by converting the axis of each moving pulse to be relative to the previous moving pulse.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: calc_rel_positions(sequence)
-
-   
-   Calcuates the starting relative positions of all pulses in a sequence.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: run_general(api, ps_file, exp, settings, variables, run = True)
-
-   
-   A function to run a general Pulse Spel experiment through autoDeer.
-
-
-   :Parameters:
-
-       **api** : _type_
-           The current Bruker Xepr class
-
-       **ps_file** : tuple
-           A tuple containing the file path to both the ".exp" and ".def" files.
-
-       **exp** : tuple
-           A tuple giving the name of the experiment and phase cycle.
-
-       **settings** : dict
-           A dictionary containing possible acquisition settings. Options include 
-           ['ReplaceMode','PhaseCycle','Acquisition_mode']
-
-       **variables** : dict
-           A dictionary containg pulse spel variables to choose from can, these 
-           can also be dimension of experiment.
-
-       **run** : bool, optional
-           Should the experiment run or just compile, by default True
-
-
-
-
-
-
-
-   :Raises:
-
-       ValueError
-           If an input is of the wrong type.
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: change_dimensions(path, dim, new_length)
-
-   
-   A function to rewrite a pulseSpel experiment file with a new dimension
-
-
-   :Parameters:
-
-       **path** : str
-           The full file path.
-
-       **dim** : int
-           The experiment number that needs to be changed
-
-       **new_length** : int
-           The new length can be a list of two if 2D.
-
-
-
-
-
-
-
-   :Raises:
-
-       ValueError
-           If there more than 2 dimesnions are supplied. Xepr can not handle 3+D 
-           experiments.
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _add_AWG_line(elements, comment=None, indent=2, repeat=1)
-
-.. py:function:: addAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None, SpinJet_version=1, resonator=None)
-
-.. py:function:: _addDefaultAWGPulse(sequence, pulse_num, id, amp_var=None, SpinJet_version=1)
-
-.. py:function:: _addCustomAWGPulse(sequence, pulse_num, id, last_awg_pulse_num, amp_var=None, SpinJet_version=1)
-
-.. py:function:: get_arange(array)
-
-.. py:function:: build_unique_progtable(seq)
-
-.. py:function:: check_variable(var, uprog)
-
-.. py:function:: determine_TWT_split(sequence, MaxGate)
-
-.. py:function:: write_pulsespel_file(sequence, d0, AWG=False, MPFU=False, MaxGate=40)
-
-   
-   Write the pulsespel file for a given sequence. 
-
-
-   :Parameters:
-
-       **sequence** : Sequence
-           The sequence class to be converted.
-
-       **AWG** : bool, optional
-           Is this a pulse spel file for an AWG spectrometer, by default False
-
-       **MPFU** : list, optional
-           A list of MPFU channels, by default False
-
-       **MaxGate** : float, optional
-           The maximum gate time for the TWT gate in microseconds, by default 40 us
-
-
-
-   :Returns:
-
-       str
-           The string for the definition file
-
-       str
-           The string for the experiment file
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: write_shape_file(pulse, name = '', phase_shift=0, number=None, AWG_rate=1.6)
-
-   
-   Write a Bruker shape file for a given pulse.
-
-
-   :Parameters:
-
-       **pulse** : Pulse
-           The pulse to be converted.
-
-       **name** : str, optional
-           The name of the pulse, by default ""
-
-       **phase_shift** : int, optional
-           The phase shift of the pulse in radians, by default 0
-
-       **number** : int, optional
-           The number of the pulse, by default None
-
-       **AWG_rate** : float, optional
-           The sample rate of the AWG in GSa/s, by default 1.6 GSa/s for SpinJet-I    
-
-
-
-   :Returns:
-
-       str
-           The string for the shape file.
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: step_parameters(interface, reduced_seq, dim, variables)
-
-.. py:function:: get_specjet_data(interface, full_output=False, suppress_exceptions=False)
 

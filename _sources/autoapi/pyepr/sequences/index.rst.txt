@@ -4,6 +4,18 @@ pyepr.sequences
 .. py:module:: pyepr.sequences
 
 
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/pyepr/sequences/DEER/index
+   /autoapi/pyepr/sequences/ESEEM/index
+   /autoapi/pyepr/sequences/base_sequences/index
+   /autoapi/pyepr/sequences/calibration_sequences/index
+
+
 Classes
 -------
 
@@ -16,10 +28,20 @@ Classes
    /autoapi/pyepr/sequences/HahnEchoRelaxationSequence
    /autoapi/pyepr/sequences/T2RelaxationSequence
    /autoapi/pyepr/sequences/FieldSweepSequence
+   /autoapi/pyepr/sequences/ReptimeScanSequence
    /autoapi/pyepr/sequences/ReptimeScan
    /autoapi/pyepr/sequences/CarrPurcellSequence
    /autoapi/pyepr/sequences/ResonatorProfileSequence
    /autoapi/pyepr/sequences/TWTProfileSequence
+   /autoapi/pyepr/sequences/KBBSequence
+   /autoapi/pyepr/sequences/KBBPulseProfileSequence
+   /autoapi/pyepr/sequences/Parameter
+   /autoapi/pyepr/sequences/FourPulseDEERSequence
+   /autoapi/pyepr/sequences/FivePulseDEERSequence
+   /autoapi/pyepr/sequences/ThreePulseDEERSequence
+   /autoapi/pyepr/sequences/Parameter
+   /autoapi/pyepr/sequences/ThreePulseESEEMSequence
+   /autoapi/pyepr/sequences/HYSCORESequence
 
 .. autoapisummary::
 
@@ -29,9 +51,34 @@ Classes
    pyepr.sequences.HahnEchoRelaxationSequence
    pyepr.sequences.T2RelaxationSequence
    pyepr.sequences.FieldSweepSequence
+   pyepr.sequences.ReptimeScanSequence
    pyepr.sequences.ReptimeScan
    pyepr.sequences.CarrPurcellSequence
    pyepr.sequences.ResonatorProfileSequence
    pyepr.sequences.TWTProfileSequence
+   pyepr.sequences.KBBSequence
+   pyepr.sequences.KBBPulseProfileSequence
+   pyepr.sequences.Parameter
+   pyepr.sequences.FourPulseDEERSequence
+   pyepr.sequences.FivePulseDEERSequence
+   pyepr.sequences.ThreePulseDEERSequence
+   pyepr.sequences.Parameter
+   pyepr.sequences.ThreePulseESEEMSequence
+   pyepr.sequences.HYSCORESequence
+
+
+Functions
+---------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/sequences/val_in_us
+   /autoapi/pyepr/sequences/add_phaseshift
+
+.. autoapisummary::
+
+   pyepr.sequences.val_in_us
+   pyepr.sequences.add_phaseshift
 
 

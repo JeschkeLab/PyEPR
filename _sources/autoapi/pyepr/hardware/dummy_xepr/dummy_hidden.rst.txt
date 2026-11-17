@@ -1,7 +1,13 @@
 pyepr.hardware.dummy_xepr.dummy_hidden
 ======================================
 
-.. py:class:: pyepr.hardware.dummy_xepr.dummy_hidden
+.. py:currentmodule:: pyepr.hardware.dummy_xepr
+
+.. py:class:: dummy_hidden
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: SignalPhase
 
@@ -30,32 +36,9 @@ pyepr.hardware.dummy_xepr.dummy_hidden
    .. py:attribute:: MinBrYAmp
 
 
-   .. py:method:: __getitem__(name)
 
-      
-      This method returns a given parameter class for the name provided
-
-      :param name: The name of parameter needed
-      :type name: string
-      :return: Instance of dummy_param class corresponding to the searched name
-      :rtype: dummy_param class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
+   .. rubric:: Methods
+      :class: autoapi-member-heading
 
 
    .. py:method:: getParam(name)
@@ -84,4 +67,5 @@ pyepr.hardware.dummy_xepr.dummy_hidden
 
       ..
           !! processed by numpydoc !!
+
 

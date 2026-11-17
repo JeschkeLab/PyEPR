@@ -10,7 +10,6 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
-   /autoapi/pyepr/_version/index
    /autoapi/pyepr/classes/index
    /autoapi/pyepr/colors/index
    /autoapi/pyepr/config/index
@@ -18,9 +17,11 @@ Submodules
    /autoapi/pyepr/dataset/index
    /autoapi/pyepr/fieldsweep_analysis/index
    /autoapi/pyepr/hardware/index
+   /autoapi/pyepr/plotting/index
    /autoapi/pyepr/pulses/index
    /autoapi/pyepr/relaxation_analysis/index
    /autoapi/pyepr/resonator_profile_analysis/index
+   /autoapi/pyepr/resonator_tune/index
    /autoapi/pyepr/sequences/index
    /autoapi/pyepr/tools/index
    /autoapi/pyepr/utils/index
@@ -31,15 +32,9 @@ Attributes
 
 .. autoapisummary::
 
-   pyepr.__version__
-   pyepr.__copyright__
-   pyepr.log
    pyepr.primary_colors
-   pyepr.ReIm_colors
-   pyepr.primary_colors
-   pyepr.cmap
-   pyepr.primary_colors
-   pyepr.primary_colors
+   pyepr.primary_colors_light
+   pyepr.secondary_colors
 
 
 Classes
@@ -48,23 +43,6 @@ Classes
 .. toctree::
    :hidden:
 
-   /autoapi/pyepr/Parameter
-   /autoapi/pyepr/Interface
-   /autoapi/pyepr/Parameter
-   /autoapi/pyepr/Pulse
-   /autoapi/pyepr/Detection
-   /autoapi/pyepr/Delay
-   /autoapi/pyepr/RectPulse
-   /autoapi/pyepr/Sequence
-   /autoapi/pyepr/HahnEchoSequence
-   /autoapi/pyepr/T1InversionRecoverySequence
-   /autoapi/pyepr/HahnEchoRelaxationSequence
-   /autoapi/pyepr/T2RelaxationSequence
-   /autoapi/pyepr/FieldSweepSequence
-   /autoapi/pyepr/ReptimeScan
-   /autoapi/pyepr/CarrPurcellSequence
-   /autoapi/pyepr/ResonatorProfileSequence
-   /autoapi/pyepr/TWTProfileSequence
    /autoapi/pyepr/Parameter
    /autoapi/pyepr/Pulse
    /autoapi/pyepr/Detection
@@ -80,35 +58,38 @@ Classes
    /autoapi/pyepr/Criteria
    /autoapi/pyepr/TimeCriteria
    /autoapi/pyepr/SNRCriteria
-   /autoapi/pyepr/Parameter
+   /autoapi/pyepr/EPRAccessor
    /autoapi/pyepr/FieldSweepAnalysis
    /autoapi/pyepr/SpinSystem
-   /autoapi/pyepr/Sequence
    /autoapi/pyepr/CarrPurcellAnalysis
    /autoapi/pyepr/HahnEchoRelaxationAnalysis
    /autoapi/pyepr/ReptimeAnalysis
    /autoapi/pyepr/ResonatorProfileAnalysis
    /autoapi/pyepr/AmplifierLinearityAnalysis
+   /autoapi/pyepr/LoSweepTuneSequence
+   /autoapi/pyepr/Interface
+   /autoapi/pyepr/Sequence
+   /autoapi/pyepr/HahnEchoSequence
+   /autoapi/pyepr/T1InversionRecoverySequence
+   /autoapi/pyepr/HahnEchoRelaxationSequence
+   /autoapi/pyepr/T2RelaxationSequence
+   /autoapi/pyepr/FieldSweepSequence
+   /autoapi/pyepr/ReptimeScanSequence
+   /autoapi/pyepr/ReptimeScan
+   /autoapi/pyepr/CarrPurcellSequence
+   /autoapi/pyepr/ResonatorProfileSequence
+   /autoapi/pyepr/TWTProfileSequence
+   /autoapi/pyepr/KBBSequence
+   /autoapi/pyepr/KBBPulseProfileSequence
+   /autoapi/pyepr/Parameter
+   /autoapi/pyepr/FourPulseDEERSequence
+   /autoapi/pyepr/FivePulseDEERSequence
+   /autoapi/pyepr/ThreePulseDEERSequence
+   /autoapi/pyepr/ThreePulseESEEMSequence
+   /autoapi/pyepr/HYSCORESequence
 
 .. autoapisummary::
 
-   pyepr.Parameter
-   pyepr.Interface
-   pyepr.Parameter
-   pyepr.Pulse
-   pyepr.Detection
-   pyepr.Delay
-   pyepr.RectPulse
-   pyepr.Sequence
-   pyepr.HahnEchoSequence
-   pyepr.T1InversionRecoverySequence
-   pyepr.HahnEchoRelaxationSequence
-   pyepr.T2RelaxationSequence
-   pyepr.FieldSweepSequence
-   pyepr.ReptimeScan
-   pyepr.CarrPurcellSequence
-   pyepr.ResonatorProfileSequence
-   pyepr.TWTProfileSequence
    pyepr.Parameter
    pyepr.Pulse
    pyepr.Detection
@@ -124,19 +105,92 @@ Classes
    pyepr.Criteria
    pyepr.TimeCriteria
    pyepr.SNRCriteria
-   pyepr.Parameter
+   pyepr.EPRAccessor
    pyepr.FieldSweepAnalysis
    pyepr.SpinSystem
-   pyepr.Sequence
    pyepr.CarrPurcellAnalysis
    pyepr.HahnEchoRelaxationAnalysis
    pyepr.ReptimeAnalysis
    pyepr.ResonatorProfileAnalysis
    pyepr.AmplifierLinearityAnalysis
+   pyepr.LoSweepTuneSequence
+   pyepr.Interface
+   pyepr.Sequence
+   pyepr.HahnEchoSequence
+   pyepr.T1InversionRecoverySequence
+   pyepr.HahnEchoRelaxationSequence
+   pyepr.T2RelaxationSequence
+   pyepr.FieldSweepSequence
+   pyepr.ReptimeScanSequence
+   pyepr.ReptimeScan
+   pyepr.CarrPurcellSequence
+   pyepr.ResonatorProfileSequence
+   pyepr.TWTProfileSequence
+   pyepr.KBBSequence
+   pyepr.KBBPulseProfileSequence
+   pyepr.Parameter
+   pyepr.FourPulseDEERSequence
+   pyepr.FivePulseDEERSequence
+   pyepr.ThreePulseDEERSequence
+   pyepr.ThreePulseESEEMSequence
+   pyepr.HYSCORESequence
 
 
 Functions
 ---------
+
+.. toctree::
+   :hidden:
+
+   /autoapi/pyepr/eprload
+   /autoapi/pyepr/build_table
+   /autoapi/pyepr/sop
+   /autoapi/pyepr/transpose_dict_of_list
+   /autoapi/pyepr/transpose_list_of_dicts
+   /autoapi/pyepr/save_file
+   /autoapi/pyepr/autoEPRDecoder
+   /autoapi/pyepr/gcd
+   /autoapi/pyepr/val_in_us
+   /autoapi/pyepr/val_in_ns
+   /autoapi/pyepr/add_phaseshift
+   /autoapi/pyepr/round_step
+   /autoapi/pyepr/compute_upulses_not_trajectory
+   /autoapi/pyepr/compute_upulses_trajectory
+   /autoapi/pyepr/compute_magnetization_not_trajectory
+   /autoapi/pyepr/compute_magnetization_trajectory
+   /autoapi/pyepr/build_default_pulses
+   /autoapi/pyepr/get_all_axes
+   /autoapi/pyepr/get_all_fixed_param
+   /autoapi/pyepr/get_phase_cycle_attrs
+   /autoapi/pyepr/create_dataset_from_sequence
+   /autoapi/pyepr/create_dataset_from_axes
+   /autoapi/pyepr/create_dataset_from_bruker
+   /autoapi/pyepr/downconvert_dataset
+   /autoapi/pyepr/find_peak
+   /autoapi/pyepr/save_bruker
+   /autoapi/pyepr/get_waveform_precision
+   /autoapi/pyepr/set_waveform_precision
+   /autoapi/pyepr/create_Nmodel
+   /autoapi/pyepr/erot
+   /autoapi/pyepr/eyekron
+   /autoapi/pyepr/kroneye
+   /autoapi/pyepr/ham
+   /autoapi/pyepr/ham_ez
+   /autoapi/pyepr/ham_nz
+   /autoapi/pyepr/resfields
+   /autoapi/pyepr/build_spectrum
+   /autoapi/pyepr/detect_ESEEM
+   /autoapi/pyepr/plot_1Drelax
+   /autoapi/pyepr/phase_correct_respro
+   /autoapi/pyepr/ceil
+   /autoapi/pyepr/floor
+   /autoapi/pyepr/calc_overlap
+   /autoapi/pyepr/BSpline_extra
+   /autoapi/pyepr/optimise_spectra_position
+   /autoapi/pyepr/plot_sequence_freq
+   /autoapi/pyepr/draw_sequence
+   /autoapi/pyepr/val_in_us
+   /autoapi/pyepr/add_phaseshift
 
 .. autoapisummary::
 
@@ -151,26 +205,23 @@ Functions
    pyepr.val_in_us
    pyepr.val_in_ns
    pyepr.add_phaseshift
-   pyepr._gen_ESEEM
    pyepr.round_step
-   pyepr.val_in_ns
-   pyepr.val_in_us
-   pyepr.add_phaseshift
-   pyepr._gen_ESEEM
-   pyepr.create_Nmodel
-   pyepr.build_table
-   pyepr.autoEPRDecoder
-   pyepr.build_table
-   pyepr.sop
-   pyepr.autoEPRDecoder
    pyepr.compute_upulses_not_trajectory
    pyepr.compute_upulses_trajectory
    pyepr.compute_magnetization_not_trajectory
    pyepr.compute_magnetization_trajectory
    pyepr.build_default_pulses
+   pyepr.get_all_axes
+   pyepr.get_all_fixed_param
+   pyepr.get_phase_cycle_attrs
+   pyepr.create_dataset_from_sequence
+   pyepr.create_dataset_from_axes
+   pyepr.create_dataset_from_bruker
+   pyepr.downconvert_dataset
+   pyepr.find_peak
+   pyepr.save_bruker
    pyepr.get_waveform_precision
    pyepr.set_waveform_precision
-   pyepr.sop
    pyepr.create_Nmodel
    pyepr.erot
    pyepr.eyekron
@@ -188,904 +239,24 @@ Functions
    pyepr.calc_overlap
    pyepr.BSpline_extra
    pyepr.optimise_spectra_position
+   pyepr.plot_sequence_freq
+   pyepr.draw_sequence
+   pyepr.val_in_us
+   pyepr.add_phaseshift
 
 
 Package Contents
 ----------------
 
-.. py:data:: __version__
-
-.. py:data:: __copyright__
-   :value: '2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll'
-
-
-.. py:function:: eprload(path, experiment = None, type = None, downconvert=True, **kwargs)
-
-   
-   A general versions of eprload
-
-
-   :Parameters:
-
-       **path** : str
-           The file path of the data that should be loaded.
-
-       **experiment** : str, optional
-           _description_, by default None
-
-       **type** : str, optional
-           _description_, by default None
-
-
-
-   :Returns:
-
-       xarray.Dataarray
-           _description_
-
-
-
-
-   :Raises:
-
-       ValueError
-           _description_
-
-       RuntimeError
-           _description_
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: build_table(source, params, params_widths)
-
-.. py:function:: sop(spins, comps)
-
-   
-   Spin Operator Matricies.
-
-   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
-
-   References:
-   +++++++++++
-   [1] Stefan Stoll, Arthur Schweiger
-   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-   J. Magn. Reson. 178(1), 42-55 (2006)
-
-   [2] Stefan Stoll, R. David Britt
-   General and efficient simulation of pulse EPR spectra
-   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
-
-   :Parameters:
-
-       **spins** : list
-           A list of each spin and its spin qunatum number
-
-       **comps** : str
-           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: transpose_dict_of_list(d)
-
-   
-   Turns a dictionary of lists into a list of dictionaries.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: transpose_list_of_dicts(d)
-
-   
-   Turns a list of dictionaries into a dictionary of lists.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: save_file(path, str)
-
-.. py:function:: autoEPRDecoder(dct)
-
-.. py:function:: gcd(values)
-
-   
-   Generates the greatest common divisor on a list of floats
-
-
-   :Parameters:
-
-       **values** : list
-           _description_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: val_in_us(Param, axis=True)
-
-   
-   Returns the value or axis of a parameter in microseconds
-
-
-   :Parameters:
-
-       **Param** : autodeer.Parameter
-           The parameter to be converted
-
-
-
-   :Returns:
-
-       float or numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: val_in_ns(Param)
-
-   
-   Returns the value or axis of a parameter in nanoseconds
-
-
-   :Parameters:
-
-       **Param** : autodeer.Parameter
-           The parameter to be converted
-
-
-
-   :Returns:
-
-       float or numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: add_phaseshift(data, phase)
-
-   
-   Adds a phase shift to the data
-
-
-   :Parameters:
-
-       **data** : numpy.ndarray
-           The data to be phase shifted
-
-       **phase** : float
-           The phase shift in degrees
-
-
-
-   :Returns:
-
-       numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _gen_ESEEM(t, freq, depth)
-
-   
-   Add an ESEEM modulation to a time domain signal
-
-
-   :Parameters:
-
-       **t** : numpy.ndarray
-           The time domain signal
-
-       **freq** : float
-           The modulation frequency
-
-       **depth** : float
-           The modulation depth
-
-
-
-   :Returns:
-
-       numpy.ndarray
-           The 
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: round_step(value, step)
-
-.. py:function:: val_in_ns(Param)
-
-   
-   Returns the value or axis of a parameter in nanoseconds
-
-
-   :Parameters:
-
-       **Param** : autodeer.Parameter
-           The parameter to be converted
-
-
-
-   :Returns:
-
-       float or numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: val_in_us(Param, axis=True)
-
-   
-   Returns the value or axis of a parameter in microseconds
-
-
-   :Parameters:
-
-       **Param** : autodeer.Parameter
-           The parameter to be converted
-
-
-
-   :Returns:
-
-       float or numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: add_phaseshift(data, phase)
-
-   
-   Adds a phase shift to the data
-
-
-   :Parameters:
-
-       **data** : numpy.ndarray
-           The data to be phase shifted
-
-       **phase** : float
-           The phase shift in degrees
-
-
-
-   :Returns:
-
-       numpy.ndarray
-           ..
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _gen_ESEEM(t, freq, depth)
-
-   
-   Add an ESEEM modulation to a time domain signal
-
-
-   :Parameters:
-
-       **t** : numpy.ndarray
-           The time domain signal
-
-       **freq** : float
-           The modulation frequency
-
-       **depth** : float
-           The modulation depth
-
-
-
-   :Returns:
-
-       numpy.ndarray
-           The 
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: create_Nmodel(mwFreq)
-
-   
-   Create the field sweep model for a Nitroxide spin system. 
-
-
-   :Parameters:
-
-       **mwFreq** : float
-           The microwave frequency in MHz
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: build_table(source, params, params_widths)
-
-.. py:function:: autoEPRDecoder(dct)
-
-.. py:function:: build_table(source, params, params_widths)
-
-.. py:function:: sop(spins, comps)
-
-   
-   Spin Operator Matricies.
-
-   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
-
-   References:
-   +++++++++++
-   [1] Stefan Stoll, Arthur Schweiger
-   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-   J. Magn. Reson. 178(1), 42-55 (2006)
-
-   [2] Stefan Stoll, R. David Britt
-   General and efficient simulation of pulse EPR spectra
-   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
-
-   :Parameters:
-
-       **spins** : list
-           A list of each spin and its spin qunatum number
-
-       **comps** : str
-           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: autoEPRDecoder(dct)
-
-.. py:function:: compute_upulses_not_trajectory(dUs)
-
-.. py:function:: compute_upulses_trajectory(dUs)
-
-.. py:function:: compute_magnetization_not_trajectory(Upulses, density0, Mmag)
-
-.. py:function:: compute_magnetization_trajectory(Upulses, density0)
-
-.. py:function:: build_default_pulses(AWG=True, SPFU=False, tp=12)
-
-.. py:data:: log
-
-.. py:function:: get_waveform_precision()
-
-.. py:function:: set_waveform_precision(precision)
-
-.. py:function:: sop(spins, comps)
-
-   
-   Spin Operator Matricies.
-
-   This function is ported from EasySpin (https://easyspin.org/easyspin/documentation/sop.html) 
-
-   References:
-   +++++++++++
-   [1] Stefan Stoll, Arthur Schweiger
-   EasySpin, a comprehensive software package for spectral simulation and analysis in EPR
-   J. Magn. Reson. 178(1), 42-55 (2006)
-
-   [2] Stefan Stoll, R. David Britt
-   General and efficient simulation of pulse EPR spectra
-   Phys. Chem. Chem. Phys. 11, 6614-6625 (2009)
-
-   :Parameters:
-
-       **spins** : list
-           A list of each spin and its spin qunatum number
-
-       **comps** : str
-           The type of spin operator matrix to create. Options are: x,y,z,+,-,e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
 .. py:data:: primary_colors
-   :value: ['#D95B6F', '#42A399', '#E1AE38']
+   :value: ['#7C37DB', '#DB7C17', '#166122']
 
 
-.. py:data:: ReIm_colors
-   :value: ['#D61B00', '#00BBD6']
+.. py:data:: primary_colors_light
+   :value: ['#A787D6', '#D68B3B', '#67B875']
 
 
-.. py:function:: create_Nmodel(mwFreq)
-
-   
-   Create the field sweep model for a Nitroxide spin system. 
-
-
-   :Parameters:
-
-       **mwFreq** : float
-           The microwave frequency in MHz
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: erot(*args)
-
-   
-   Passive rotation matrix.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: eyekron(M)
-
-   
-   Calculates the Kronecker product of the identity matrix with a matrix M.
-
-   Parameters:
-   M (np.ndarray): The matrix to be multiplied with the identity matrix.
-
-   Returns:
-   np.ndarray: The Kronecker product of the identity matrix with M.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: kroneye(M)
-
-   
-   Computes the Kronecker product of a matrix with the identity matrix of the same size.
-
-   Args:
-       M (numpy.ndarray): The matrix to compute the Kronecker product with.
-
-   Returns:
-       numpy.ndarray: The Kronecker product of M with the identity matrix of the same size.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: ham(SpinSystem, elspins=None, nucspins=None)
-
-.. py:function:: ham_ez(SpinSystem, B=None, espins=None)
-
-.. py:function:: ham_nz(SpinSystem, B=None, nspins=None)
-
-.. py:function:: resfields(system, Orientations, mwFreq, computeIntensities=True, RejectionRatio=1e-08, Range=(0, 100000000.0), Threshold=0, computeFreq2Field=True)
-
-.. py:function:: build_spectrum(system, mwFreq, Range, knots=19, npoints=1000, Guass_broadening=0.25)
-
-   
-   Build a field sweep spectrum
-
-
-   :Parameters:
-
-       **system** : SpinSystem
-           The spin system it must include: I & S spins, g, A, gn
-
-       **mwFreq** : float
-           The microwave frequency in MHz
-
-       **Range** : float
-           The field range in mT
-
-       **knots** : int, optional
-           The number of knots of orientation averaging, by default 19
-
-       **npoints** : int, optional
-           The number of points in the spectrum, by default 1000
-
-
-
-   :Returns:
-
-       xAxis: np.ndarray
-           The xAxis in mT
-
-       y: np.ndarray
-           The spectrum intensities normalised to 1  
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:data:: primary_colors
-   :value: ['#D95B6F', '#42A399', '#E1AE38']
-
-
-.. py:function:: detect_ESEEM(dataset, type='deuteron', threshold=1.5)
-
-   
-   Detect if the dataset is an ESEEM experiment.
-
-
-   :Parameters:
-
-       **dataset** : xr.DataArray
-           The dataset to be analyzed.
-
-       **type** : str, optional
-           The type of ESEEM experiment, either deuteron or proton, by default 'deuteron'
-
-       **threshold** : float, optional
-           The SNR threshold for detection, by default 1.5
-
-
-
-   :Returns:
-
-       bool
-           True if ESEEM is detected, False if not.
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:data:: cmap
-   :value: ['#D95B6F', '#42A399']
-
-
-.. py:function:: plot_1Drelax(*args, fig=None, axs=None, cmap=cmap, labels=None)
-
-   
-   Create a superimposed plot of relaxation data and fits.
-
-
-   :Parameters:
-
-       **args** : ad.Analysis
-           The 1D relaxation data to be plotted.
-
-       **fig** : Figure, optional
-           The figure to plot to, by default None
-
-       **axs** : Axes, optional
-           The axes to plot to, by default None
-
-       **cmap** : list, optional
-           The color map to use, by default ad.cmap
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:data:: primary_colors
-   :value: ['#D95B6F', '#42A399', '#E1AE38']
-
-
-.. py:function:: phase_correct_respro(dataset)
-
-   
-   Phase corrects a resonator profile dataset, by making sure the first point of each frequnecy is real
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: ceil(number, decimals=0)
-
-.. py:function:: floor(number, decimals=0)
-
-.. py:function:: calc_overlap(x, func1, func2)
-
-   
-   Calcuates the overlap between two functions.
-
-
-   :Parameters:
-
-       **x** : np.ndarray
-           The x axis of the functions
-
-       **func1** : function
-           The first function
-
-       **func2** : function
-           The second function
-
-
-
-   :Returns:
-
-       float
-           The overlap between the two functions.
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: BSpline_extra(tck_s)
-
-.. py:function:: optimise_spectra_position(resonator_profile, fieldsweep, verbosity=0)
-
-.. py:data:: primary_colors
+.. py:data:: secondary_colors
    :value: ['#D95B6F', '#42A399', '#E1AE38']
 
 

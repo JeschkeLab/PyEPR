@@ -1,7 +1,13 @@
 pyepr.SpinSystem
 ================
 
-.. py:class:: pyepr.SpinSystem(espins, nspin, g, A)
+.. py:currentmodule:: pyepr
+
+.. py:class:: SpinSystem(espins, nspin, g, A)
+
+   .. rubric:: Attributes
+      :class: autoapi-member-heading
+
 
    .. py:attribute:: g
 
@@ -29,5 +35,6 @@ pyepr.SpinSystem
 
    .. py:attribute:: gnscale
       :value: 1
+
 
 
