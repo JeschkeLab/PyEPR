@@ -39,6 +39,7 @@ Setup and Calibration Sequences
    pyepr.sequences.FieldSweepSequence   
    pyepr.sequences.ResonatorProfileSequence
    pyepr.sequences.TWTProfileSequence
+   pyepr.sequences.T1InversionRecoverySequence
 
 Relxation Sequences
 +++++++++++++++++++++
