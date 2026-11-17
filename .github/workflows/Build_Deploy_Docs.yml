@@ -7,34 +7,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # needed to push to the gh-pages branch
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Install dependencies
-        run: poetry install --with doc
-        
+        run: uv sync --extra doc
+
       - name: Build documentation
-        run: poetry run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
+        run: uv run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
       - name: Upload build log
         uses: actions/upload-artifact@v4.6.2
         if: always()
         with:
           name: sphinx-build-log
           path: sphinx_build.log
-          
+
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docsrc/_build/html
