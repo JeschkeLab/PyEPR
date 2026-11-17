@@ -25,6 +25,7 @@ Analysis Modules
    pyepr.ResonatorProfileAnalysis
    pyepr.CarrPurcellAnalysis
    pyepr.ReptimeAnalysis
+   pyepr.AmplifierLinearityAnalysis
 
 Sequences
 ~~~~~~~~~

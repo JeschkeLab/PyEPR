@@ -2,12 +2,12 @@ Release Notes
 =============
 
 
-Version 1.2 (2026-10-01):
+Version 1.2 (2026-11-17):
 ++++++++++++++++++++++++++++
 - Added `ThreePulseESEEMSequence` and `HYSCORESequence` sequences.
 - Added `ESEEMAnalysis` and `HYSCOREAnalysis` classes for analyzing ESEEM and HYSCORE data.
+- Added `ThreePulseDEERSequence`, `FourPulseDEERSequence`, and `FivePulseDEERSequence` sequences for dipolar EPR experiments.
 - Expanded `dataset.epr.save` method to support saving in Bruker format.
-- Expanded `eprload` function to support loading from MS400 dataformat.
 - Improved Documentation
 - Increase test coverage
 
