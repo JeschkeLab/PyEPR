@@ -1,10 +1,11 @@
-from pyepr.classes import Interface
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.hardware.XeprAPI_link import XeprAPILink
 from pyepr.hardware.Bruker_tools import PulseSpel, run_general, build_unique_progtable,write_pulsespel_file,step_parameters, get_specjet_data
-from pyepr.dataset import *
+from pyepr.dataset import create_dataset_from_sequence
+from pyepr.classes import Parameter
 from pyepr.utils import transpose_list_of_dicts, transpose_dict_of_list,round_step
-from pyepr.pulses import RectPulse, Delay
-from pyepr.sequences import HahnEchoSequence
+from pyepr.pulses import RectPulse, Delay, Detection
+from pyepr.sequences import Sequence, HahnEchoSequence
 import tempfile
 import time
 from scipy.optimize import minimize_scalar, curve_fit

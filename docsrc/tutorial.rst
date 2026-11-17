@@ -53,4 +53,4 @@ The following tutorials are available:
     tutorial_loading.md
     tutorial_sequencer.md
     tutorial_hardware.md
-    auto_examples/index.rst
+    

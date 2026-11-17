@@ -1,10 +1,10 @@
 from pyepr.classes import *
 from pyepr.dataset import *
 from pyepr.sequences import *
-from pyepr.hardware.dummy import _simulate_field_sweep, _simulate_T2
 import numpy as np
 from scipy.signal import hilbert
 import pytest
+import os
 
 def test_create_dataset_from_sequence():
     seq = FieldSweepSequence(B=12200, Bwidth=500, LO=34.4, reptime=3e3, averages=1, shots=100)
@@ -55,7 +55,7 @@ def dataset_from_sequence():
     
     seq = FieldSweepSequence(B=12200, Bwidth=500, LO=34.4, reptime=3e3, averages=1, shots=100)
 
-    t, data = _simulate_field_sweep(seq)
+    t, data = seq.simulate()
     data += rng.normal(0,0.04,data.shape) + 1j*rng.normal(0,0.04,data.shape)
     extra_params = {"nAvgs":1}
     dset = create_dataset_from_sequence(data,seq, extra_params)
@@ -93,7 +93,7 @@ def test_merge_dataset():
     def build_dataset(tmin):
         seq = T2RelaxationSequence(
             B=12200, LO=34.4, reptime=3e3, averages=1, shots=100, start=tmin)
-        t, data = _simulate_T2(seq,0.2)
+        t, data = seq.simulate()
         data += rng.normal(0,0.04,data.shape) + 1j*rng.normal(0,0.04,data.shape)
         extra_params = {"nAvgs":1}
         dset = create_dataset_from_sequence(data,seq, extra_params)
@@ -105,3 +105,44 @@ def test_merge_dataset():
     dset = dset1.epr.merge(dset2)
     assert dset.data.shape[0] == dset1.data.shape[0] + dset2.data.shape[0]
 
+
+@pytest.mark.parametrize('format', ['hdf5', 'bruker'])
+def test_save_dataset(format, dataset_from_sequence):
+    dataset = dataset_from_sequence
+    if format == 'hdf5':
+        file_path = "test/test_data/test_dataset.h5"
+        dataset.epr.save(file_path)
+
+        os.path.exists(file_path)
+        os.remove(file_path)    
+
+    elif format == 'bruker':
+        file_path = "test/test_data/test_dataset.DTA"
+        dataset.epr.save(file_path, format='bruker')
+
+        # check both .DTA and .DSC files exist
+        os.path.exists(file_path)
+        os.path.exists(file_path.replace('.DTA','.DSC'))
+
+
+        os.remove(file_path)
+        os.remove(file_path.replace('.DTA','.DSC'))
+
+@pytest.mark.parametrize('format', ['hdf5', 'bruker','bruker_cw','ms400'])
+
+def test_load(format):
+
+    if format == 'hdf5':
+        file_path = "test/test_data/test_dataset.h5"
+
+    elif format == 'bruker':
+        file_path = "test/test_data/test_dataset.DTA"
+
+    elif format == 'bruker_cw':
+        file_path = "test/test_data/test_CW.DTA"
+
+    elif format == 'ms400':
+        file_path = "test/test_data/test_MS400.dat"
+
+    
+    

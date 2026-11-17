@@ -2,15 +2,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import scipy.fft as fft
-from pyepr import __version__
-from pyepr.pulses import Detection
+from pyepr._version import __version__
+from pyepr.pulses import Detection, Pulse
 from pyepr.classes import Parameter
 from pyepr.sequences import Sequence
-import pyepr.pulses as ad_pulses
+import pyepr.pulses as epr_pulses
 import xarray as xr
 from deerlab import correctphase
 from deerlab import deerload
 import copy
+import datetime
+
+__all__ = [
+    'get_all_axes', 'get_all_fixed_param', 'get_phase_cycle_attrs', 'create_dataset_from_sequence',
+    'create_dataset_from_axes', 'create_dataset_from_bruker', 'EPRAccessor',
+    'downconvert_dataset', 'find_peak', 'save_bruker',
+]
 
 # =============================================================================
 
@@ -25,8 +32,8 @@ def get_all_axes(sequence):
             continue
         
         for axis in param.axis:
-            if axis['uuid'] in sequence.axes_uuid and not axis['uuid'] in sequence.reduce_uuid:
-                ax_id = sequence.axes_uuid.index(axis['uuid'])
+            if axis['uuid'] in sequence._axes_uuid and not axis['uuid'] in sequence._reduce_uuid:
+                ax_id = sequence._axes_uuid.index(axis['uuid'])
                 if param.unit == 'ns':
                     convert = 1e-3
                 elif param.unit == 'us':
@@ -45,8 +52,8 @@ def get_all_axes(sequence):
             if param.axis == []:
                 continue
             for axis in param.axis:
-                if axis['uuid'] in sequence.axes_uuid and not axis['uuid'] in sequence.reduce_uuid:
-                    ax_id = sequence.axes_uuid.index(axis['uuid'])
+                if axis['uuid'] in sequence._axes_uuid and not axis['uuid'] in sequence._reduce_uuid:
+                    ax_id = sequence._axes_uuid.index(axis['uuid'])
                     axes[f"pulse{i}_{param_name}"] = {'axis': axis['axis'] + param.value, 'ax_id':ax_id}
 
     return axes
@@ -63,9 +70,10 @@ def get_all_fixed_param(sequence):
         elif not isinstance(param, Parameter):
             continue
         else:
-            if (param.axis == []) and (param.value is not None):
-                fixed_param[param_name] = param.value
-            elif param.axis[0]['uuid'] in sequence.reduce_uuid:
+            if param.axis == []:
+                if (param.value is not None):
+                    fixed_param[param_name] = param.value
+            elif param.axis[0]['uuid'] in sequence._reduce_uuid:
                 fixed_param[param_name] = param.value
         
 
@@ -91,6 +99,31 @@ def get_all_fixed_param(sequence):
         fixed_param['pcyc_name'] = sequence.pcyc_name
     return fixed_param
 
+def get_phase_cycle_attrs(sequence):
+    """
+    Collect the phase cycle of a sequence as dataset attributes.
+
+    Stores the per-pulse phases and detection signs (``pulse{i}_pcyc_phases``,
+    ``pulse{i}_pcyc_dets``) as well as the full built phase cycle of the
+    sequence (``pcyc_vars``, ``pcyc_cycles``, ``pcyc_dets``).
+    """
+    pcyc_attrs = {}
+    for i, pulse in enumerate(sequence.pulses):
+        pcyc = getattr(pulse, 'pcyc', None)
+        if pcyc is None:
+            continue
+        type = "det" if isinstance(pulse, Detection) else "pulse"
+        pcyc_attrs[f"{type}{i}_pcyc_phases"] = np.asarray(pcyc["Phases"])
+        pcyc_attrs[f"{type}{i}_pcyc_dets"] = np.asarray(pcyc["DetSigns"])
+
+    if hasattr(sequence, 'pcyc_vars'):
+        pcyc_attrs['pcyc_vars'] = np.asarray(sequence.pcyc_vars, dtype=int)
+    if hasattr(sequence, 'pcyc_cycles'):
+        pcyc_attrs['pcyc_cycles'] = np.asarray(sequence.pcyc_cycles)
+    if hasattr(sequence, 'pcyc_dets'):
+        pcyc_attrs['pcyc_dets'] = np.asarray(sequence.pcyc_dets)
+    return pcyc_attrs
+
 def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     ndims = data.ndim
     default_labels = ['X','Y','Z','T']
@@ -98,6 +131,7 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     axes = get_all_axes(sequence)
     coords = {a:(default_labels[b['ax_id']],b['axis']) for a,b in axes.items()}
     attr = get_all_fixed_param(sequence)
+    attr.update(get_phase_cycle_attrs(sequence))
     attr.update(extra_params)
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
@@ -177,7 +211,10 @@ def create_dataset_from_bruker(filepath):
 
 @xr.register_dataarray_accessor("epr")
 class EPRAccessor:
-
+    """
+    Xarray accessor for EPR datasets. Provides methods for saving, phase correction, normalization, FFT, and more.
+    These can be accessed via the `.epr` attribute of an xarray DataArray object. E.g. `dataset.epr.save('filename.h5')`
+    """
     def __init__(self, xarray_obj):
         self._obj = xarray_obj
 
@@ -200,7 +237,11 @@ class EPRAccessor:
             mode = "a"
 
         #if filename doesn't have the extension .h5, add it
-        if isinstance(filename,str) and not filename.endswith('.h5'):
+        if not isinstance(filename,str):
+            raise ValueError("filename must be a string")
+        elif filename.endswith('.DSC'):
+            type = 'bruker'
+        elif  not filename.endswith('.h5'):
             filename = filename + '.h5'
 
         if 'Scan' in self._obj.dims:
@@ -212,8 +253,15 @@ class EPRAccessor:
         if type == 'netCDF':
             self._obj.to_netcdf(filename,engine='h5netcdf',invalid_netcdf=True,mode=mode,unlimited_dims=unlimited_dims)
 
+        elif type == 'bruker':
+            save_bruker(self._obj, filename, overwrite=overwrite)
+
+
     @property
-    def correctphase(self):
+    def correctphase(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 corr_data = correctphase(self._obj.data)
@@ -224,11 +272,17 @@ class EPRAccessor:
     
     @property
     def normalise(self):
+        """
+        In-place normalisation of the dataset to the maximum absolute value of the data.
+        """
         self._obj.data = self._obj.data / np.abs(self._obj.data).max()
         return self._obj
     
     @property
-    def correctphasefull(self):
+    def correctphasefull(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function and keeps the real and imaginary parts of the data.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 Re,Im,_ = correctphase(self._obj.data,full_output=True)
@@ -238,13 +292,19 @@ class EPRAccessor:
         return new_obj
 
     @property
-    def SNR(self):
+    def SNR(self)->float:
+        """
+        Calculate the signal-to-noise ratio of the dataset using the DeerLab der_snr function.
+        """
         from deerlab import der_snr
         norm_data = self._obj.data / np.abs(self._obj.data).max()
         return 1/der_snr(norm_data)
 
     @property
     def fft(self):
+        """
+        Calculate the FFT of the dataset and returns a new dataset with the FFT applied.
+        """
         new_obj = copy.deepcopy(self._obj)
         new_obj.data = fft.fftshift(fft.fft(self._obj.data))
         new_coords = {}
@@ -262,7 +322,8 @@ class EPRAccessor:
     
     
     @property
-    def sequence(self):
+    def sequence(self)->Sequence:
+        """Extracts the PyEPR Sequence object from the dataset attributes and coordinates."""
         dataset_attrs = self._obj.attrs
         dataset_coords = self._obj.coords
 
@@ -309,13 +370,31 @@ class EPRAccessor:
                     params[param_type] = Parameter(name = param_type, value = min_value, dim=dim, step=step)
             
             try:
-                pulse_build = getattr(ad_pulses,pulse_type)
-                pulses_obj.append(pulse_build(**params))
+                pulse_build = getattr(epr_pulses,pulse_type)
+                pulse_obj = pulse_build(**params)
             except:
                 continue
-       
+
+            # netCDF stores one-element attributes as scalars, so re-wrap them
+            if f"{key}{i}_pcyc_phases" in dataset_attrs:
+                phases = np.atleast_1d(dataset_attrs[f"{key}{i}_pcyc_phases"])
+                dets = np.atleast_1d(dataset_attrs.get(f"{key}{i}_pcyc_dets", np.ones(len(phases))))
+                pulse_obj._addPhaseCycle(phases, detections=dets)
+            pulses_obj.append(pulse_obj)
+
         sequence = Sequence(**seq_params)
         sequence.pulses = pulses_obj
+        sequence._buildPhaseCycle()
+
+        # Restore the saved sequence-level phase cycle, which also preserves
+        # linked pulses. Only valid if every pulse was rebuilt (indices match).
+        if all(k in dataset_attrs for k in ['pcyc_vars', 'pcyc_cycles', 'pcyc_dets']) and len(pulses_obj) == n_events:
+            pcyc_vars = np.atleast_1d(dataset_attrs['pcyc_vars']).astype(int)
+            if len(pcyc_vars) == 0:
+                return sequence
+            sequence.pcyc_vars = pcyc_vars.tolist()
+            sequence.pcyc_cycles = np.atleast_1d(dataset_attrs['pcyc_cycles']).reshape(-1, len(pcyc_vars))
+            sequence.pcyc_dets = np.atleast_1d(dataset_attrs['pcyc_dets'])
 
         return sequence
 
@@ -381,7 +460,8 @@ class EPRAccessor:
 
 def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampling_rate=None,**kwargs):
     """
-    Downconvert a dataset to baseband using a filter	
+    Downconvert a dataset to baseband using a filter
+
     Parameters
     ----------
     dataset : xr.DataArray
@@ -412,27 +492,41 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
             IF = dataset.attrs.get('IFfreq') # GHz
         else:
             raise ValueError('IFfreq not found in dataset attributes, please provide IF value')
+    
+    det_freqs = [v for k,v in dataset.attrs.items() if 'det' in k and 'freq' in k]
+    if len(det_freqs) > 0:
+        IF += det_freqs[0]
 
     if sampling_rate is None:
         if 'det_rate' in dataset.attrs:
             sampling_rate = dataset.attrs.get('det_rate') # GHz
         elif 'sampling_rate' in dataset.attrs:
             sampling_rate = dataset.attrs.get('sampling_rate') # GHz
+        elif 'SamplingRate' in dataset.attrs:
+            sampling_rate = dataset.attrs.get('SamplingRate') # GHz
+
         else:
             raise ValueError('sampling_rate not found in dataset attributes, please provide sampling_rate value')
+
     if filter_type is None:
         dc_first=True
     elif filter_type not in ['boxcar','cheby']:
+        Warning('Filter type not recognised, using cheby filter')
         filter_type = 'cheby'
         filter_width = 50
+
+    if not np.iscomplexobj(dataset):
+        # Apply a Hilbert transform to the dataset to make it complex
+        from scipy.signal import hilbert
+        from scipy.fft import set_workers
+        with set_workers(-1):
+            dataset = xr.apply_ufunc(hilbert,dataset)
         
     
     if filter_type == 'boxcar':
-        filter_width = kwargs.get('filter_width',20)
+        filter_width = int(round(kwargs.get('filter_width',20)))
         funct = lambda data: np.convolve(data,np.ones(filter_width),mode='same')
         dc_first=True
-    elif isinstance(filter_type, ad_pulses.Pulse): # match filter to a epr Pulse
-        raise NotImplementedError('Match filter to a pulse not implemented yet')
     elif filter_type == 'cheby':
         from scipy.signal import cheby1,sosfiltfilt
         filter_width = kwargs.get('filter_width',50) # MHz
@@ -445,8 +539,32 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
         a = cheby1(order,0.5,Wn,'bandpass',analog=False,fs=sampling_rate,output='sos')
         funct = lambda data: sosfiltfilt(a,data)
         dc_first=False
+    elif filter_type in ['gaussian','gauss']:
+        from scipy.signal import gaussian,convolve
+        filter_width = kwargs.get('filter_width',50) # MHz
+        filter_width /= 1e3
+        std = filter_width/2.355
+        gauss_filter = gaussian(6*std,std)
+        gauss_filter /= np.sum(gauss_filter)
+        funct = lambda data: convolve(data,gauss_filter,mode='same')
+        dc_first=False
+    elif filter_type == 'butter':
+        from scipy.signal import butter,sosfiltfilt
+        filter_width = kwargs.get('filter_width',50) # MHz
+        filter_width /= 1e3
+
+        Wn = np.array([IF-filter_width,IF+filter_width])
+        Wn[Wn<=0] = 0.001
+        order = 5
+        
+        a = butter(order,Wn,'bandpass',analog=False,fs=sampling_rate,output='sos')
+        funct = lambda data: sosfiltfilt(a,data)
+        dc_first=False
     elif filter_type is None:
         dc_first=True
+    elif issubclass(filter_type, Pulse): # match filter to a epr Pulse
+        raise NotImplementedError('Match filter to a pulse not implemented yet')
+
 
     else:
         raise ValueError('Filter not recognised')
@@ -459,7 +577,9 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
     else:
         data_array_dc = xr.apply_ufunc(funct,dataset)
         data_array_dc = data_array_dc*np.exp(-1j*2*np.pi*IF*data_array_dc.tx/sampling_rate)
-        
+    data_array_dc.attrs['filter_type'] = filter_type
+    data_array_dc.attrs['filter_width'] = filter_width
+
     # if data_array_dc.ndim == 3:
     #     max_echo_pos = np.unravel_index(np.argmax(np.abs(data_array_dc.data[0,0,20:-20])),data_array_dc.shape[-1])[0] + 20
     # else:
@@ -469,6 +589,7 @@ def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampli
             max_echo_pos = kwargs['max_echo_pos']
         else:
             max_echo_pos = np.unravel_index(np.abs(data_array_dc).argmax(),data_array_dc.shape)[-1]
+        data_array_dc.attrs['max_echo_pos'] = max_echo_pos
         return data_array_dc[...,max_echo_pos]
     else:
         return data_array_dc
@@ -484,3 +605,143 @@ def find_peak(dataset, freq,freq_axis=None,search_range=4):
     loc = loc-search_range + dataset.values[loc-search_range:loc+search_range].argmax()
     peak = dataset[loc].values
     return loc,peak
+
+
+def save_bruker(dataset, filename, overwrite=True):
+    """
+    Save a dataset to a Bruker .DSC/ .DTA file
+
+    Parameters
+    ----------
+    dataset : xr.DataArray
+        The dataset to save
+    filename : str
+        The name of the file to save
+    overwrite : bool, optional
+        If True, overwrite the file if it exists, by default True
+    """
+    if not filename.endswith('.DSC'):
+        filename = filename + '.DSC'
+    
+    if overwrite:
+        mode = 'w'
+    else:
+        mode = 'a'
+
+    data = dataset.values
+    if data.ndim > 2:
+        raise ValueError("Cannot save data with more than 2 dimensions.")
+
+    two_dim = data.ndim == 2 and min(data.shape) > 1
+
+    if two_dim:
+        if not (isinstance(x, (list, tuple)) and len(x) == 2):
+            raise ValueError("For 2D data, x must be a list/tuple of two axes.")
+        x_axis = np.asarray(x[0], dtype=np.float64).ravel()
+        y_axis = np.asarray(x[1], dtype=np.float64).ravel()
+    else:
+        if isinstance(x, (list, tuple)):
+            x_axis = np.asarray(x[0], dtype=np.float64).ravel()
+        else:
+            x_axis = np.asarray(x, dtype=np.float64).ravel()
+        y_axis = None
+
+    complex_data = not np.isrealobj(data)
+    byteorder = 'big'  # BES3T default (XEPR/Linux)
+    bes3t_version = '1.2'
+
+    dta_path = filename + '.DTA'
+    # Flatten column-major (Fortran order) to match MATLAB data(:)
+    flat = data.flatten('F')
+    if complex_data:
+        interleaved = np.empty(2 * len(flat), dtype=np.float64)
+        interleaved[0::2] = flat.real
+        interleaved[1::2] = flat.imag
+        raw = interleaved
+    else:
+        raw = flat.real.astype(np.float64)
+
+    with open(dta_path, 'wb') as f:
+        f.write(raw.astype('>f8').tobytes())
+
+    # --- Write .DSC descriptor file ---
+    dsc_path = filename + '.DSC'
+    now = datetime.now()
+
+    def _is_linear(axis):
+        diffs = np.diff(axis)
+        if len(diffs) == 0:
+            return True
+        mn, mx = diffs.min(), diffs.max()
+        if mn == 0:
+            return False
+        return abs(mx / mn - 1) < 1e-5
+
+    x_linear = _is_linear(x_axis)
+    x_type = 'IDX' if x_linear else 'IGD'
+    if two_dim:
+        y_linear = _is_linear(y_axis)
+        y_type = 'IDX' if y_linear else 'IGD'
+    else:
+        y_type = 'NODATA'
+
+    with open(dsc_path, 'w') as f:
+        def kv(key, val):
+            f.write(f'{key}\t{val}\n')
+
+        def line(val=''):
+            f.write(f'{val}\n')
+
+        f.write(f'* Exported from PyEPR Version {__version__}, {now.strftime("%Y-%m-%d %H:%M:%S")}\n')
+        kv('#DESC', f'{bes3t_version} * DESCRIPTOR INFORMATION ***********************')
+        kv('DSRC', 'MAN')
+        kv('BSEQ', 'BIG' if byteorder == 'big' else 'LIT')
+        kv('IKKF', 'CPLX' if complex_data else 'REAL')
+        kv('IRFMT', 'D')
+        if complex_data:
+            kv('IIFMT', 'D')
+
+        # Write XGF gauge file if X axis is non-linear
+        if not x_linear:
+            xgf_path = filename + '.XGF'
+            with open(xgf_path, 'wb') as gf:
+                gf.write(x_axis.astype('>f8').tobytes())
+            kv('XFMT', 'D')
+
+        # Write YGF gauge file if Y axis is non-linear
+        if two_dim and not y_linear:
+            ygf_path = filename + '.YGF'
+            with open(ygf_path, 'wb') as gf:
+                gf.write(y_axis.astype('>f8').tobytes())
+            kv('YFMT', 'D')
+
+        kv('XTYP', x_type)
+        kv('YTYP', y_type)
+        kv('ZTYP', 'NODATA')
+
+        kv('XPTS', str(len(x_axis)))
+        kv('XMIN', f'{x_axis[0]:g}')
+        kv('XWID', f'{x_axis[-1] - x_axis[0]:g}')
+        if two_dim:
+            kv('YPTS', str(len(y_axis)))
+            kv('YMIN', f'{y_axis[0]:g}')
+            kv('YWID', f'{y_axis[-1] - y_axis[0]:g}')
+
+        if 'title' in dataset.attrs:
+            kv('TITL', f"'{dataset.attrs['title']}'")
+
+        line('*')
+        line('************************************************************')
+        line('*')
+        kv('#SPL', f'{bes3t_version} * STANDARD PARAMETER LAYER')
+        kv('OPER', '')
+        kv('DATE', now.strftime('%d/%m/%y'))
+        kv('TIME', now.strftime('%H:%M:%S'))
+        kv('CMNT', '')
+        kv('SAMP', '')
+        kv('SFOR', '')
+        if 'freq' in dataset.attrs:
+            kv('MWFQ', f'{dataset.attrs.get('freq') * 1e9:.9g}')
+
+        if 'B' in dataset.attrs:
+            kv('B0VL', f'{dataset.attrs.get('B') * 1e-4:.9g}') # G -> T

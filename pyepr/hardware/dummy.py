@@ -1,4 +1,5 @@
-from pyepr.classes import  Interface, Parameter
+from pyepr.classes import  Parameter
+from pyepr.hardware.BaseInterfaceClass import Interface
 from pyepr.dataset import  create_dataset_from_sequence
 from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, Delay, Detection
 from pyepr.sequences import *
@@ -162,7 +163,7 @@ class dummyInterface(Interface):
 
 
         self.mode = self.dummyResonator.mode
-        super().__init__(self.config,log=hw_log)
+        super().__init__(self.config, log=hw_log)
 
     def launch(self, sequence, savename: str, **kwargs):
         hw_log.info(f"Launching {sequence.name} sequence")

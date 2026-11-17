@@ -1,3 +1,5 @@
-primary_colors=['#D95B6F','#42A399','#E1AE38']
+primary_colors=['#7C37DB','#DB7C17','#166122']
+primary_colors_light=['#A787D6','#D68B3B','#67B875']
+secondary_colors=['#D95B6F','#42A399','#E1AE38']
 ReIm_colors = ['#D61B00','#00BBD6']
 shade_colors=[]

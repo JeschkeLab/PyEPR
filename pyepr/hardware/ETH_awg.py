@@ -1,6 +1,7 @@
 import matlab.engine
-from pyepr.classes import  Interface, Parameter
-from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, Delay, Detection
+from pyepr.classes import Parameter
+from pyepr.hardware.BaseInterfaceClass import Interface
+from pyepr.pulses import Pulse, RectPulse, ChirpPulse, HSPulse, GaussianPulse, Delay, Detection
 from pyepr.sequences import Sequence, HahnEchoSequence, FieldSweepSequence
 import numpy as np
 import re
@@ -12,7 +13,7 @@ from scipy.io.matlab import MatReadError
 from pyepr.utils import transpose_list_of_dicts
 from pyepr.hardware.ETH_awg_load import uwb_eval_match
 from pyepr.utils import save_file, transpose_list_of_dicts, transpose_dict_of_list
-from pyepr import create_dataset_from_sequence
+from pyepr.dataset import create_dataset_from_sequence
 import datetime
 import copy
 import threading
@@ -473,7 +474,7 @@ class ETH_awg_interface(Interface):
             state= self.bg_thread.is_alive()
         return state
     
-    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,step=0.02, dim=45):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,step=0.02, dim=45,**kwargs):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -516,7 +517,7 @@ class ETH_awg_interface(Interface):
 
         amp_tune.evolution([scale])
         
-        self.launch(amp_tune, "autoDEER_amptune", IFgain=0)
+        self.launch(amp_tune, "autoDEER_amptune", IFgain=kwargs.get("IFgain",0))
 
         while self.isrunning():
             time.sleep(10)
@@ -539,7 +540,7 @@ class ETH_awg_interface(Interface):
         return p90, p180
 
     
-    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400,step=0.02, dim=45):
+    def tune_pulse(self, pulse, mode, freq, B , reptime, shots=400,step=0.02, dim=45,**kwargs):
         """Tunes a single pulse a range of methods.
 
         Parameters
@@ -605,7 +606,7 @@ class ETH_awg_interface(Interface):
 
             amp_tune.evolution([scale])
 
-            self.launch(amp_tune, "autoDEER_amptune", IFgain=0)
+            self.launch(amp_tune, "autoDEER_amptune", IFgain=kwargs.get("IFgain",0))
 
             while self.isrunning():
                 time.sleep(10)
@@ -674,6 +675,8 @@ class ETH_awg_interface(Interface):
             pulse.scale = Parameter('scale',new_amp,unit=None,description='The amplitude of the pulse 0-1')
         
             return pulse
+        else:
+            raise ValueError("Mode must be either amp_hahn or amp_nut")
     
     def tune(self,*, sequence=None, mode="amp_hahn", freq=None, gyro=None):
 
@@ -800,8 +803,9 @@ class ETH_awg_interface(Interface):
         event["t"] = float(pulse.t.value)
 
         if type(pulse) is Detection:
-            # event["det_len"] = float(pulse.tp.value * self.dig_rate)
             event["det_len"] = float(1024*2)
+            # event["det_len"] = float(pulse.tp.value * self.dig_rate)
+
             event["det_frq"] = float(pulse.freq.value) + self.IF_freq
             event["name"] = "det"
             return event
@@ -853,9 +857,16 @@ class ETH_awg_interface(Interface):
             event["pulsedef"]["HSorder2"] = float(pulse.order2.value)
             event["pulsedef"]["HSbeta"] = float(pulse.beta.value)
 
+        elif type(pulse) is GaussianPulse:
+
+            event["pulsedef"]["type"] = 'gauss'
+
+
         elif type(pulse) is Pulse:
             event["pulsedef"]["type"] = 'FMAM'
             raise RuntimeError("Not yet implemented")
+        else:
+            raise ValueError(f"Pulse type not recognised, got {type(pulse)}")
         
         if self.resonator is not None:
             resonator = {}

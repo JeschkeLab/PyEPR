@@ -4,6 +4,12 @@ from scipy.sparse import bsr_array
 import uuid
 import base64
 
+__all__ = [
+    'build_table', 'sop', 'transpose_dict_of_list', 'transpose_list_of_dicts',
+    'save_file', 'autoEPRDecoder', 'gcd', 'val_in_us', 'val_in_ns',
+    'add_phaseshift', 'round_step',
+]
+
 
 def build_table(source, params, params_widths):
     string = ""
@@ -43,7 +49,13 @@ def build_table(source, params, params_widths):
             elif param == "iD":
                 elements.append(i)
             elif param == 'Phase Cycle':
-                elements.append(pulse._pcyc_str())
+                link = pulse.pcyc.get("link") if pulse.pcyc is not None else None
+                if link is not None:
+                    link_id = next(
+                        (j for j, p in enumerate(source) if p.uuid == link), None)
+                    elements.append(f"linked to pulse {link_id}")
+                else:
+                    elements.append(pulse._pcyc_str())
             elif hasattr(pulse, param):
                 if getattr(pulse, param) is None:
                     elements.append("N/A")

@@ -94,4 +94,5 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        skip-existing: true  # version may already be on TestPyPI from the PR workflow
 
