@@ -265,7 +265,7 @@ class Interface:
                     B=B, freq=freq, reptime=reptime, averages=1, shots=shots, tau=tau,
                     pi2_pulse=p90, pi_pulse=p180,
                     name='RectPulse Echo Tune Sequence')
-
+        RectEchoTuneSeq.pulses[-1].freq.value = offset_freq
         RectEchoTuneSeq.evolution([amp])
 
         self.launch(RectEchoTuneSeq, 
@@ -282,7 +282,7 @@ class Interface:
             time.sleep(5)
             while self.isrunning():
                 time.sleep(2)
-            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
+            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='cheby',filter_width=p90.bandwidth.value*1e3)
 
         dataset = dataset.epr.correctphase
         data = np.abs(dataset.data)
@@ -356,7 +356,7 @@ class Interface:
                     B=B, freq=freq, reptime=reptime, averages=1, shots=shots, tau=tau,
                     pi2_pulse=p90, pi_pulse=p180,
                     name='GaussianPulse Echo Tune Sequence')
-
+        GaussianEchoTuneSeq.pulses[-1].freq.value = offset_freq
         GaussianEchoTuneSeq.evolution([amp])
 
         self.launch(GaussianEchoTuneSeq, 
@@ -373,7 +373,7 @@ class Interface:
             time.sleep(5)
             while self.isrunning():
                 time.sleep(2)
-            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='boxcar',filter_width=250)
+            dataset = self.acquire_dataset(downconvert=True,reduce=True,filter_type='cheby',filter_width=p90.bandwidth.value*1e3)
 
         dataset = dataset.epr.correctphase
         data = np.abs(dataset.data)
@@ -457,6 +457,7 @@ class Interface:
         ChirpEchoTuneSeq = HahnEchoSequence(
             freq=freq,B=B, reptime=reptime, shots=shots, averages=1, pi2_pulse=p90, 
             pi_pulse=p180, tau=tau)
+        ChirpEchoTuneSeq.freq.value = (final_freq-init_freq)/2
         ChirpEchoTuneSeq.evolution([amp])
 
 

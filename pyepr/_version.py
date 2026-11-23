@@ -9,7 +9,7 @@ MODULE_DIR = importlib.util.find_spec('pyepr').submodule_search_locations[0]
 #     __version__ = config["tool"]["poetry"]["version"]
 
 __version__ = importlib.metadata.version('pyEPR-ESR')
-__copyright__ = "2021-2025, Hugo Karas, Gunnar Jeschke, Stefan Stoll"
+__copyright__ = "2021-2026, Hugo Karas, Gunnar Jeschke, Stefan Stoll"
 
 try: 
     import git
