@@ -362,6 +362,11 @@ class ResonatorProfileAnalysis:
             Axes to plot on, by default None. Needs to be a flat array with two axes
         fig : matplotlib.Figure, optional
             Figure to plot on, by default None
+        
+        **kwargs : dict
+            - figsize : tuple, optional
+                Figure size, by default (6,4)
+            
 
         Returns
         -------
@@ -370,7 +375,7 @@ class ResonatorProfileAnalysis:
         """
         if axs is None and fig is None:
             figsize = kwargs.get('figsize', (6,4))
-            fig, axs = plt.subplots(2,1,figsize=figsize,sharex=True)
+            fig, axs = plt.subplots(2,1,figsize=figsize,sharex=True,layout='constrained')
             fig.subplots_adjust(hspace=0.05)
         elif fig is None and isinstance(axs,plt.Axes):
             fig = axs.figure
@@ -415,7 +420,10 @@ class ResonatorProfileAnalysis:
             axs[1].vlines(self.fc,*axs[1].get_ylim(),ls='--',color='0.7',lw=2)
 
             secax.tick_params(axis='both', which='major', labelsize=10)
-            secax2 = axs[1].secondary_xaxis(-0.22, functions=(lambda x: x - self.fc, lambda x: x + self.fc))
+            secax2 = axs[1].secondary_xaxis('bottom', functions=(lambda x: x - self.fc, lambda x: x + self.fc))
+            # Offset in points (not axes fraction) so it clears the main xlabel regardless of figure size
+            secax2.spines['bottom'].set_position(('outward', 40))
+            secax2.tick_params(axis='x', which='major', labelsize=10)
 
             secax2.set_xlabel('Relative Freq / GHz',fontsize=11)
 
