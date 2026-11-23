@@ -481,7 +481,7 @@ class Interface:
         self.launch(ChirpEchoTuneSeq, 
                             savename=f"chirpechotune_step2",
                             **kwargs)
-        
+        time.sleep(5)
         while self.isrunning():
             time.sleep(1)
         
@@ -499,7 +499,7 @@ class Interface:
         self.launch(ChirpEchoTuneSeq, 
                                     savename=f"chirpechotune_step3",
                                     **kwargs)
-
+        time.sleep(5)
         while self.isrunning():
                     time.sleep(1)
                 

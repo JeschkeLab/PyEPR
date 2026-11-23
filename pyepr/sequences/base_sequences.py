@@ -2,6 +2,7 @@ from pyepr.classes import Parameter
 from pyepr.pulses import Pulse, Detection, Delay, RectPulse
 from pyepr.utils import val_in_ns, val_in_us, add_phaseshift, _gen_ESEEM
 from pyepr.fieldsweep_analysis import create_Nmodel
+from pyepr.plotting import draw_sequence
 import pyepr.pulses as ad_pulses
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,16 +11,33 @@ from itertools import product
 import copy
 from pyepr.utils import build_table, autoEPRDecoder
 import json
-from pyepr import __version__
+from pyepr._version import __version__
 import uuid
 import base64
 import numbers
 import warnings
+from typing import Callable
+
+__all__ = [
+    'Sequence', 'HahnEchoSequence', 'T1InversionRecoverySequence',
+    'HahnEchoRelaxationSequence', 'T2RelaxationSequence', 'FieldSweepSequence',
+    'ReptimeScanSequence', 'ReptimeScan', 'CarrPurcellSequence', 'ResonatorProfileSequence',
+    'TWTProfileSequence', 'KBBSequence', 'KBBPulseProfileSequence',
+]
 
 class Sequence:
     """
     Represents an experimental pulse sequence.
     """
+
+    time: Parameter
+    """The estimated run time of the sequence (HH:MM:SS), updated whenever the sequence changes."""
+    pcyc_vars: list[int]
+    """The indices of the pulses that are phase cycled."""
+    pcyc_cycles: np.ndarray
+    """The phase of each phase-cycled pulse for every step of the phase cycle."""
+    pcyc_dets: np.ndarray
+    """The detection sign for every step of the phase cycle."""
 
     def __init__(
             self, *, name, B, reptime, averages, shots,LO=None, freq=None, **kwargs) -> None:
@@ -33,7 +51,7 @@ class Sequence:
             The magnetic field for this sequence in Gauss.
         freq : float
             The central frequency of this sequence. I.e. The frequnecy at which
-            a zero offset pulse is at. 
+            a zero offset pulse is at.
         reptime : float
             The shot repetition time in us.
         averages : int
@@ -42,64 +60,104 @@ class Sequence:
             The number of shots per point.
         LO : float
             The now deprecated local oscillator frequency. freq should be used.
+
+        Examples
+        --------
+        A custom sequence can be built by adding pulses to an empty sequence.
+
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import numpy as np
+            epr.set_waveform_precision(1)
+
+            seq = epr.Sequence(
+                name="CustomHahnEcho", B=12000, freq=34, reptime=1e3,
+                averages=1, shots=10)
+            seq.addPulse(epr.RectPulse(t=0, tp=16, freq=0, flipangle=np.pi/2))
+            seq.addPulse(epr.RectPulse(t=500, tp=32, freq=0, flipangle=np.pi))
+            seq.addPulse(epr.Detection(t=1000, tp=512))
+            seq.draw()
         """
 
-        self.pulses = []
-        self.num_pulses = len(self.pulses)
+        self.pulses: list[Pulse] = []
+        """The list of pulses in this sequence."""
+
         self._axes_uuid = []
         self._reduce_uuid = []
 
         if isinstance(B, Parameter):
-            self.B = B.copy()
+            self.B: Parameter = B.copy()
+            """The static B0 field for the experiment in Gauss."""
         else:
-            self.B = Parameter(
+            self.B: Parameter = Parameter(
                 "B", B, "Gauss",
                 "The static B0 field for the experiment")
-        
+            """The static B0 field for the experiment in Gauss."""
+
         if freq is not None:
-            self.freq = Parameter(
+            self.freq: Parameter = Parameter(
                 "freq", freq, "GHz",
                 "The central frequency of the sequence")
+            """The central frequency of the sequence in GHz."""
         elif LO is not None:
-            self.freq = Parameter(
+            self.freq: Parameter = Parameter(
                 "freq", LO, "GHz",
                 "The central frequency of the sequence")
+            """The central frequency of the sequence in GHz."""
             warnings.warn("LO is deprecated, please use freq instead", DeprecationWarning, stacklevel=2)
         else:
             raise ValueError("Either freq or LO must be specified")
-        
+
         if isinstance(reptime, Parameter):
-            self.reptime = reptime.copy()
+            self.reptime: Parameter = reptime.copy()
+            """The shot repetition time in us."""
         else:
-            self.reptime = Parameter(
+            self.reptime: Parameter = Parameter(
                 "reptime", reptime, "us",
                 "The shot repetition time")
-        
-        self.averages = Parameter(
-            "averages", int(averages), "None",
+            """The shot repetition time in us."""
+
+        self.averages: Parameter = Parameter("averages", int(averages), "None",
             "The number of averages to perform.")
-        
-        self.shots = Parameter(
+        """The number of averages (scans) to perform."""
+
+        self.shots: Parameter = Parameter(
             "shots", int(shots), "None",
             "The number of shots per scan.")
+        """The number of shots per point."""
 
         if "det_window" in kwargs:
-            self.det_window = Parameter(
+            self.det_window: Parameter = Parameter(
                 "det_window", kwargs["det_window"], "None",
                 "The length of the default detection gate"
             )
+            """The length of the default detection gate."""
         else:
-            self.det_window = Parameter(
+            self.det_window: Parameter = Parameter(
                 "det_window", 128, "None",
                 "The length of the default detection gate"
             )
+            """The length of the default detection gate."""
 
-            
-        self.name = name
-        self.progTable = {"EventID": [], "Variable": [], "axis": [],
+
+        self.name: str = name
+        """The name of this pulse sequence."""
+        self.progTable: dict = {"EventID": [], "Variable": [], "axis": [],
                      "axID": [], "uuid": [], "reduce": []}
+        """The program table for this sequence, which is used to generate the pulse program. Has columns for EventID, Variable, axis, axID, uuid, and reduce."""
+        self.evo_params: list[Parameter] = []
+        """The list of evolution parameters for this sequence, which are used to define the evolution axes of the sequence."""
+        
         pass
 
+
+    @property
+    def num_pulses(self) -> int:
+        """The number of pulses in this sequence."""
+        return len(self.pulses)
+    
     def plot(self) -> None:
 
         pass
@@ -194,6 +252,13 @@ class Sequence:
         
         pass
 
+    def draw(self, **kwargs):
+        """
+        Draws the sequence as an annotated matplotlib figure, showing pictorial representations of the pulses and delays in the sequence.
+        Calls the `draw_sequence` function from the `pyepr.plotting` module.
+        """
+        return draw_sequence(self, **kwargs)
+
     def addPulse(self, pulse):
         """Adds a pulse to the next position in the sequence.
 
@@ -208,7 +273,6 @@ class Sequence:
         elif type(pulse) == list:
             for el in pulse:
                 self.pulses.append(el)
-        self.num_pulses = len(self.pulses)
         self._buildPhaseCycle()
         self._estimate_time()
 
@@ -325,17 +389,19 @@ class Sequence:
         return self.progTable
     
     @property
-    def seqtable_steps(self):
+    def seqtable_steps(self) -> int:
+        """The number of steps in the sequence table, which is the product of the number of phase cycle detections, the number of phase cycle variables, and the product of the dimensions of the evolution parameters."""
         if len(self.evo_params) > 0:
             return self.pcyc_dets.shape[0] * (len(self.pcyc_vars)+1) * np.prod([np.prod(param.dim) for param in self.evo_params])
     
     @property
-    def shape(self):
+    def shape(self) -> list[int]:
         """
-        Gives the shape of the sequence,excluding the number of shots. 
-        Return
-        ------
-        list:
+        Gives the shape of the sequence,excluding the number of shots.
+
+        Returns
+        -------
+        list
             [nAvgs, axes_dims, nPcyc]
 
         """
@@ -383,6 +449,7 @@ class Sequence:
         return self
 
     def shift_detfreq_to_zero(self):
+        """Shifts the detection frequency of all pulses to zero, by subtracting the detection frequency from all pulses and the sequence frequency."""
         det_pulse = None
         for pulse in self.pulses:
             if isinstance(pulse,Detection):
@@ -495,6 +562,7 @@ class Sequence:
         return header + seq_param_string + pulses_string + prog_string + footer
 
     def copy(self):
+        """Deep copy the sequence object, including all pulses and parameters."""
         return copy.deepcopy(self)
     
     def _to_dict(self):
@@ -655,121 +723,204 @@ class HahnEchoSequence(Sequence):
             The number of scans.
         shots : int
             The number of shots per point
-        
+
         Optional Parameters
         -------------------
+        tau : float or Parameter
+            The interpulse delay in ns, by default 500 ns
+        tp : float
+            The length of the default rectangular pulses in ns, by default 12 ns
         pi2_pulse : Pulse
             An autoEPR Pulse object describing the excitation pi/2 pulse. If
-            not specified a RectPulse will be created instead. 
+            not specified a RectPulse will be created instead.
         pi_pulse : Pulse
             An autoEPR Pulse object describing the refocusing pi pulses. If
-            not specified a RectPulse will be created instead. 
+            not specified a RectPulse will be created instead.
         det_event : Pulse
             An autoEPR Pulse object describing the detection even. If
             not specified a standard detection event will be created instead,
-            with an offset frequency of 0MHz. 
+            with an offset frequency of 0MHz.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import numpy as np
+
+            epr.set_waveform_precision(1)
+            seq = epr.HahnEchoSequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, tau=500)
+            seq.draw()
+
 
         """
-        
+
         name = kwargs.pop('name',"HahnEchoSequence")
-        
+
         if "pi_pulse" in kwargs:
-            self.pi_pulse = kwargs["pi_pulse"]
+            self.pi_pulse: Pulse = kwargs["pi_pulse"]
+            """The refocusing pi pulse."""
         if "pi2_pulse" in kwargs:
-            self.pi2_pulse = kwargs["pi2_pulse"]
+            self.pi2_pulse: Pulse = kwargs["pi2_pulse"]
+            """The excitation pi/2 pulse."""
         if "det_event" in kwargs:
-            self.det_event = kwargs["det_event"]
+            self.det_event: Detection = kwargs["det_event"]
+            """The detection event."""
 
 
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
 
-        if "tau" in kwargs:
-            tau = kwargs["tau"]
+        tau = kwargs.get("tau", 500)
+        if isinstance(tau, Parameter):
+            self.tau: Parameter = tau
+            """The interpulse delay in ns."""
         else:
-            tau = 500
-        if "tp" in kwargs:
-            tp = kwargs["tp"]
-        else:
-            tp = 12
+            self.tau: Parameter = Parameter(
+                name="tau", value=tau, unit="ns",
+                description="The interpulse delay", virtual=True)
+            """The interpulse delay in ns."""
+        tp = kwargs.get("tp", 12)
 
         if hasattr(self, "pi2_pulse"):
             self.addPulse(self.pi2_pulse.copy(
                 t=0, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
         else:
             self.addPulse(RectPulse(  # Exc pulse
-                t=0, tp=tp, freq=0, flipangle=np.pi/2, 
+                t=0, tp=tp, freq=0, flipangle=np.pi/2,
                 pcyc={"phases":[0, np.pi], "dets":[1, -1]}
             ))
 
         if hasattr(self, "pi_pulse"):
             pi_pulse = self.addPulse(self.pi_pulse.copy(
-                t=tau, pcyc={"phases":[0], "dets": [1]}))
+                t=self.tau, pcyc={"phases":[0], "dets": [1]}))
         else:
             pi_pulse = self.addPulse(RectPulse( # Pump 1 pulse
-                t=tau, tp=tp, freq=0, flipangle=np.pi
+                t=self.tau, tp=tp, freq=0, flipangle=np.pi
             ))
 
         if hasattr(self, "det_event"):
-            self.addPulse(self.det_event.copy(t=2*tau))
+            self.addPulse(self.det_event.copy(t=2*self.tau))
         else:
-            self.addPulse(Detection(t=2*tau, tp=512))
+            self.addPulse(Detection(t=2*self.tau, tp=512))
+
+    def simulate(self, Tm=1e3):
+        """
+        Simulates the Hahn echo intensity as a stretched exponential decay
+        of the interpulse delay, with a stretching exponent of 1.6.
+
+        .. math::
+            V(\\tau) = e^{-(\\tau/T_m)^{1.6}}
+
+        Parameters
+        ----------
+        Tm : float
+            The phase memory time in ns, by default 1e3 ns
+
+        Returns
+        -------
+        xaxis : np.ndarray
+            The interpulse delay in ns (a single point)
+        data : np.ndarray
+            The simulated complex echo intensity (a single point)
+
+        Examples
+        --------
+        .. code-block:: python
+
+            import pyepr as epr
+            seq = epr.HahnEchoSequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, tau=500)
+            tau, data = seq.simulate(Tm=1e3)
+            print(tau, data)
+        """
+        xaxis = np.atleast_1d(val_in_ns(self.tau))
+        data = np.exp(-(xaxis/Tm)**1.6)
+        data = add_phaseshift(data, 0.05)
+        return xaxis, data
 
 # =============================================================================
 
 class T1InversionRecoverySequence(Sequence):
-    r"""
-    Represents a T1 Inversion Recovery Sequence. 
-
-    Sequence:
-    [\pi - t - \pi/2 - \tau - \pi - \tau - echo]
-    
-    Parameters
-    ----------
-    B : int or float
-        The B0 field, in Gauss
-    LO : int or float
-        The LO frequency in GHz
-    reptime : _type_
-        The shot repetition time in us
-    averages : int
-        The number of scans.
-    shots : int
-        The number of shots per point
-    start : float
-        The minimum interpulse delay in ns, by default 300 ns
-    step : float
-        The step size of the interpulse delay in ns, by default 50 ns
-    dim : int
-        The number of points in the X axis
-    tau: float
-        The Hahn echo interpulse delay in ns, by default 500 ns
-
-    Optional Parameters
-    -------------------
-    pi2_pulse : Pulse
-        An autoEPR Pulse object describing the excitation pi/2 pulse. If
-        not specified a RectPulse will be created instead. 
-    pi_pulse : Pulse
-        An autoEPR Pulse object describing the refocusing pi pulses. If
-        not specified a RectPulse will be created instead. 
+    """
+    Represents a T1 Inversion Recovery Sequence.
     """
 
     def __init__(self, *, B, freq, reptime, averages, shots,start=500, step=40, dim=200, **kwargs) -> None:
+        r"""Build a T1 inversion recovery sequence using either rectangular
+        pulses or specified pulses.
+
+        Sequence:
+        [\pi - t - \pi/2 - \tau - \pi - \tau - echo]
+
+        Parameters
+        ----------
+        B : int or float
+            The B0 field, in Gauss
+        freq : int or float
+            The freq frequency in GHz
+        reptime : _type_
+            The shot repetition time in us
+        averages : int
+            The number of scans.
+        shots : int
+            The number of shots per point
+        start : float
+            The minimum inversion recovery delay in ns, by default 500 ns
+        step : float
+            The step size of the inversion recovery delay in ns, by default 40 ns
+        dim : int
+            The number of points in the X axis, by default 200
+
+        Optional Parameters
+        -------------------
+        tau : float
+            The Hahn echo interpulse delay in ns, by default 500 ns
+        tp : float
+            The length of the default rectangular pulses in ns, by default 12 ns
+        pi2_pulse : Pulse
+            An autoEPR Pulse object describing the excitation pi/2 pulse. If
+            not specified a RectPulse will be created instead.
+        pi_pulse : Pulse
+            An autoEPR Pulse object describing the inversion and refocusing
+            pi pulses. If not specified a RectPulse will be created instead.
+        det_event : Pulse
+            An autoEPR Pulse object describing the detection event. If
+            not specified a standard detection event will be created instead.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+            seq = epr.T1InversionRecoverySequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=10000, step=2500, dim=500)
+            seq.draw()
+
+        """
         name = "T1InversionRecoverySequence"
         tp = kwargs.get("tp", 12)
 
-        self.tau = Parameter(name="tau", value=500, unit="ns", description="The hahn ehco interpulse delay",virtual=True)
-        self.t = Parameter(name="t", value=start, step=step, dim=dim, unit="ns", description="The inversion recovery delay",virtual=True)
+        self.tau: Parameter = Parameter(name="tau", value=kwargs.get("tau", 500), unit="ns", description="The hahn echo interpulse delay",virtual=True)
+        """The Hahn echo interpulse delay in ns."""
+        self.t: Parameter = Parameter(name="t", value=start, step=step, dim=dim, unit="ns", description="The inversion recovery delay",virtual=True)
+        """The inversion recovery delay in ns."""
         super().__init__(name=name,B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
 
         if "pi_pulse" in kwargs:
-            self.pi_pulse = kwargs["pi_pulse"]
+            self.pi_pulse: Pulse = kwargs["pi_pulse"]
+            """The inversion and refocusing pi pulse."""
         if "pi2_pulse" in kwargs:
-            self.pi2_pulse = kwargs["pi2_pulse"]
+            self.pi2_pulse: Pulse = kwargs["pi2_pulse"]
+            """The excitation pi/2 pulse."""
         if "det_event" in kwargs:
-            self.det_event = kwargs["det_event"]
+            self.det_event: Detection = kwargs["det_event"]
+            """The detection event."""
 
         if hasattr(self, "pi_pulse"):
             pi_pulse = self.addPulse(self.pi_pulse.copy(
@@ -805,6 +956,37 @@ class T1InversionRecoverySequence(Sequence):
     def simulate(self, T1=1e4):
         """
         Simulates the T1 recovery as a simple exponential recovery.
+
+        .. math::
+            V(t) = 1 - 2e^{-t/T_1}
+
+        Parameters
+        ----------
+        T1 : float
+            The longitudinal relaxation time in ns, by default 1e4 ns
+
+        Returns
+        -------
+        xaxis : np.ndarray
+            The inversion recovery delay in ns
+        data : np.ndarray
+            The simulated complex echo intensity
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            seq = epr.T1InversionRecoverySequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=500, step=500, dim=100)
+            x, data = seq.simulate(T1=1e4)
+            plt.plot(x, data.real)
+            plt.xlabel("Inversion Recovery Delay (ns)")
+            plt.ylabel("Signal Intensity (a.u.)")
         """
         func = lambda x, a, T1: a*(1 - 2*np.exp(-x/T1))
         xaxis = val_in_ns(self.t)
@@ -815,50 +997,104 @@ class T1InversionRecoverySequence(Sequence):
 
 
 class HahnEchoRelaxationSequence(HahnEchoSequence):
-    r"""
+    """
     Represents a Hahn Echo relaxation sequence for measureing Tm. A Hahn Echo where the interpulse delay increases
-    
-    Sequence:
-        [\pi/2 - \tau - \pi - \tau - echo]
-
-    Parameters
-    ----------
-    B : int or float
-        The B0 field, in Gauss
-    freq : int or float
-        The freq frequency in GHz
-    reptime : _type_
-        The shot repetition time in us
-    averages : int
-        The number of scans.
-    shots : int
-        The number of shots per point
-    start : float
-        The minimum interpulse delay in ns, by default 300 ns
-    step : float
-        The step size of the interpulse delay in ns, by default 50 ns
-    dim : int
-        The number of points in the X axis
-
-    Optional Parameters
-    -------------------
-    pi2_pulse : Pulse
-        An autoEPR Pulse object describing the excitation pi/2 pulse. If
-        not specified a RectPulse will be created instead. 
-    pi_pulse : Pulse
-        An autoEPR Pulse object describing the refocusing pi pulses. If
-        not specified a RectPulse will be created instead. 
     """
 
     def __init__(self, *, B, freq, reptime, averages, shots,start=500, step=40, dim=200, **kwargs) -> None:
+        r"""Build a Hahn echo relaxation sequence, where the interpulse delay
+        is incremented, using either rectangular pulses or specified pulses.
 
-        self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="The interpulse delay",virtual=True)
+        Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
+
+        Parameters
+        ----------
+        B : int or float
+            The B0 field, in Gauss
+        freq : int or float
+            The freq frequency in GHz
+        reptime : _type_
+            The shot repetition time in us
+        averages : int
+            The number of scans.
+        shots : int
+            The number of shots per point
+        start : float
+            The minimum interpulse delay in ns, by default 500 ns
+        step : float
+            The step size of the interpulse delay in ns, by default 40 ns
+        dim : int
+            The number of points in the X axis, by default 200
+
+        Optional Parameters
+        -------------------
+        pi2_pulse : Pulse
+            An autoEPR Pulse object describing the excitation pi/2 pulse. If
+            not specified a RectPulse will be created instead.
+        pi_pulse : Pulse
+            An autoEPR Pulse object describing the refocusing pi pulses. If
+            not specified a RectPulse will be created instead.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+            seq = epr.HahnEchoRelaxationSequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=300, step=40, dim=200)
+            seq.draw()
+
+        """
+
+        self.tau: Parameter = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="The interpulse delay",virtual=True)
+        """The incremented interpulse delay in ns."""
         super().__init__(B=B, freq=freq, reptime=reptime, averages=averages, shots=shots,tau=self.tau, **kwargs)
 
-        self.name = "T2RelaxationSequence"
+        self.name = "HahnEchoRelaxationSequence"
         self.evolution([self.tau])
 
     def simulate(self,ESEEM_depth=0.1, Tm=1e3):
+        """
+        Simulates the Hahn echo decay as a stretched exponential, with a
+        stretching exponent of 1.6, modulated by proton ESEEM.
+
+        .. math::
+            V(\\tau) = e^{-(\\tau/T_m)^{1.6}}
+
+        Parameters
+        ----------
+        ESEEM_depth : float
+            The depth of the proton ESEEM modulation, by default 0.1. Set to 0
+            to disable the ESEEM modulation.
+        Tm : float
+            The phase memory time in ns, by default 1e3 ns
+
+        Returns
+        -------
+        xaxis : np.ndarray
+            The interpulse delay in ns
+        data : np.ndarray
+            The simulated complex echo intensity
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            seq = epr.HahnEchoRelaxationSequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=300, step=40, dim=200)
+            x, data = seq.simulate(ESEEM_depth=0.1, Tm=1e3)
+            plt.plot(x, data.real)
+            plt.xlabel("Interpulse Delay (ns)")
+            plt.ylabel("Signal Intensity (a.u.)")
+        """
         func = lambda x, a, tau, e: a*np.exp(-(x/tau)**e)
         xaxis = val_in_ns(self.tau)
         data = func(xaxis,1,Tm,1.6)
@@ -868,42 +1104,61 @@ class HahnEchoRelaxationSequence(HahnEchoSequence):
         return xaxis, data
 
 class T2RelaxationSequence(HahnEchoRelaxationSequence):
-    r"""
+    """
     Represents a T2 relaxation sequence. This is an alias for HahnEchoRelaxationSequence.
     A Hahn Echo where the interpulse delay increases.
-
-    Sequence:
-        [\pi/2 - \tau - \pi - \tau - echo]
-    
-    Parameters
-    ----------
-    B : int or float
-        The B0 field, in Gauss
-    freq : int or float
-        The freq frequency in GHz
-    reptime : _type_
-        The shot repetition time in us
-    averages : int
-        The number of scans.
-    shots : int
-        The number of shots per point
-    start : float
-        The minimum interpulse delay in ns, by default 500 ns
-    step : float
-        The step size of the interpulse delay in ns, by default 40 ns
-    dim : int
-        The number of points in the X axis
-
-    Optional Parameters
-    -------------------
-    pi2_pulse : Pulse
-        An autoEPR Pulse object describing the excitation pi/2 pulse. If
-        not specified a RectPulse will be created instead. 
-    pi_pulse : Pulse
-        An autoEPR Pulse object describing the refocusing pi pulses. If
-        not specified a RectPulse will be created instead. 
     """
-    pass
+
+    def __init__(self, *, B, freq, reptime, averages, shots, start=500, step=40, dim=200, **kwargs) -> None:
+        r"""Build a T2 relaxation sequence. This is an alias for
+        :class:`HahnEchoRelaxationSequence`.
+
+        Sequence:
+        [\pi/2 - \tau - \pi - \tau - echo]
+
+        Parameters
+        ----------
+        B : int or float
+            The B0 field, in Gauss
+        freq : int or float
+            The freq frequency in GHz
+        reptime : _type_
+            The shot repetition time in us
+        averages : int
+            The number of scans.
+        shots : int
+            The number of shots per point
+        start : float
+            The minimum interpulse delay in ns, by default 500 ns
+        step : float
+            The step size of the interpulse delay in ns, by default 40 ns
+        dim : int
+            The number of points in the X axis, by default 200
+
+        Optional Parameters
+        -------------------
+        pi2_pulse : Pulse
+            An autoEPR Pulse object describing the excitation pi/2 pulse. If
+            not specified a RectPulse will be created instead.
+        pi_pulse : Pulse
+            An autoEPR Pulse object describing the refocusing pi pulses. If
+            not specified a RectPulse will be created instead.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+            seq = epr.T2RelaxationSequence(
+                B=12000, freq=34, reptime=1e3, averages=1, shots=10, start=300, step=40, dim=200)
+            seq.draw()
+
+        """
+        super().__init__(
+            B=B, freq=freq, reptime=reptime, averages=averages, shots=shots,
+            start=start, step=step, dim=dim, **kwargs)
 
 # =============================================================================
 
@@ -935,15 +1190,32 @@ class FieldSweepSequence(HahnEchoSequence):
             The number of scans.
         shots : int
             The number of shots per point
-        
+
         Optional Parameters
         -------------------
+        step : float
+            The field step in Gauss, by default 1 G
+        tau : float
+            The Hahn echo interpulse delay in ns, by default 500 ns
         pi2_pulse : Pulse
             An autoEPR Pulse object describing the excitation pi/2 pulse. If
-            not specified a RectPulse will be created instead. 
+            not specified a RectPulse will be created instead.
         pi_pulse : Pulse
             An autoEPR Pulse object describing the refocusing pi pulses. If
-            not specified a RectPulse will be created instead. 
+            not specified a RectPulse will be created instead.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            seq = epr.FieldSweepSequence(
+            B=12000, Bwidth=100, freq=34, reptime=1e3, averages=1, shots=10)
+            seq.draw()
+
         """
         super().__init__(
             B=B, freq=freq, reptime=reptime, averages=averages,
@@ -951,23 +1223,41 @@ class FieldSweepSequence(HahnEchoSequence):
         self.name = "FieldSweepSequence"
 
         dim = Bwidth // kwargs.get('step',1)
-        self.B = Parameter(
+        self.B: Parameter = Parameter(
             "B", value=B, start = -Bwidth/2, step=kwargs.get('step',1), dim=dim, unit="Gauss", description="Field sweep width"
         )
-        
+        """The swept B0 field in Gauss, centred on the given field."""
+
         self.evolution([self.B])
-    
+
     def simulate(self):
         """
         Simulate the Field Sweep spectra as a Nitroxide radical.
-        
-        returns
+
+        Returns
         -------
         axis : np.ndarray
-            The x-axis of the simulation
+            The magnetic field axis in Gauss
         data : np.ndarray
-            The y-axis of the simulation
+            The simulated complex echo intensity
 
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            N_gyro = 0.002803632236095
+            freq = 34
+            seq = epr.FieldSweepSequence(
+                B=freq/N_gyro, Bwidth=200, freq=freq, reptime=1e3, averages=1, shots=10)
+            B, data = seq.simulate()
+            plt.plot(B, data.real)
+            plt.xlabel("Magnetic Field (G)")
+            plt.ylabel("Signal Intensity (a.u.)")
         """
         Vmodel = create_Nmodel(self.freq.value *1e3)
         axis = self.B.value + self.B.axis[0]['axis']
@@ -986,7 +1276,8 @@ class FieldSweepSequence(HahnEchoSequence):
         
 # =============================================================================
 
-class ReptimeScan(HahnEchoSequence):
+
+class ReptimeScanSequence(HahnEchoSequence):
     """
     Represents a reptime scan of a Hahn Echo Sequence. 
     """
@@ -1024,6 +1315,19 @@ class ReptimeScan(HahnEchoSequence):
         pi_pulse : Pulse
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+            seq = epr.ReptimeScanSequence(
+            B=12000, freq=34, reptime=1000, averages=1,
+            shots=10, reptime_max=10000, start=20, dim=100)  
+
+            seq.draw()
         """
         min_reptime = start
         step  = (reptime_max-min_reptime)/dim
@@ -1050,9 +1354,26 @@ class ReptimeScan(HahnEchoSequence):
         Returns
         -------
         t : np.ndarray
-            The x-axis of the simulation
+            The shot repetition time axis in us
         data : np.ndarray
-            The y-axis of the simulation
+            The simulated complex echo intensity
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            seq = epr.ReptimeScanSequence(
+                B=12000, freq=34, reptime=1000, averages=1,
+                shots=10, reptime_max=10000, start=20, dim=100)
+            t, data = seq.simulate()
+            plt.plot(t, data.real)
+            plt.xlabel(r"Shot Repetition Time ($\\mu$s)")
+            plt.ylabel("Signal Intensity (a.u.)")
         """
         def func(x,T1):
             return 1-np.exp(-x/T1)
@@ -1063,6 +1384,15 @@ class ReptimeScan(HahnEchoSequence):
         data = add_phaseshift(data, 0.05)
         return t, data
 
+class ReptimeScan(ReptimeScanSequence):
+    """
+    Deprecated alias for :class:`ReptimeScanSequence`.
+    """
+
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name = "ReptimeScan"
+        print("Warning: ReptimeScan is deprecated, use ReptimeScanSequence instead.")
 # =============================================================================
 
 class CarrPurcellSequence(Sequence):
@@ -1106,25 +1436,42 @@ class CarrPurcellSequence(Sequence):
         pi_pulse : Pulse
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+            seq = epr.CarrPurcellSequence(B=12000, freq=34, reptime=1000, averages=1, shots=10, n=4)  
+
+            seq.draw()
         """
 
         name = "CarrPurcellSequence"
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
-        self.t = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns",
+        self.t: Parameter = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns",
             description="First interpulse delay", virtual=True)
-        self.n = Parameter(name="n", value=n,
+        """The first interpulse delay in ns, which is incremented."""
+        self.n: Parameter = Parameter(name="n", value=n,
             description="The number of pi pulses", unit="None", virtual=True)
-        self.dim = Parameter(name="dim", value=dim, unit="None",
+        """The number of refocusing pi pulses."""
+        self.dim: Parameter = Parameter(name="dim", value=dim, unit="None",
             description="The number of points in the X axis", virtual=True)
+        """The number of points in the X axis."""
 
         if "pi_pulse" in kwargs:
-            self.pi_pulse = kwargs["pi_pulse"]
+            self.pi_pulse: Pulse = kwargs["pi_pulse"]
+            """The refocusing pi pulse."""
         if "pi2_pulse" in kwargs:
-            self.pi2_pulse = kwargs["pi2_pulse"]
+            self.pi2_pulse: Pulse = kwargs["pi2_pulse"]
+            """The excitation pi/2 pulse."""
         if "det_event" in kwargs:
-            self.det_event = kwargs["det_event"]
+            self.det_event: Detection = kwargs["det_event"]
+            """The detection event."""
 
         self._build_sequence()
 
@@ -1188,6 +1535,7 @@ class CarrPurcellSequence(Sequence):
 
             import matplotlib.pyplot as plt
             import pyepr as epr
+            epr.set_waveform_precision(1)
 
             seq = epr.CarrPurcellSequence(B=12000, freq=34, reptime=1000, averages=1, shots=10, n=4)  
             x,data = seq.simulate(T_CP=2.5e3, e=1.8)
@@ -1232,8 +1580,6 @@ class ResonatorProfileSequence(Sequence):
         ----------
         B : int or float
             The B0 field, in Gauss
-        Bwidth: int or float
-            The width of the field sweep, in Gauss
         freq : int or float
             The freq frequency in GHz
         reptime : _type_
@@ -1269,23 +1615,60 @@ class ResonatorProfileSequence(Sequence):
         pi_pulse : Pulse
             An autoEPR Pulse object describing the refocusing pi pulses. If
             not specified a RectPulse will be created instead. 
+
+        Examples
+        --------
+
+        .. plot::
+            :include-source:
+            
+            import pyepr as epr
+            import numpy as np
+            epr.set_waveform_precision(1)
+
+            N_gyro = 0.002803
+            freq = 34
+            pi2_pulse = epr.RectPulse(tp=32,freq=0,flipangle=np.pi/2)
+            pi_pulse = epr.RectPulse(tp=32,freq=0,flipangle=np.pi)
+
+            seq = epr.ResonatorProfileSequence(
+                B=freq/N_gyro,
+                freq=freq,
+                reptime=3e3,
+                averages=1,
+                shots=10,
+                pi2_pulse=pi2_pulse,
+                pi_pulse=pi_pulse,
+                fwidth=0.3,
+                fstep=0.02,
+                dtp=1,
+                dim=40)
+
+            seq.draw()
+
         """
 
         name = "ResonatorProfileSequence"
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
-        self.gyro = freq/B
-        self.fwidth = Parameter('fwidth',fwidth,'GHz','Half the frequency sw')
-        self.fstep = Parameter('fstep',kwargs.get('fstep',0.02),'GHz','Frequency step for the profile')
-        self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
-
-        self.kwargs = kwargs
+        self.gyro: float = freq/B
+        """Gyromagenetic ratio in GHz/Gauss"""
+        self.fwidth: Parameter = Parameter('fwidth',fwidth,'GHz','Half the frequency sw')
+        """Half the frequency sweep width for the profile"""
+        self.fstep: Parameter = Parameter('fstep',kwargs.get('fstep',0.02),'GHz','Frequency step for the profile')
+        """Frequency step for the profile"""
+        self.dtp: Parameter = Parameter('dtp',float(dtp),'ns','Time step for the pulse')
+        """Time step for the test pulse"""
+        self.kwargs: dict = kwargs
+        """Keyword arguments"""
 
         if "pi_pulse" in kwargs:
-            self.pi_pulse = kwargs["pi_pulse"]
+            self.pi_pulse: Pulse = kwargs["pi_pulse"]
+            """The refocusing pi pulse of the Hahn echo detection."""
         if "pi2_pulse" in kwargs:
-            self.pi2_pulse = kwargs["pi2_pulse"]
+            self.pi2_pulse: Pulse = kwargs["pi2_pulse"]
+            """The excitation pi/2 pulse of the Hahn echo detection."""
 
         self._build_sequence()
 
@@ -1300,11 +1683,13 @@ class ResonatorProfileSequence(Sequence):
         fstep = self.fstep.value
         dim = np.floor(fwidth*2/fstep)
         center_freq = self.freq.value
-        self.freq = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
-        self.B = Parameter(
+        self.freq: Parameter = Parameter("freq", center_freq, start=-fwidth, step=fstep, dim=dim, unit="GHz", description="frequency")
+        """The swept central frequency of the sequence in GHz."""
+        self.B: Parameter = Parameter(
             "B",((center_freq)/self.gyro), start=-fwidth/self.gyro, step=fstep/self.gyro, dim=dim,
             unit="Gauss",link=self.freq,description="B0 Field" )
-        
+        """The B0 field in Gauss, swept together with the frequency."""
+
         self.addPulse(RectPulse(  # Hard pulse
             t=0, tp=tp, freq=0, flipangle="Hard"
         ))
@@ -1348,7 +1733,33 @@ class ResonatorProfileSequence(Sequence):
             The maximum amplitude of the resonator profile, by default 75 MHz. This is a linear frequency scale.
         damping : float
             The damping factor of the resonator, by default 0.06.
-        
+
+        Returns
+        -------
+        axes : list[np.ndarray]
+            The test pulse length axis in ns and the frequency axis in GHz
+        data : np.ndarray
+            The simulated nutation data, with shape (len(tp), len(freq))
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            import numpy as np
+            epr.set_waveform_precision(1)
+
+            N_gyro = 0.002803
+            freq = 34
+            seq = epr.ResonatorProfileSequence(
+                B=freq/N_gyro, freq=freq, reptime=3e3, averages=1, shots=10,
+                fwidth=0.3, fstep=0.02, dtp=1, dim=100)
+            [tp, f], data = seq.simulate(Q=100, nu1=75)
+            plt.pcolormesh(f, tp, data.real, shading='auto')
+            plt.xlabel("Frequency (GHz)")
+            plt.ylabel("Test Pulse Length (ns)")
         """
 
         if fc is None:
@@ -1365,7 +1776,8 @@ class ResonatorProfileSequence(Sequence):
         mode = lambda x: lorenz_fcn(x, fc, fc/Q)
         axis = np.linspace(xmin,xmax)
         scale = nu1/mode(axis).max()
-        self.mode = lambda x: lorenz_fcn(x, fc, fc/Q) * scale
+        self.mode: Callable[[np.ndarray], np.ndarray] = lambda x: lorenz_fcn(x, fc, fc/Q) * scale
+        """The simulated resonator mode, giving the nutation frequency in MHz as a function of frequency in GHz."""
 
         damped_oscilations = lambda x, f, c: np.cos(2*np.pi*f*x) * np.exp(-c*x)
         damped_oscilations_vec = np.vectorize(damped_oscilations)
@@ -1379,117 +1791,6 @@ class ResonatorProfileSequence(Sequence):
         data = damped_oscilations_vec(tp_x.reshape(tp_len,1),nut_freqs.reshape(1,freq_len)*1e-3,damping)
         return [tp_x, freq_axis], data
 
-# =============================================================================
-
-class ThreePulseESEEMSequence(Sequence):
-
-    def __init__(self, *, B, freq, reptime, averages, shots, tau=300, start=500, step=40, dim=200, **kwargs) -> None:
-
-        self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="1st Inter Pulse Delay",virtual=True)
-        self.T = Parameter(
-            name='T',
-            description = 'Mixing Time',
-            unit = 'ns',
-            value=start,
-            step = step,
-            dim = dim,
-            virtual=True)
-
-        super().__init__(name="ThreePulseESEEMSequence",
-                         B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
-
-        self._build_sequence()
-
-    def _build_sequence(self):
-        if hasattr(self, "pi2_pulse"):
-            self.addPulse(self.pi2_pulse.copy(
-                t=0, pcyc={"phases":[0, np.pi], "dets": [1, -1]}))
-        else:
-            self.addPulse(RectPulse(  # pi/2
-                t=0, tp=16, freq=0, flipangle=np.pi/2, 
-                pcyc={"phases":[0, np.pi], "dets": [1, -1]}
-            ))
-
-        if hasattr(self, "pi2_pulse"):
-            self.addPulse(self.pi2_pulse.copy(
-                t=self.tau))
-        else:
-            self.addPulse(RectPulse(  # pi/2
-            t=self.tau, tp=32, freq=0, flipangle=np.pi
-            ))
-
-        if hasattr(self, "pi2_pulse"):
-            self.addPulse(self.pi2_pulse.copy(
-                t=self.tau+self.T))
-        else:
-            self.addPulse(RectPulse(  # pi/2
-            t=self.tau+self.T, tp=32, freq=0, flipangle=np.pi
-            ))
-
-        self.addPulse(Detection(t=self.tau+self.T+self.tau, tp=512))
-
-        self.evolution([self.T])
-
-    def _simulate(self):
-        raise NotImplementedError("Simulation for Three Pulse ESEEM is not implemented yet.")
-
-    
-class HYSCORESequence(Sequence):
-    def __init__(self, *, B, freq, reptime, averages, shots, tau=300, start=300, step=16, dim=128, **kwargs) -> None:
-        
-        self.tau = Parameter(name="tau", value=start,step=step,dim=dim, unit="ns", description="1st Inter Pulse Delay",virtual=True)
-        self.T1 = Parameter(
-            name='T1',
-            description = '1st Mixing Time',
-            unit = 'ns',
-            value=start,
-            step = step,
-            dim = dim,
-            virtual=True)
-        self.T2 = Parameter(
-            name='T2',
-            description = '2nd Mixing Time',
-            unit = 'ns',
-            value=start,
-            step = step,
-            dim = dim,
-            virtual=True)
-
-        super().__init__(
-            name = "HYSCORESequence",
-            B=B, freq=freq, reptime=reptime, averages=averages, shots=shots, **kwargs)
-
-        self._build_sequence()
-
-    def _build_sequence(self):
-
-        if hasattr(self, "pi2_pulse"):
-            p90 = self.pi2_pulse.copy(t=0, pcyc={'phases':[0], 'dets':[1]})
-        else:
-            p90 = RectPulse(  # pi/2
-                t=0, tp=16, freq=0, flipangle=np.pi/2, 
-                pcyc={"phases":[0], "dets": [1]}
-            )
-
-        if hasattr(self, "pi_pulse"):
-            p180 = self.pi_pulse.copy(t=0, pcyc={'phases':[0], 'dets':[1]})
-        else:
-            p180 = RectPulse(  # pi
-                t=0, tp=32, freq=0, flipangle=np.pi, 
-                pcyc={"phases":[0], "dets": [1]}
-            )
-
-        det_event = Detection(t=0, tp=512)
-
-
-        self.addPulse(p90.copy(t=0, pcyc={'phases':[0], 'dets':[1]}))
-        self.addPulse(p90.copy(t=self.tau, pcyc={'phases':[0], 'dets':[1]}))
-        self.addPulse(p180.copy(t=self.tau+self.T1,pcyc={'phases':[0,np.pi/2,np.pi,3*np.pi/2,], 'dets':[1,-1,1,-1]}))
-        self.addPulse(p90.copy(t=self.tau+self.T1+self.T2,pcyc={'phases':[0], 'dets':[1]}))
-
-        self.addPulse(det_event.copy(t=2*self.tau+self.T1+self.T2))
-        self._buildPhaseCycle()
-        self.evolution([self.T1,self.T2])
 
 # =============================================================================
 
@@ -1499,19 +1800,73 @@ class TWTProfileSequence(Sequence):
     """
     
     def __init__(self,*,B,freq,reptime,averages=1,shots=100,dtp=2,**kwargs) -> None:
+        r"""Build a TWT profile sequence, a nutation experiment where both the
+        length and the amplitude scale of the nutating pulse are varied. This
+        is used to characterise the (non-)linearity of the TWT amplifier.
+
+        Sequence:
+        [p_{nut}(t_p, scale) - \tau_1 - \pi/2 - \tau_2 - \pi - \tau_2 - echo]
+
+        Parameters
+        ----------
+        B : int or float
+            The B0 field, in Gauss
+        freq : int or float
+            The freq frequency in GHz
+        reptime : _type_
+            The shot repetition time in us
+        averages : int, optional
+            The number of scans, by default 1
+        shots : int, optional
+            The number of shots per point, by default 100
+        dtp : float, optional
+            The time step for the test pulse in ns, by default 2 ns
+
+        Optional Parameters
+        -------------------
+        tau1 : float
+            The delay between the nutating pulse and the Hahn Echo,
+            by default 2000 ns
+        tau2 : float
+            The interpulse delay in the Hahn Echo, by default 500 ns
+        pi2_pulse : Pulse
+            An autoEPR Pulse object describing the excitation pi/2 pulse. If
+            not specified a RectPulse will be created instead.
+        pi_pulse : Pulse
+            An autoEPR Pulse object describing the refocusing pi pulses. If
+            not specified a RectPulse will be created instead.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import pyepr as epr
+            import numpy as np
+            epr.set_waveform_precision(1)
+
+            seq = epr.TWTProfileSequence(
+                B=12000, freq=34, reptime=3e3, averages=1, shots=10, dtp=2)
+            seq.draw()
+
+        """
 
         name = "TWTProfileSequence"
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
-        
-        self.kwargs = kwargs
-        self.dtp = Parameter('dtp',dtp,'ns','Time step for the pulse')
+
+        self.kwargs: dict = kwargs
+        """Keyword arguments"""
+        self.dtp: Parameter = Parameter('dtp',dtp,'ns','Time step for the pulse')
+        """Time step for the test pulse"""
 
         if "pi_pulse" in kwargs:
-            self.pi_pulse = kwargs["pi_pulse"]
+            self.pi_pulse: Pulse = kwargs["pi_pulse"]
+            """The refocusing pi pulse of the Hahn echo detection."""
         if "pi2_pulse" in kwargs:
-            self.pi2_pulse = kwargs["pi2_pulse"]
+            self.pi2_pulse: Pulse = kwargs["pi2_pulse"]
+            """The excitation pi/2 pulse of the Hahn echo detection."""
 
         self._build_sequence()
 
@@ -1549,6 +1904,63 @@ class TWTProfileSequence(Sequence):
 
         self.evolution([tp, scale])
 
+    def simulate(self, nu1=75, damping=0.06, sat=None):
+        """
+        Simulates the TWT profile as damped nutations, where the nutation
+        frequency is proportional to the amplitude scale of the test pulse.
+
+        An optional saturation of the amplifier can be included, in which case
+        the nutation frequency follows a hyperbolic tangent of the scale.
+
+        .. math::
+            \\nu_1(s) = \\nu_{1,max} \\frac{\\tanh(s/s_{sat})}{\\tanh(1/s_{sat})}
+
+        Parameters
+        ----------
+        nu1 : float
+            The nutation frequency at full scale (scale=1) in MHz, by default 75 MHz
+        damping : float
+            The damping factor of the nutations, by default 0.06
+        sat : float, optional
+            The saturation scale of the amplifier. If None the amplifier is
+            assumed to be linear, by default None
+
+        Returns
+        -------
+        axes : list[np.ndarray]
+            The test pulse length axis in ns and the amplitude scale axis
+        data : np.ndarray
+            The simulated nutation data, with shape (len(tp), len(scale))
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            import matplotlib.pyplot as plt
+            import pyepr as epr
+            epr.set_waveform_precision(1)
+
+            seq = epr.TWTProfileSequence(
+                B=12000, freq=34, reptime=3e3, averages=1, shots=10, dtp=2)
+            [tp, scale], data = seq.simulate(nu1=75, sat=0.5)
+            plt.pcolormesh(scale, tp, data.real, shading='auto')
+            plt.xlabel("Amplitude Scale")
+            plt.ylabel("Test Pulse Length (ns)")
+        """
+        tp_x = val_in_ns(self.pulses[0].tp)
+        scale_x = self.pulses[0].scale.value + self.pulses[0].scale.axis[0]['axis']
+
+        if sat is None:
+            nut_freqs = nu1 * scale_x
+        else:
+            nut_freqs = nu1 * np.tanh(scale_x/sat) / np.tanh(1/sat)
+
+        data = np.cos(2*np.pi*tp_x.reshape(-1,1)*nut_freqs.reshape(1,-1)*1e-3) \
+            * np.exp(-damping*tp_x.reshape(-1,1))
+        data = add_phaseshift(data, 0.05)
+        return [tp_x, scale_x], data
+
 # =============================================================================
 
 class KBBSequence(Sequence):
@@ -1561,25 +1973,24 @@ class KBBSequence(Sequence):
         """
         Parameters
         ----------
-        B : _type_
-            _description_
-        freq : _type_
-            _description_
-        reptime : _type_
-            _description_
+        B : int or float
+            The B0 field, in Gauss
+        freq : int or float
+            The freq frequency in GHz
+        reptime : float
+            The shot repetition time in us
         averages : int, optional
-            _description_, by default 1
+            The number of scans, by default 1
         shots : int, optional
-            _description_, by default 100
-        dtp : int, optional
-            _description_, by default 2
+            The number of shots per point, by default 100
         """
-        name = "KBBSequence"
+        name = kwargs.pop("name", "KBBSequence")
         super().__init__(
             name=name, B=B, freq=freq, reptime=reptime, averages=averages,
             shots=shots, **kwargs)
-        
-        self.kwargs = kwargs
+
+        self.kwargs: dict = kwargs
+        """Keyword arguments"""
 
         self._build_sequence()
 

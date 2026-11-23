@@ -13,27 +13,24 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Install dependencies
-        run: poetry install --with doc
-        
+        run: uv sync --extra doc
+
       - name: Build documentation
-        run: poetry run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
+        run: uv run sphinx-build -b html docsrc/ docsrc/_build/html > sphinx_build.log 2>&1
       - name: Upload build log
         uses: actions/upload-artifact@v4.6.2
         if: always()
         with:
           name: sphinx-build-log
           path: sphinx_build.log
-          

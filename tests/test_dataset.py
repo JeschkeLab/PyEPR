@@ -1,7 +1,6 @@
 from pyepr.classes import *
 from pyepr.dataset import *
 from pyepr.sequences import *
-from pyepr.hardware.dummy import _simulate_field_sweep, _simulate_T2
 import numpy as np
 from scipy.signal import hilbert
 import pytest
@@ -56,7 +55,7 @@ def dataset_from_sequence():
     
     seq = FieldSweepSequence(B=12200, Bwidth=500, LO=34.4, reptime=3e3, averages=1, shots=100)
 
-    t, data = _simulate_field_sweep(seq)
+    t, data = seq.simulate()
     data += rng.normal(0,0.04,data.shape) + 1j*rng.normal(0,0.04,data.shape)
     extra_params = {"nAvgs":1}
     dset = create_dataset_from_sequence(data,seq, extra_params)
@@ -94,7 +93,7 @@ def test_merge_dataset():
     def build_dataset(tmin):
         seq = T2RelaxationSequence(
             B=12200, LO=34.4, reptime=3e3, averages=1, shots=100, start=tmin)
-        t, data = _simulate_T2(seq,0.2)
+        t, data = seq.simulate()
         data += rng.normal(0,0.04,data.shape) + 1j*rng.normal(0,0.04,data.shape)
         extra_params = {"nAvgs":1}
         dset = create_dataset_from_sequence(data,seq, extra_params)

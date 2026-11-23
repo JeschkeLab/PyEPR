@@ -157,7 +157,8 @@ class PyEPRControlInterface(Interface):
         
     def get_buffer(self,verbosity=0,sum_scans=True, **kwargs):
         """
-        Returns the current scan from the spectrometer buffer. 
+        Returns the current scan from the spectrometer buffer.
+
         Parameters
         ----------
         verbosity : int, optional
@@ -245,7 +246,7 @@ class PyEPRControlInterface(Interface):
             log.info(response.json()['message'])
         return True
 
-    def set_field(self,field,ramp_rate=None,wait=False):
+    def set_field(self,field,ramp_rate=None,wait=False,persistance=None):
         """
         Sets the magnetic field
 
@@ -257,9 +258,11 @@ class PyEPRControlInterface(Interface):
             The ramp rate in Gauss per second. If not specified, the current ramp rate is used. 
         wait : bool, optional
             If True, the method will block until the field is reached. Default is False.
+        persistance : bool, optional
+            If True, the magnet will be set to persistent mode after reaching the target field. If False, the magnet will be set to driven mode. If None, the current mode is maintained. Default is None.
         
         """
-        response = requests.post(self.server + '/set_field', json={'value': field, 'ramp_rate': ramp_rate, 'wait': wait})
+        response = requests.post(self.server + '/set_field', json={'value': field, 'ramp_rate': ramp_rate, 'wait': wait, 'persistance': persistance})
         if 'error' in response.json():
             raise RuntimeError(response.json()['error'])
         elif 'message' in response.json():
@@ -305,14 +308,15 @@ class PyEPRControlInterface(Interface):
         # increase the detection length to a minimum 1024ns
         for pulse in sequence.pulses:
             if isinstance(pulse, Detection):
-                if pulse.tp.value < 256:
-                    pulse.tp.value = 256
+                if pulse.tp.value < 128:
+                    pulse.tp.value = 128
+                    print(f"Warning: Detection pulse length increased to 128 ns for {pulse.name} to ensure sufficient data acquisition.")
         
         if (IFgain is None) or (IFgain is True):
             test_IF = True
             while test_IF:
                 self.terminate()
-                self._launch(sequence,savename,self.IFgain, *args,**kwargs)
+                self._launch(sequence,savename,self.IFgain, *args,save_scans=save_scans,**kwargs)
                 scan_time = sequence._estimate_time() / sequence.averages.value
                 check_1stScan = True
                 while check_1stScan:
@@ -351,7 +355,7 @@ class PyEPRControlInterface(Interface):
                         test_IF = False
         elif (IFgain is not None) and isinstance(IFgain, (int, float)):
             
-            self._launch(sequence,savename,IFgain, *args,**kwargs)
+            self._launch(sequence,savename,IFgain, *args,save_scans=save_scans,**kwargs)
 
         else:
             raise ValueError(f"IFgain must be of type [None, bool, int, float]. Type {type(IFgain)}_{IFgain} is not valid.")
@@ -392,7 +396,7 @@ class PyEPRControlInterface(Interface):
 
         return response.json()['isrunning']
 
-    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,tau=500,IFgain=None):
+    def tune_rectpulse(self,*,tp, freq, B, reptime, shots=400,tau=500,IFgain=None, offset=0):
         """Generates a rectangular pi and pi/2 pulse of the given length at 
         the given field position. This value is stored in the pulse cache. 
 
@@ -408,6 +412,12 @@ class PyEPRControlInterface(Interface):
             Shot repetion time in us.
         shots: int
             The number of shots
+        tau: float
+            The tau value for the Hahn echo sequence in ns, default is 500 ns
+        IFgain: float
+            The IF gain to be used for the tuning sequence. If None, the IF gain will be automatically determined by the interface.
+        offset: float
+            The frequency offset of the pulse in GHz. This is added to the central frequency of the pulse. Default is 0.
 
         Returns
         -------
@@ -428,6 +438,10 @@ class PyEPRControlInterface(Interface):
         amp_tune.pulses[1].scale = scale
 
         amp_tune.pulses[2].tp.value = 512
+
+        amp_tune.pulses[0].freq.value = offset
+        amp_tune.pulses[1].freq.value = offset
+        amp_tune.pulses[2].freq.value = offset
 
         amp_tune.evolution([scale])
         
@@ -455,10 +469,10 @@ class PyEPRControlInterface(Interface):
             warnings.warn("Pulse tuned with a scale of zero!")
             print("Pulse tuned with a scale of zero!")
         p90 = amp_tune.pulses[0].copy(
-            scale=scale, freq=0)
+            scale=scale, freq=offset)
         
         p180 = amp_tune.pulses[1].copy(
-            scale=scale, freq=0)
+            scale=scale, freq=offset)
 
         return p90, p180
 

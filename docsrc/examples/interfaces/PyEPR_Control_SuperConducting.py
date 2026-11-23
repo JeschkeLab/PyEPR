@@ -1,4 +1,4 @@
 """
-Uhrig Decoupling Sequence
+PyEPR Control Superconducting Interface
 ===============================================
 """

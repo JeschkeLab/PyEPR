@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import scipy.fft as fft
-from pyepr import __version__
+from pyepr._version import __version__
 from pyepr.pulses import Detection, Pulse
 from pyepr.classes import Parameter
 from pyepr.sequences import Sequence
@@ -12,6 +12,12 @@ from deerlab import correctphase
 from deerlab import deerload
 import copy
 import datetime
+
+__all__ = [
+    'get_all_axes', 'get_all_fixed_param', 'get_phase_cycle_attrs', 'create_dataset_from_sequence',
+    'create_dataset_from_axes', 'create_dataset_from_bruker', 'EPRAccessor',
+    'downconvert_dataset', 'find_peak', 'save_bruker',
+]
 
 # =============================================================================
 
@@ -93,6 +99,31 @@ def get_all_fixed_param(sequence):
         fixed_param['pcyc_name'] = sequence.pcyc_name
     return fixed_param
 
+def get_phase_cycle_attrs(sequence):
+    """
+    Collect the phase cycle of a sequence as dataset attributes.
+
+    Stores the per-pulse phases and detection signs (``pulse{i}_pcyc_phases``,
+    ``pulse{i}_pcyc_dets``) as well as the full built phase cycle of the
+    sequence (``pcyc_vars``, ``pcyc_cycles``, ``pcyc_dets``).
+    """
+    pcyc_attrs = {}
+    for i, pulse in enumerate(sequence.pulses):
+        pcyc = getattr(pulse, 'pcyc', None)
+        if pcyc is None:
+            continue
+        type = "det" if isinstance(pulse, Detection) else "pulse"
+        pcyc_attrs[f"{type}{i}_pcyc_phases"] = np.asarray(pcyc["Phases"])
+        pcyc_attrs[f"{type}{i}_pcyc_dets"] = np.asarray(pcyc["DetSigns"])
+
+    if hasattr(sequence, 'pcyc_vars'):
+        pcyc_attrs['pcyc_vars'] = np.asarray(sequence.pcyc_vars, dtype=int)
+    if hasattr(sequence, 'pcyc_cycles'):
+        pcyc_attrs['pcyc_cycles'] = np.asarray(sequence.pcyc_cycles)
+    if hasattr(sequence, 'pcyc_dets'):
+        pcyc_attrs['pcyc_dets'] = np.asarray(sequence.pcyc_dets)
+    return pcyc_attrs
+
 def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     ndims = data.ndim
     default_labels = ['X','Y','Z','T']
@@ -100,6 +131,7 @@ def create_dataset_from_sequence(data, sequence: Sequence,extra_params={}):
     axes = get_all_axes(sequence)
     coords = {a:(default_labels[b['ax_id']],b['axis']) for a,b in axes.items()}
     attr = get_all_fixed_param(sequence)
+    attr.update(get_phase_cycle_attrs(sequence))
     attr.update(extra_params)
     attr.update({'autoDEER_Version':__version__})
     return xr.DataArray(data, dims=dims, coords=coords,attrs=attr)
@@ -179,7 +211,10 @@ def create_dataset_from_bruker(filepath):
 
 @xr.register_dataarray_accessor("epr")
 class EPRAccessor:
-
+    """
+    Xarray accessor for EPR datasets. Provides methods for saving, phase correction, normalization, FFT, and more.
+    These can be accessed via the `.epr` attribute of an xarray DataArray object. E.g. `dataset.epr.save('filename.h5')`
+    """
     def __init__(self, xarray_obj):
         self._obj = xarray_obj
 
@@ -223,7 +258,10 @@ class EPRAccessor:
 
 
     @property
-    def correctphase(self):
+    def correctphase(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 corr_data = correctphase(self._obj.data)
@@ -234,11 +272,17 @@ class EPRAccessor:
     
     @property
     def normalise(self):
+        """
+        In-place normalisation of the dataset to the maximum absolute value of the data.
+        """
         self._obj.data = self._obj.data / np.abs(self._obj.data).max()
         return self._obj
     
     @property
-    def correctphasefull(self):
+    def correctphasefull(self)->xr.DataArray:
+        """
+        Correct the phase of the dataset using the DeerLab correctphase function and keeps the real and imaginary parts of the data.
+        """
         new_obj = copy.deepcopy(self._obj)
         if np.iscomplexobj(self._obj.data):
                 Re,Im,_ = correctphase(self._obj.data,full_output=True)
@@ -248,13 +292,19 @@ class EPRAccessor:
         return new_obj
 
     @property
-    def SNR(self):
+    def SNR(self)->float:
+        """
+        Calculate the signal-to-noise ratio of the dataset using the DeerLab der_snr function.
+        """
         from deerlab import der_snr
         norm_data = self._obj.data / np.abs(self._obj.data).max()
         return 1/der_snr(norm_data)
 
     @property
     def fft(self):
+        """
+        Calculate the FFT of the dataset and returns a new dataset with the FFT applied.
+        """
         new_obj = copy.deepcopy(self._obj)
         new_obj.data = fft.fftshift(fft.fft(self._obj.data))
         new_coords = {}
@@ -272,7 +322,8 @@ class EPRAccessor:
     
     
     @property
-    def sequence(self):
+    def sequence(self)->Sequence:
+        """Extracts the PyEPR Sequence object from the dataset attributes and coordinates."""
         dataset_attrs = self._obj.attrs
         dataset_coords = self._obj.coords
 
@@ -320,12 +371,30 @@ class EPRAccessor:
             
             try:
                 pulse_build = getattr(epr_pulses,pulse_type)
-                pulses_obj.append(pulse_build(**params))
+                pulse_obj = pulse_build(**params)
             except:
                 continue
-       
+
+            # netCDF stores one-element attributes as scalars, so re-wrap them
+            if f"{key}{i}_pcyc_phases" in dataset_attrs:
+                phases = np.atleast_1d(dataset_attrs[f"{key}{i}_pcyc_phases"])
+                dets = np.atleast_1d(dataset_attrs.get(f"{key}{i}_pcyc_dets", np.ones(len(phases))))
+                pulse_obj._addPhaseCycle(phases, detections=dets)
+            pulses_obj.append(pulse_obj)
+
         sequence = Sequence(**seq_params)
         sequence.pulses = pulses_obj
+        sequence._buildPhaseCycle()
+
+        # Restore the saved sequence-level phase cycle, which also preserves
+        # linked pulses. Only valid if every pulse was rebuilt (indices match).
+        if all(k in dataset_attrs for k in ['pcyc_vars', 'pcyc_cycles', 'pcyc_dets']) and len(pulses_obj) == n_events:
+            pcyc_vars = np.atleast_1d(dataset_attrs['pcyc_vars']).astype(int)
+            if len(pcyc_vars) == 0:
+                return sequence
+            sequence.pcyc_vars = pcyc_vars.tolist()
+            sequence.pcyc_cycles = np.atleast_1d(dataset_attrs['pcyc_cycles']).reshape(-1, len(pcyc_vars))
+            sequence.pcyc_dets = np.atleast_1d(dataset_attrs['pcyc_dets'])
 
         return sequence
 
@@ -391,7 +460,8 @@ class EPRAccessor:
 
 def downconvert_dataset(dataset, filter_type='boxcar',IF=None,reduce=True,sampling_rate=None,**kwargs):
     """
-    Downconvert a dataset to baseband using a filter	
+    Downconvert a dataset to baseband using a filter
+
     Parameters
     ----------
     dataset : xr.DataArray

@@ -9,10 +9,18 @@ import json
 import base64
 import matplotlib.pyplot as plt
 import scipy.fft as fft
-from pyepr import __version__
+from pyepr._version import __version__
 import copy
 from functools import reduce
 from itertools import accumulate
+
+__all__ = [
+    'compute_upulses_not_trajectory', 'compute_upulses_trajectory',
+    'compute_magnetization_not_trajectory', 'compute_magnetization_trajectory',
+    'Pulse', 'Detection', 'Delay', 'RectPulse', 'GaussianPulse',
+    'FrequencySweptPulse', 'HSPulse', 'ChirpPulse', 'WURSTPulse', 'SincPulse',
+    'CPMGDetection', 'build_default_pulses',
+]
 
 def compute_upulses_not_trajectory(dUs):
     n_offsets, n_steps, _, _ = dUs.shape
@@ -85,10 +93,6 @@ def compute_magnetization_trajectory(Upulses, density0):
     return Mag
 
 class Pulse:
-    """
-    Represents a general experimental pulse.
-    """
-
     def __init__(self, *, tp, t=None, scale=None, flipangle=None, pcyc=None,
                  name=None, **kwargs) -> None:
         """The class for a general pulse.
@@ -937,6 +941,7 @@ class GaussianPulse(Pulse):
         pass
 
     def func(self, ax):
+        ax -= self.tp.value / 2 # Shift the axis to center the Gaussian pulse
         nx = ax.shape[0]
         sigma = self.FWHM.value / (2 * np.sqrt(2 * np.log(2)))
         AM = np.exp(-ax**2 / (2 * sigma**2))
@@ -1032,7 +1037,7 @@ class FrequencySweptPulse(Pulse):
 class HSPulse(FrequencySweptPulse):
     def __init__(self, *, tp=128, order1=1, order2=6, beta=20, **kwargs) -> None:
         r"""
-        Represents a hyperboilc secant frequency-swept pulse.
+        Represents a non-symetric hyperboilc secant frequency-swept pulse.
 
         The amplitude and frequency modulation functions are defined as:
 
@@ -1092,11 +1097,14 @@ class HSPulse(FrequencySweptPulse):
         """
 
         FrequencySweptPulse.__init__(self, tp=tp, name='HSPulse', **kwargs)
-        self.order1 = Parameter(
+        self.order1: Parameter = Parameter(
             "order1", order1, None, "Order 1 of the HS Pulse")
-        self.order2 = Parameter(
+        """The order of the hyperbolic secant function for the first half of the pulse"""
+        self.order2: Parameter = Parameter(
             "order2", order2, None, "Order 2 of the HS Pulse")
-        self.beta = Parameter("beta", beta, None, "Beta of the HS Pulse")
+        """The order of the hyperbolic secant function for the first half of the pulse"""
+        self.beta: Parameter = Parameter("beta", beta, None, "Beta of the HS Pulse")
+        """The beta parameter of the hyperbolic secant function"""
 
         self._buildFMAM(self.func)
         pass
@@ -1141,9 +1149,7 @@ class HSPulse(FrequencySweptPulse):
     def sweeprate(self):
         """ The sweep rate of the pulse in GHz/ns"""
         sweeprate_value = self.beta.value * self.bandwidth.value / (2*self.tp.value)
-        return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")
-    
-        
+        return Parameter("sweeprate", sweeprate_value, "GHz/ns", "Sweep rate of the pulse")    
 
 # =============================================================================
 

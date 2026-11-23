@@ -1,4 +1,5 @@
 
+import numpy as np
 from pyepr.fieldsweep_analysis import *
 from pyepr.dataset import *
 import pytest

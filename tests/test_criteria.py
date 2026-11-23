@@ -1,3 +1,4 @@
+import numpy as np
 from pyepr.criteria import *
 import time
 import deerlab as dl

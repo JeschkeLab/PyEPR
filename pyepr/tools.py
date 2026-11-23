@@ -1,15 +1,12 @@
 import os
 import deerlab as dl
 import numpy as np
-import logging
 from pyepr.dataset import create_dataset_from_bruker, downconvert_dataset
 from pyepr.hardware.ETH_awg_load import uwb_load, uwb_eval_match, ETHUWB_xarray_load
 from scipy.io import loadmat
 from scipy.io.matlab import MatReadError
 import xarray as xr
 import warnings
-
-log = logging.getLogger('autoDEER.Tools')
 
 
 def eprload(
@@ -43,23 +40,18 @@ def eprload(
         _, file_extension = os.path.splitext(path)
 
         if (file_extension == ".DSC") | (file_extension == ".DTA"):
-            log.debug('File detected as Bruker')
             type = 'BRUKER'
 
         elif (file_extension == ".h5") | (file_extension == ".hdf5"):
-            log.debug('File detected as HDF5')
             type = 'HDF5'
 
         elif (file_extension == ".csv") | (file_extension == ".txt"):
-            log.debug('File detected as csv or txt file')
             type = 'TXT'
 
         elif file_extension == '.mat':
-            log.debug('File detected as Matlab')
             type = 'MAT'
         
         else:
-            log.error("Can't detect file type")
             raise ValueError(
                 "Can't detect file type. Please choose the correct file or"
                 " set type manually \n Valid file types: '.DSC','.DTA','.h5',"

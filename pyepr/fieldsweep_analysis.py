@@ -11,6 +11,11 @@ from xarray import DataArray
 from pyepr.colors import primary_colors, ReIm_colors
 from scipy.interpolate import UnivariateSpline
 
+__all__ = [
+    'create_Nmodel', 'FieldSweepAnalysis', 'SpinSystem', 'erot', 'eyekron',
+    'kroneye', 'ham', 'ham_ez', 'ham_nz', 'resfields', 'build_spectrum',
+]
+
 
 def create_Nmodel(mwFreq):
     """Create the field sweep model for a Nitroxide spin system. 

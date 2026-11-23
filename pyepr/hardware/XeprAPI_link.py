@@ -26,15 +26,16 @@ class XeprAPILink:
     def __init__(self, config_file: str = None, **kwargs) -> None:
         """
         This class links to the Bruker Xepr API to control the spectrometer.
+
         Parameters
         ----------
         config_file : str, optional
             Path to a PyEPR spectrometer configuration file, by default None
         kwargs : dict, optional
             Additional keyword arguments:
-            - retry_attempts : int
-                Number of times to retry getting a Xepr parameter before 
-                raising an exception. Default is 50.
+
+            - retry_attempts (int): Number of times to retry getting a Xepr
+              parameter before raising an exception. Default is 50.
         """
         self.Xepr = None
         self.cur_exp = None
