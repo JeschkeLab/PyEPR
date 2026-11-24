@@ -144,6 +144,10 @@ def draw_sequence(sequence, ax=None,**kwargs):
         def fmt_range(start, end, unit):
             return f"{fmt_value(start, unit)} → {fmt_value(end, unit)}"
 
+        def fmt_offset(dt):
+            # Signed delay in ns, e.g. "+144 ns" or "−4 µs"
+            return f"{'−' if dt < 0 else '+'}{fmt_delay(abs(dt))}"
+
         def pulse_evolution(pulse):
             # Evolving pulse parameters, other than the start time
             lines = []
@@ -279,7 +283,13 @@ def draw_sequence(sequence, ax=None,**kwargs):
         n_bottom_lines = max([len(pulse_evolution(pulse)) for pulse, channel
                               in zip(events, channels) if channel == len(channel_freqs) - 1])
         arrow_y = baselines[-1] - 0.6 - 0.3 * n_bottom_lines
-        legend_y = arrow_y - 0.75
+        # Room under the delay arrows for the per-axis lines of delays that
+        # follow several evolution axes
+        arrow_spacing = 0.1
+        n_multi = max([len(delay_evolution(i)) for i in range(len(slot_times) - 1)] + [0])
+        extra_delay_lines = n_multi if n_multi > 1 else 0
+        legend_y = (arrow_y - 0.75 - 0.3 * extra_delay_lines
+                    - (n_multi - 1) / 2 * arrow_spacing * (n_multi > 1))
         y_min = legend_y - 0.35 * len(evo_params) + (0.2 if len(evo_params) else 0.15)
         x_min = slot_x[0] - slot_widths[0]/2 - 1.0
         x_max = slot_x[-1] + slot_widths[-1]/2 + 1.0
@@ -363,22 +373,35 @@ def draw_sequence(sequence, ax=None,**kwargs):
 
         # Delays between consecutive events, evolving delays are coloured by
         # their evolution axis and given as a range
+        # A delay that follows several axes gets one arrow per axis and a line
+        # per axis giving its contribution.
         for i in range(len(slot_times) - 1):
             dt = slot_times[i+1] - slot_times[i]
             diffs = delay_evolution(i)
             if len(diffs) > 0:
-                color = evo_colors[next(iter(diffs))]
-                label = fmt_range(dt + sum(diff[0] for diff in diffs.values()),
+                arrows = [(evo_colors[uid], 1.6) for uid in diffs]
+                total = fmt_range(dt + sum(diff[0] for diff in diffs.values()),
                                   dt + sum(diff[-1] for diff in diffs.values()), "ns")
-                lw = 1.6
+                if len(diffs) == 1:
+                    lines = [(total, arrows[0][0])]
+                else:
+                    lines = [(total, 'k')] + [
+                        (f"Axis {evo_uuids.index(uid) + 1}: "
+                         f"{fmt_offset(diff[0])} → {fmt_offset(diff[-1])}", evo_colors[uid])
+                        for uid, diff in diffs.items()]
             else:
-                color, label, lw = '0.3', fmt_delay(dt), 0.9
-            ax.annotate("", xy=(slot_x[i+1], arrow_y), xytext=(slot_x[i], arrow_y),
-                        arrowprops=dict(arrowstyle='<->', color=color, lw=lw,
-                                        shrinkA=0, shrinkB=0))
-            ax.text((slot_x[i] + slot_x[i+1]) / 2, arrow_y - 0.12, label,
-                    ha='center', va='top', fontsize=9,
-                    color='k' if len(diffs) == 0 else color)
+                arrows = [('0.3', 0.9)]
+                lines = [(fmt_delay(dt), 'k')]
+
+            offsets = [(k - (len(arrows) - 1) / 2) * arrow_spacing for k in range(len(arrows))]
+            for (color, lw), dy in zip(arrows, offsets):
+                ax.annotate("", xy=(slot_x[i+1], arrow_y + dy), xytext=(slot_x[i], arrow_y + dy),
+                            arrowprops=dict(arrowstyle='<->', color=color, lw=lw,
+                                            shrinkA=0, shrinkB=0))
+            label_y = arrow_y + offsets[0] - 0.12
+            for j, (text, color) in enumerate(lines):
+                ax.text((slot_x[i] + slot_x[i+1]) / 2, label_y - 0.3*j, text,
+                        ha='center', va='top', fontsize=9, color=color)
 
         # Legend of the evolution axes
         for i, param in enumerate(evo_params):
