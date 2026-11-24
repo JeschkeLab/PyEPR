@@ -148,7 +148,7 @@ class Pulse:
         elif type(pcyc) is dict and ("Phases" in pcyc) and ("DetSigns" in pcyc):
             self._addPhaseCycle(pcyc["Phases"], detections=pcyc["DetSigns"])
         elif issubclass(type(pcyc), Pulse):
-            self._addPhaseCycle(pcyc.pcyc["Phases"], detections=pcyc.pcyc["DetSigns"],link=pcyc.uuid)
+            self._addPhaseCycle(pcyc)
         else:
             self._addPhaseCycle(pcyc, detections=None)
         pass
@@ -168,13 +168,29 @@ class Pulse:
             """
             Adds a phase cycle to the pulse sequence.
 
-            Args:
-                phases (list): List of phases to add to the phase cycle.
+            Parameters
+            ----------
+                phases (list or Pulse): List of phases to add to the phase cycle.
+                    If a Pulse is given, its phase cycle is copied and linked
+                    to it (via its uuid), as in ``__init__``.
                 detections (list, optional): List of detection signs. Defaults to None. If None then all cycles are summed.
+                    When ``phases`` is a Pulse, defaults to that pulse's detection signs.
+                link (optional): uuid of the pulse this phase cycle is linked to.
+                    When ``phases`` is a Pulse, defaults to that pulse's uuid.
 
             Returns:
                 None
             """
+            if isinstance(phases, Pulse):
+                source = phases
+                if source.pcyc is None:
+                    raise ValueError(
+                        "Cannot link phase cycle: the given pulse has no phase cycle.")
+                phases = source.pcyc["Phases"]
+                if detections is None:
+                    detections = source.pcyc["DetSigns"]
+                if link is None:
+                    link = source.uuid
             if detections is None:
                 detections = np.ones(len(phases))
             self.pcyc = {"Phases": list(phases), "DetSigns": list(detections), "link": link}
@@ -637,6 +653,8 @@ class Pulse:
                         new_pulse.pcyc = None
                     elif isinstance(new_pcyc, dict) and ("phases" in new_pcyc) and ("dets" in new_pcyc):
                         new_pulse._addPhaseCycle(new_pcyc["phases"], detections=new_pcyc["dets"], link=new_pcyc.get("link", None))
+                    elif isinstance(new_pcyc, dict) and ("Phases" in new_pcyc) and ("DetSigns" in new_pcyc):
+                        new_pulse._addPhaseCycle(new_pcyc["Phases"], detections=new_pcyc["DetSigns"], link=new_pcyc.get("link", None))
                     else:
                         new_pulse._addPhaseCycle(new_pcyc, detections=None)
                     new_pulse.uuid = uuid.uuid1() # UUID reset when phase cycle is changed
@@ -648,6 +666,8 @@ class Pulse:
                     new_pulse.pcyc = None
                 elif isinstance(new_pcyc, dict) and ("phases" in new_pcyc) and ("dets" in new_pcyc):
                     new_pulse._addPhaseCycle(new_pcyc["phases"], detections=new_pcyc["dets"], link=new_pcyc.get("link", None))
+                elif isinstance(new_pcyc, dict) and ("Phases" in new_pcyc) and ("DetSigns" in new_pcyc):
+                    new_pulse._addPhaseCycle(new_pcyc["Phases"], detections=new_pcyc["DetSigns"], link=new_pcyc.get("link", None))
                 else:
                     new_pulse._addPhaseCycle(new_pcyc, detections=None)
                 new_pulse.uuid = uuid.uuid1() # UUID reset when phase cycle is changed               

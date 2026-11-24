@@ -84,6 +84,10 @@ class Sequence:
         self.pulses: list[Pulse] = []
         """The list of pulses in this sequence."""
 
+        self.uuid = uuid.uuid1()
+        """Unique identifier of this sequence. Reset when the sequence is
+        copied, a pulse is added or the evolution is changed."""
+
         self._axes_uuid = []
         self._reduce_uuid = []
 
@@ -259,6 +263,7 @@ class Sequence:
         elif type(pulse) == list:
             for el in pulse:
                 self.pulses.append(el)
+        self.uuid = uuid.uuid1() # UUID reset when the pulses change
         self._buildPhaseCycle()
         self._estimate_time()
 
@@ -330,6 +335,7 @@ class Sequence:
         
         """
         self.evo_params = params
+        self.uuid = uuid.uuid1() # UUID reset when the evolution changes
         self._axes_uuid = [param.uuid for param in params]
         self._reduce_uuid = [param.uuid for param in reduce]
 
@@ -547,9 +553,19 @@ class Sequence:
 
         return header + seq_param_string + pulses_string + prog_string + footer
 
-    def copy(self):
-        """Deep copy the sequence object, including all pulses and parameters."""
-        return copy.deepcopy(self)
+    def copy(self, reset_uuid=True):
+        """Deep copy the sequence object, including all pulses and parameters.
+
+        Parameters
+        ----------
+        reset_uuid : bool, optional
+            If True, the UUID of the copied sequence will be reset to a new
+            value. Default is True.
+        """
+        new_sequence = copy.deepcopy(self)
+        if reset_uuid:
+            new_sequence.uuid = uuid.uuid1()
+        return new_sequence
     
     def _to_dict(self):
         to_return = {"version": __version__, "type": "Sequence", "subclass": str(type(self))}
