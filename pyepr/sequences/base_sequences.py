@@ -128,20 +128,6 @@ class Sequence:
             "The number of shots per scan.")
         """The number of shots per point."""
 
-        if "det_window" in kwargs:
-            self.det_window: Parameter = Parameter(
-                "det_window", kwargs["det_window"], "None",
-                "The length of the default detection gate"
-            )
-            """The length of the default detection gate."""
-        else:
-            self.det_window: Parameter = Parameter(
-                "det_window", 128, "None",
-                "The length of the default detection gate"
-            )
-            """The length of the default detection gate."""
-
-
         self.name: str = name
         """The name of this pulse sequence."""
         self.progTable: dict = {"EventID": [], "Variable": [], "axis": [],
@@ -949,7 +935,7 @@ class T1InversionRecoverySequence(Sequence):
         if hasattr(self, "det_event"):
             self.addPulse(self.det_event.copy(t=self.t+2*self.tau))
         else:
-            self.addPulse(Detection(t=self.t+2*self.tau, tp=self.det_window.value))
+            self.addPulse(Detection(t=self.t+2*self.tau, tp=self.pulses[1].tp.value))
 
         self.evolution([self.t])
 
